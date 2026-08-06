@@ -1,0 +1,275 @@
+/* ==========================================================================
+   Lausof SRL — hoja de estilos principal
+   Paleta derivada del logo: azul marino, azules de la melena, dorado insignia
+   ========================================================================== */
+
+:root{
+  /* color */
+  --navy:#1d2947;
+  --navy-2:#243356;
+  --blue:#5d76ad;
+  --blue-soft:#8ea1c9;
+  --ice:#e9eef7;
+  --paper:#fbfcfe;
+  --card:#ffffff;
+  --ink:#1d2947;
+  --ink-soft:#56617a;
+  --border:#dde3ee;
+  --gold:#b3924f;
+  --gold-bright:#c9a45c;
+  --wa:#1fa855;
+  --wa-dark:#178a45;
+  --on-navy:#f2f5fa;
+  --on-navy-soft:#aab6cf;
+
+  /* tipografía */
+  --font:'Avenir Next','Avenir','Helvetica Neue',Helvetica,Arial,sans-serif;
+
+  /* forma */
+  --radius:12px;
+  --shadow:0 2px 6px rgba(29,41,71,.06),0 12px 32px rgba(29,41,71,.08);
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#151c2e;
+    --card:#1d2740;
+    --ice:#1a2338;
+    --ink:#e8ecf5;
+    --ink-soft:#9aa7c2;
+    --border:#2c3a5c;
+    --gold:#c9a45c;
+    --shadow:0 2px 6px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#151c2e;
+  --card:#1d2740;
+  --ice:#1a2338;
+  --ink:#e8ecf5;
+  --ink-soft:#9aa7c2;
+  --border:#2c3a5c;
+  --gold:#c9a45c;
+  --shadow:0 2px 6px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.35);
+}
+:root[data-theme="light"]{
+  --paper:#fbfcfe;
+  --card:#ffffff;
+  --ice:#e9eef7;
+  --ink:#1d2947;
+  --ink-soft:#56617a;
+  --border:#dde3ee;
+  --gold:#b3924f;
+  --shadow:0 2px 6px rgba(29,41,71,.06),0 12px 32px rgba(29,41,71,.08);
+}
+
+/* ---- base ---- */
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font);
+  font-size:16.5px;
+  line-height:1.65;
+}
+h1,h2,h3{line-height:1.12;text-wrap:balance;margin:0;font-weight:700}
+img{max-width:100%;height:auto}
+a{color:inherit}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+.kicker{
+  text-transform:uppercase;letter-spacing:.18em;font-size:.76rem;
+  font-weight:600;color:var(--gold);margin:0 0 12px;
+}
+section.block{padding:84px 0}
+.block h2{font-size:clamp(1.75rem,3.4vw,2.4rem);letter-spacing:-.01em}
+.block .sub{color:var(--ink-soft);max-width:60ch;margin:16px 0 0}
+
+/* ---- aviso prototipo ---- */
+.draft{
+  background:var(--navy);color:var(--on-navy-soft);
+  text-align:center;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;
+  padding:7px 16px;border-bottom:2px solid var(--gold);
+}
+.draft strong{color:var(--gold-bright)}
+
+/* ---- barra superior ---- */
+header.topbar{
+  position:sticky;top:0;z-index:50;
+  background:var(--card);
+  border-bottom:1px solid var(--border);
+}
+.topbar-row{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 0}
+.brand img{display:block;height:52px;width:auto}
+nav.main{display:flex;gap:26px;font-size:.94rem;font-weight:500}
+nav.main a{color:var(--ink-soft);text-decoration:none}
+nav.main a:hover,nav.main a:focus-visible{color:var(--gold)}
+@media(max-width:880px){nav.main{display:none}}
+
+/* ---- botones ---- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  border-radius:999px;padding:12px 24px;
+  font-weight:600;font-size:.98rem;text-decoration:none;
+  border:2px solid transparent;cursor:pointer;font-family:var(--font);
+}
+.btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-wa:hover{background:var(--wa-dark)}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{background:#9c7d3f}
+.btn-outline{border-color:var(--on-navy-soft);color:var(--on-navy)}
+.btn-outline:hover{border-color:var(--gold-bright);color:var(--gold-bright)}
+.btn-sm{padding:9px 18px;font-size:.9rem}
+
+/* ---- hero ---- */
+.hero{
+  position:relative;color:var(--on-navy);overflow:hidden;
+  background:
+    linear-gradient(115deg,rgba(21,30,54,.94) 0%,rgba(29,41,71,.82) 46%,rgba(93,118,173,.55) 100%),
+    var(--navy);
+}
+.hero-photo{
+  position:absolute;inset:0;z-index:-1;
+  display:grid;place-items:end center;
+  color:var(--on-navy-soft);font-size:.85rem;padding:10px;
+  background:
+    repeating-linear-gradient(45deg,transparent 0 22px,rgba(255,255,255,.025) 22px 44px),
+    linear-gradient(160deg,#2b3a63,#151e36);
+}
+.hero-grid{
+  display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:center;
+  padding:88px 0 96px;
+}
+@media(max-width:880px){.hero-grid{grid-template-columns:1fr}}
+.hero h1{font-size:clamp(2.4rem,5.6vw,3.7rem);letter-spacing:-.015em;max-width:16ch}
+.hero .lead{max-width:52ch;font-size:1.15rem;color:var(--on-navy-soft);margin:22px 0 32px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:14px}
+.hero-badge{display:grid;place-items:center}
+.hero-badge img{width:min(300px,70%);filter:drop-shadow(0 18px 40px rgba(0,0,0,.45))}
+@media(max-width:880px){.hero-badge{display:none}}
+
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+  border-radius:999px;padding:7px 15px;font-size:.85rem;color:var(--on-navy);
+}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--gold-bright);flex:none}
+
+/* ---- franja de habilitaciones ---- */
+.certs{background:var(--ice);border-block:1px solid var(--border);padding:20px 0}
+.certs-row{
+  display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center;justify-content:center;
+  font-size:.85rem;color:var(--ink-soft);
+}
+.certs-row b{color:var(--ink);font-weight:600}
+.certs-row .ph{color:var(--gold);font-style:italic}
+
+/* ---- servicios ---- */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px}
+@media(max-width:960px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.cards{grid-template-columns:1fr}}
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:var(--shadow);
+}
+.card-photo{
+  aspect-ratio:16/9;
+  display:grid;place-items:center;text-align:center;padding:10px;
+  color:var(--on-navy-soft);font-size:.85rem;
+  background:linear-gradient(150deg,#33436e,#1b2542);
+  border-bottom:3px solid var(--gold);
+}
+.card-body{padding:22px 22px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card h3{font-size:1.13rem}
+.card p{margin:0;color:var(--ink-soft);font-size:.94rem;flex:1}
+.card .tag{
+  align-self:flex-start;background:var(--gold);color:#fff;
+  font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  border-radius:4px;padding:3px 9px;
+}
+.card a.walink{
+  font-size:.93rem;font-weight:600;color:var(--wa);text-decoration:none;
+}
+:root[data-theme="dark"] .card a.walink{color:#3fca77}
+.card a.walink:hover{text-decoration:underline}
+
+/* ---- por qué ---- */
+.why{background:var(--ice);border-block:1px solid var(--border)}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:44px}
+@media(max-width:960px){.why-grid{grid-template-columns:repeat(2,1fr)}}
+.why-item{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:24px;box-shadow:var(--shadow);
+}
+.why-item .n{display:block;width:36px;border-top:4px solid var(--gold);margin-bottom:14px}
+.why-item b{display:block;margin-bottom:6px}
+.why-item p{margin:0;color:var(--ink-soft);font-size:.92rem}
+
+/* ---- flota ---- */
+.flota-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+@media(max-width:720px){.flota-grid{grid-template-columns:1fr}}
+.foto{
+  aspect-ratio:4/3;border-radius:var(--radius);
+  display:grid;place-items:center;text-align:center;padding:14px;
+  color:var(--on-navy-soft);font-size:.9rem;
+  background:linear-gradient(150deg,#33436e,#1b2542);
+  border:1px solid var(--border);
+}
+
+/* ---- testimonios ---- */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px}
+@media(max-width:880px){.quotes{grid-template-columns:1fr}}
+.quote{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:26px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;gap:14px;
+}
+.quote p{margin:0;font-size:.97rem;font-style:italic;color:var(--ink);flex:1}
+.quote footer{font-size:.85rem;color:var(--ink-soft)}
+.quote .stars{color:var(--gold);letter-spacing:.15em;font-size:.9rem}
+
+/* ---- cta final ---- */
+.cta-final{
+  background:linear-gradient(115deg,#151e36,var(--navy) 60%,#33436e);
+  color:var(--on-navy);text-align:center;
+}
+.cta-final img{width:150px;margin-bottom:22px;filter:drop-shadow(0 10px 26px rgba(0,0,0,.4))}
+.cta-final h2{font-size:clamp(1.8rem,4vw,2.5rem)}
+.cta-final p{color:var(--on-navy-soft);max-width:48ch;margin:16px auto 32px}
+
+/* ---- footer ---- */
+footer.site{background:#131b30;color:var(--on-navy-soft);padding:60px 0 40px;font-size:.94rem}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}
+@media(max-width:780px){.foot-grid{grid-template-columns:1fr}}
+footer.site b{color:var(--on-navy);display:block;margin-bottom:10px}
+footer.site a{color:var(--on-navy-soft)}
+footer.site a:hover{color:var(--gold-bright)}
+footer.site ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+footer.site .foot-logo{height:46px;width:auto;margin-bottom:14px;
+  background:#fff;border-radius:8px;padding:6px 10px}
+.legal{
+  border-top:1px solid #263252;margin-top:44px;padding-top:22px;font-size:.82rem;
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+}
+
+/* ---- notas del prototipo ---- */
+.nota{max-width:1120px;margin:0 auto;padding:30px 24px 64px}
+.nota-inner{
+  border:2px dashed var(--gold);border-radius:var(--radius);padding:24px 28px;
+  background:var(--card);font-size:.94rem;color:var(--ink-soft);
+}
+.nota-inner b{color:var(--ink)}
+
+/* ---- animación ---- */
+@media (prefers-reduced-motion: no-preference){
+  .hero h1,.hero .lead,.hero .ctas,.hero-chips{animation:up .6s ease both}
+  .hero .lead{animation-delay:.1s}
+  .hero .ctas{animation-delay:.2s}
+  .hero-chips{animation-delay:.3s}
+  @keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+}
