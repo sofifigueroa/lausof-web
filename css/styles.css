@@ -127,29 +127,19 @@ nav.main a:hover,nav.main a:focus-visible{color:var(--gold)}
 /* ---- hero ---- */
 .hero{
   position:relative;color:var(--on-navy);overflow:hidden;
-  background:
-    linear-gradient(115deg,rgba(21,30,54,.94) 0%,rgba(29,41,71,.82) 46%,rgba(93,118,173,.55) 100%),
-    var(--navy);
+  background:linear-gradient(100deg,rgba(21,30,54,.94) 0%,rgba(21,30,54,.80) 42%,rgba(29,41,71,.38) 100%);
 }
 .hero-photo{
   position:absolute;inset:0;z-index:-1;
-  display:grid;place-items:end center;
-  color:var(--on-navy-soft);font-size:.85rem;padding:10px;
-  background:
-    repeating-linear-gradient(45deg,transparent 0 22px,rgba(255,255,255,.025) 22px 44px),
-    linear-gradient(160deg,#2b3a63,#151e36);
+  background:#151e36 url('../assets/hero-flota-paisaje.jpg') center 68%/cover no-repeat;
 }
 .hero-grid{
-  display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:center;
-  padding:88px 0 96px;
+  display:grid;grid-template-columns:1fr;align-items:center;
+  padding:100px 0 110px;
 }
-@media(max-width:880px){.hero-grid{grid-template-columns:1fr}}
 .hero h1{font-size:clamp(2.4rem,5.6vw,3.7rem);letter-spacing:-.015em;max-width:16ch}
 .hero .lead{max-width:52ch;font-size:1.15rem;color:var(--on-navy-soft);margin:22px 0 32px}
 .hero .ctas{display:flex;flex-wrap:wrap;gap:14px}
-.hero-badge{display:grid;place-items:center}
-.hero-badge img{width:min(300px,70%);filter:drop-shadow(0 18px 40px rgba(0,0,0,.45))}
-@media(max-width:880px){.hero-badge{display:none}}
 
 .hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
 .chip{
