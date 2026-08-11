@@ -85,7 +85,13 @@ header.topbar{
 nav.main{display:flex;gap:24px;font-size:.94rem;font-weight:600}
 nav.main a{color:#4d5871;text-decoration:none}
 nav.main a:focus-visible{color:var(--gold-ink)}
-@media(max-width:880px){nav.main{display:none}}
+/* Sin menú en mobile, la barra queda solo para la marca: logo centrado y
+   más presente (el CTA vive en la barra fija de abajo, nunca acá). */
+@media(max-width:880px){
+  nav.main{display:none}
+  .topbar-row{justify-content:center}
+  .brand img{height:44px}
+}
 
 /* El CTA del header sólo aparece cuando el del hero ya salió de pantalla,
    para que nunca haya dos botones de WhatsApp visibles a la vez. */
@@ -365,8 +371,20 @@ footer.site ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:co
   body{font-size:16px}
   section.block{padding:52px 0}
   .wrap{padding:0 20px}
-  .brand img{height:36px}
   .hero-inner{padding:56px 20px 60px}
+  /* art direction: en pantalla angosta la foto de la flota queda tapada por
+     los botones; va el minibús en la quebrada, más vertical y con aire */
+  .hero-photo{
+    background-image:url('../assets/pasajeros-1-quebrada.jpg');
+    background-position:32% center;
+  }
+  /* velo más liviano que en desktop: fuerte arriba (contraste del título),
+     suelto abajo para que el minibús se aprecie */
+  .hero-photo::after{
+    background:linear-gradient(180deg,rgba(16,23,42,.68),rgba(16,23,42,.34));
+  }
+  /* con menos velo, el subtítulo necesita blanco pleno y una sombra sutil */
+  .hero .lead{color:#fff;text-shadow:0 1px 10px rgba(16,23,42,.55)}
   /* botones apilados (WhatsApp primero) pero más livianos que el default */
   .hero .ctas .btn{flex:1 0 100%;padding:11px 16px;font-size:.94rem}
   .certs-row{justify-content:flex-start;gap:8px 18px;font-size:.82rem}
