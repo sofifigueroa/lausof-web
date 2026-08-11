@@ -145,11 +145,79 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
   overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);
 }
 .card-photo{
-  aspect-ratio:16/9;
+  position:relative;overflow:hidden;
+  aspect-ratio:3/2;
   display:grid;place-items:center;text-align:center;padding:10px;
   color:#c6d0e6;font-size:.85rem;
   background:#22304f;
   border-bottom:3px solid var(--gold);
+}
+
+/* ---- rotación de fotos ----
+   Cinco fotos que se encadenan con fundido. Cada una queda 3,4s en
+   pantalla (ciclo completo: 17s) y el cruce entre una y otra ocupa
+   0,9s, así el cambio nunca corta en seco. */
+.slideshow{position:absolute;inset:0}
+.slideshow img{
+  position:absolute;inset:0;
+  width:100%;height:100%;object-fit:cover;
+  opacity:0;
+  animation:rotarFotos 17s infinite;
+}
+.slideshow img:nth-child(2){animation-delay:3.4s}
+.slideshow img:nth-child(3){animation-delay:6.8s}
+.slideshow img:nth-child(4){animation-delay:10.2s}
+.slideshow img:nth-child(5){animation-delay:13.6s}
+
+@keyframes rotarFotos{
+  0%{opacity:0}
+  5.3%{opacity:1}
+  20%{opacity:1}
+  25.3%{opacity:0}
+  100%{opacity:0}
+}
+
+/* Variante para tarjetas con 3 fotos: mismo ritmo de 3,4s por foto,
+   el ciclo se acorta a 10,2s. */
+.slideshow-3 img{animation:rotarFotos3 10.2s infinite}
+
+@keyframes rotarFotos3{
+  0%{opacity:0}
+  8.8%{opacity:1}
+  33.3%{opacity:1}
+  42.2%{opacity:0}
+  100%{opacity:0}
+}
+
+/* Variante para tarjetas con 4 fotos: mismo ritmo de 3,4s por foto,
+   el ciclo se acorta a 13,6s. */
+.slideshow-4 img{animation:rotarFotos4 13.6s infinite}
+
+@keyframes rotarFotos4{
+  0%{opacity:0}
+  6.6%{opacity:1}
+  25%{opacity:1}
+  31.6%{opacity:0}
+  100%{opacity:0}
+}
+
+/* Variante para tarjetas con 6 fotos: mismo ritmo de 3,4s por foto,
+   el ciclo se estira a 20,4s y se suma el retardo de la sexta. */
+.slideshow-6 img{animation:rotarFotos6 20.4s infinite}
+.slideshow-6 img:nth-child(6){animation-delay:17s}
+
+@keyframes rotarFotos6{
+  0%{opacity:0}
+  4.4%{opacity:1}
+  16.7%{opacity:1}
+  21.1%{opacity:0}
+  100%{opacity:0}
+}
+
+/* Sin movimiento: queda fija la primera foto */
+@media (prefers-reduced-motion: reduce){
+  .slideshow img{animation:none}
+  .slideshow img:first-child{opacity:1}
 }
 .card-body{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1}
 .card h3{font-size:1.1rem}
@@ -199,8 +267,11 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
     display:flex;grid-template-columns:none;
     overflow-x:auto;overscroll-behavior-x:contain;
     scroll-snap-type:x mandatory;
-    /* sangrado a los bordes: debe coincidir con el padding de .wrap en mobile */
+    /* sangrado a los bordes: debe coincidir con el padding de .wrap en mobile.
+       scroll-padding hace que las tarjetas frenen a 20px del borde también
+       después de deslizar, no solo en la posición inicial. */
     gap:14px;margin:28px -20px 0;padding:2px 20px 12px;
+    scroll-padding:0 20px;
     scrollbar-width:none;
   }
   .swipe::-webkit-scrollbar{display:none}
@@ -209,7 +280,7 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
     display:block;margin:10px 0 0;font-size:.82rem;font-weight:600;
     color:var(--ink-soft);
   }
-  .card-photo{aspect-ratio:2/1}
+  .card-photo{aspect-ratio:4/3}
 }
 
 /* ---- cta final ---- */
