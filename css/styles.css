@@ -12,6 +12,7 @@
   --card:#ffffff;
   --ink:#1d2947;
   --ink-soft:#4d5871;
+  --ink-mid:#39445f;      /* gris azulado más oscuro: descripciones que piden contraste */
   --border:#d6ddea;
   --gold:#b3924f;          /* dorado de marca: filetes, bordes, iconografía */
   --gold-ink:#7d5f1f;      /* dorado legible: solo para texto sobre fondo claro */
@@ -55,7 +56,7 @@ a{color:inherit}
 section[id],footer[id]{scroll-margin-top:78px}
 
 .kicker{
-  text-transform:uppercase;letter-spacing:.14em;font-size:.78rem;
+  text-transform:uppercase;letter-spacing:.14em;font-size:.92rem;
   font-weight:700;color:var(--gold-ink);margin:0 0 10px;
 }
 .kicker.on-dark{color:var(--gold-bright)}
@@ -119,14 +120,15 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 .hero .lead{max-width:44ch;font-size:1.12rem;color:var(--on-navy-soft);margin:18px 0 28px}
 .hero .ctas{display:flex;flex-wrap:wrap;gap:12px}
 
+/* Atributos del hero: texto plano con tilde, nada de borde ni fondo.
+   Si parecen botones (como "Ver servicios") prometen un clic que no existe. */
 .hero-chips{
-  display:flex;flex-wrap:wrap;gap:8px;margin:30px 0 0;padding:0;list-style:none;
+  display:flex;flex-wrap:wrap;gap:8px 22px;margin:30px 0 0;padding:0;list-style:none;
 }
 .chip{
-  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);
-  border-radius:var(--radius);padding:6px 13px;font-size:.85rem;
-  font-weight:600;color:#fff;
+  font-size:.88rem;font-weight:600;color:var(--on-navy-soft);
 }
+.chip::before{content:"✓";color:var(--gold-bright);font-weight:700;margin-right:7px}
 
 /* ---- franja de habilitaciones ---- */
 .certs{background:var(--ice);border-block:1px solid var(--border);padding:18px 0}
@@ -221,7 +223,7 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 }
 .card-body{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1}
 .card h3{font-size:1.1rem}
-.card p{margin:0;color:var(--ink-soft);font-size:.94rem;flex:1}
+.card p{margin:0;color:var(--ink-mid);font-size:.94rem;flex:1}
 .card .tag{
   align-self:flex-start;background:var(--gold-ink);color:#fff;
   font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
@@ -243,12 +245,17 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 /* ---- testimonios ---- */
 /* Pared de reseñas: todas visibles, sin carrusel. flex-wrap centrado para
    que la fila incompleta (3+2 en desktop) quede centrada y no colgando. */
-.quotes{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:36px}
+.quotes{
+  display:flex;flex-wrap:wrap;justify-content:center;
+  align-items:flex-start; /* cada reseña con su altura: sin huecos por estirarse a la más alta */
+  gap:12px;margin-top:36px;
+}
 .quote{
   flex:1 1 260px;max-width:340px;
+  margin:0; /* blockquote trae 1em/40px de margen del navegador: acá separa el gap */
   background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-  padding:24px;box-shadow:var(--shadow);
-  display:flex;flex-direction:column;gap:12px;
+  padding:18px 20px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;gap:10px;
 }
 .quote .star-off{opacity:.25}
 
@@ -291,7 +298,7 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
   .swipe::-webkit-scrollbar{display:none}
   .swipe>*{flex:0 0 84%;scroll-snap-align:start}
   .swipe-hint{
-    display:block;margin:10px 0 0;font-size:.82rem;font-weight:600;
+    display:block;margin:10px 0 0;font-size:.95rem;font-weight:600;
     color:var(--ink-soft);
   }
   .card-photo{aspect-ratio:4/3}
@@ -360,7 +367,8 @@ footer.site ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:co
   .wrap{padding:0 20px}
   .brand img{height:36px}
   .hero-inner{padding:56px 20px 60px}
-  .hero .ctas .btn{flex:1 0 100%}
+  /* botones apilados (WhatsApp primero) pero más livianos que el default */
+  .hero .ctas .btn{flex:1 0 100%;padding:11px 16px;font-size:.94rem}
   .certs-row{justify-content:flex-start;gap:8px 18px;font-size:.82rem}
   .nota{padding:24px 20px 48px}
 }
