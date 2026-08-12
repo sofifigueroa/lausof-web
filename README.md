@@ -12,15 +12,37 @@ Rediseño del sitio de [Lausof SRL](https://www.lausof.com), empresa de transpor
 
 ```
 lausof-web/
-├── index.html          # página principal (única, one-page)
+├── index.html              # página principal (one-page)
+├── flota-en-venta.html     # unidades a la venta (enlace discreto en el pie)
+├── robots.txt
+├── sitemap.xml
 ├── css/
-│   └── styles.css      # estilos (tokens de color/tipografía arriba del archivo)
+│   ├── styles.css          # estilos (tokens de color/tipografía arriba del archivo)
+│   └── flota.css           # sólo lo que agrega la página de flota en venta
 └── assets/
+    ├── unidades/                 # fotos de portada de cada publicación
     ├── logo-horizontal.png       # original
     ├── logo-horizontal-web.png   # optimizado (720px, navbar/footer)
     ├── logo-insignia.png         # original
     └── logo-insignia-web.png     # optimizado (480px, hero/favicon)
 ```
+
+Dos cosas que hay que recordar al tocar el código:
+
+- **La hoja de estilos tiene cache-busting a mano** (`css/styles.css?v=21`). Cada
+  vez que se cambia el CSS hay que subir ese número en los dos HTML, o quien ya
+  entró sigue viendo la hoja vieja.
+- **Las fotos de cada tarjeta rotan con una animación por cantidad de fotos**
+  (`slideshow-1`, `-3`, `-4`, `-6`, `-9`). Si a una tarjeta se le agrega o se le
+  saca una foto, hay que cambiarle la clase, o la rotación queda desfasada.
+
+## Flota en venta
+
+Los precios, los enlaces y las unidades salen de **un solo bloque** al principio
+del `<script>` de `flota-en-venta.html` (buscar `CONFIGURACIÓN DE UNIDADES`).
+Cuando se republica una unidad cambia su número de publicación: hay que pegar el
+enlace largo de Mercado Libre, el que termina en `_JM`. Los enlaces cortos le
+piden al visitante que inicie sesión y no muestran nada.
 
 ## Cómo verlo en local
 
@@ -36,19 +58,61 @@ python3 -m http.server 8000
 El sitio ya está online, así que nada de esto va al HTML hasta tenerlo
 confirmado: mejor que falte un dato a que figure uno equivocado.
 
-Datos que tiene que pasar papá:
+Cada pendiente está marcado en el HTML con un comentario `PENDIENTE:` en el
+lugar exacto donde entra el dato. Se pueden buscar todos con
+`grep -n PENDIENTE index.html`.
 
-- [ ] N° de habilitación CNRT vigente → vuelve a la franja de habilitaciones
-- [ ] Aseguradora + N° de póliza → misma franja
-- [ ] CUIT → al footer (los compradores lo copian para verificar la empresa)
-- [ ] Año de constitución de la SRL → "Desde 19XX" en el hero
-- [ ] Horario de atención y quién atiende el WhatsApp (por eso sacamos el "24 hs")
-- [ ] Qué unidades tienen GPS hoy y de qué proveedor (hoy el sitio lo afirma de todas)
-- [ ] Link del perfil de Google Business, para linkear las reseñas
+Papeles y habilitaciones:
+
+- [ ] **N° de habilitación CNRT** y vigencia → franja de habilitaciones y tarjeta
+      de transporte de personal
+- [ ] **Habilitación AMT** de pasajeros: ¿está vigente? ¿número? → misma franja
+- [ ] **Agencia de turismo**: ¿sigue vigente? ¿N° de legajo? → tarjeta de turismo
+- [ ] **Aseguradora**: qué compañía y qué cubre (RC, carga, pasajeros) → sección
+      de Seguridad
+- [ ] **Condición frente al IVA** (¿Responsable Inscripto?) → datos para proveedores
+- [ ] **ART y psicofísicos de los choferes**: ¿al día? Si no, esa línea de
+      Seguridad no vuelve
+
+Contacto:
+
+- [ ] **Horarios de atención** reales, y si hay **guardia para auxilio fuera de
+      hora** (por eso el sitio no promete nada de 24 horas)
+- [ ] **Dirección**: Junín 1334 y Siria 1333 son dos. ¿Cuál puede visitar un
+      cliente? Y en las facturas figura una tercera (Los Perales 22): hay que
+      saber cuál va en el sitio y cuál en los datos fiscales
+- [ ] **Perfil de Google de la empresa**: el enlace, para poner "Ver las reseñas
+      en Google" debajo de los testimonios. Es lo que prueba que son reales
+- [ ] ¿Los **tres teléfonos** siguen activos y quién atiende el WhatsApp?
+
+Servicios y capacidades:
+
+- [ ] **Capacidad real de la plancha** (¿son 7 toneladas?) → tarjeta de auxilio y
+      tabla de flota
+- [ ] **Depósito**: metros disponibles para alquilar, y si la cámara frigorífica
+      está funcionando hoy
+- [ ] **Registro de temperatura**: ¿hay dataloggers para entregarle al cliente?
+- [ ] **GPS y comunicación satelital**: en qué unidades hay hoy, realmente
+- [ ] **Turismo**: ¿se trabaja con guías propios, de la agencia, o sólo la unidad
+      con chofer?
+- [ ] **Año de fundación** → sección Nosotros. Y el **año en que se empezó a
+      trabajar en la Puna**, que es el que decide si se puede decir "más de una
+      década" en la tarjeta de minería
+- [ ] **Carpeta de presentación** de la empresa en PDF: ¿existe?
+
+Fotos que faltan (para Sofi):
+
+- [ ] **Galpón y cámara frigorífica** — no hay ninguna, y es un servicio que
+      queremos vender
+- [ ] **Taller** — hay una sola foto para una tarjeta entera
+- [ ] **Grúa levantando un vehículo**, de día y bien encuadrada, para la primera
+      tarjeta del sitio
 
 Del lado técnico:
 
 - [ ] DNS: apuntar `lausof.com` acá (ver más abajo — ojo con el mail)
+- [ ] Reclamar y completar el **perfil de Google de la empresa**. Para "grúa
+      Salta" y las búsquedas locales rinde más que cualquier cambio del sitio
 
 ## Publicación
 
