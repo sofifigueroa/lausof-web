@@ -396,11 +396,9 @@ footer.site ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:co
   border-top:1px solid #2a3557;
   margin-top:36px;padding-top:24px;font-size:.88rem;
 }
-.proveedores b{color:#fff;display:block;margin-bottom:10px}
-.proveedores ul{
-  list-style:none;margin:0;padding:0;
-  display:flex;flex-wrap:wrap;gap:6px 28px;
-}
+/* en una fila, como la franja de habilitaciones: son tres datos cortos y
+   así el pie no se estira (footer.site ul los apila, hay que ganarle) */
+footer.site .proveedores ul{flex-direction:row;flex-wrap:wrap;gap:6px 28px}
 .proveedores p{margin:12px 0 0}
 
 .legal{
