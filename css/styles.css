@@ -389,6 +389,20 @@ footer.site p{margin:0 0 8px}
 footer.site b{color:#fff;display:block;margin-bottom:10px}
 footer.site a{color:#c3cee4}
 footer.site ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+/* ---- datos para proveedores ----
+   Va al pie y en un cuerpo más chico: no le habla al cliente que busca una
+   grúa, le habla al área de compras que da de alta al proveedor. */
+.proveedores{
+  border-top:1px solid #2a3557;
+  margin-top:36px;padding-top:24px;font-size:.88rem;
+}
+.proveedores b{color:#fff;display:block;margin-bottom:10px}
+.proveedores ul{
+  list-style:none;margin:0;padding:0;
+  display:flex;flex-wrap:wrap;gap:6px 28px;
+}
+.proveedores p{margin:12px 0 0}
+
 .legal{
   border-top:1px solid #2a3557;
   margin-top:40px;padding-top:20px;font-size:.82rem;
