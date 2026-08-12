@@ -276,6 +276,43 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 .why-item b{display:block;margin-bottom:6px}
 .why-item p{margin:0;color:var(--ink-soft);font-size:.92rem}
 
+/* Fondo alternado para las secciones que no son "Por qué elegirnos" y
+   necesitan separarse de la anterior. */
+.block.alt{background:var(--ice);border-block:1px solid var(--border)}
+
+/* ---- seguridad operativa ----
+   Mismas fichas que "Por qué elegirnos", pero son seis: de a tres entran
+   parejas en dos filas. */
+.why-grid.practicas{grid-template-columns:repeat(3,1fr)}
+@media(max-width:960px){.why-grid.practicas{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.why-grid.practicas{grid-template-columns:1fr}}
+
+/* ---- flota y capacidades ----
+   Tabla, no galería: acá se responde "¿podés llevar esto?", que es lo que
+   pregunta un comprador. */
+.tabla-flota{
+  width:100%;margin-top:36px;border-collapse:collapse;
+  background:var(--card);border:1px solid var(--border);
+  font-size:.94rem;text-align:left;
+}
+.tabla-flota th,.tabla-flota td{padding:13px 16px;border-bottom:1px solid var(--border);vertical-align:top}
+.tabla-flota thead th{
+  background:var(--navy);color:var(--on-navy);
+  font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;
+}
+.tabla-flota tbody th{width:38%;color:var(--ink);font-weight:700}
+.tabla-flota td{color:var(--ink-soft)}
+.tabla-flota tbody tr:last-child th,.tabla-flota tbody tr:last-child td{border-bottom:none}
+@media(max-width:560px){
+  .tabla-flota{font-size:.88rem}
+  .tabla-flota th,.tabla-flota td{padding:11px 12px}
+  .tabla-flota tbody th{width:42%}
+}
+
+/* ---- nosotros ---- */
+.nosotros p{max-width:62ch;color:var(--ink-mid);margin:18px 0 0}
+.nosotros .cierre{font-weight:700;color:var(--ink)}
+
 /* ---- testimonios ---- */
 /* Pared de reseñas: todas visibles, sin carrusel. flex-wrap centrado para
    que la fila incompleta (3+2 en desktop) quede centrada y no colgando. */
