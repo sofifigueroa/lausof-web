@@ -31,13 +31,24 @@ python3 -m http.server 8000
 # → http://localhost:8000
 ```
 
-## Pendientes antes de publicar
+## Pendientes
 
-- [ ] Reemplazar placeholders `[entre corchetes]`: años de trayectoria, N° CNRT, aseguradora
-- [ ] Fotos reales de la flota (hero, 6 cards de servicios, galería)
-- [ ] Testimonios reales (pedir reseñas de Google a clientes frecuentes)
-- [ ] Confirmar teléfonos/mails vigentes y cuál atiende WhatsApp
-- [ ] Favicon final (recorte cuadrado de la insignia)
+El sitio ya está online, así que nada de esto va al HTML hasta tenerlo
+confirmado: mejor que falte un dato a que figure uno equivocado.
+
+Datos que tiene que pasar papá:
+
+- [ ] N° de habilitación CNRT vigente → vuelve a la franja de habilitaciones
+- [ ] Aseguradora + N° de póliza → misma franja
+- [ ] CUIT → al footer (los compradores lo copian para verificar la empresa)
+- [ ] Año de constitución de la SRL → "Desde 19XX" en el hero
+- [ ] Horario de atención y quién atiende el WhatsApp (por eso sacamos el "24 hs")
+- [ ] Qué unidades tienen GPS hoy y de qué proveedor (hoy el sitio lo afirma de todas)
+- [ ] Link del perfil de Google Business, para linkear las reseñas
+
+Del lado técnico:
+
+- [ ] DNS: apuntar `lausof.com` acá (ver más abajo — ojo con el mail)
 
 ## Publicación
 
