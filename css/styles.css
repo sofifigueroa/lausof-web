@@ -214,6 +214,26 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
   100%{opacity:0}
 }
 
+/* Variante para tarjetas con 9 fotos: mismo ritmo de 3,4s por foto,
+   el ciclo se estira a 30,6s y hay que sumar los retardos de la sexta
+   a la novena. */
+.slideshow-9 img{animation:rotarFotos9 30.6s infinite}
+.slideshow-9 img:nth-child(6){animation-delay:17s}
+.slideshow-9 img:nth-child(7){animation-delay:20.4s}
+.slideshow-9 img:nth-child(8){animation-delay:23.8s}
+.slideshow-9 img:nth-child(9){animation-delay:27.2s}
+
+@keyframes rotarFotos9{
+  0%{opacity:0}
+  2.9%{opacity:1}
+  11.1%{opacity:1}
+  14.1%{opacity:0}
+  100%{opacity:0}
+}
+
+/* Variante para tarjetas con una sola foto: no hay nada que rotar. */
+.slideshow-1 img{animation:none;opacity:1}
+
 /* Sin movimiento: queda fija la primera foto */
 @media (prefers-reduced-motion: reduce){
   .slideshow img{animation:none}
@@ -221,7 +241,23 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 }
 .card-body{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1}
 .card h3{font-size:1.1rem}
-.card p{margin:0;color:var(--ink-mid);font-size:.94rem;flex:1}
+.card p{margin:0;color:var(--ink-mid);font-size:.94rem}
+
+/* ---- especificaciones de cada servicio ----
+   Los datos duros van aparte de la descripción: es lo que diferencia una
+   tarjeta que sirve para cotizar de un folleto. La lista es la que se estira
+   (flex:1), así el botón de WhatsApp queda al pie en todas las tarjetas
+   aunque tengan distinta cantidad de renglones. */
+.card .ficha{
+  margin:0;padding:0;list-style:none;flex:1;
+  display:flex;flex-direction:column;gap:7px;
+  font-size:.88rem;line-height:1.45;color:var(--ink-soft);
+}
+.card .ficha li{position:relative;padding-left:15px}
+.card .ficha li::before{
+  content:"";position:absolute;left:0;top:.6em;
+  width:5px;height:5px;background:var(--gold);
+}
 .card .tag{
   align-self:flex-start;background:var(--gold-ink);color:#fff;
   font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
