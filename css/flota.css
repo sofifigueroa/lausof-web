@@ -1,0 +1,108 @@
+/* ==========================================================================
+   Lausof SRL — "Flota en venta"
+   Complemento de styles.css. No repite nada que ya esté en la hoja principal:
+   acá viven sólo las piezas que esta página agrega (encabezado de sección,
+   precio, ficha corta y estado de cada unidad).
+   Los colores, la tipografía, los bordes y las tarjetas se heredan tal cual.
+   ========================================================================== */
+
+/* ---- encabezado de página ----
+   Mismo lenguaje que el hero de la home pero más bajo: esta no es la portada,
+   es una sección interna y no debe competir con ella. */
+.page-head{position:relative;color:var(--on-navy);overflow:hidden;background:var(--navy-deep)}
+.page-head-photo{
+  position:absolute;inset:0;
+  background:#151e36 url('../assets/pasajeros-5-flota.jpg') center 55%/cover no-repeat;
+}
+.page-head-photo::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(16,23,42,.82),rgba(16,23,42,.68));
+}
+.page-head-inner{position:relative;padding:56px 24px 60px;max-width:1120px}
+.page-head h1{font-size:clamp(1.9rem,4.4vw,2.9rem);letter-spacing:-.015em;max-width:18ch}
+.page-head .lead{max-width:52ch;font-size:1.08rem;color:var(--on-navy-soft);margin:16px 0 26px}
+.page-head .ctas{display:flex;flex-wrap:wrap;gap:12px}
+
+/* ---- grilla de unidades ----
+   Sin carrusel en mobile, a diferencia de los servicios de la home: acá el
+   visitante compara unidades y necesita verlas todas, no deslizarlas de a una. */
+.unidades{margin-top:36px}
+@media(max-width:640px){.unidades{grid-template-columns:1fr}}
+
+/* La foto de la unidad es una foto sola, no una rotación: sin animación. */
+.unidad .card-photo img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+}
+
+/* ---- encabezado de la tarjeta: título + precio ---- */
+.unidad-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 14px}
+.unidad-head h3{font-size:1.06rem}
+.unidad-precio{font-size:1.16rem;font-weight:700;color:var(--ink);white-space:nowrap}
+/* Marca de moneda: en una grilla donde conviven pesos y dólares, "US$" solo
+   se lee rápido como un número más chico. La palabra evita la confusión. */
+.unidad-moneda{font-size:.78rem;font-weight:600;color:var(--ink-soft);margin-left:6px}
+
+/* ---- ficha corta: los datos duros, separados de la descripción ---- */
+.unidad-ficha{
+  display:flex;flex-wrap:wrap;gap:4px 10px;margin:0;padding:0;list-style:none;
+  font-size:.85rem;color:var(--ink-soft);font-weight:600;
+}
+.unidad-ficha li:not(:last-child)::after{content:"·";margin-left:10px;color:var(--border)}
+
+/* ---- acciones: WhatsApp primero (canal propio), Mercado Libre después ---- */
+.unidad-acciones{display:flex;flex-direction:column;gap:8px;margin-top:2px}
+.unidad-acciones .btn{width:100%;padding:11px 16px;font-size:.94rem}
+.btn-ml{border-color:var(--border);color:var(--ink);background:#fff}
+@media (hover:hover){.btn-ml:hover{border-color:var(--gold);color:var(--gold-ink)}}
+
+/* ---- unidades que todavía no están publicadas ----
+   Se muestran sin enlace y en gris: son un aviso, no una oferta. */
+.unidad.is-proxima .card-photo{
+  /* Los tres colores del rayado salen de la hoja de Sofi: #22304f es el fondo
+     de .card-photo, #2a3557 el borde del pie y #c3cee4 su texto sobre azul. */
+  background:repeating-linear-gradient(135deg,#22304f,#22304f 12px,#2a3557 12px,#2a3557 24px);
+  border-bottom-color:var(--border);
+}
+.unidad.is-proxima .card-photo span{color:#c3cee4;font-size:.9rem;font-weight:600;padding:0 18px}
+/* Sin foto no hay nada que mirar: la banda va más baja que una foto real,
+   así estas tarjetas no ocupan el mismo lugar que una unidad publicada. */
+.unidad.is-proxima .card-photo{aspect-ratio:5/2}
+.unidad.is-proxima .unidad-precio{color:var(--ink-soft);font-size:.95rem;font-weight:600}
+/* El dorado de .tag está reservado para lo que se puede comprar hoy
+   ("Urgencias en ruta" en la home). Lo que todavía no está publicado va en gris. */
+.card .tag.tag-proxima{background:var(--ink-soft)}
+
+/* ---- bloque "se publican en los próximos días" ---- */
+.proximas{margin-top:52px;padding-top:34px;border-top:1px solid var(--border)}
+.proximas h3{font-size:1.25rem}
+.proximas-sub{color:var(--ink-soft);max-width:60ch;margin:10px 0 0;font-size:.95rem}
+.proximas .unidades{margin-top:24px}
+/* Estas tarjetas no llenan la grilla: dos avisos estirados a lo ancho de tres
+   columnas se leerían como si fueran la mitad del catálogo. */
+.proximas .unidades{grid-template-columns:repeat(3,1fr)}
+@media(max-width:960px){.proximas .unidades{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.proximas .unidades{grid-template-columns:1fr}}
+
+/* ---- franja de condiciones de la empresa ---- */
+.condiciones{background:var(--ice);border-block:1px solid var(--border);padding:26px 0}
+.condiciones-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:900px){.condiciones-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.condiciones-grid{grid-template-columns:1fr}}
+.condicion{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);
+  border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow)}
+.condicion b{display:block;margin-bottom:4px;font-size:.95rem}
+.condicion p{margin:0;color:var(--ink-soft);font-size:.88rem}
+
+/* ---- bloque de contacto ---- */
+.contacto-venta{background:var(--navy);color:var(--on-navy);text-align:center}
+.contacto-venta h2{font-size:clamp(1.6rem,3.4vw,2.15rem)}
+.contacto-venta p{color:var(--on-navy-soft);max-width:52ch;margin:14px auto 26px}
+.contacto-venta .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.contacto-tel{display:flex;flex-wrap:wrap;gap:8px 26px;justify-content:center;margin:26px 0 0;
+  padding:0;list-style:none;font-size:.94rem;color:var(--on-navy-soft)}
+.contacto-tel a{color:#fff;font-weight:700;text-decoration:none}
+@media (hover:hover){.contacto-tel a:hover{color:var(--gold-bright)}}
+
+/* ---- aviso para navegadores sin JavaScript ---- */
+.sin-js{border:1px solid var(--border);border-left:3px solid var(--gold);background:var(--card);
+  border-radius:var(--radius);padding:16px 18px;margin-top:32px;color:var(--ink-soft);font-size:.94rem}
