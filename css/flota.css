@@ -55,6 +55,13 @@
 .btn-ml{border-color:var(--border);color:var(--ink);background:#fff}
 @media (hover:hover){.btn-ml:hover{border-color:var(--gold);color:var(--gold-ink)}}
 
+/* ---- otros sitios donde está publicada la misma unidad ----
+   Chico y al final de la tarjeta: es una puerta de entrada más, no una segunda
+   oferta. Nunca lleva precio, porque el precio de referencia es el de Mercado
+   Libre y los otros sitios lo redondean. */
+.unidad-otros{font-size:.8rem;color:var(--ink-soft);margin:0}
+.unidad-otros a{color:var(--gold-ink);text-decoration:underline;text-underline-offset:2px}
+
 /* ---- unidades que todavía no están publicadas ----
    Se muestran sin enlace y en gris: son un aviso, no una oferta. */
 .unidad.is-proxima .card-photo{

@@ -9,7 +9,7 @@
   <link rel="canonical" href="https://lausof.com/flota-en-venta.html">
   <link rel="icon" type="image/png" href="assets/logo-insignia-web.png">
   <link rel="stylesheet" href="css/styles.css?v=21">
-  <link rel="stylesheet" href="css/flota.css?v=1">
+  <link rel="stylesheet" href="css/flota.css?v=2">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_AR">
@@ -193,6 +193,11 @@
                Dejar en null si todavía no hay foto.
      ficha     Los datos duros que se muestran arriba de la descripción.
      resumen   Descripción corta. Es un resumen de lo que dice la publicación.
+     otrosAvisos  Opcional. Otros sitios donde está publicada la misma unidad,
+               como { nombre: 'deRuedas', url: '...' }. Se muestran como un
+               enlace chico al pie de la tarjeta. El precio de referencia es
+               siempre el de Mercado Libre: los otros sitios lo redondean, así
+               que de ellos va el enlace y nada más.
 
    PARA AGREGAR UNA UNIDAD: copiá un bloque entero { ... }, pegalo donde
    corresponda y cambiá los datos. El orden de esta lista es el orden en que
@@ -215,7 +220,10 @@ const UNIDADES = [
     estado: 'publicada',
     foto: 'accelo-1016-2016.webp',
     ficha: ['2016', '103.000 km', 'Carga 7.500 kg', 'Único dueño'],
-    resumen: 'Camión plancha con equipo de auxilio mecánico. Plancha Sica con barandas volcables y desmontables, arcos y lona con cierre completo: se pueden trasladar vehículos protegidos de la intemperie. Preparado también para cargas generales.'
+    resumen: 'Camión plancha con equipo de auxilio mecánico. Plancha Sica con barandas volcables y desmontables, arcos y lona con cierre completo: se pueden trasladar vehículos protegidos de la intemperie. Preparado también para cargas generales.',
+    otrosAvisos: [
+      { nombre: 'deRuedas', url: 'https://www.deruedas.com.ar/vendo/Mercedes-Benz/Accelo/Usados/Salta?cod=818717' }
+    ]
   },
 
   {
@@ -404,6 +412,25 @@ function crearTarjeta(unidad) {
   }
 
   cuerpo.appendChild(acciones);
+
+  /* La misma unidad puede estar publicada en más de un sitio. Va como enlace
+     chico y sin precio: el precio que vale es el de Mercado Libre. */
+  if (!proxima && unidad.otrosAvisos && unidad.otrosAvisos.length) {
+    const otros = document.createElement('p');
+    otros.className = 'unidad-otros';
+    otros.appendChild(document.createTextNode('También publicado en '));
+    unidad.otrosAvisos.forEach(function (aviso, indice) {
+      if (indice) otros.appendChild(document.createTextNode(' · '));
+      const enlace = document.createElement('a');
+      enlace.href = aviso.url;
+      enlace.target = '_blank';
+      enlace.rel = 'noopener';
+      enlace.textContent = aviso.nombre;
+      otros.appendChild(enlace);
+    });
+    cuerpo.appendChild(otros);
+  }
+
   tarjeta.append(foto, cuerpo);
   return tarjeta;
 }
