@@ -39,7 +39,7 @@
       <a href="index.html#nosotros">Nosotros</a>
       <a href="#contacto">Contacto</a>
     </nav>
-    <a class="btn btn-wa btn-sm nav-cta" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20una%20unidad%20en%20venta" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+    <a class="btn btn-wa btn-sm nav-cta" href="https://wa.me/5493875092489?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20una%20unidad%20en%20venta" target="_blank" rel="noopener">Consultar por WhatsApp</a>
   </div>
 </header>
 
@@ -51,7 +51,7 @@
       <h1>Unidades de nuestra flota, en venta.</h1>
       <p class="lead">Estamos reduciendo la cantidad de unidades de la empresa. Las que publicamos están en Salta Capital y se pueden ver y probar sin compromiso.</p>
       <div class="ctas">
-        <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20una%20unidad%20en%20venta" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        <a class="btn btn-wa" href="https://wa.me/5493875092489?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20una%20unidad%20en%20venta" target="_blank" rel="noopener">Consultar por WhatsApp</a>
         <a class="btn btn-outline" href="#unidades">Ver las unidades</a>
       </div>
     </div>
@@ -74,7 +74,7 @@
       </div>
       <div class="condicion">
         <b>Nos escribís directo</b>
-        <p>WhatsApp o teléfono, sin intermediarios.</p>
+        <p>Por WhatsApp, sin intermediarios.</p>
       </div>
     </div>
   </div>
@@ -97,7 +97,7 @@
 
       <noscript>
         <p class="sin-js">Para ver el listado de unidades necesitás tener JavaScript activado.
-        Si no podés, escribinos por WhatsApp al <a href="https://wa.me/5493875377527">387 537-7527</a> y te pasamos las unidades disponibles.</p>
+        Si no podés, escribinos por WhatsApp al <a href="https://wa.me/5493875092489">387 509-2489</a> y te pasamos las unidades disponibles.</p>
       </noscript>
     </div>
   </section>
@@ -108,10 +108,15 @@
       <h2>¿Te interesa alguna unidad?</h2>
       <p>Escribinos y te contamos el estado real de la unidad, la documentación y cómo coordinar para verla en Salta Capital.</p>
       <div class="ctas">
-        <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20una%20unidad%20en%20venta" target="_blank" rel="noopener">Escribinos por WhatsApp</a>
+        <a class="btn btn-wa" href="https://wa.me/5493875092489?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20una%20unidad%20en%20venta" target="_blank" rel="noopener">Escribinos por WhatsApp</a>
         <a class="btn btn-ghost" href="tel:+5493875377527">Llamar al 387 537-7527</a>
       </div>
       <ul class="contacto-tel">
+        <!-- La línea de ventas se atiende por mensaje, así que va como enlace de
+             WhatsApp y nunca como tel:. Los teléfonos de la empresa, que sí toman
+             llamadas, siguen estando arriba y en el pie. -->
+        <li>Las consultas por las unidades van al WhatsApp de ventas: <a href="https://wa.me/5493875092489?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20una%20unidad%20en%20venta" target="_blank" rel="noopener">387 509-2489</a>. Ahí leemos y contestamos los mensajes.</li>
+        <li>Se puede ver y probar en Salta Capital, con previo aviso.</li>
         <li>También al <a href="tel:+5493875269009">387 526-9009</a></li>
         <li><a href="mailto:contacto@lausof.com">contacto@lausof.com</a></li>
       </ul>
@@ -159,7 +164,7 @@
 
 <div class="wa-bar" aria-label="Acciones rápidas">
   <a class="btn btn-ghost" href="tel:+5493875377527">Llamar</a>
-  <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20una%20unidad%20en%20venta" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+  <a class="btn btn-wa" href="https://wa.me/5493875092489?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20una%20unidad%20en%20venta" target="_blank" rel="noopener">Consultar por WhatsApp</a>
 </div>
 
 <script>
@@ -290,9 +295,11 @@ const UNIDADES = [
 
 ];
 
-/* Número de WhatsApp de la empresa, en formato internacional y sin signos.
-   Es el mismo que usa el resto del sitio. */
-const WHATSAPP = '5493875377527';
+/* WhatsApp de ventas (387 509-2489), en formato internacional y sin signos.
+   Es distinto del número general de la empresa que usa la home: esta línea es
+   sólo para las unidades en venta y se atiende por mensaje, no por llamada.
+   Si cambia, hay que cambiarlo también en los enlaces wa.me de esta página. */
+const WHATSAPP = '5493875092489';
 
 /* =============================================================================
    DE ACÁ PARA ABAJO NO HACE FALTA TOCAR NADA.
