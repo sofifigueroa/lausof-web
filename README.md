@@ -44,6 +44,18 @@ Cuando se republica una unidad cambia su número de publicación: hay que pegar 
 enlace largo de Mercado Libre, el que termina en `_JM`. Los enlaces cortos le
 piden al visitante que inicie sesión y no muestran nada.
 
+Dos cosas propias de esta página:
+
+- **El WhatsApp no es el mismo que el de la home.** Las unidades se consultan al
+  **387 509-2489**, que es la línea de ventas y se atiende por mensaje, no por
+  llamada. Por eso ese número aparece sólo como enlace `wa.me` y nunca como
+  `tel:`. Los teléfonos de la empresa, que sí toman llamadas, siguen siendo los
+  del pie. Si cambia el número de ventas hay que tocar la constante `WHATSAPP`
+  y los enlaces `wa.me` de esta página, y ninguno de `index.html`.
+- **Una unidad puede estar publicada en más de un sitio** (`otrosAvisos` en su
+  bloque de configuración). De esos avisos va sólo el enlace: el precio que vale
+  es el de Mercado Libre, porque los demás sitios lo redondean.
+
 ## Cómo verlo en local
 
 Abrir `index.html` en el navegador (doble click), o servirlo:
@@ -71,6 +83,10 @@ Papeles y habilitaciones:
 - [ ] **Aseguradora**: qué compañía y qué cubre (RC, carga, pasajeros) → sección
       de Seguridad
 - [ ] **Condición frente al IVA** (¿Responsable Inscripto?) → datos para proveedores
+- [ ] **Razón social exacta como figura en el registro**: aparece como "LAUSOF
+      TRANSPORTES..." en distintas fuentes, así que hasta que papá la confirme
+      letra por letra va sólo "Lausof S.R.L.", que sí está confirmado → datos
+      para proveedores y ficha de Google. El CUIT (30-71146774-9) ya está
 - [ ] **ART y psicofísicos de los choferes**: ¿al día? Si no, esa línea de
       Seguridad no vuelve
 
@@ -83,7 +99,8 @@ Contacto:
       saber cuál va en el sitio y cuál en los datos fiscales
 - [ ] **Perfil de Google de la empresa**: el enlace, para poner "Ver las reseñas
       en Google" debajo de los testimonios. Es lo que prueba que son reales
-- [ ] ¿Los **tres teléfonos** siguen activos y quién atiende el WhatsApp?
+- [ ] ¿Los **tres teléfonos** del pie siguen activos y quién atiende cada uno?
+      (El WhatsApp de ventas ya está resuelto: 387 509-2489, sólo mensajes)
 
 Servicios y capacidades:
 
