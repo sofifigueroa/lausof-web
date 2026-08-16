@@ -74,21 +74,29 @@ Cada pendiente está marcado en el HTML con un comentario `PENDIENTE:` en el
 lugar exacto donde entra el dato. Se pueden buscar todos con
 `grep -n PENDIENTE index.html`.
 
+El **16/08** Lautaro confirmó una tanda de datos y esas afirmaciones ya están
+publicadas: habilitaciones CNRT y AMT vigentes, seguro de carga y pasajeros
+vigente, agencia de turismo habilitada, registro de temperatura durante el
+viaje, psicofísicos y ART de los choferes al día, GPS en las unidades en
+servicio, capacidad de carga de 7,5 toneladas del camión plancha, más de una
+década de trabajo en la Puna y los 120.000 km de la ML350. De todo eso siguen
+faltando los números (CNRT, AMT, legajo de la agencia) y el nombre de la
+aseguradora, que son lo único que se publica cuando lleguen.
+
 Papeles y habilitaciones:
 
-- [ ] **N° de habilitación CNRT** y vigencia → franja de habilitaciones y tarjeta
-      de transporte de personal
-- [ ] **Habilitación AMT** de pasajeros: ¿está vigente? ¿número? → misma franja
-- [ ] **Agencia de turismo**: ¿sigue vigente? ¿N° de legajo? → tarjeta de turismo
-- [ ] **Aseguradora**: qué compañía y qué cubre (RC, carga, pasajeros) → sección
-      de Seguridad
+- [ ] **N° de habilitación CNRT y N° de habilitación AMT**. Que las dos están
+      vigentes lo confirmó Lautaro el 16/08 y ya figura en la franja y en la
+      tarjeta de personal; falta el número de cada una para poder publicarlo
+- [ ] **N° de legajo de la agencia de turismo**. Que está habilitada ya figura en
+      la tarjeta de turismo; falta el legajo
+- [ ] **Aseguradora**: qué compañía y qué cubre (RC, carga, pasajeros). El seguro
+      vigente ya figura en la franja y en Seguridad, pero sin nombre de compañía
 - [ ] **Condición frente al IVA** (¿Responsable Inscripto?) → datos para proveedores
 - [ ] **Razón social exacta como figura en el registro**: aparece como "LAUSOF
       TRANSPORTES..." en distintas fuentes, así que hasta que papá la confirme
       letra por letra va sólo "Lausof S.R.L.", que sí está confirmado → datos
       para proveedores y ficha de Google. El CUIT (30-71146774-9) ya está
-- [ ] **ART y psicofísicos de los choferes**: ¿al día? Si no, esa línea de
-      Seguridad no vuelve
 
 Contacto:
 
@@ -104,17 +112,15 @@ Contacto:
 
 Servicios y capacidades:
 
-- [ ] **Capacidad real de la plancha** (¿son 7 toneladas?) → tarjeta de auxilio y
-      tabla de flota
 - [ ] **Depósito**: metros disponibles para alquilar, y si la cámara frigorífica
       está funcionando hoy
-- [ ] **Registro de temperatura**: ¿hay dataloggers para entregarle al cliente?
-- [ ] **GPS y comunicación satelital**: en qué unidades hay hoy, realmente
+- [ ] **Cantidad de teléfonos satelitales**: es un dato interno y **no se
+      publica** — el sitio dice que hay teléfono satelital a bordo en los
+      servicios de altura, nunca cuántos. Sirve para saber a cuántos servicios
+      simultáneos se puede responder
 - [ ] **Turismo**: ¿se trabaja con guías propios, de la agencia, o sólo la unidad
-      con chofer?
-- [ ] **Año de fundación** → sección Nosotros. Y el **año en que se empezó a
-      trabajar en la Puna**, que es el que decide si se puede decir "más de una
-      década" en la tarjeta de minería
+      con chofer? Con eso vuelve el "con o sin guía" del primer renglón
+- [ ] **Año de fundación** → sección Nosotros
 - [ ] **Carpeta de presentación** de la empresa en PDF: ¿existe?
 
 Fotos que faltan (para Sofi):
