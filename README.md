@@ -1,6 +1,6 @@
 # Lausof SRL — Sitio web
 
-Rediseño del sitio de [Lausof SRL](https://www.lausof.com), empresa de transporte y logística de Salta, Argentina (pasajeros, cargas generales y refrigeradas, 4x4, auxilio y remolques).
+Rediseño del sitio de [Lausof SRL](https://www.lausof.com) (<-- sitio anterior), empresa de transporte y logística de Salta, Argentina (pasajeros, cargas generales y refrigeradas, 4x4, auxilio y remolques).
 
 ## Objetivo del rediseño
 
