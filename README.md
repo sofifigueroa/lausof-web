@@ -34,10 +34,10 @@ python3 -m http.server 8000
 ## Pendientes antes de publicar
 
 - [ ] Reemplazar placeholders `[entre corchetes]`: años de trayectoria, N° CNRT, aseguradora
-- [ ] Fotos reales de la flota (hero, 6 cards de servicios, galería)
-- [ ] Testimonios reales (pedir reseñas de Google a clientes frecuentes)
-- [ ] Confirmar teléfonos/mails vigentes y cuál atiende WhatsApp
-- [ ] Favicon final (recorte cuadrado de la insignia)
+- [ ✓ ] Fotos reales de la flota (hero, 6 cards de servicios, galería)
+- [ ✓ ] Testimonios reales (pedir reseñas de Google a clientes frecuentes)
+- [ ✓ ] Confirmar teléfonos/mails vigentes y cuál atiende WhatsApp
+- [ ✓ ] Favicon final (recorte cuadrado de la insignia)
 
 ## Publicación
 
