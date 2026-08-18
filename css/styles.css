@@ -156,7 +156,12 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 /* ---- rotación de fotos ----
    Cinco fotos que se encadenan con fundido. Cada una queda 3,4s en
    pantalla (ciclo completo: 17s) y el cruce entre una y otra ocupa
-   0,9s, así el cambio nunca corta en seco. */
+   0,9s, así el cambio nunca corta en seco.
+   La saliente aguanta en opacidad plena hasta que la entrante (que apila
+   encima) ya terminó de aparecer, y recién ahí se apaga: si las dos se
+   cruzaran a mitad de camino se vería el fondo azul del recuadro en cada
+   cambio. En la vuelta de la última a la primera funciona igual, pero
+   destapando: la primera aparece por debajo y la última la revela. */
 .slideshow{position:absolute;inset:0}
 .slideshow img{
   position:absolute;inset:0;
@@ -172,8 +177,8 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 @keyframes rotarFotos{
   0%{opacity:0}
   5.3%{opacity:1}
-  20%{opacity:1}
-  25.3%{opacity:0}
+  25.3%{opacity:1}
+  30.6%{opacity:0}
   100%{opacity:0}
 }
 
@@ -184,8 +189,8 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 @keyframes rotarFotos3{
   0%{opacity:0}
   8.8%{opacity:1}
-  33.3%{opacity:1}
-  42.2%{opacity:0}
+  42.2%{opacity:1}
+  51%{opacity:0}
   100%{opacity:0}
 }
 
@@ -196,8 +201,8 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 @keyframes rotarFotos4{
   0%{opacity:0}
   6.6%{opacity:1}
-  25%{opacity:1}
-  31.6%{opacity:0}
+  31.6%{opacity:1}
+  38.2%{opacity:0}
   100%{opacity:0}
 }
 
@@ -209,8 +214,8 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 @keyframes rotarFotos6{
   0%{opacity:0}
   4.4%{opacity:1}
-  16.7%{opacity:1}
-  21.1%{opacity:0}
+  21.1%{opacity:1}
+  25.5%{opacity:0}
   100%{opacity:0}
 }
 
@@ -226,8 +231,8 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 @keyframes rotarFotos9{
   0%{opacity:0}
   2.9%{opacity:1}
-  11.1%{opacity:1}
-  14.1%{opacity:0}
+  14.1%{opacity:1}
+  17%{opacity:0}
   100%{opacity:0}
 }
 
@@ -264,11 +269,19 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
   border-radius:3px;padding:3px 8px;
 }
 .card a.walink{font-size:.93rem;font-weight:700;color:var(--wa-ink);text-decoration:none}
+/* en táctil el enlace de texto queda chico para el pulgar: pasa a bloque
+   con padding vertical (~44px de zona de toque, WCAG 2.5.8 pide 24 mínimo) */
+@media(max-width:720px){
+  .card a.walink{display:block;padding:12px 0;margin:-6px 0}
+}
 
 /* ---- por qué ---- */
 .why{background:var(--ice);border-block:1px solid var(--border)}
 .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:36px}
 @media(max-width:960px){.why-grid{grid-template-columns:repeat(2,1fr)}}
+/* en pantalla angosta cada columna queda en ~150px y el texto se parte en
+   renglones de dos palabras: una sola columna, como ya hacen las prácticas */
+@media(max-width:560px){.why-grid{grid-template-columns:1fr}}
 .why-item{
   background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
   border-top:3px solid var(--gold);padding:18px;box-shadow:var(--shadow);
@@ -281,11 +294,19 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 .block.alt{background:var(--ice);border-block:1px solid var(--border)}
 
 /* ---- seguridad operativa ----
-   Mismas fichas que "Por qué elegirnos", pero son seis: de a tres entran
-   parejas en dos filas. */
-.why-grid.practicas{grid-template-columns:repeat(3,1fr)}
-@media(max-width:960px){.why-grid.practicas{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.why-grid.practicas{grid-template-columns:1fr}}
+   Mismas fichas que "Por qué elegirnos", pero son siete: en tres columnas
+   quedaría una ficha huérfana en la última fila. Van dos columnas que se
+   llenan de arriba hacia abajo (4+3), y cada ficha con su propia altura
+   para que las cortas no arrastren aire de las largas. */
+.why-grid.practicas{
+  grid-template-columns:repeat(2,1fr);
+  grid-template-rows:repeat(4,auto);
+  grid-auto-flow:column;
+  align-items:start;
+}
+@media(max-width:560px){
+  .why-grid.practicas{grid-template-columns:1fr;grid-template-rows:none;grid-auto-flow:row}
+}
 
 /* ---- flota y capacidades ----
    Tabla, no galería: acá se responde "¿podés llevar esto?", que es lo que
@@ -352,7 +373,10 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 .quote .stars{color:var(--gold-ink);letter-spacing:.12em;font-size:.9rem}
 
 /* ---- carrusel horizontal en mobile ----
-   Evita la columna interminable de tarjetas: se deslizan de a una. */
+   Evita la columna interminable de tarjetas: se deslizan de a una.
+   El aviso de deslizar va ANTES de las tarjetas: cada tarjeta mide más de
+   una pantalla, y si el aviso queda abajo nadie se entera de que hay seis
+   servicios hasta después de scrollear la primera entera. */
 .swipe-hint{display:none}
 @media(max-width:720px){
   .swipe{
@@ -362,14 +386,14 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
     /* sangrado a los bordes: debe coincidir con el padding de .wrap en mobile.
        scroll-padding hace que las tarjetas frenen a 20px del borde también
        después de deslizar, no solo en la posición inicial. */
-    gap:14px;margin:28px -20px 0;padding:2px 20px 12px;
+    gap:14px;margin:16px -20px 0;padding:2px 20px 12px;
     scroll-padding:0 20px;
     scrollbar-width:none;
   }
   .swipe::-webkit-scrollbar{display:none}
   .swipe>*{flex:0 0 84%;scroll-snap-align:start}
   .swipe-hint{
-    display:block;margin:10px 0 0;font-size:.95rem;font-weight:600;
+    display:block;margin:14px 0 0;font-size:.95rem;font-weight:600;
     color:var(--ink-soft);
   }
   .card-photo{aspect-ratio:4/3}
@@ -389,6 +413,8 @@ footer.site p{margin:0 0 8px}
 footer.site b{color:#fff;display:block;margin-bottom:10px}
 footer.site a{color:#c3cee4}
 footer.site ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+/* teléfonos y correos con zona de toque: son enlaces que se tocan con apuro */
+footer.site ul a{display:inline-block;padding-block:6px}
 /* ---- datos para proveedores ----
    Va al pie y en un cuerpo más chico: no le habla al cliente que busca una
    grúa, le habla al área de compras que da de alta al proveedor. */
@@ -416,10 +442,14 @@ footer.site .proveedores ul{flex-direction:row;flex-wrap:wrap;gap:6px 28px}
 .wa-bar .btn{flex:1;padding:12px 12px;font-size:.92rem}
 .wa-bar .btn-ghost{flex:0 0 34%}
 @media(max-width:880px){
-  html.js body.past-hero .wa-bar{display:flex}
+  /* visible desde que carga la página: el que llega apurado por un auxilio
+     tiene que poder llamar sin scrollear. El botón de WhatsApp del hero se
+     oculta acá abajo para que no haya dos verdes en la primera pantalla:
+     gana la barra, que queda al alcance del pulgar. */
+  .wa-bar{display:flex}
+  .hero .ctas .btn-wa{display:none}
   .nav-cta{display:none}
-  /* espacio reservado siempre, para que la barra no tape el final de la página
-     ni provoque un salto de layout al aparecer */
+  /* espacio reservado siempre, para que la barra no tape el final de la página */
   body{padding-bottom:84px}
 }
 
@@ -454,7 +484,13 @@ footer.site .proveedores ul{flex-direction:row;flex-wrap:wrap;gap:6px 28px}
   }
   /* con menos velo, el subtítulo necesita blanco pleno y una sombra sutil */
   .hero .lead{color:#fff;text-shadow:0 1px 10px rgba(16,23,42,.55)}
-  /* botones apilados (WhatsApp primero) pero más livianos que el default */
+  /* botones apilados pero más livianos que el default */
   .hero .ctas .btn{flex:1 0 100%;padding:11px 16px;font-size:.94rem}
-  .certs-row{justify-content:flex-start;gap:8px 18px;font-size:.82rem}
+  /* las seis habilitaciones en dos columnas compactas: se leen de un vistazo
+     y no empujan los servicios una pantalla entera hacia abajo */
+  .certs-row{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:8px 14px;font-size:.78rem;line-height:1.4;
+    align-items:start;text-align:left;
+  }
 }
