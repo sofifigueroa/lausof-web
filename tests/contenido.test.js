@@ -30,6 +30,20 @@ for (const [nombre, contenido] of Object.entries(paginas)) {
     }
   });
 
+  // Datos internos que no se publican: cuántos teléfonos satelitales hay
+  // ni ningún número que dimensione la flota o el personal. Los patrones
+  // van atados a los sustantivos vedados para no pisar especificaciones
+  // legítimas como "19+1 plazas" o "7,5 toneladas".
+  test(`${nombre}: sin cantidades de teléfonos satelitales ni de flota o personal`, () => {
+    assert.ok(
+      !/\b(un|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|\d+)\s+tel[eé]fonos?\s+satelitales?/i.test(contenido),
+      `se publica la cantidad de teléfonos satelitales en ${nombre}`,
+    );
+    const dimension = /\b(dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|once|doce|quince|veinte|\d+)\s+(unidades|veh[ií]culos|camiones|camionetas|combis|minibuses|gr[uú]as|choferes|conductores|mec[aá]nicos|empleados)\b/i;
+    const m = contenido.match(dimension);
+    assert.ok(!m, `se dimensiona la flota o el personal en ${nombre}: "${m && m[0]}"`);
+  });
+
   test(`${nombre}: sin restos de borrador`, () => {
     assert.ok(!/\[completar\]/i.test(contenido), `queda un [completar] en ${nombre}`);
     assert.ok(!/prototipo/i.test(contenido), `queda un "prototipo" en ${nombre}`);
@@ -62,4 +76,27 @@ test('index.html: las afirmaciones verificadas siguen presentes', () => {
 // izaje de la plancha. Está comentado en el HTML y acá queda vigilado.
 test('index.html: las 7,5 toneladas nunca se reescriben como izaje', () => {
   assert.ok(!/izaje/i.test(paginas['index.html']), 'apareció "izaje" en index.html');
+});
+
+// La tarjeta de cargas refrigeradas tiene que seguir diciendo, en cualquier
+// redacción, que el depósito tiene cámara frigorífica y que está en Salta
+// capital: son los dos datos que hacen cotizable el servicio.
+test('index.html: la tarjeta de depósito conserva la cámara y la ubicación', () => {
+  const desde = paginas['index.html'].indexOf('<h3>Cargas refrigeradas y depósito</h3>');
+  assert.ok(desde > -1, 'no está la tarjeta de cargas refrigeradas');
+  const hasta = paginas['index.html'].indexOf('</article>', desde);
+  const tarjeta = paginas['index.html'].slice(desde, hasta);
+  assert.match(tarjeta, /c[aá]mara frigor[ií]fica/i, 'la tarjeta perdió la cámara frigorífica');
+  assert.match(tarjeta, /Salta capital/i, 'la tarjeta perdió la ubicación en Salta capital');
+});
+
+// El GPS se afirma solo para las unidades en servicio (las paradas o en
+// venta no tienen por qué tenerlo): toda mención visible de GPS tiene que
+// llevar ese alcance, letra por letra.
+test('index.html: el GPS siempre queda acotado a las unidades en servicio', () => {
+  const visibles = paginas['index.html'].match(/GPS/g) || [];
+  const acotadas = paginas['index.html'].match(/GPS en las unidades en servicio/g) || [];
+  assert.ok(visibles.length > 0, 'desapareció la mención del GPS');
+  assert.strictEqual(visibles.length, acotadas.length,
+    'hay una mención de GPS sin el alcance "en las unidades en servicio"');
 });

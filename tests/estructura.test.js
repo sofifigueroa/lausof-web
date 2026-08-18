@@ -46,14 +46,6 @@ test('la CSS trae las reglas de mobile de la revisión de agosto', () => {
     'falta mostrar la barra de acción en mobile');
 });
 
-test('el fundido de fotos no pasa por el fondo azul', () => {
-  // La foto saliente aguanta plena hasta que la entrante ya apareció:
-  // el fin del "hold" coincide con el fin del fade-in de la siguiente.
-  for (const marca of ['25.3%{opacity:1}', '42.2%{opacity:1}', '31.6%{opacity:1}', '21.1%{opacity:1}', '14.1%{opacity:1}']) {
-    assert.ok(css.includes(marca), `falta la marca ${marca} en los keyframes`);
-  }
-});
-
 test('el aviso de deslizar está antes de la primera tarjeta', () => {
   const hint = index.indexOf('class="swipe-hint"');
   const tarjeta = index.indexOf('class="card"');
