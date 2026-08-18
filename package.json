@@ -1,0 +1,8 @@
+{
+  "name": "web-sofi",
+  "private": true,
+  "description": "Sitio de Lausof SRL. Los tests corren con Node solo, sin instalar nada.",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  }
+}
