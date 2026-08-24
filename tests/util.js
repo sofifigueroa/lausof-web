@@ -18,5 +18,8 @@ module.exports = {
   index: leer('index.html'),
   flota: leer('flota-en-venta.html'),
   css: leer('css/styles.css'),
+  sitemap: leer('sitemap.xml'),
+  robots: leer('robots.txt'),
+  redirects: leer('_redirects'),
   sinComentarios,
 };
