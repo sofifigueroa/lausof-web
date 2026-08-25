@@ -9,7 +9,10 @@
 /galeria-imagenes   https://www.lausof.com/galeria.html       301
 /contactenos        /#contacto    301
 /conozca-salta      https://www.lausof.com/turismo.html       301
-/golf-torneos       https://www.lausof.com/golf-torneos.html  301
+# Este lleva ! porque las URLs lindas de Netlify hacen que /golf-torneos
+# "exista" como golf-torneos.html y sin ! la regla no se aplica (quedarían
+# dos copias en 200 repartiéndose señales).
+/golf-torneos       https://www.lausof.com/golf-torneos.html  301!
 /principal-old      /             301
 
 # Rutas residuales típicas de plantillas Wix que pudieron quedar enlazadas.

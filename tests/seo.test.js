@@ -49,7 +49,9 @@ test('cada URL indexada del sitio Wix viejo tiene su 301', () => {
   const viejas = ['/nuestra-empresa', '/galeria-imagenes', '/contactenos',
     '/conozca-salta', '/golf-torneos', '/principal-old'];
   for (const ruta of viejas) {
-    const regla = new RegExp(`^${ruta}\\s+\\S+\\s+301$`, 'm');
+    // El ! opcional: /golf-torneos lo necesita porque su página homónima
+    // existe y sin ! Netlify no aplica la regla.
+    const regla = new RegExp(`^${ruta}\\s+\\S+\\s+301!?$`, 'm');
     assert.match(redirects, regla, `falta el 301 de ${ruta}`);
   }
 });

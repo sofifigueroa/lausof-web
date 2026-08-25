@@ -60,16 +60,18 @@ test('el sitemap lista las 8 URLs indexables y ninguna más', () => {
 });
 
 // Tres URLs del sitio viejo ya tienen página dedicada: su 301 va derecho ahí
-// (antes caían en secciones de la portada).
+// (antes caían en secciones de la portada). La de golf lleva ! porque las
+// URLs lindas de Netlify hacen que /golf-torneos "exista" como
+// golf-torneos.html y sin ! la regla no se aplica.
 test('las URLs del sitio viejo con página dedicada redirigen a ella', () => {
   const retargets = [
-    ['/conozca-salta', 'https://www.lausof.com/turismo.html'],
-    ['/galeria-imagenes', 'https://www.lausof.com/galeria.html'],
-    ['/golf-torneos', 'https://www.lausof.com/golf-torneos.html'],
+    ['/conozca-salta', 'https://www.lausof.com/turismo.html', '301'],
+    ['/galeria-imagenes', 'https://www.lausof.com/galeria.html', '301'],
+    ['/golf-torneos', 'https://www.lausof.com/golf-torneos.html', '301!'],
   ];
-  for (const [origen, destino] of retargets) {
-    const regla = new RegExp(`^${origen}\\s+${destino.replace(/[./]/g, '\\$&')}\\s+301$`, 'm');
-    assert.match(redirects, regla, `${origen} no redirige a ${destino}`);
+  for (const [origen, destino, codigo] of retargets) {
+    const regla = new RegExp(`^${origen}\\s+${destino.replace(/[./]/g, '\\$&')}\\s+${codigo}$`, 'm');
+    assert.match(redirects, regla, `${origen} no redirige a ${destino} con ${codigo}`);
   }
 });
 
