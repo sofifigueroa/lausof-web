@@ -14,7 +14,19 @@ const leer = (nombre) => fs.readFileSync(path.join(raiz, nombre), 'utf8');
 // (p. ej. la advertencia de no reescribir la carga como izaje).
 const sinComentarios = (html) => html.replace(/<!--[\s\S]*?-->/g, '');
 
+// Todas las páginas HTML de la raíz, leídas dinámicamente: una página nueva
+// queda cubierta por las puertas de contenido y de teléfonos sin tocar esta
+// lista. El archivo de verificación de Google no es una página (es un token
+// que exige Search Console) y queda afuera.
+const paginas = {};
+for (const nombre of fs.readdirSync(raiz).sort()) {
+  if (nombre.endsWith('.html') && !nombre.startsWith('google')) {
+    paginas[nombre] = leer(nombre);
+  }
+}
+
 module.exports = {
+  paginas,
   index: leer('index.html'),
   flota: leer('flota-en-venta.html'),
   css: leer('css/styles.css'),

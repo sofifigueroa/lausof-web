@@ -6,13 +6,16 @@
 
 const test = require('node:test');
 const assert = require('node:assert');
-const { index, flota } = require('./util.js');
-
-const paginas = { 'index.html': index, 'flota-en-venta.html': flota };
+// Cubre TODAS las páginas de la raíz: una página nueva entra sola.
+const { paginas } = require('./util.js');
 
 // Líneas conocidas: las dos móviles del sitio + la móvil de venta de flota
 // son celulares; la 431-1584 es fija.
 const lineasMoviles = ['5377527', '5269009', '5092489'];
+
+// El WhatsApp solo atiende en dos líneas: la general y la de venta de flota.
+// La 526-9009 toma llamadas pero no tiene WhatsApp: nunca va como wa.me.
+const lineasWhatsApp = ['5493875377527', '5493875092489'];
 
 const extraer = (contenido, patron) =>
   [...contenido.matchAll(patron)].map((m) => m[1]);
@@ -26,10 +29,12 @@ for (const [nombre, contenido] of Object.entries(paginas)) {
     assert.ok(was.length > 0, `no se encontró ningún wa.me en ${nombre}`);
   });
 
-  test(`${nombre}: todo wa.me apunta a un celular salteño con el 9`, () => {
+  test(`${nombre}: todo wa.me apunta a una de las dos líneas con WhatsApp`, () => {
     for (const href of was) {
-      assert.match(href, /^https:\/\/wa\.me\/549387\d{7}(\?text=[^"]*)?$/,
-        `wa.me con formato inesperado: ${href}`);
+      const m = href.match(/^https:\/\/wa\.me\/(\d+)(\?text=[^"]*)?$/);
+      assert.ok(m, `wa.me con formato inesperado: ${href}`);
+      assert.ok(lineasWhatsApp.includes(m[1]),
+        `wa.me a una línea que no atiende WhatsApp: ${href}`);
     }
   });
 
@@ -55,6 +60,7 @@ for (const [nombre, contenido] of Object.entries(paginas)) {
 // plantilla de despacho (ubicación / vehículo / qué pasó) y el teléfono para
 // llamar está adentro de la tarjeta, no solo en el pie.
 test('index.html: la tarjeta de auxilio lleva plantilla de WhatsApp y tel: visible', () => {
+  const index = paginas['index.html'];
   const desde = index.indexOf('<h3>Auxilio mecánico y remolques</h3>');
   assert.ok(desde > -1, 'no está la tarjeta de auxilio');
   const tarjeta = index.slice(desde, index.indexOf('</article>', desde));

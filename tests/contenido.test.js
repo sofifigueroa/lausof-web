@@ -5,14 +5,14 @@
 
 const test = require('node:test');
 const assert = require('node:assert');
-const { index, flota, sinComentarios } = require('./util.js');
+const { paginas: crudas, sinComentarios } = require('./util.js');
 
 // Se evalúa lo que el visitante ve: los comentarios HTML quedan afuera,
 // porque ahí sí se nombran los temas vedados (son las notas del dueño).
-const paginas = {
-  'index.html': sinComentarios(index),
-  'flota-en-venta.html': sinComentarios(flota),
-};
+// Cubre TODAS las páginas de la raíz: una página nueva entra sola.
+const paginas = Object.fromEntries(
+  Object.entries(crudas).map(([nombre, html]) => [nombre, sinComentarios(html)]),
+);
 
 // Temas vedados en todo el sitio (decisión del dueño, no se negocia acá).
 const vedados = [
@@ -52,9 +52,9 @@ for (const [nombre, contenido] of Object.entries(paginas)) {
 
 // Google Imágenes solo indexa el alt de cada <img>: los slides ocultos de los
 // slideshows lo llevan descriptivo (con role="img" en el contenedor no les
-// cuesta nada de accesibilidad). Los únicos alt="" permitidos son los dos
-// logos decorativos de cierre de página.
-test('toda imagen lleva alt descriptivo salvo los dos logos decorativos', () => {
+// cuesta nada de accesibilidad). Los únicos alt="" permitidos son los del
+// logo decorativo de cierre de página (uno por página que lo lleva).
+test('toda imagen lleva alt descriptivo salvo los logos decorativos', () => {
   let decorativos = 0;
   for (const [nombre, contenido] of Object.entries(paginas)) {
     for (const [etiqueta] of contenido.matchAll(/<img [^>]*>/g)) {
@@ -67,7 +67,9 @@ test('toda imagen lleva alt descriptivo salvo los dos logos decorativos', () => 
       }
     }
   }
-  assert.strictEqual(decorativos, 2, `se esperaban 2 logos decorativos con alt="", hay ${decorativos}`);
+  // Hoy lo llevan 6 páginas (portada, flota y las 4 de servicios); si una
+  // página lo suma o lo pierde, este número se actualiza a conciencia.
+  assert.strictEqual(decorativos, 6, `se esperaban 6 logos decorativos con alt="", hay ${decorativos}`);
 });
 
 // Afirmaciones verificadas que la portada tiene que conservar, se redacte
