@@ -39,6 +39,18 @@ test('las dos páginas piden la misma versión de styles.css', () => {
     `versiones desincronizadas: index ?v=${enIndex[1]}, flota ?v=${enFlota[1]}`);
 });
 
+// El favicon dejó de ser el PNG de 157 KB de la insignia: hay uno de 96px
+// (Google pide múltiplos de 48 para el favicon de los resultados móviles) y
+// un apple-touch-icon de 180px sobre fondo blanco.
+test('las dos páginas enlazan el favicon liviano y el apple-touch-icon', () => {
+  for (const [nombre, contenido] of [['index.html', index], ['flota-en-venta.html', flota]]) {
+    assert.ok(contenido.includes('<link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">'),
+      `falta el favicon de 96px en ${nombre}`);
+    assert.ok(contenido.includes('<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">'),
+      `falta el apple-touch-icon en ${nombre}`);
+  }
+});
+
 test('_headers cachea assets y css como inmutables', () => {
   const { headers } = require('./util.js');
   for (const ruta of ['/assets/*', '/css/*']) {
