@@ -21,5 +21,6 @@ module.exports = {
   sitemap: leer('sitemap.xml'),
   robots: leer('robots.txt'),
   redirects: leer('_redirects'),
+  headers: leer('_headers'),
   sinComentarios,
 };

@@ -23,10 +23,28 @@ test('la página de flota sigue generando su JSON-LD', () => {
     'flota-en-venta.html perdió el generador de datos estructurados');
 });
 
-test('la hoja de estilos está en la versión 22 o posterior', () => {
+test('la hoja de estilos está en la versión 23 o posterior', () => {
   const m = index.match(/href="css\/styles\.css\?v=(\d+)"/);
   assert.ok(m, 'index.html no versiona styles.css con ?v=');
-  assert.ok(Number(m[1]) >= 22, `?v=${m[1]} — quedó una versión vieja de la hoja`);
+  assert.ok(Number(m[1]) >= 23, `?v=${m[1]} — quedó una versión vieja de la hoja`);
+});
+
+// Con /css/* cacheado como inmutable, si las dos páginas no piden la MISMA
+// versión de styles.css, una de ellas puede quedarse un año con la hoja vieja.
+test('las dos páginas piden la misma versión de styles.css', () => {
+  const enIndex = index.match(/href="css\/styles\.css\?v=(\d+)"/);
+  const enFlota = flota.match(/href="css\/styles\.css\?v=(\d+)"/);
+  assert.ok(enFlota, 'flota-en-venta.html no versiona styles.css con ?v=');
+  assert.strictEqual(enFlota[1], enIndex[1],
+    `versiones desincronizadas: index ?v=${enIndex[1]}, flota ?v=${enFlota[1]}`);
+});
+
+test('_headers cachea assets y css como inmutables', () => {
+  const { headers } = require('./util.js');
+  for (const ruta of ['/assets/*', '/css/*']) {
+    const bloque = new RegExp(`^${ruta.replace('*', '\\*')}\\n\\s+Cache-Control: public, max-age=31536000, immutable`, 'm');
+    assert.match(headers, bloque, `falta la regla inmutable de ${ruta} en _headers`);
+  }
 });
 
 test('la CSS trae las reglas de mobile de la revisión de agosto', () => {
