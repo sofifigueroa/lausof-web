@@ -58,11 +58,19 @@ Dos cosas que hay que recordar al tocar el código:
 
 ## Flota en venta
 
-Los precios, los enlaces y las unidades salen de **un solo bloque** al principio
-del `<script>` de `flota-en-venta.html` (buscar `CONFIGURACIÓN DE UNIDADES`).
-Cuando se republica una unidad cambia su número de publicación: hay que pegar el
-enlace largo de Mercado Libre, el que termina en `_JM`. Los enlaces cortos le
-piden al visitante que inicie sesión y no muestran nada.
+Los precios, los enlaces y las unidades salen de **un solo archivo**:
+`scripts/unidades.mjs`. Después de editarlo hay que correr
+
+```bash
+node scripts/generar-flota.mjs
+```
+
+que reescribe las tarjetas y los datos para Google dentro de
+`flota-en-venta.html` (las zonas generadas están marcadas con
+`<!-- GENERADO ... -->`; no se tocan a mano). Cuando se republica una unidad
+cambia su número de publicación: hay que pegar el enlace largo de Mercado
+Libre, el que termina en `_JM`. Los enlaces cortos le piden al visitante que
+inicie sesión y no muestran nada.
 
 Dos cosas propias de esta página:
 

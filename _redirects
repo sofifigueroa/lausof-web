@@ -1,14 +1,15 @@
 # Redirecciones 301 de las URLs del sitio Wix viejo (indexadas por Google
-# hasta el corte de agosto 2026) hacia su lugar en el sitio nuevo. El
-# fragmento (#seccion) viaja en el Location y el navegador lo resuelve al
-# llegar. Sin comodín general: cualquier ruta nueva del sitio sigue
-# sirviéndose normal y las inexistentes dan su 404 honesto.
+# hasta el corte de agosto 2026) hacia su lugar en el sitio nuevo: a su
+# página dedicada cuando existe, o a la sección de la portada (el fragmento
+# #seccion viaja en el Location y el navegador lo resuelve al llegar). Sin
+# comodín general: cualquier ruta nueva del sitio sigue sirviéndose normal
+# y las inexistentes dan su 404 honesto.
 
 /nuestra-empresa    /#nosotros    301
-/galeria-imagenes   /#flota       301
+/galeria-imagenes   https://www.lausof.com/galeria.html       301
 /contactenos        /#contacto    301
-/conozca-salta      /#servicios   301
-/golf-torneos       /#servicios   301
+/conozca-salta      https://www.lausof.com/turismo.html       301
+/golf-torneos       https://www.lausof.com/golf-torneos.html  301
 /principal-old      /             301
 
 # Rutas residuales típicas de plantillas Wix que pudieron quedar enlazadas.
