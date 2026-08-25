@@ -50,6 +50,26 @@ for (const [nombre, contenido] of Object.entries(paginas)) {
   });
 }
 
+// Google Imágenes solo indexa el alt de cada <img>: los slides ocultos de los
+// slideshows lo llevan descriptivo (con role="img" en el contenedor no les
+// cuesta nada de accesibilidad). Los únicos alt="" permitidos son los dos
+// logos decorativos de cierre de página.
+test('toda imagen lleva alt descriptivo salvo los dos logos decorativos', () => {
+  let decorativos = 0;
+  for (const [nombre, contenido] of Object.entries(paginas)) {
+    for (const [etiqueta] of contenido.matchAll(/<img [^>]*>/g)) {
+      const alt = etiqueta.match(/alt="([^"]*)"/);
+      assert.ok(alt, `imagen sin atributo alt en ${nombre}: ${etiqueta.slice(0, 80)}`);
+      if (alt[1] === '') {
+        assert.match(etiqueta, /logo-insignia-web/,
+          `alt vacío en una imagen que no es el logo decorativo (${nombre}): ${etiqueta.slice(0, 80)}`);
+        decorativos++;
+      }
+    }
+  }
+  assert.strictEqual(decorativos, 2, `se esperaban 2 logos decorativos con alt="", hay ${decorativos}`);
+});
+
 // Afirmaciones verificadas que la portada tiene que conservar, se redacte
 // como se redacte.
 const requeridas = [

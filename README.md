@@ -21,11 +21,31 @@ lausof-web/
 │   └── flota.css           # sólo lo que agrega la página de flota en venta
 └── assets/
     ├── unidades/                 # fotos de portada de cada publicación
+    ├── *.webp                    # fotos del sitio (calidad 80; el JPEG original queda al lado)
+    ├── *.jpg                     # originales, fuente de futuros recortes; el HTML no los usa
+    ├── og-portada.jpg / og-flota.jpg  # 1200×630 para las previews de WhatsApp/Facebook (og:image va SIEMPRE en JPEG: los scrapers no toman bien WebP)
+    ├── favicon-96.png            # favicon liviano
+    ├── apple-touch-icon.png      # 180×180 sobre fondo blanco
     ├── logo-horizontal.png       # original
-    ├── logo-horizontal-web.png   # optimizado (720px, navbar/footer)
+    ├── logo-horizontal-web.webp  # optimizado (760px, navbar)
     ├── logo-insignia.png         # original
-    └── logo-insignia-web.png     # optimizado (480px, hero/favicon)
+    └── logo-insignia-web.webp    # optimizado (340px, cierres de página)
 ```
+
+## Convención para fotos nuevas
+
+- **Nombre descriptivo en español, con guiones**: `servicio-lugar-lausof.webp`
+  (p. ej. `auxilio-quebrada-de-las-flechas-lausof.webp`). El nombre del archivo
+  es una señal para Google Imágenes; "IMG_4032.jpg" no dice nada.
+- **Formato WebP calidad 80** (`cwebp -q 80 -m 6 -metadata none foto.jpg -o foto.webp`),
+  guardando el JPEG original al lado. Excepción: las imágenes de `og:image`
+  van en JPEG 1200×630, porque los scrapers de WhatsApp/Facebook manejan mal
+  el WebP.
+- **Alt descriptivo en cada `<img>`**, también en los slides ocultos de los
+  slideshows: el contenedor con `role="img"` ya aplana los hijos para los
+  lectores de pantalla, así que el alt de los slides no molesta a la
+  accesibilidad y es lo único que indexa Google Imágenes. Solo los dos logos
+  decorativos de cierre llevan `alt=""`.
 
 Dos cosas que hay que recordar al tocar el código:
 
