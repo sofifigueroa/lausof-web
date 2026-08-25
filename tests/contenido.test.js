@@ -87,6 +87,10 @@ const requeridas = [
   // "alquiler de combis" es el vocabulario con el que busca el cliente y el
   // sitio viejo lo explotaba; la mención vive en la tarjeta de personal.
   ['alquiler de combis con chofer', /alquiler de combis con chofer/i],
+  // Línea de tiempo confirmada por el dueño (25/08): pasajeros desde 2010,
+  // remolques/auxilio/cargas desde 2017.
+  ['empezamos en 2010', /Empezamos en 2010 con el transporte de pasajeros/],
+  ['grúa y cargas desde 2017', /en 2017 sumamos remolques, auxilio mecánico y cargas generales/],
 ];
 
 test('index.html: las afirmaciones verificadas siguen presentes', () => {
