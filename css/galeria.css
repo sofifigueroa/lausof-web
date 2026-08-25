@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Lausof SRL — páginas de galería de fotos (galeria.html y golf-torneos.html)
+   Complemento de styles.css. No repite nada que ya esté en la hoja principal:
+   acá viven sólo el encabezado de página y la grilla de fotos.
+   Los colores, la tipografía, los bordes y los botones se heredan tal cual.
+   ========================================================================== */
+
+/* ---- encabezado de página ----
+   Banda azul sin foto de fondo: estas páginas son de fotos y no necesitan
+   competir con su propio contenido. Mismo lenguaje que el hero de la home,
+   pero más bajo, como el encabezado de "Flota en venta". */
+.galeria-head{background:var(--navy);color:var(--on-navy)}
+.galeria-head-inner{padding:52px 24px 56px;max-width:1120px;margin:0 auto}
+.galeria-head h1{font-size:clamp(1.9rem,4.4vw,2.9rem);letter-spacing:-.015em;max-width:22ch}
+.galeria-head .lead{max-width:62ch;font-size:1.08rem;color:var(--on-navy-soft);margin:16px 0 0}
+
+/* ---- secciones de fotos ----
+   Más compactas que un .block: los títulos separan grupos de una misma
+   galería, no secciones distintas del sitio. */
+section.fotos{padding:44px 0 10px}
+section.fotos:last-of-type{padding-bottom:64px}
+.fotos h2{font-size:1.35rem}
+
+/* ---- grilla ----
+   Todas las fotos al mismo recorte 4/3: la grilla se lee como una sola pieza
+   aunque los originales tengan proporciones distintas (hay hasta verticales). */
+.foto-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:14px;margin-top:20px;
+}
+.foto-grid img{
+  display:block;width:100%;height:100%;
+  aspect-ratio:4/3;object-fit:cover;
+  background:#22304f; /* mismo azul de los recuadros de foto de la home */
+  border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+}
+
+/* en el celu, dos columnas: una sola foto por fila hace la página eterna */
+@media(max-width:560px){
+  .foto-grid{grid-template-columns:1fr 1fr;gap:10px}
+  section.fotos{padding:36px 0 6px}
+}
