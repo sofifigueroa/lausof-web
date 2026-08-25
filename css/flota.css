@@ -109,7 +109,3 @@
   padding:0;list-style:none;font-size:.94rem;color:var(--on-navy-soft)}
 .contacto-tel a{color:#fff;font-weight:700;text-decoration:none}
 @media (hover:hover){.contacto-tel a:hover{color:var(--gold-bright)}}
-
-/* ---- aviso para navegadores sin JavaScript ---- */
-.sin-js{border:1px solid var(--border);border-left:3px solid var(--gold);background:var(--card);
-  border-radius:var(--radius);padding:16px 18px;margin-top:32px;color:var(--ink-soft);font-size:.94rem}

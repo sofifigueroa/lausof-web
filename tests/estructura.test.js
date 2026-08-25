@@ -7,20 +7,18 @@ const test = require('node:test');
 const assert = require('node:assert');
 const { index, flota, css } = require('./util.js');
 
-// flota-en-venta.html arma su JSON-LD por script con JSON.stringify (nunca
-// puede quedar inválido); acá se valida el bloque estático de la portada y
-// se verifica que la página de flota siga generando el suyo.
-test('el JSON-LD estático de la portada es JSON válido', () => {
-  const bloques = [...index.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
-  assert.ok(bloques.length > 0, 'no hay JSON-LD en index.html');
-  for (const [, cuerpo] of bloques) {
-    assert.doesNotThrow(() => JSON.parse(cuerpo), 'JSON-LD roto en index.html');
+// Todo el JSON-LD del sitio es estático (el ItemList de flota lo escribe
+// scripts/generar-flota.mjs a partir de scripts/unidades.mjs): acá se valida
+// que cada bloque de las dos páginas sea JSON válido. El contenido del
+// ItemList se revisa en detalle en flota.test.js.
+test('el JSON-LD estático de las dos páginas es JSON válido', () => {
+  for (const [nombre, contenido] of [['index.html', index], ['flota-en-venta.html', flota]]) {
+    const bloques = [...contenido.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)];
+    assert.ok(bloques.length > 0, `no hay JSON-LD en ${nombre}`);
+    for (const [, cuerpo] of bloques) {
+      assert.doesNotThrow(() => JSON.parse(cuerpo), `JSON-LD roto en ${nombre}`);
+    }
   }
-});
-
-test('la página de flota sigue generando su JSON-LD', () => {
-  assert.ok(flota.includes("'application/ld+json'"),
-    'flota-en-venta.html perdió el generador de datos estructurados');
 });
 
 test('la hoja de estilos está en la versión 23 o posterior', () => {
