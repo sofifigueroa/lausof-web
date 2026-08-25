@@ -50,3 +50,19 @@ for (const [nombre, contenido] of Object.entries(paginas)) {
     }
   });
 }
+
+// La tarjeta de auxilio atiende al que está varado: el WhatsApp va con la
+// plantilla de despacho (ubicación / vehículo / qué pasó) y el teléfono para
+// llamar está adentro de la tarjeta, no solo en el pie.
+test('index.html: la tarjeta de auxilio lleva plantilla de WhatsApp y tel: visible', () => {
+  const desde = index.indexOf('<h3>Auxilio mecánico y remolques</h3>');
+  assert.ok(desde > -1, 'no está la tarjeta de auxilio');
+  const tarjeta = index.slice(desde, index.indexOf('</article>', desde));
+  const wa = tarjeta.match(/href="(https:\/\/wa\.me\/[^"]+)"/);
+  assert.ok(wa, 'la tarjeta de auxilio perdió su enlace de WhatsApp');
+  for (const campo of ['Ubicaci%C3%B3n%3A', 'Veh%C3%ADculo%3A', 'Qu%C3%A9%20pas%C3%B3%3A']) {
+    assert.ok(wa[1].includes(campo), `la plantilla de auxilio perdió el campo ${campo}`);
+  }
+  assert.ok(tarjeta.includes('href="tel:+5493875377527"'),
+    'la tarjeta de auxilio no tiene enlace tel: para llamar directo');
+});
