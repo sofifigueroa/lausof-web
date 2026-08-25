@@ -12,7 +12,7 @@
 .page-head{position:relative;color:var(--on-navy);overflow:hidden;background:var(--navy-deep)}
 .page-head-photo{
   position:absolute;inset:0;
-  background:#151e36 url('../assets/pasajeros-5-flota.jpg') center 55%/cover no-repeat;
+  background:#151e36 url('../assets/pasajeros-5-flota.webp') center 55%/cover no-repeat;
 }
 .page-head-photo::after{
   content:"";position:absolute;inset:0;

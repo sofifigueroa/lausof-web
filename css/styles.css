@@ -106,7 +106,7 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 .hero{position:relative;color:var(--on-navy);overflow:hidden;background:var(--navy-deep)}
 .hero-photo{
   position:absolute;inset:0;
-  background:#151e36 url('../assets/hero-flota-paisaje.jpg') center 68%/cover no-repeat;
+  background:#151e36 url('../assets/hero-flota-paisaje.webp') center 68%/cover no-repeat;
 }
 /* velo: garantiza contraste del texto sin tapar del todo la foto de la flota */
 .hero-photo::after{
@@ -474,7 +474,7 @@ footer.site .proveedores ul{flex-direction:row;flex-wrap:wrap;gap:6px 28px}
   /* art direction: en pantalla angosta la foto de la flota queda tapada por
      los botones; va el minibús en la quebrada, más vertical y con aire */
   .hero-photo{
-    background-image:url('../assets/pasajeros-1-quebrada.jpg');
+    background-image:url('../assets/pasajeros-1-quebrada.webp');
     background-position:32% center;
   }
   /* velo más liviano que en desktop: fuerte arriba (contraste del título),
