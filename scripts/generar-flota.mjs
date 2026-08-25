@@ -151,10 +151,19 @@ function datosEstructurados(publicadas) {
         '@type': 'Vehicle',
         name: unidad.titulo,
         url: unidad.url,
+        // image/description/brand: los pide Search Console (reporte
+        // Merchant listings 25/08/2026) — sin image el resultado enriquecido
+        // no se muestra. La marca es la primera palabra del título.
+        ...(unidad.foto ? { image: `https://www.lausof.com/assets/unidades/${unidad.foto}` } : {}),
+        description: [unidad.resumen, ...(unidad.ficha || [])].filter(Boolean).join(' · '),
+        brand: { '@type': 'Brand', name: unidad.titulo.split(' ')[0] === 'Mercedes-Benz' ? 'Mercedes-Benz' : unidad.titulo.split(' ')[0] },
+        itemCondition: 'https://schema.org/UsedCondition',
         offers: {
           '@type': 'Offer',
           price: unidad.precio,
           priceCurrency: unidad.moneda,
+          availability: 'https://schema.org/InStock',
+          itemCondition: 'https://schema.org/UsedCondition',
           availableAtOrFrom: { '@type': 'Place', address: 'Salta Capital, Argentina' },
           seller: { '@type': 'Organization', name: 'Lausof SRL' }
         }
