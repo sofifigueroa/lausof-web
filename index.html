@@ -10,6 +10,13 @@
   <link rel="icon" type="image/png" href="assets/logo-insignia-web.png">
   <link rel="stylesheet" href="css/styles.css?v=23">
 
+  <!-- El fondo del hero es la imagen más grande de la página (la LCP): se
+       precarga porque, al venir de la CSS, el navegador recién la descubriría
+       tarde. Los media queries copian el corte de 720px de la hoja de estilos:
+       si ese corte cambia, hay que cambiarlo también acá. -->
+  <link rel="preload" as="image" href="assets/hero-flota-paisaje.webp" fetchpriority="high" media="(min-width: 720.1px)">
+  <link rel="preload" as="image" href="assets/pasajeros-1-quebrada.webp" fetchpriority="high" media="(max-width: 720px)">
+
   <!-- Cómo se ve el enlace cuando alguien lo pega en WhatsApp o en una red.
        La imagen conviene que sea apaisada y con el logo visible. -->
   <meta property="og:type" content="website">
