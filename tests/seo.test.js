@@ -54,6 +54,23 @@ test('cada URL indexada del sitio Wix viejo tiene su 301', () => {
   }
 });
 
+// La og:image de cada página es un recorte propio de 1200×630 y va SIEMPRE en
+// JPEG (los scrapers de WhatsApp/Facebook manejan mal el WebP), con las
+// dimensiones declaradas para que la primera vez que se comparte el enlace la
+// preview salga con imagen.
+test('las og:image son JPEG dedicadas con dimensiones declaradas', () => {
+  for (const [nombre, contenido] of [['index.html', index], ['flota-en-venta.html', flota]]) {
+    const imagen = contenido.match(/<meta property="og:image" content="([^"]+)">/);
+    assert.ok(imagen, `no hay og:image en ${nombre}`);
+    assert.match(imagen[1], /^https:\/\/www\.lausof\.com\/assets\/og-[a-z-]+\.jpg$/,
+      `la og:image de ${nombre} no es un recorte JPEG dedicado: ${imagen[1]}`);
+    assert.ok(contenido.includes('<meta property="og:image:width" content="1200">'),
+      `falta og:image:width en ${nombre}`);
+    assert.ok(contenido.includes('<meta property="og:image:height" content="630">'),
+      `falta og:image:height en ${nombre}`);
+  }
+});
+
 // Además del mapa del sitio viejo, las variantes duplicadas de las URLs
 // reales tienen su 301: /index.html a / y el subdominio *.netlify.app al
 // dominio canónico. Si estas reglas se caen, Google vuelve a ver dos copias.

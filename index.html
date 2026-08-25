@@ -19,15 +19,20 @@
   <link rel="preload" as="image" href="assets/pasajeros-1-quebrada.webp" fetchpriority="high" media="(max-width: 720px)">
 
   <!-- Cómo se ve el enlace cuando alguien lo pega en WhatsApp o en una red.
-       La imagen conviene que sea apaisada y con el logo visible. -->
+       La imagen va en un recorte propio de 1200×630 (og-portada.jpg) y SIEMPRE
+       en JPEG: los scrapers de WhatsApp/Facebook manejan mal el WebP. Las
+       dimensiones declaradas hacen que la primera vez que se comparte el
+       enlace la preview salga con imagen, sin esperar a que el scraper mida. -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_AR">
   <meta property="og:site_name" content="Lausof SRL">
   <meta property="og:title" content="Lausof SRL — Grúas y Auxilio Mecánico, Transporte de Personal y Cargas en Salta">
   <meta property="og:description" content="Grúas de plancha, auxilio mecánico y remolques; transporte de personal, cargas refrigeradas y taller propio en Salta. Empresa familiar con experiencia en la Puna.">
   <meta property="og:url" content="https://www.lausof.com/">
-  <meta property="og:image" content="https://www.lausof.com/assets/hero-flota-paisaje.jpg">
-  <meta property="og:image:alt" content="Unidades de Lausof en ruta en el norte argentino">
+  <meta property="og:image" content="https://www.lausof.com/assets/og-portada.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Camiones de auxilio y cargas de Lausof en el norte argentino">
   <meta name="twitter:card" content="summary_large_image">
 
   <!-- Ficha para Google: es lo que alimenta el panel de la empresa y las
@@ -47,7 +52,7 @@
     "description": "Empresa familiar salteña de transporte y logística: auxilio mecánico y remolques, transporte de personal, cargas refrigeradas y depósito, servicios de taller, turismo y logística en la Puna.",
     "url": "https://www.lausof.com/",
     "logo": "https://www.lausof.com/assets/logo-insignia-web.png",
-    "image": "https://www.lausof.com/assets/hero-flota-paisaje.jpg",
+    "image": "https://www.lausof.com/assets/og-portada.jpg",
     "taxID": "30-71146774-9",
     "telephone": "+54-387-537-7527",
     "email": "contacto@lausof.com",
