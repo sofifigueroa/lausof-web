@@ -84,6 +84,9 @@ const requeridas = [
   ['teléfono satelital en altura', /tel[eé]fono satelital/i],
   ['fletes y cargas generales por el NOA', /fletes y cargas generales por Salta y el NOA/],
   ['CUIT', /30-71146774-9/],
+  // "alquiler de combis" es el vocabulario con el que busca el cliente y el
+  // sitio viejo lo explotaba; la mención vive en la tarjeta de personal.
+  ['alquiler de combis con chofer', /alquiler de combis con chofer/i],
 ];
 
 test('index.html: las afirmaciones verificadas siguen presentes', () => {
