@@ -54,6 +54,18 @@ test('cada URL indexada del sitio Wix viejo tiene su 301', () => {
   }
 });
 
+// Además del mapa del sitio viejo, las variantes duplicadas de las URLs
+// reales tienen su 301: /index.html a / y el subdominio *.netlify.app al
+// dominio canónico. Si estas reglas se caen, Google vuelve a ver dos copias.
+test('las variantes duplicadas redirigen al canónico', () => {
+  assert.match(redirects, /^\/index\.html\s+\/\s+301!$/m,
+    'falta el 301 de /index.html a /');
+  assert.match(redirects, /^https:\/\/lausof\.netlify\.app\/\*\s+https:\/\/www\.lausof\.com\/:splat\s+301!$/m,
+    'falta el 301 del host lausof.netlify.app al dominio canónico');
+  assert.match(redirects, /^\/principal-old\s+\/\s+301$/m,
+    'se perdió el 301 de /principal-old del mapa del sitio viejo');
+});
+
 // El fondo del hero es la LCP de cada página y viene de la CSS, así que las
 // dos páginas lo precargan en el head. La precarga tiene que apuntar al MISMO
 // archivo que usa la hoja de estilos: si se cambia la foto en la CSS y no acá,

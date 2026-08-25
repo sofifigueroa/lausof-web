@@ -16,3 +16,11 @@
 /copia-de-*         /             301
 /home               /             301
 /inicio             /             301
+
+# Variantes duplicadas de las URLs reales. /index.html sirve lo mismo que /
+# y el subdominio de Netlify sirve el sitio entero: los dos van con 301 al
+# canónico para que Google no reparta señales entre copias. Llevan ! porque
+# sin él Netlify no aplica reglas sobre rutas que existen como archivo. No
+# hay bucle: la portada se pide como / y ese path no matchea /index.html.
+/index.html                    /                              301!
+https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
