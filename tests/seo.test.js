@@ -54,6 +54,29 @@ test('cada URL indexada del sitio Wix viejo tiene su 301', () => {
   }
 });
 
+// La ficha LocalBusiness de la portada lleva las coordenadas del pin real de
+// la ficha de Google, el enlace al mapa y el 526-9009 como contacto adicional
+// (es el teléfono que muestra la ficha): sitio y ficha tienen que contar lo
+// mismo. La página de flota referencia la misma entidad por su @id.
+test('el JSON-LD de la portada lleva geo, hasMap y el teléfono de la ficha', () => {
+  const bloque = index.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+  const datos = JSON.parse(bloque[1]);
+  assert.strictEqual(datos.geo && datos.geo.latitude, -24.771929, 'falta la latitud del pin');
+  assert.strictEqual(datos.geo && datos.geo.longitude, -65.4272135, 'falta la longitud del pin');
+  assert.match(datos.hasMap || '', /^https:\/\/www\.google\.com\/maps\/place\//,
+    'falta el hasMap con el enlace a la ficha');
+  assert.ok(JSON.stringify(datos.contactPoint || []).includes('+54-387-526-9009'),
+    'falta el 526-9009 como contactPoint');
+});
+
+test('la página de flota referencia la entidad #empresa de la portada', () => {
+  const bloque = flota.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+  assert.ok(bloque, 'no hay JSON-LD estático en flota-en-venta.html');
+  const datos = JSON.parse(bloque[1]);
+  assert.strictEqual(datos['@id'], 'https://www.lausof.com/#empresa',
+    'el nodo de flota no apunta al @id #empresa');
+});
+
 // La og:image de cada página es un recorte propio de 1200×630 y va SIEMPRE en
 // JPEG (los scrapers de WhatsApp/Facebook manejan mal el WebP), con las
 // dimensiones declaradas para que la primera vez que se comparte el enlace la

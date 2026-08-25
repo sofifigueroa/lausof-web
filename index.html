@@ -40,8 +40,12 @@
        Las reseñas NO se marcan acá: publicar como marcado propio reseñas
        tomadas de Google expone a una penalización manual. Se muestran como
        texto y se enlaza al perfil.
-       PENDIENTE: coordenadas del galpón y horarios de atención. Mientras no
-       estén, las propiedades no van: un corchete vacío rompe el marcado. -->
+       Las coordenadas y el enlace al mapa son los del pin real de la ficha de
+       Google (verificado en agosto 2026). El teléfono principal es el 537-7527
+       y el 526-9009 va como contacto adicional porque es el que muestra la
+       ficha: así el sitio y la ficha cuentan lo mismo.
+       PENDIENTE: horarios de atención. Mientras no estén confirmados por papá,
+       la propiedad no va: un corchete vacío rompe el marcado. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -51,10 +55,13 @@
     "legalName": "Lausof S.R.L.",
     "description": "Empresa familiar salteña de transporte y logística: auxilio mecánico y remolques, transporte de personal, cargas refrigeradas y depósito, servicios de taller, turismo y logística en la Puna.",
     "url": "https://www.lausof.com/",
-    "logo": "https://www.lausof.com/assets/logo-insignia-web.png",
+    "logo": "https://www.lausof.com/assets/apple-touch-icon.png",
     "image": "https://www.lausof.com/assets/og-portada.jpg",
     "taxID": "30-71146774-9",
     "telephone": "+54-387-537-7527",
+    "contactPoint": [
+      { "@type": "ContactPoint", "telephone": "+54-387-526-9009", "contactType": "customer service", "availableLanguage": "es" }
+    ],
     "email": "contacto@lausof.com",
     "address": {
       "@type": "PostalAddress",
@@ -64,6 +71,8 @@
       "postalCode": "A4400",
       "addressCountry": "AR"
     },
+    "geo": { "@type": "GeoCoordinates", "latitude": -24.771929, "longitude": -65.4272135 },
+    "hasMap": "https://www.google.com/maps/place/Lausof+Transportes+SRL/@-24.771929,-65.4272135,17z/",
     "areaServed": [
       { "@type": "State", "name": "Salta" },
       { "@type": "State", "name": "Jujuy" },

@@ -31,6 +31,20 @@
   <meta property="og:image:alt" content="Combis Sprinter de la flota de Lausof">
   <meta name="twitter:card" content="summary_large_image">
 
+  <!-- Nodo mínimo que referencia la ficha LocalBusiness completa de la
+       portada por su @id: para Google, las dos páginas hablan de la misma
+       empresa. Los datos (dirección, teléfonos, geo) viven solo en la
+       portada; acá no se duplican para que nunca queden desincronizados. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://www.lausof.com/#empresa",
+    "name": "Lausof SRL",
+    "url": "https://www.lausof.com/"
+  }
+  </script>
+
   <script>document.documentElement.className='js'</script>
 </head>
 <body>
