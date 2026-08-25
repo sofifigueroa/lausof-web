@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Lausof SRL — "Turismo"
+   Complemento de styles.css, con el mismo criterio que css/flota.css: acá
+   viven sólo las piezas que esta página agrega (encabezado propio, tarjetas
+   de circuito, lista "Cómo viajamos" y la franja regional). Los colores, la
+   tipografía y las tarjetas se heredan tal cual de la hoja principal.
+   ========================================================================== */
+
+/* ---- encabezado de página ----
+   Mismo lenguaje que el hero de la home pero más bajo: esta es una sección
+   interna y no debe competir con la portada. La foto es la Ruta 68 camino a
+   Cafayate: el paisaje es el producto de esta página. */
+.page-head{position:relative;color:var(--on-navy);overflow:hidden;background:var(--navy-deep)}
+.page-head-photo{
+  position:absolute;inset:0;
+  background:#151e36 url('../assets/turismo/ruta-68-cafayate-salta-lausof.webp') center 62%/cover no-repeat;
+}
+.page-head-photo::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(16,23,42,.78),rgba(16,23,42,.6));
+}
+.page-head-inner{position:relative;padding:56px 24px 60px;max-width:1120px}
+.page-head h1{font-size:clamp(1.9rem,4.4vw,2.9rem);letter-spacing:-.015em;max-width:20ch}
+.page-head .lead{max-width:56ch;font-size:1.08rem;color:var(--on-navy-soft);margin:16px 0 26px}
+.page-head .ctas{display:flex;flex-wrap:wrap;gap:12px}
+
+/* ---- tarjetas de circuito ----
+   Una foto fija por destino, sin rotación: acá cada tarjeta ES un lugar y la
+   foto tiene que quedarse quieta para que se lo reconozca. Sin carrusel en
+   mobile, a diferencia de la home: el visitante compara circuitos y necesita
+   verlos todos de corrido. */
+.circuitos{margin-top:36px}
+@media(max-width:640px){.circuitos{grid-template-columns:1fr}}
+.circuito .card-photo img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+}
+
+/* ---- "Cómo viajamos" ----
+   Los datos duros del servicio en dos columnas, con el mismo cuadradito
+   dorado que las fichas de la home: es la misma información, en otra página. */
+.como-viajamos{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:12px 40px;
+  margin:36px 0 0;padding:0;list-style:none;
+  font-size:.95rem;line-height:1.5;color:var(--ink-mid);
+}
+.como-viajamos li{position:relative;padding-left:17px}
+.como-viajamos li::before{
+  content:"";position:absolute;left:0;top:.55em;
+  width:6px;height:6px;background:var(--gold);
+}
+@media(max-width:640px){.como-viajamos{grid-template-columns:1fr}}
+
+/* ---- para agencias y empresas ---- */
+.agencias p{max-width:62ch;color:var(--ink-mid);margin:18px 0 0}
+.agencias .btn{margin-top:26px}
+
+/* ---- franja regional ----
+   Dos postales y una sola línea de texto: es el cierre del paseo, no una
+   sección más. Las fotos comparten proporción para que la fila quede pareja. */
+.postal-line{
+  max-width:56ch;margin:0 auto;text-align:center;
+  font-size:1.06rem;color:var(--ink-mid);
+}
+.postales-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+.postales-grid img{
+  width:100%;height:100%;aspect-ratio:3/2;object-fit:cover;display:block;
+  border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+}
+@media(max-width:640px){.postales-grid{grid-template-columns:1fr}}

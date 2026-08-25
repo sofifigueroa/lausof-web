@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es-AR" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <!-- "Turismo en Salta" primero, la marca al final: es el patrón del título
+       viejo que rankeaba por esta búsqueda. La página apunta a la cola de
+       "combi con chofer" y "traslados para agencias", no a las búsquedas de
+       aeropuerto y excursiones que ya están tomadas por las OTAs. -->
+  <title>Turismo en Salta y Jujuy — Traslados en combi y 4x4 | Lausof SRL</title>
+  <meta name="description" content="Traslados turísticos por Salta y Jujuy: Cafayate, Cachi, Quebrada de Humahuaca, Purmamarca, Salinas Grandes e Iruya. Combis con chofer y camionetas 4x4 para ripio y altura. Para agencias, grupos y familias.">
+  <link rel="canonical" href="https://www.lausof.com/turismo.html">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/styles.css?v=23">
+  <link rel="stylesheet" href="css/turismo.css?v=1">
+
+  <!-- El fondo del encabezado es la imagen más grande de la página (la LCP):
+       se precarga porque, al venir de la CSS, se descubriría tarde. La misma
+       foto sirve en todos los anchos. -->
+  <link rel="preload" as="image" href="assets/turismo/ruta-68-cafayate-salta-lausof.webp" fetchpriority="high">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="Lausof SRL">
+  <meta property="og:title" content="Turismo en Salta y Jujuy — Traslados en combi y 4x4 | Lausof SRL">
+  <meta property="og:description" content="Traslados turísticos por los circuitos clásicos de Salta y Jujuy: Cafayate, Cachi, Humahuaca, Purmamarca, Salinas Grandes e Iruya. Combis con chofer y camionetas 4x4, para agencias, grupos y familias.">
+  <meta property="og:url" content="https://www.lausof.com/turismo.html">
+  <!-- og:image en recorte de 1200×630 y SIEMPRE en JPEG: los scrapers de
+       WhatsApp/Facebook manejan mal el WebP. Por ahora se reutiliza el de la
+       portada; cuando haya un recorte propio de turismo, se cambia acá. -->
+  <meta property="og:image" content="https://www.lausof.com/assets/og-portada.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Camiones de auxilio y cargas de Lausof en el norte argentino">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Nodo de servicio que referencia la ficha LocalBusiness completa de la
+       portada por su @id: para Google, esta página describe un servicio de la
+       misma empresa. Los datos (dirección, teléfonos, geo) viven solo en la
+       portada; acá no se duplican para que nunca queden desincronizados. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Traslados turísticos por Salta y Jujuy",
+    "serviceType": "Transporte turístico en combi y camioneta 4x4 con chofer",
+    "description": "Traslados turísticos por los circuitos clásicos de Salta y Jujuy —Cafayate, Cachi, Quebrada de Humahuaca, Purmamarca, Salinas Grandes, Iruya y la Puna— en combis con chofer y camionetas 4x4, para agencias de turismo, grupos, empresas y familias.",
+    "url": "https://www.lausof.com/turismo.html",
+    "provider": {
+      "@type": "LocalBusiness",
+      "@id": "https://www.lausof.com/#empresa",
+      "name": "Lausof SRL",
+      "url": "https://www.lausof.com/"
+    },
+    "areaServed": [
+      { "@type": "State", "name": "Salta" },
+      { "@type": "State", "name": "Jujuy" }
+    ]
+  }
+  </script>
+
+  <script>document.documentElement.className='js'</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-row">
+    <a class="brand" href="index.html" aria-label="Lausof SRL — inicio">
+      <img src="assets/logo-horizontal-web.webp" alt="Transportes Lausof — Pasajeros, Cargas, Remolques">
+    </a>
+    <!-- El mismo menú que la home, porque desde acá se vuelve al sitio. -->
+    <nav class="main" aria-label="Secciones">
+      <a href="index.html#servicios">Servicios</a>
+      <a href="index.html#seguridad">Seguridad</a>
+      <a href="index.html#flota">Flota</a>
+      <a href="index.html#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="btn btn-wa btn-sm nav-cta" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20consultar%20disponibilidad%20para%20turismo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Consultar disponibilidad</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-head" aria-label="Presentación">
+    <div class="page-head-photo" role="presentation"></div>
+    <div class="wrap page-head-inner">
+      <p class="kicker on-dark">Turismo en Salta y Jujuy</p>
+      <h1>Turismo en Salta: llevamos a conocer el Norte.</h1>
+      <p class="lead">Salta enamora, y nosotros la recorremos todas las semanas. Hacemos traslados turísticos por los circuitos clásicos de Salta y Jujuy en combis con chofer y camionetas 4x4, para agencias de turismo, grupos, empresas y familias.</p>
+      <div class="ctas">
+        <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20consultar%20disponibilidad%20para%20turismo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Consultar disponibilidad</a>
+        <a class="btn btn-outline" href="#circuitos">Ver los circuitos</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="circuitos">
+    <div class="wrap">
+      <p class="kicker">Circuitos</p>
+      <h2>Circuitos que hacemos</h2>
+      <p class="sub">Vos elegís el destino; nosotros ponemos la unidad, el chofer que conoce el camino y la tranquilidad de viajar con una empresa habilitada.</p>
+
+      <div class="cards circuitos">
+        <article class="card circuito">
+          <div class="card-photo">
+            <img src="assets/turismo/garganta-del-diablo-cafayate-lausof.webp" alt="Garganta del Diablo, en la Quebrada de las Conchas, camino a Cafayate, Salta" width="970" height="546">
+          </div>
+          <div class="card-body">
+            <h3>Cafayate y la Quebrada de las Conchas</h3>
+            <p>La ruta 68, la Garganta del Diablo y los viñedos. Ideal para el día completo.</p>
+          </div>
+        </article>
+
+        <article class="card circuito">
+          <div class="card-photo">
+            <img src="assets/turismo/quebrada-de-las-flechas-angastaco-lausof.webp" alt="Quebrada de las Flechas en Angastaco, Valles Calchaquíes, Salta" width="900" height="506" loading="lazy">
+          </div>
+          <div class="card-body">
+            <h3>Cachi y la Cuesta del Obispo</h3>
+            <p>El camino de montaña clásico de los Valles Calchaquíes.</p>
+          </div>
+        </article>
+
+        <article class="card circuito">
+          <div class="card-photo">
+            <img src="assets/turismo/purmamarca-cerro-siete-colores-lausof.webp" alt="Combis de Lausof entre los cerros de colores de la zona de Purmamarca, Jujuy" width="900" height="506" loading="lazy">
+          </div>
+          <div class="card-body">
+            <h3>Quebrada de Humahuaca y Purmamarca</h3>
+            <p>El cerro de los Siete Colores y los pueblos de la Quebrada, en Jujuy.</p>
+          </div>
+        </article>
+
+        <article class="card circuito">
+          <div class="card-photo">
+            <img src="assets/turismo/salinas-grandes-turismo-lausof.webp" alt="Salinas Grandes, en la altura de Salta y Jujuy" width="751" height="500" loading="lazy">
+          </div>
+          <div class="card-body">
+            <h3>Salinas Grandes</h3>
+            <p>Por San Antonio de los Cobres o por Jujuy, en unidades preparadas para la altura.</p>
+          </div>
+        </article>
+
+        <article class="card circuito">
+          <div class="card-photo">
+            <img src="assets/turismo/camino-de-ripio-4x4-lausof.webp" alt="Camioneta 4x4 de Lausof en un camino de ripio, entre cerros de altura" width="900" height="755" loading="lazy">
+          </div>
+          <div class="card-body">
+            <h3>Iruya</h3>
+            <p>Para los que buscan el Norte más profundo. Camino de ripio: se hace en unidades adecuadas.</p>
+          </div>
+        </article>
+
+        <article class="card circuito">
+          <div class="card-photo">
+            <img src="assets/turismo/san-antonio-de-los-cobres-puna-lausof.webp" alt="Combi de Lausof en San Antonio de los Cobres, en la Puna salteña" width="900" height="506" loading="lazy">
+          </div>
+          <div class="card-body">
+            <h3>San Antonio de los Cobres y la Puna</h3>
+            <p>La zona del Tren a las Nubes y el viaducto La Polvorilla, que conocemos también por nuestro trabajo de años en la Puna.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="como-viajamos">
+    <div class="wrap">
+      <p class="kicker">Cómo viajamos</p>
+      <h2>Unidades con chofer, papeles al día</h2>
+      <ul class="como-viajamos">
+        <li>Combis de 19+1 plazas con chofer profesional</li>
+        <li>Camionetas 4x4 para ripio y altura</li>
+        <!-- "Alquiler de combi con chofer" es el vocabulario con el que busca
+             el cliente; el mismo giro ya está en la tarjeta de personal de la
+             home. -->
+        <li>Alquiler de combi con chofer para excursiones y grupos</li>
+        <li>Habilitaciones CNRT y AMT vigentes</li>
+        <li>Agencia de turismo habilitada</li>
+        <li>Traslados aeropuerto–hotel y grupos de eventos</li>
+        <li>Circuitos de uno o varios días</li>
+        <li>Disponibilidad según temporada: consultanos las fechas</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block agencias" id="agencias">
+    <div class="wrap">
+      <p class="kicker">Para agencias y empresas</p>
+      <h2>Traslados para agencias de turismo</h2>
+      <p>Trabajamos con agencias de turismo desde hace años: conocemos los tiempos de un receptivo, las paradas que valen la pena y lo que significa cumplir el horario. Si tu agencia necesita unidades con chofer para la temporada, escribinos y lo coordinamos.</p>
+      <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20consultar%20traslados%20para%20mi%20agencia" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Escribinos por WhatsApp</a>
+    </div>
+  </section>
+
+  <section class="block alt" aria-label="Comida regional">
+    <div class="wrap">
+      <p class="postal-line">Y en el camino, siempre hay tiempo para una empanada salteña, un locro o un tamal: la comida regional es parte del viaje.</p>
+      <div class="postales-grid">
+        <img src="assets/turismo/catedral-de-salta-atardecer-lausof.webp" alt="Catedral de Salta al atardecer, frente a la plaza 9 de Julio" width="1200" height="800" loading="lazy">
+        <img src="assets/turismo/empanadas-saltenas-comida-regional-lausof.webp" alt="Empanadas salteñas, comida regional del norte argentino" width="1024" height="497" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <section class="block cta-final">
+    <div class="wrap">
+      <img src="assets/logo-insignia-web.webp" alt="" width="340" height="340" loading="lazy">
+      <h2>¿Armamos el próximo viaje?</h2>
+      <p>Contanos el destino, la fecha y cuántos viajan. Te respondemos con la cotización en el día.</p>
+      <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20consultar%20disponibilidad%20para%20turismo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Consultar disponibilidad</a>
+    </div>
+  </section>
+</main>
+
+<footer class="site" id="contacto">
+  <div class="wrap foot-grid">
+    <div>
+      <p>Transporte y logística en Salta y el norte argentino.<br>Junín 1334 / Siria 1333 — Salta Capital (4400)</p>
+      <p>Instagram <a href="https://www.instagram.com/lausofsrl" target="_blank" rel="noopener">@lausofsrl</a> · Facebook <a href="https://www.facebook.com/lausoftransportes" target="_blank" rel="noopener">@lausoftransportes</a></p>
+      <p><a href="flota-en-venta.html">Flota en venta →</a></p>
+    </div>
+    <div>
+      <b>Teléfonos</b>
+      <ul>
+        <!-- los dos primeros son móviles: llevan el 9 (+549). El tercero es fijo y no lo lleva -->
+        <li><a href="tel:+5493875377527">387 537-7527</a></li>
+        <li><a href="tel:+5493875269009">387 526-9009</a></li>
+        <li><a href="tel:+543874311584">0387 431-1584</a></li>
+      </ul>
+    </div>
+    <div>
+      <b>Correo</b>
+      <ul>
+        <li><a href="mailto:contacto@lausof.com">contacto@lausof.com</a></li>
+        <li><a href="mailto:transporte@lausof.com">transporte@lausof.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap proveedores">
+    <b>Datos para proveedores y compras</b>
+    <ul>
+      <li>Razón social: Lausof S.R.L.</li>
+      <li>CUIT: 30-71146774-9</li>
+      <li>Emitimos factura A.</li>
+    </ul>
+  </div>
+
+  <div class="wrap legal">
+    <span>© Lausof SRL · CUIT 30-71146774-9 · Salta Capital, Argentina</span>
+    <span>Empresa familiar de transporte y logística · NOA</span>
+  </div>
+</footer>
+
+<div class="wa-bar" aria-label="Acciones rápidas">
+  <a class="btn btn-ghost" href="tel:+5493875377527"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>Llamar</a>
+  <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20consultar%20disponibilidad%20para%20turismo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Consultar disponibilidad</a>
+</div>
+
+<script>
+/* Mismo comportamiento que la home: el botón de WhatsApp del encabezado
+   aparece recién cuando el visitante pasó la portada. */
+(function () {
+  var portada = document.querySelector('.page-head');
+  var mostrar = function () { document.body.classList.add('past-hero'); };
+  if (!portada || !('IntersectionObserver' in window)) { mostrar(); return; }
+  new IntersectionObserver(function (entradas) {
+    document.body.classList.toggle('past-hero', !entradas[0].isIntersecting);
+  }).observe(portada);
+})();
+</script>
+
+</body>
+</html>
