@@ -54,6 +54,20 @@ test('cada URL indexada del sitio Wix viejo tiene su 301', () => {
   }
 });
 
+// El título de la portada va servicio-primero (patrón del sitio viejo y de
+// todo competidor que rankea) y tiene que conservar "Grúas", "Remolques",
+// "Auxilio" y "Salta": hay puestos ganados en esas búsquedas.
+test('el título de la portada es servicio-primero y conserva las keywords', () => {
+  const titulo = index.match(/<title>([^<]+)<\/title>/)[1];
+  for (const palabra of ['Grúas', 'Remolques', 'Auxilio Mecánico', 'Salta', 'Lausof']) {
+    assert.ok(titulo.includes(palabra), `el título perdió "${palabra}": ${titulo}`);
+  }
+  assert.ok(!titulo.startsWith('Lausof'),
+    `el título volvió a ser marca-primero: ${titulo}`);
+  const ogTitle = index.match(/<meta property="og:title" content="([^"]+)">/)[1];
+  assert.strictEqual(ogTitle, titulo, 'og:title distinto del <title>');
+});
+
 // La ficha LocalBusiness de la portada lleva las coordenadas del pin real de
 // la ficha de Google, el enlace al mapa y el 526-9009 como contacto adicional
 // (es el teléfono que muestra la ficha): sitio y ficha tienen que contar lo
