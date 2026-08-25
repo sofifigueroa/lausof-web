@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es-AR" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <!-- Título servicio-primero y con la búsqueda exacta ("transporte y logística
+       minera en salta"): es el patrón con el que rankean los competidores de
+       esta búsqueda, que hoy son páginas mucho más flacas que esta. -->
+  <title>Transporte y Logística Minera en Salta — Personal, Cargas y Auxilio en la Puna | Lausof SRL</title>
+  <meta name="description" content="Transporte de personal a campamentos mineros, cargas y equipos a salares de Salta y Jujuy, y asistencia mecánica en ruta sobre los 4.000 metros. Más de una década trabajando en la Puna. Unidades equipadas para ingreso a mina. Cotizá por WhatsApp.">
+  <link rel="canonical" href="https://www.lausof.com/logistica-minera.html">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/styles.css?v=23">
+  <link rel="stylesheet" href="css/mineria.css?v=1">
+
+  <!-- El fondo del encabezado es la imagen más grande de la página (la LCP):
+       se precarga porque, al venir de la CSS, se descubriría tarde. Acá no hay
+       variante de mobile: la misma foto sirve en todos los anchos. -->
+  <link rel="preload" as="image" href="assets/mineria-tractor.webp" fetchpriority="high">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="Lausof SRL">
+  <meta property="og:title" content="Transporte y Logística Minera en Salta — Lausof SRL">
+  <meta property="og:description" content="Personal a campamentos, cargas a los salares y asistencia mecánica en ruta sobre los 4.000 metros. Más de una década trabajando en la Puna.">
+  <meta property="og:url" content="https://www.lausof.com/logistica-minera.html">
+  <!-- og:image en recorte propio de 1200×630 y SIEMPRE en JPEG: los scrapers
+       de WhatsApp/Facebook manejan mal el WebP. -->
+  <meta property="og:image" content="https://www.lausof.com/assets/og-mineria.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Minibús de Lausof trasladando personal por un camino de ripio en la Puna">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Ficha del servicio para Google. El proveedor se referencia por el @id de
+       la ficha LocalBusiness completa de la portada: para los buscadores, las
+       dos páginas hablan de la misma empresa. Los datos (dirección, teléfonos,
+       geo) viven solo en la portada; acá no se duplican para que nunca queden
+       desincronizados. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Transporte y logística minera",
+    "serviceType": "Transporte y logística minera",
+    "description": "Traslado de personal a campamentos mineros y cambios de dotación, cargas y equipos a salares de Salta y Jujuy, y asistencia mecánica en ruta por encima de los 4.000 metros, con unidades equipadas para ingreso a mina.",
+    "url": "https://www.lausof.com/logistica-minera.html",
+    "provider": {
+      "@type": "LocalBusiness",
+      "@id": "https://www.lausof.com/#empresa",
+      "name": "Lausof SRL",
+      "url": "https://www.lausof.com/"
+    },
+    "areaServed": [
+      { "@type": "State", "name": "Salta" },
+      { "@type": "State", "name": "Jujuy" }
+    ]
+  }
+  </script>
+
+  <script>document.documentElement.className='js'</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-row">
+    <a class="brand" href="index.html" aria-label="Lausof SRL — inicio">
+      <img src="assets/logo-horizontal-web.webp" alt="Transportes Lausof — Pasajeros, Cargas, Remolques">
+    </a>
+    <!-- El mismo menú que la home, porque desde acá se vuelve al sitio. -->
+    <nav class="main" aria-label="Secciones">
+      <a href="index.html#servicios">Servicios</a>
+      <a href="index.html#seguridad">Seguridad</a>
+      <a href="index.html#flota">Flota</a>
+      <a href="index.html#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="btn btn-wa btn-sm nav-cta" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20log%C3%ADstica%20minera" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Consultar por WhatsApp</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-head" aria-label="Presentación">
+    <div class="page-head-photo" role="presentation"></div>
+    <div class="wrap page-head-inner">
+      <p class="kicker on-dark">Logística minera</p>
+      <h1>Transporte y logística minera en Salta y la Puna</h1>
+      <p class="lead">Más de una década trabajando en la Puna: personal a campamentos, cargas a los salares y asistencia mecánica en ruta por encima de los 4.000 metros.</p>
+      <div class="ctas">
+        <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20log%C3%ADstica%20minera" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizar por WhatsApp</a>
+        <a class="btn btn-outline" href="#servicios">Ver los servicios</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="certs" aria-label="Habilitaciones">
+    <div class="wrap certs-row">
+      <span><b>Habilitación CNRT</b> vigente</span>
+      <span><b>Habilitación AMT</b> transporte de pasajeros</span>
+      <span><b>Seguro de carga y pasajeros</b> vigente</span>
+      <span><b>Facturamos A</b> — CUIT 30-71146774-9</span>
+      <span><b>Choferes profesionales</b> con licencia habilitante</span>
+      <span><b>Unidades en servicio</b> con revisión técnica y seguro vigentes</span>
+    </div>
+  </div>
+
+  <section class="block intro" id="experiencia">
+    <div class="wrap">
+      <p class="kicker">Experiencia</p>
+      <h2>Más de una década trabajando en la Puna</h2>
+      <!-- Redactado en capacidad y trayectoria a propósito: no dice que haya
+           contratos mineros activos, no nombra ninguna minera ni promete
+           disponibilidad inmediata. "Más de una década": confirmado por
+           Lautaro el 16/08. -->
+      <p>Lausof es una empresa familiar salteña de transporte y logística. Desde hace más de una década subimos a la Puna: trasladamos personal a campamentos, llevamos cargas y equipos a los salares de Salta y Jujuy y asistimos vehículos en ruta por encima de los 4.000 metros.</p>
+      <p>Operar en altura no se improvisa. El ripio, el clima y la distancia castigan a las unidades y a la gente, y un viaje que en la ciudad es un trámite, allá arriba exige planificación, equipamiento y experiencia. Por eso trabajamos con unidades equipadas para ingreso a mina, choferes que conocen el camino y un taller propio que mantiene la flota lista para subir.</p>
+    </div>
+  </section>
+
+  <section class="block alt" id="servicios">
+    <div class="wrap">
+      <p class="kicker">Servicios</p>
+      <h2>Qué resolvemos en la Puna</h2>
+      <p class="sub">Escribinos al WhatsApp con lo que necesita tu operación. Te cotizamos en el día.</p>
+
+      <div class="cards mineria">
+        <article class="card">
+          <div class="card-photo">
+            <div class="slideshow slideshow-1" role="img" aria-label="Minibús de Lausof trasladando personal por un camino de ripio en la Puna">
+              <img src="assets/mineria-personal.webp" alt="Minibús de Lausof trasladando personal por un camino de ripio en la Puna" width="1280" height="720" loading="lazy">
+            </div>
+          </div>
+          <div class="card-body">
+            <h3>Personal a campamentos y cambios de dotación</h3>
+            <p>Traslado de personal entre Salta y los campamentos, en combis de 19+1 plazas con chofer profesional. Recorridos fijos, turnos rotativos o traslados puntuales, según cómo trabaje cada proyecto.</p>
+            <ul class="ficha">
+              <li>Combis de 19+1 plazas con chofer profesional</li>
+              <li>Choferes con licencia habilitante, psicofísico y ART al día</li>
+              <li>Libro de a bordo por unidad: cada viaje queda registrado</li>
+              <li>Mantenimiento en taller propio: menos viajes caídos por rotura</li>
+            </ul>
+            <a class="walink" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20traslado%20de%20personal%20a%20campamento" target="_blank" rel="noopener">Cotizar traslado de personal →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-photo">
+            <div class="slideshow slideshow-1" role="img" aria-label="Camionetas 4x4 de Lausof en un operativo en las Salinas Grandes">
+              <img src="assets/4x4-1-salinas.webp" alt="Camionetas 4x4 de Lausof en un operativo en las Salinas Grandes" width="780" height="672" loading="lazy">
+            </div>
+          </div>
+          <div class="card-body">
+            <h3>Cargas y equipos a los salares</h3>
+            <p>Cargas y equipos a proyectos de litio en los salares de Salta y Jujuy, con la unidad que pida cada carga: plancha para maquinaria, lona o furgón para carga general.</p>
+            <ul class="ficha">
+              <li>Camión con plancha hidráulica para equipos y maquinaria: capacidad de carga de 7,5 toneladas</li>
+              <li>Camiones de carga general: lona y furgón</li>
+              <li>Camionetas 4x4 para escolta y supervisión en caminos de ripio</li>
+              <li>Remito y factura A</li>
+            </ul>
+            <a class="walink" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20carga%20a%20un%20salar" target="_blank" rel="noopener">Cotizar una carga →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-photo">
+            <div class="slideshow slideshow-1" role="img" aria-label="Camioneta Hilux 4x4 de Lausof equipada para ingreso a mina">
+              <img src="assets/4x4-2-hilux.webp" alt="Camioneta Hilux 4x4 de Lausof equipada para ingreso a mina" width="780" height="672" loading="lazy">
+            </div>
+          </div>
+          <div class="card-body">
+            <h3>Asistencia mecánica en ruta y en altura</h3>
+            <p>Asistencia mecánica por encima de los 4.000 metros, con equipo y personal propios. Una unidad parada en la Puna no puede esperar a que alguien "vea cómo subir": nosotros ya sabemos.</p>
+            <ul class="ficha">
+              <li>Mecánicos de nuestro propio taller</li>
+              <li>Soldadora y grupo electrógeno propios para rescates lejos de todo</li>
+              <li>Grúa de plancha para traslado de vehículos y maquinaria</li>
+              <li>Teléfono satelital a bordo en los servicios de altura</li>
+            </ul>
+            <a class="walink" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20necesito%20asistencia%20mec%C3%A1nica%20en%20la%20Puna" target="_blank" rel="noopener">Consultar por asistencia →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-photo">
+            <div class="slideshow slideshow-1" role="img" aria-label="Camión térmico de Lausof con equipo de frío para congelados y frescos">
+              <img src="assets/refrigerados-1-lateral.webp" alt="Camión térmico de Lausof con equipo de frío para congelados y frescos" width="722" height="604" loading="lazy">
+            </div>
+          </div>
+          <div class="card-body">
+            <h3>Camión 4x4 refrigerado para ripio y altura</h3>
+            <p>Cadena de frío hasta donde no llega un camión común. Congelados y frescos con temperatura controlada, para destinos de ripio y altura.</p>
+            <ul class="ficha">
+              <li>Camión 4x4 con equipo de frío</li>
+              <li>Registro de temperatura durante el viaje</li>
+              <li>Depósito con cámara frigorífica en Salta capital para guardar y consolidar</li>
+            </ul>
+            <a class="walink" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20carga%20refrigerada%20a%20la%20Puna" target="_blank" rel="noopener">Cotizar carga refrigerada →</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="ruta">
+    <div class="wrap">
+      <p class="kicker">La ruta</p>
+      <h2>Conocemos el camino y los requisitos</h2>
+      <div class="ruta-grid">
+        <div class="ruta-texto">
+          <p>El camino de Salta a San Antonio de los Cobres, Pocitos y Tolar Grande lo hicimos muchas veces, en todas las épocas del año. Sabemos cómo se comporta en invierno y en verano, dónde se corta la señal de celular y qué tiene que llevar una unidad para llegar y, sobre todo, para volver.</p>
+          <p>También conocemos los requisitos de ingreso a mina: unidades con el equipamiento que se exige en la barrera, choferes con psicofísico al día y documentación en regla. Cuando una unidad nuestra llega al control, llega con lo que le van a pedir.</p>
+        </div>
+        <figure>
+          <img src="assets/pasajeros-2-viaducto.webp" alt="Combi de Lausof frente al viaducto La Polvorilla, en la Puna salteña" width="834" height="718" loading="lazy">
+          <figcaption>Una combi de Lausof en el viaducto La Polvorilla, en la Puna salteña.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="equipamiento">
+    <div class="wrap">
+      <p class="kicker">Equipamiento</p>
+      <h2>Con qué subimos</h2>
+      <p class="sub">En vez de publicar cuántas unidades tenemos, publicamos con qué equipamiento suben. Si tu operación necesita algo que no está en esta lista, preguntanos igual.</p>
+      <!-- Sin ningún número total de unidades ni de teléfonos satelitales:
+           misma política que la tabla de flota de la home. -->
+      <table class="tabla-flota">
+        <thead>
+          <tr><th scope="col">Recurso</th><th scope="col">Qué aporta</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Camionetas 4x4 equipadas para ingreso a mina</th><td>Jaula antivuelco, pértiga, baliza estroboscópica, matafuegos, doble rueda de auxilio y cadenas</td></tr>
+          <tr><th scope="row">Combis 19+1 plazas</th><td>Personal a campamentos y cambios de dotación, con chofer profesional</td></tr>
+          <tr><th scope="row">Camión 4x4 refrigerado</th><td>Cadena de frío en caminos de ripio y altura, con registro de temperatura</td></tr>
+          <tr><th scope="row">Camión con plancha hidráulica</th><td>Equipos y maquinaria; capacidad de carga de 7,5 toneladas</td></tr>
+          <tr><th scope="row">Comunicación</th><td>GPS en las unidades en servicio y teléfono satelital a bordo en los servicios de altura</td></tr>
+          <tr><th scope="row">Documentación</th><td>Habilitaciones CNRT y AMT vigentes; factura A, CUIT 30-71146774-9</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" id="preguntas">
+    <div class="wrap">
+      <p class="kicker">Preguntas frecuentes</p>
+      <h2>Lo que nos preguntan antes de cotizar</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <h3>¿Hacen cambios de dotación?</h3>
+          <p>Sí. Trasladamos personal entre Salta y los campamentos en combis de 19+1 plazas, con recorridos fijos, turnos rotativos o traslados puntuales según cómo trabaje cada proyecto.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Las unidades están equipadas para entrar a mina?</h3>
+          <p>Sí. Las camionetas 4x4 afectadas a esos servicios llevan jaula antivuelco, pértiga, baliza estroboscópica, matafuegos, doble rueda de auxilio y cadenas, y los choferes tienen licencia habilitante, psicofísico y ART al día.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Cómo se comunican donde no hay señal de celular?</h3>
+          <p>Las unidades en servicio llevan GPS, y en los servicios de altura viaja un teléfono satelital a bordo, para que el viaje no dependa de la señal de celular.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Emiten factura A?</h3>
+          <p>Sí. Somos Lausof S.R.L., CUIT 30-71146774-9, con habilitaciones CNRT y AMT vigentes. Emitimos factura A y trabajamos con remito.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block cta-final" id="contacto">
+    <div class="wrap">
+      <img src="assets/logo-insignia-web.webp" alt="" width="340" height="340">
+      <h2>¿Tu operación necesita subir a la Puna?</h2>
+      <p>Contanos qué hay que mover —personal, cargas o equipos—, desde dónde y hasta dónde. Te respondemos con la cotización en el día.</p>
+      <div class="ctas">
+        <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20log%C3%ADstica%20minera" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizar por WhatsApp</a>
+        <a class="btn btn-ghost" href="tel:+5493875377527">Llamar al 387 537-7527</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot-grid">
+    <div>
+      <p>Transporte y logística en Salta y el norte argentino.<br>Junín 1334 / Siria 1333 — Salta Capital (4400)</p>
+      <p>Instagram <a href="https://www.instagram.com/lausofsrl" target="_blank" rel="noopener">@lausofsrl</a> · Facebook <a href="https://www.facebook.com/lausoftransportes" target="_blank" rel="noopener">@lausoftransportes</a></p>
+    </div>
+    <div>
+      <b>Teléfonos</b>
+      <ul>
+        <!-- los dos primeros son móviles: llevan el 9 (+549). El tercero es fijo y no lo lleva -->
+        <li><a href="tel:+5493875377527">387 537-7527</a></li>
+        <li><a href="tel:+5493875269009">387 526-9009</a></li>
+        <li><a href="tel:+543874311584">0387 431-1584</a></li>
+      </ul>
+    </div>
+    <div>
+      <b>Correo</b>
+      <ul>
+        <li><a href="mailto:contacto@lausof.com">contacto@lausof.com</a></li>
+        <li><a href="mailto:transporte@lausof.com">transporte@lausof.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap proveedores">
+    <b>Datos para proveedores y compras</b>
+    <ul>
+      <li>Razón social: Lausof S.R.L.</li>
+      <li>CUIT: 30-71146774-9</li>
+      <li>Emitimos factura A.</li>
+    </ul>
+    <p>¿Sos empresa? Escribinos a <a href="mailto:contacto@lausof.com">contacto@lausof.com</a> y coordinamos una visita.</p>
+  </div>
+
+  <div class="wrap legal">
+    <span>© Lausof SRL · CUIT 30-71146774-9 · Salta Capital, Argentina</span>
+    <span>Empresa familiar de transporte y logística · NOA</span>
+  </div>
+</footer>
+
+<div class="wa-bar" aria-label="Acciones rápidas">
+  <a class="btn btn-ghost" href="tel:+5493875377527"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>Llamar</a>
+  <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20log%C3%ADstica%20minera" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizar por WhatsApp</a>
+</div>
+
+<script>
+/* Mismo comportamiento que la home: el botón de WhatsApp del encabezado
+   aparece recién cuando el visitante pasó la portada. */
+(function () {
+  var portada = document.querySelector('.page-head');
+  var mostrar = function () { document.body.classList.add('past-hero'); };
+  if (!portada || !('IntersectionObserver' in window)) { mostrar(); return; }
+  new IntersectionObserver(function (entradas) {
+    document.body.classList.toggle('past-hero', !entradas[0].isIntersecting);
+  }).observe(portada);
+})();
+</script>
+
+</body>
+</html>
