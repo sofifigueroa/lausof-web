@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es-AR" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <!-- Título servicio-primero, marca después: el mismo patrón con el que
+       rankea la home. Apunta a "alquiler camionetas 4x4 salta",
+       "alquiler hilux mensual salta" y "camionetas para minería salta". -->
+  <title>Alquiler de Camionetas 4x4 en Salta — Mensual, para Empresas y Minería | Lausof SRL</title>
+  <meta name="description" content="Alquiler mensual de camionetas 4x4 sin chofer en Salta, para empresas, mineras y contratistas. Unidades preparadas para ripio y altura, mantenimiento incluido en taller propio y GPS. Cotizá por WhatsApp.">
+  <link rel="canonical" href="https://www.lausof.com/alquiler-4x4.html">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/styles.css?v=23">
+  <link rel="stylesheet" href="css/alquiler4x4.css?v=1">
+
+  <!-- El fondo del encabezado es la imagen más grande de la página (la LCP):
+       se precarga porque, al venir de la CSS, se descubriría tarde. La misma
+       foto sirve en todos los anchos. -->
+  <link rel="preload" as="image" href="assets/alquiler-4x4/alquiler-hero-caminos.webp" fetchpriority="high">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="Lausof SRL">
+  <meta property="og:title" content="Alquiler de Camionetas 4x4 en Salta — Mensual, para Empresas y Minería | Lausof SRL">
+  <meta property="og:description" content="Alquiler mensual de camionetas 4x4 sin chofer en Salta, para empresas, mineras y contratistas. Unidades preparadas para ripio y altura, mantenimiento incluido en taller propio y GPS.">
+  <meta property="og:url" content="https://www.lausof.com/alquiler-4x4.html">
+  <!-- og:image en recorte propio de 1200×630 y SIEMPRE en JPEG: los scrapers
+       de WhatsApp/Facebook manejan mal el WebP. -->
+  <meta property="og:image" content="https://www.lausof.com/assets/alquiler-4x4/og-alquiler-4x4.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Camioneta 4x4 de Lausof en las Salinas Grandes">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Ficha del servicio. El proveedor referencia por @id la ficha
+       LocalBusiness completa de la portada: para Google, las dos páginas
+       hablan de la misma empresa. Los datos (dirección, teléfonos, geo)
+       viven solo en la portada; acá no se duplican para que nunca queden
+       desincronizados.
+       Las preguntas frecuentes NO se marcan como FAQPage: desde agosto de
+       2023 Google solo muestra ese resultado enriquecido a sitios de
+       gobierno y salud, así que el marcado no aporta nada acá. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Alquiler de camionetas 4x4 en Salta",
+    "serviceType": "Alquiler de camionetas 4x4",
+    "description": "Alquiler mensual de camionetas 4x4 sin chofer para empresas, mineras y contratistas en Salta. Unidades preparadas para ripio y altura, mantenimiento incluido en taller propio y seguimiento por GPS.",
+    "url": "https://www.lausof.com/alquiler-4x4.html",
+    "areaServed": [
+      { "@type": "State", "name": "Salta" },
+      { "@type": "State", "name": "Jujuy" }
+    ],
+    "provider": {
+      "@type": "LocalBusiness",
+      "@id": "https://www.lausof.com/#empresa",
+      "name": "Lausof SRL",
+      "url": "https://www.lausof.com/"
+    }
+  }
+  </script>
+
+  <script>document.documentElement.className='js'</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-row">
+    <a class="brand" href="index.html" aria-label="Lausof SRL — inicio">
+      <img src="assets/logo-horizontal-web.webp" alt="Transportes Lausof — Pasajeros, Cargas, Remolques">
+    </a>
+    <!-- El mismo menú que la home, porque desde acá se vuelve al sitio. -->
+    <nav class="main" aria-label="Secciones">
+      <a href="index.html#servicios">Servicios</a>
+      <a href="index.html#seguridad">Seguridad</a>
+      <a href="index.html#flota">Flota</a>
+      <a href="index.html#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="btn btn-wa btn-sm nav-cta" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20alquiler%20de%20camioneta%204x4" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizar por WhatsApp</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-head" aria-label="Presentación">
+    <div class="page-head-photo" role="presentation"></div>
+    <div class="wrap page-head-inner">
+      <p class="kicker on-dark">Alquiler de camionetas 4x4</p>
+      <h1>Alquiler de camionetas 4x4 en Salta</h1>
+      <p class="lead">Alquiler mensual de camionetas 4x4 sin chofer para empresas, mineras y contratistas. Unidades preparadas para ripio y altura, con mantenimiento incluido en nuestro propio taller y entrega en Salta.</p>
+      <div class="ctas">
+        <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20alquiler%20de%20camioneta%204x4" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizá por WhatsApp</a>
+        <a class="btn btn-outline" href="#que-incluye">Qué incluye</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- La misma franja de la home, con los datos que le importan al que
+       evalúa un alquiler mensual para su operación. -->
+  <div class="certs" aria-label="Respaldo">
+    <div class="wrap certs-row">
+      <span><b>Camionetas 4x4</b> preparadas para ripio y altura</span>
+      <span><b>Mantenimiento</b> en taller propio</span>
+      <span><b>GPS</b> en las unidades</span>
+      <span><b>Más de una década</b> operando en la Puna</span>
+      <span><b>Facturamos A</b> — CUIT 30-71146774-9</span>
+    </div>
+  </div>
+
+  <section class="block" id="para-quien">
+    <div class="wrap">
+      <p class="kicker">El servicio</p>
+      <h2>Camionetas 4x4 por mes, sin chofer, para tu operación</h2>
+      <p class="sub">Operamos en la Puna desde hace más de una década: conocemos el ripio, la altura y lo que le exige a una camioneta. Ese mismo respaldo es el que ponemos detrás de cada alquiler.</p>
+      <div class="why-grid">
+        <div class="why-item"><b>Mineras y contratistas</b><p>Unidades 4x4 para operar en la Puna, con una empresa que conoce los requisitos de ingreso a mina.</p></div>
+        <div class="why-item"><b>Empresas de servicios</b><p>Movilidad continua para cuadrillas y supervisores que trabajan en el interior, sin inmovilizar capital en flota propia.</p></div>
+        <div class="why-item"><b>Obras y montajes</b><p>Camionetas por el plazo de la obra: alquilás por mes y devolvés cuando el proyecto termina.</p></div>
+        <div class="why-item"><b>Organismos y consultoras</b><p>Relevamientos y trabajo de campo en rutas de montaña, con unidades preparadas para ese terreno.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="unidades">
+    <div class="wrap">
+      <p class="kicker">Las unidades</p>
+      <h2>Camionetas 4x4 mantenidas en taller propio</h2>
+      <p class="sub">Nuestro taller nació para mantener la flota: las camionetas se revisan y se reparan con nuestro propio equipo mecánico, no tercerizado. Menos días parados por rotura.</p>
+      <div class="fotos-grid">
+        <figure>
+          <img src="assets/4x4-1-salinas.webp" alt="Camionetas 4x4 de Lausof en un operativo en las Salinas Grandes" width="780" height="672">
+          <figcaption>Unidades 4x4 preparadas para ripio y altura, en plena Puna.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/4x4-2-hilux.webp" alt="Camioneta 4x4 de Lausof equipada para ingreso a mina" width="780" height="672" loading="lazy">
+          <figcaption>Conocemos los requisitos de ingreso a mina y preparamos las unidades según lo que pida tu operación.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/4x4-3-cerros.webp" alt="Camioneta 4x4 de Lausof frente a los cerros de colores de la Puna" width="780" height="672" loading="lazy">
+          <figcaption>Más de una década operando en los caminos del NOA.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="que-incluye">
+    <div class="wrap">
+      <p class="kicker">Qué incluye</p>
+      <h2>Un alquiler pensado para que la operación no se detenga</h2>
+      <p class="sub">El precio se cotiza según el plazo, el uso y el terreno por donde vas a circular. El presupuesto va por escrito, con las condiciones claras desde el primer día.</p>
+      <div class="why-grid">
+        <div class="why-item"><b>Mantenimiento incluido</b><p>Preventivo y correctivo en nuestro propio taller, con mecánicos propios. La unidad se atiende acá, en Salta.</p></div>
+        <div class="why-item"><b>Seguimiento por GPS</b><p>Las unidades cuentan con seguimiento satelital durante todo el contrato.</p></div>
+        <div class="why-item"><b>Entrega en Salta</b><p>Coordinamos la entrega y la devolución de la unidad en Salta, según lo que acordemos en el contrato.</p></div>
+        <div class="why-item"><b>Condiciones por escrito</b><p>Plazo, kilometraje y condiciones de uso quedan definidos en el contrato, sin costos ocultos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="requisitos">
+    <div class="wrap nosotros">
+      <p class="kicker">Para tu área de compras</p>
+      <h2>Qué pedimos para alquilar</h2>
+      <p>El alquiler sin chofer es un servicio para empresas: pedimos CUIT vigente, un contrato de alquiler firmado con las condiciones de uso, y la cobertura de seguro correspondiente a la modalidad. Con eso definido, la entrega se coordina en pocos días.</p>
+      <p>Somos Lausof S.R.L., CUIT 30-71146774-9, y emitimos factura A: el alta de proveedor sale sin vueltas. Si compras necesita algún dato más, escribinos a <a href="mailto:contacto@lausof.com">contacto@lausof.com</a>.</p>
+    </div>
+  </section>
+
+  <section class="block" id="preguntas">
+    <div class="wrap">
+      <p class="kicker">Preguntas frecuentes</p>
+      <h2>Lo que nos preguntan antes de alquilar</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <h3>¿El alquiler es con o sin chofer?</h3>
+          <p>Sin chofer, en modalidad mensual: la unidad queda a disposición de tu empresa y la manejan tus conductores autorizados. Si lo que necesitás es el traslado resuelto con chofer, ese es otro servicio nuestro: mirá <a href="logistica-minera.html">logística minera</a> o <a href="transporte-de-personal.html">transporte de personal</a>.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Quién hace el mantenimiento?</h3>
+          <p>Nosotros, en nuestro propio taller de Salta y con mecánicos propios. El mantenimiento está incluido en el alquiler: la unidad se revisa según el plan acordado y vos no tenés que gestionar nada con terceros.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Qué se necesita para alquilar?</h3>
+          <p>Ser una empresa con CUIT vigente, firmar el contrato de alquiler con las condiciones de uso y contar con la cobertura de seguro correspondiente. Contanos tu caso por WhatsApp y te confirmamos los pasos.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Emiten factura A?</h3>
+          <p>Sí. Somos Lausof S.R.L., CUIT 30-71146774-9, y emitimos factura A.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block cta-4x4" id="contacto">
+    <div class="wrap">
+      <img src="assets/logo-insignia-web.webp" alt="" width="340" height="340" style="width:112px;height:auto;margin-bottom:18px">
+      <h2>¿Necesitás una 4x4 para tu operación?</h2>
+      <p>Contanos por cuánto tiempo la necesitás y por dónde va a circular. Te respondemos con el presupuesto por escrito, con las condiciones claras.</p>
+      <div class="ctas">
+        <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20alquiler%20de%20camioneta%204x4" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizá por WhatsApp</a>
+        <a class="btn btn-ghost" href="tel:+5493875377527">Llamar al 387 537-7527</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot-grid">
+    <div>
+      <p>Transporte y logística en Salta y el norte argentino.<br>Junín 1334 / Siria 1333 — Salta Capital (4400)</p>
+      <p>Instagram <a href="https://www.instagram.com/lausofsrl" target="_blank" rel="noopener">@lausofsrl</a> · Facebook <a href="https://www.facebook.com/lausoftransportes" target="_blank" rel="noopener">@lausoftransportes</a></p>
+    </div>
+    <div>
+      <b>Teléfonos</b>
+      <ul>
+        <!-- los dos primeros son móviles: llevan el 9 (+549). El tercero es fijo y no lo lleva -->
+        <li><a href="tel:+5493875377527">387 537-7527</a></li>
+        <li><a href="tel:+5493875269009">387 526-9009</a></li>
+        <li><a href="tel:+543874311584">0387 431-1584</a></li>
+      </ul>
+    </div>
+    <div>
+      <b>Correo</b>
+      <ul>
+        <li><a href="mailto:contacto@lausof.com">contacto@lausof.com</a></li>
+        <li><a href="mailto:transporte@lausof.com">transporte@lausof.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap proveedores">
+    <b>Datos para proveedores y compras</b>
+    <ul>
+      <li>Razón social: Lausof S.R.L.</li>
+      <li>CUIT: 30-71146774-9</li>
+      <li>Emitimos factura A.</li>
+    </ul>
+  </div>
+
+  <div class="wrap legal">
+    <span>© Lausof SRL · CUIT 30-71146774-9 · Salta Capital, Argentina</span>
+    <span>Empresa familiar de transporte y logística · NOA</span>
+  </div>
+</footer>
+
+<div class="wa-bar" aria-label="Acciones rápidas">
+  <a class="btn btn-ghost" href="tel:+5493875377527"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>Llamar</a>
+  <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20alquiler%20de%20camioneta%204x4" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizar por WhatsApp</a>
+</div>
+
+<script>
+/* Mismo comportamiento que la home: el botón de WhatsApp del encabezado
+   aparece recién cuando el visitante pasó la portada. */
+(function () {
+  var portada = document.querySelector('.page-head');
+  var mostrar = function () { document.body.classList.add('past-hero'); };
+  if (!portada || !('IntersectionObserver' in window)) { mostrar(); return; }
+  new IntersectionObserver(function (entradas) {
+    document.body.classList.toggle('past-hero', !entradas[0].isIntersecting);
+  }).observe(portada);
+})();
+</script>
+
+</body>
+</html>
