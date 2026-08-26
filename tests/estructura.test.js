@@ -89,3 +89,13 @@ test('todo botón verde de WhatsApp lleva el logo inline', () => {
     assert.ok(cuerpo.includes('<svg'), `botón sin logo: ${entero.slice(0, 80)}...`);
   }
 });
+
+// GA4: todas las páginas llevan la etiqueta de medición con el ID correcto.
+test('todas las páginas cargan Google Analytics con el ID de la propiedad', () => {
+  const glob = require('node:fs').readdirSync('.').filter(f => f.endsWith('.html') && !f.startsWith('google'));
+  for (const f of glob) {
+    const s = require('node:fs').readFileSync(f, 'utf8');
+    assert.match(s, /googletagmanager\.com\/gtag\/js\?id=G-GHHRS5LDE7/, `${f} sin la etiqueta de GA4`);
+    assert.match(s, /gtag\('config','G-GHHRS5LDE7'\)/, `${f} sin la config de GA4`);
+  }
+});
