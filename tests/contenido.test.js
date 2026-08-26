@@ -67,9 +67,10 @@ test('toda imagen lleva alt descriptivo salvo los logos decorativos', () => {
       }
     }
   }
-  // Hoy lo llevan 6 páginas (portada, flota y las 4 de servicios); si una
-  // página lo suma o lo pierde, este número se actualiza a conciencia.
-  assert.strictEqual(decorativos, 6, `se esperaban 6 logos decorativos con alt="", hay ${decorativos}`);
+  // Hoy lo llevan 14 páginas (portada, flota, las 4 de servicios y las 8 de
+  // la ola del 26/08); si una página lo suma o lo pierde, este número se
+  // actualiza a conciencia.
+  assert.strictEqual(decorativos, 14, `se esperaban 14 logos decorativos con alt="", hay ${decorativos}`);
 });
 
 // Afirmaciones verificadas que la portada tiene que conservar, se redacte
