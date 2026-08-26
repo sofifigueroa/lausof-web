@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es-AR" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <!-- Título servicio-primero, marca después: el mismo patrón con el que
+       rankea la home. Apunta a "combi para peregrinación salta" y
+       "traslado de invitados casamiento salta". -->
+  <title>Peregrinaciones, Casamientos y Eventos — Traslados en Combi | Lausof SRL</title>
+  <meta name="description" content="Combis de 19+1 plazas con chofer profesional para peregrinaciones, casamientos y eventos familiares en Salta, Jujuy y el NOA. Traslado de invitados entre ciudades, ida y vuelta la misma noche. Habilitación CNRT interjurisdiccional. Cotizá por WhatsApp.">
+  <link rel="canonical" href="https://www.lausof.com/peregrinaciones-eventos.html">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/styles.css?v=23">
+  <link rel="stylesheet" href="css/peregrinaciones.css?v=1">
+
+  <!-- El fondo del encabezado es la imagen más grande de la página (la LCP):
+       se precarga porque, al venir de la CSS, se descubriría tarde. La misma
+       foto sirve en todos los anchos. -->
+  <link rel="preload" as="image" href="assets/turismo/catedral-de-salta-atardecer-lausof.webp" fetchpriority="high">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="Lausof SRL">
+  <meta property="og:title" content="Peregrinaciones, Casamientos y Eventos — Traslados en Combi | Lausof SRL">
+  <meta property="og:description" content="Combis de 19+1 plazas con chofer profesional para peregrinaciones, casamientos y eventos familiares en Salta, Jujuy y el NOA. Traslado de invitados entre ciudades, ida y vuelta la misma noche.">
+  <meta property="og:url" content="https://www.lausof.com/peregrinaciones-eventos.html">
+  <!-- og:image en recorte propio de 1200×630 y SIEMPRE en JPEG: los scrapers
+       de WhatsApp/Facebook manejan mal el WebP. -->
+  <meta property="og:image" content="https://www.lausof.com/assets/peregrinaciones/og-peregrinaciones.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catedral de Salta al atardecer, en la plaza 9 de Julio">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Ficha del servicio. El proveedor referencia por @id la ficha
+       LocalBusiness completa de la portada: para Google, las dos páginas
+       hablan de la misma empresa. Los datos (dirección, teléfonos, geo)
+       viven solo en la portada; acá no se duplican para que nunca queden
+       desincronizados.
+       Las preguntas frecuentes NO se marcan como FAQPage: desde agosto de
+       2023 Google solo muestra ese resultado enriquecido a sitios de
+       gobierno y salud, así que el marcado no aporta nada acá. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Traslados para peregrinaciones, casamientos y eventos",
+    "serviceType": "Alquiler de combis con chofer para peregrinaciones y eventos",
+    "description": "Combis de 19+1 plazas con chofer profesional para peregrinaciones, casamientos y eventos familiares, dentro de Salta y entre provincias del NOA. Traslado de invitados entre ciudades e ida y vuelta la misma noche.",
+    "url": "https://www.lausof.com/peregrinaciones-eventos.html",
+    "areaServed": [
+      { "@type": "State", "name": "Salta" },
+      { "@type": "State", "name": "Jujuy" },
+      { "@type": "State", "name": "Tucumán" }
+    ],
+    "provider": {
+      "@type": "LocalBusiness",
+      "@id": "https://www.lausof.com/#empresa",
+      "name": "Lausof SRL",
+      "url": "https://www.lausof.com/"
+    }
+  }
+  </script>
+
+  <script>document.documentElement.className='js'</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-row">
+    <a class="brand" href="index.html" aria-label="Lausof SRL — inicio">
+      <img src="assets/logo-horizontal-web.webp" alt="Transportes Lausof — Pasajeros, Cargas, Remolques">
+    </a>
+    <!-- El mismo menú que la home, porque desde acá se vuelve al sitio. -->
+    <nav class="main" aria-label="Secciones">
+      <a href="index.html#servicios">Servicios</a>
+      <a href="index.html#seguridad">Seguridad</a>
+      <a href="index.html#flota">Flota</a>
+      <a href="index.html#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="btn btn-wa btn-sm nav-cta" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20combi%20para%20una%20peregrinaci%C3%B3n%20o%20evento" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizar por WhatsApp</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-head" aria-label="Presentación">
+    <div class="page-head-photo" role="presentation"></div>
+    <div class="wrap page-head-inner">
+      <p class="kicker on-dark">Peregrinaciones y eventos</p>
+      <h1>Peregrinaciones, casamientos y eventos familiares</h1>
+      <p class="lead">Combis de 19+1 plazas con chofer profesional para que tu grupo viaje junto: peregrinaciones, casamientos y encuentros familiares, dentro de Salta o cruzando a otra provincia del NOA. Vos coordinás a la gente; nosotros la llevamos y la traemos.</p>
+      <div class="ctas">
+        <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20combi%20para%20una%20peregrinaci%C3%B3n%20o%20evento" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizá por WhatsApp</a>
+        <a class="btn btn-outline" href="#como-cotizar">Cómo cotizar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- La misma franja de habilitaciones que la home, con los datos que le
+       importan al que organiza un viaje en grupo. -->
+  <div class="certs" aria-label="Habilitaciones">
+    <div class="wrap certs-row">
+      <span><b>Habilitación CNRT</b> N.º 60284 — interjurisdiccional</span>
+      <span><b>Seguro de pasajeros</b> vigente</span>
+      <span><b>Choferes profesionales</b> con psicofísico y ART al día</span>
+      <span><b>GPS</b> en las unidades en servicio</span>
+      <span><b>Factura A o B</b> — CUIT 30-71146774-9</span>
+      <span><b>Empresa familiar</b> desde 2010</span>
+    </div>
+  </div>
+
+  <section class="block" id="peregrinaciones">
+    <div class="wrap">
+      <p class="kicker">Grupos de fe</p>
+      <h2>El grupo viaja junto, y llega junto</h2>
+      <p class="sub">Cuando una parroquia, un grupo o una familia organiza una peregrinación, parte del viaje es hacerlo juntos. Nuestras combis salen adonde tu grupo necesite ir — un santuario, una fiesta patronal, un encuentro — dentro de la provincia o cruzando a Jujuy, Tucumán o donde sea la cita.</p>
+      <div class="why-grid">
+        <div class="why-item"><b>Coordinación con el organizador</b><p>Hablás siempre con la misma persona: armamos juntos los horarios, las paradas y los puntos de subida antes de salir.</p></div>
+        <div class="why-item"><b>Un chofer que acompaña</b><p>El chofer acompaña los tiempos del grupo: las esperas, las paradas en el camino y el regreso sin apuro.</p></div>
+        <div class="why-item"><b>Todos en la misma unidad</b><p>Combis de 19+1 plazas. ¿Son más? Coordinamos más de una unidad para que nadie viaje separado.</p></div>
+        <div class="why-item"><b>De un día o con estadía</b><p>Ida y vuelta en el día, o un viaje de varios días: la combi queda con el grupo lo que dure la salida.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="casamientos">
+    <div class="wrap">
+      <p class="kicker">Casamientos y fiestas</p>
+      <h2>Tus invitados llegan al salón sin manejar</h2>
+      <p class="sub">Si tenés invitados que viajan desde otra ciudad — o querés que nadie vuelva manejando de noche después de la fiesta — una combi con chofer resuelve el traslado de punta a punta.</p>
+      <div class="why-grid">
+        <div class="why-item"><b>Invitados de otra ciudad</b><p>Buscamos a tus invitados en su ciudad y los llevamos hasta el salón, en Salta, en Jujuy o donde sea la fiesta.</p></div>
+        <div class="why-item"><b>Ida y vuelta la misma noche</b><p>La combi lleva a los invitados, el chofer espera y los trae de vuelta cuando termina la fiesta.</p></div>
+        <div class="why-item"><b>Coordinación con el salón</b><p>Nos ajustamos a los horarios de la ceremonia y del salón: la combi está donde tiene que estar, cuando tiene que estar.</p></div>
+        <div class="why-item"><b>Otros eventos familiares</b><p>Cumpleaños de quince, aniversarios, reencuentros: si tu familia viaja junta, la llevamos y la traemos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="unidades">
+    <div class="wrap">
+      <p class="kicker">Las unidades</p>
+      <h2>Combis 19+1 mantenidas en taller propio</h2>
+      <p class="sub">Hacemos transporte de pasajeros desde 2010 y las combis se revisan y se reparan en nuestro propio taller. Para un viaje que importa tanto, eso se nota.</p>
+      <div class="fotos-grid">
+        <figure>
+          <img src="assets/galeria/lausof-pasajeros-combi-cafayate.webp" alt="Grupo de pasajeros junto a una combi de Lausof durante un viaje" width="1032" height="774">
+          <figcaption>Grupos completos en una misma unidad, con chofer profesional.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/pasajeros-1-quebrada.webp" alt="Combi Sprinter de Lausof en la Quebrada, en un viaje de grupo" width="834" height="718" loading="lazy">
+          <figcaption>Choferes que conocen las rutas del NOA de memoria.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/turismo/purmamarca-cerro-siete-colores-lausof.webp" alt="Combis de Lausof entre los cerros de colores de Purmamarca, Jujuy" width="900" height="506" loading="lazy">
+          <figcaption>Habilitación interjurisdiccional: viajamos entre provincias del NOA.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="como-cotizar">
+    <div class="wrap nosotros">
+      <p class="kicker">Cómo cotizar</p>
+      <h2>Tres datos y te respondemos en el día</h2>
+      <p>Mandanos un WhatsApp con la <b>fecha</b>, el <b>origen y destino</b>, y <b>cuántas personas viajan</b>. Con eso armamos la cotización; si después cambia un horario o se suma una parada, lo ajustamos con vos.</p>
+      <p>Somos Lausof S.R.L., una empresa familiar de Salta, y emitimos factura A o B según lo que necesites. Si preferís escribirnos por correo: <a href="mailto:contacto@lausof.com">contacto@lausof.com</a>.</p>
+    </div>
+  </section>
+
+  <section class="block" id="preguntas">
+    <div class="wrap">
+      <p class="kicker">Preguntas frecuentes</p>
+      <h2>Lo que nos preguntan antes de reservar</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <h3>¿Cuántas personas entran en cada combi?</h3>
+          <p>Diecinueve pasajeros más el chofer (19+1). Si el grupo es más grande, coordinamos más de una unidad para que viajen todos juntos.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Hacen ida y vuelta la misma noche para un casamiento?</h3>
+          <p>Sí. La combi lleva a los invitados hasta el salón, el chofer espera y los trae de vuelta cuando termina la fiesta. Contanos los horarios y lo dejamos armado.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Pueden salir de la provincia?</h3>
+          <p>Sí. Tenemos habilitación CNRT interjurisdiccional (N.º 60284), así que podemos llevar a tu grupo entre provincias: Salta, Jujuy, Tucumán o donde sea el encuentro.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block cta-peregrinaciones" id="contacto">
+    <div class="wrap">
+      <img src="assets/logo-insignia-web.webp" alt="" width="340" height="340" style="width:112px;height:auto;margin-bottom:18px">
+      <h2>¿Están armando un viaje en grupo?</h2>
+      <p>Contanos la fecha, de dónde salen y cuántos son. Te respondemos con la cotización en el día.</p>
+      <div class="ctas">
+        <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20combi%20para%20una%20peregrinaci%C3%B3n%20o%20evento" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizá por WhatsApp</a>
+        <a class="btn btn-ghost" href="tel:+5493875377527">Llamar al 387 537-7527</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot-grid">
+    <div>
+      <p>Transporte y logística en Salta y el norte argentino.<br>Junín 1334 / Siria 1333 — Salta Capital (4400)</p>
+      <p>Instagram <a href="https://www.instagram.com/lausofsrl" target="_blank" rel="noopener">@lausofsrl</a> · Facebook <a href="https://www.facebook.com/lausoftransportes" target="_blank" rel="noopener">@lausoftransportes</a></p>
+    </div>
+    <div>
+      <b>Teléfonos</b>
+      <ul>
+        <!-- los dos primeros son móviles: llevan el 9 (+549). El tercero es fijo y no lo lleva -->
+        <li><a href="tel:+5493875377527">387 537-7527</a></li>
+        <li><a href="tel:+5493875269009">387 526-9009</a></li>
+        <li><a href="tel:+543874311584">0387 431-1584</a></li>
+      </ul>
+    </div>
+    <div>
+      <b>Correo</b>
+      <ul>
+        <li><a href="mailto:contacto@lausof.com">contacto@lausof.com</a></li>
+        <li><a href="mailto:transporte@lausof.com">transporte@lausof.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap proveedores">
+    <b>Datos para proveedores y compras</b>
+    <ul>
+      <li>Razón social: Lausof S.R.L.</li>
+      <li>CUIT: 30-71146774-9</li>
+      <li>Emitimos factura A.</li>
+    </ul>
+  </div>
+
+  <div class="wrap legal">
+    <span>© Lausof SRL · CUIT 30-71146774-9 · Salta Capital, Argentina</span>
+    <span>Empresa familiar de transporte y logística · NOA</span>
+  </div>
+</footer>
+
+<div class="wa-bar" aria-label="Acciones rápidas">
+  <a class="btn btn-ghost" href="tel:+5493875377527"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>Llamar</a>
+  <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20combi%20para%20una%20peregrinaci%C3%B3n%20o%20evento" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizar por WhatsApp</a>
+</div>
+
+<script>
+/* Mismo comportamiento que la home: el botón de WhatsApp del encabezado
+   aparece recién cuando el visitante pasó la portada. */
+(function () {
+  var portada = document.querySelector('.page-head');
+  var mostrar = function () { document.body.classList.add('past-hero'); };
+  if (!portada || !('IntersectionObserver' in window)) { mostrar(); return; }
+  new IntersectionObserver(function (entradas) {
+    document.body.classList.toggle('past-hero', !entradas[0].isIntersecting);
+  }).observe(portada);
+})();
+</script>
+
+</body>
+</html>
