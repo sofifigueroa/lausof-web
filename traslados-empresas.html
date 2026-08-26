@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es-AR" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <!-- Título servicio-primero, marca después: el mismo patrón con el que
+       rankea la home. Apunta a "traslados corporativos salta",
+       "transporte para congresos salta" y "traslado de comitivas". -->
+  <title>Traslados Corporativos y Congresos — Salta, Jujuy y Tucumán | Lausof SRL</title>
+  <meta name="description" content="Traslados corporativos en combis 19+1 con chofer profesional: congresos, eventos de empresa, comitivas y viajes Salta–Jujuy–Tucumán. Habilitación CNRT interjurisdiccional, chofer a disposición y factura A. Cotizá por WhatsApp.">
+  <link rel="canonical" href="https://www.lausof.com/traslados-empresas.html">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/styles.css?v=23">
+  <link rel="stylesheet" href="css/empresas.css?v=1">
+
+  <!-- El fondo del encabezado es la imagen más grande de la página (la LCP):
+       se precarga porque, al venir de la CSS, se descubriría tarde. La misma
+       foto sirve en todos los anchos. -->
+  <link rel="preload" as="image" href="assets/galeria/lausof-salinasgrandes-combis.webp" fetchpriority="high">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="Lausof SRL">
+  <meta property="og:title" content="Traslados Corporativos y Congresos — Salta, Jujuy y Tucumán | Lausof SRL">
+  <meta property="og:description" content="Traslados corporativos en combis 19+1 con chofer profesional: congresos, eventos de empresa, comitivas y viajes Salta–Jujuy–Tucumán. Habilitación CNRT interjurisdiccional y factura A.">
+  <meta property="og:url" content="https://www.lausof.com/traslados-empresas.html">
+  <!-- og:image en recorte propio de 1200×630 y SIEMPRE en JPEG: los scrapers
+       de WhatsApp/Facebook manejan mal el WebP. -->
+  <meta property="og:image" content="https://www.lausof.com/assets/empresas/og-empresas.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Combis de Lausof en las Salinas Grandes, en el límite entre Salta y Jujuy">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Ficha del servicio. El proveedor referencia por @id la ficha
+       LocalBusiness completa de la portada: para Google, las dos páginas
+       hablan de la misma empresa. Los datos (dirección, teléfonos, geo)
+       viven solo en la portada; acá no se duplican para que nunca queden
+       desincronizados.
+       Las preguntas frecuentes NO se marcan como FAQPage: desde agosto de
+       2023 Google solo muestra ese resultado enriquecido a sitios de
+       gobierno y salud, así que el marcado no aporta nada acá. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Traslados corporativos y para congresos",
+    "serviceType": "Traslados corporativos",
+    "description": "Traslados puntuales para empresas en combis de 19+1 plazas con chofer profesional: congresos, eventos corporativos, comitivas, visitas de directivos y viajes interprovinciales entre Salta, Jujuy y Tucumán. Habilitación CNRT interjurisdiccional.",
+    "url": "https://www.lausof.com/traslados-empresas.html",
+    "areaServed": [
+      { "@type": "State", "name": "Salta" },
+      { "@type": "State", "name": "Jujuy" },
+      { "@type": "State", "name": "Tucumán" }
+    ],
+    "provider": {
+      "@type": "LocalBusiness",
+      "@id": "https://www.lausof.com/#empresa",
+      "name": "Lausof SRL",
+      "url": "https://www.lausof.com/"
+    }
+  }
+  </script>
+
+  <script>document.documentElement.className='js'</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-row">
+    <a class="brand" href="index.html" aria-label="Lausof SRL — inicio">
+      <img src="assets/logo-horizontal-web.webp" alt="Transportes Lausof — Pasajeros, Cargas, Remolques">
+    </a>
+    <!-- El mismo menú que la home, porque desde acá se vuelve al sitio. -->
+    <nav class="main" aria-label="Secciones">
+      <a href="index.html#servicios">Servicios</a>
+      <a href="index.html#seguridad">Seguridad</a>
+      <a href="index.html#flota">Flota</a>
+      <a href="index.html#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="btn btn-wa btn-sm nav-cta" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20un%20traslado%20corporativo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizar por WhatsApp</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-head" aria-label="Presentación">
+    <div class="page-head-photo" role="presentation"></div>
+    <div class="wrap page-head-inner">
+      <p class="kicker on-dark">Traslados corporativos</p>
+      <h1>Traslados corporativos en Salta, Jujuy y Tucumán</h1>
+      <p class="lead">Traslados puntuales para empresas en combis de 19+1 plazas con chofer profesional: congresos, eventos corporativos, comitivas y viajes interprovinciales por el NOA, con una sola persona a cargo de toda la operación.</p>
+      <div class="ctas">
+        <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20un%20traslado%20corporativo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizá por WhatsApp</a>
+        <a class="btn btn-outline" href="#como-trabajamos">Cómo trabajamos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- La misma franja de habilitaciones que la home, con los datos que le
+       importan al que contrata un traslado interprovincial. -->
+  <div class="certs" aria-label="Habilitaciones">
+    <div class="wrap certs-row">
+      <span><b>Habilitación CNRT</b> N.º 60284 — interjurisdiccional</span>
+      <span><b>Seguro de pasajeros</b> vigente</span>
+      <span><b>Choferes profesionales</b> con psicofísico y ART al día</span>
+      <span><b>GPS</b> en las unidades en servicio</span>
+      <span><b>Facturamos A</b> — CUIT 30-71146774-9</span>
+    </div>
+  </div>
+
+  <section class="block" id="para-quien">
+    <div class="wrap">
+      <p class="kicker">El servicio</p>
+      <h2>Combis con chofer para congresos, eventos y comitivas</h2>
+      <p class="sub">Movemos pasajeros por el NOA desde 2010. Cuando el traslado es puntual — un congreso, una visita, una delegación que cruza de provincia — armamos el viaje completo: unidad, chofer y recorrido, con horarios comprometidos de antemano.</p>
+      <div class="why-grid">
+        <div class="why-item"><b>Congresos y convenciones</b><p>Traslado de asistentes entre hoteles, sedes y cenas del evento, coordinado con la agenda de la organización.</p></div>
+        <div class="why-item"><b>Eventos corporativos</b><p>Lanzamientos, capacitaciones y fiestas de fin de año: el grupo completo llega y vuelve en la misma unidad.</p></div>
+        <div class="why-item"><b>Comitivas y delegaciones</b><p>Delegaciones que visitan Salta o recorren varias ciudades: la combi queda a disposición durante toda la agenda.</p></div>
+        <div class="why-item"><b>Visitas de directivos</b><p>Recepción del grupo y traslados durante toda la estadía, con un solo interlocutor para los cambios de agenda.</p></div>
+        <div class="why-item"><b>Salta ↔ Jujuy ↔ Tucumán</b><p>Viajes interprovinciales con habilitación CNRT: cruzar de provincia con la documentación en regla.</p></div>
+        <div class="why-item"><b>Viajes de ida y vuelta en el día</b><p>Salida temprana, jornada en destino y regreso: el chofer espera y el grupo no depende de horarios de terceros.</p></div>
+      </div>
+      <!-- Derivación explícita: el recorrido diario tiene su propia página y
+           su propio equipo; esta ficha evita cotizaciones cruzadas. -->
+      <div class="derivacion">
+        <p>¿Buscás un <b>traslado diario de personal</b> — recorridos fijos a obras, clínicas o plantas? Ese es otro servicio nuestro: mirá <a href="transporte-de-personal.html">transporte de personal en Salta</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="unidades">
+    <div class="wrap">
+      <p class="kicker">Las unidades</p>
+      <h2>Combis 19+1 mantenidas en taller propio</h2>
+      <p class="sub">Las combis se revisan y se reparan con nuestro propio equipo mecánico, y los choferes conocen las rutas del NOA de memoria: la Cornisa, la subida a la Puna, la ruta a Tucumán.</p>
+      <div class="fotos-grid">
+        <figure>
+          <img src="assets/galeria/lausof-combis-vehiculos-turismo-salta.webp" alt="Flota de combis de Lausof lista para traslados corporativos en Salta" width="1032" height="581">
+          <figcaption>Combis de 19+1 plazas con chofer profesional, para grupos completos.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/pasajeros-2-viaducto.webp" alt="Combi de Lausof frente al viaducto La Polvorilla, en la Puna salteña" width="834" height="718" loading="lazy">
+          <figcaption>Viajes interprovinciales por Salta, Jujuy y Tucumán con habilitación CNRT.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/galeria/lausof-minibus-nieve.webp" alt="Minibús de Lausof en un camino nevado del NOA" width="1024" height="576" loading="lazy">
+          <figcaption>Operación todo clima: la agenda del evento no espera al tiempo.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="como-trabajamos">
+    <div class="wrap">
+      <p class="kicker">Cómo trabajamos</p>
+      <h2>Una operación con un solo responsable</h2>
+      <p class="sub">Hablás siempre con la misma persona, desde la cotización hasta el regreso del grupo. Sin call center.</p>
+      <div class="why-grid">
+        <div class="why-item"><b>Chofer a disposición</b><p>En eventos y comitivas, la unidad puede quedar a disposición del grupo durante toda la jornada o la estadía.</p></div>
+        <div class="why-item"><b>Habilitación interjurisdiccional</b><p>Habilitación CNRT N.º 60284 para cruzar de provincia con la documentación en regla.</p></div>
+        <div class="why-item"><b>Choferes profesionales</b><p>Licencia habilitante, psicofísico y ART al día.</p></div>
+        <div class="why-item"><b>Viajes registrados</b><p>GPS en las unidades en servicio: cada viaje queda documentado.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="empresa-habilitada">
+    <div class="wrap nosotros">
+      <p class="kicker">Para tu área de compras</p>
+      <h2>Por qué contratar una empresa habilitada</h2>
+      <p>Un traslado interprovincial exige más que una combi: exige la habilitación para cruzar de provincia. Trabajamos con habilitación CNRT interjurisdiccional vigente, seguro de pasajeros y choferes con licencia habilitante, psicofísico y ART al día — documentación que presentamos cuando el área de compras o de seguridad e higiene la pide.</p>
+      <p>Somos Lausof S.R.L., CUIT 30-71146774-9, y emitimos factura A: el alta de proveedor sale sin vueltas. Si compras necesita algún dato más, escribinos a <a href="mailto:contacto@lausof.com">contacto@lausof.com</a>.</p>
+    </div>
+  </section>
+
+  <section class="block" id="preguntas">
+    <div class="wrap">
+      <p class="kicker">Preguntas frecuentes</p>
+      <h2>Lo que nos preguntan antes de contratar</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <h3>¿Qué datos necesitan para cotizar?</h3>
+          <p>La fecha, cuántas personas viajan, el punto de salida y el destino, y si el chofer queda a disposición o es solo ida y vuelta. Con eso te respondemos con la cotización en el día.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿El chofer queda a disposición durante el evento?</h3>
+          <p>Sí. En congresos, comitivas y visitas la unidad puede quedar a disposición del grupo durante la jornada o la estadía completa, con los traslados intermedios incluidos en la cotización.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Hacen viajes a Jujuy o Tucumán en el día?</h3>
+          <p>Sí. Tenemos habilitación CNRT interjurisdiccional, así que armamos viajes de ida y vuelta en el día entre Salta, Jujuy y Tucumán, con el chofer esperando al grupo en destino.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Emiten factura A?</h3>
+          <p>Sí. Somos Lausof S.R.L., CUIT 30-71146774-9, y emitimos factura A.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block cta-empresas" id="contacto">
+    <div class="wrap">
+      <img src="assets/logo-insignia-web.webp" alt="" width="340" height="340" style="width:112px;height:auto;margin-bottom:18px">
+      <h2>¿Tenés un evento o una comitiva por delante?</h2>
+      <p>Contanos la fecha, cuántas personas viajan y el recorrido. Te respondemos con la cotización en el día.</p>
+      <div class="ctas">
+        <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20un%20traslado%20corporativo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizá por WhatsApp</a>
+        <a class="btn btn-ghost" href="tel:+5493875377527">Llamar al 387 537-7527</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot-grid">
+    <div>
+      <p>Transporte y logística en Salta y el norte argentino.<br>Junín 1334 / Siria 1333 — Salta Capital (4400)</p>
+      <p>Instagram <a href="https://www.instagram.com/lausofsrl" target="_blank" rel="noopener">@lausofsrl</a> · Facebook <a href="https://www.facebook.com/lausoftransportes" target="_blank" rel="noopener">@lausoftransportes</a></p>
+    </div>
+    <div>
+      <b>Teléfonos</b>
+      <ul>
+        <!-- los dos primeros son móviles: llevan el 9 (+549). El tercero es fijo y no lo lleva -->
+        <li><a href="tel:+5493875377527">387 537-7527</a></li>
+        <li><a href="tel:+5493875269009">387 526-9009</a></li>
+        <li><a href="tel:+543874311584">0387 431-1584</a></li>
+      </ul>
+    </div>
+    <div>
+      <b>Correo</b>
+      <ul>
+        <li><a href="mailto:contacto@lausof.com">contacto@lausof.com</a></li>
+        <li><a href="mailto:transporte@lausof.com">transporte@lausof.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap proveedores">
+    <b>Datos para proveedores y compras</b>
+    <ul>
+      <li>Razón social: Lausof S.R.L.</li>
+      <li>CUIT: 30-71146774-9</li>
+      <li>Emitimos factura A.</li>
+    </ul>
+  </div>
+
+  <div class="wrap legal">
+    <span>© Lausof SRL · CUIT 30-71146774-9 · Salta Capital, Argentina</span>
+    <span>Empresa familiar de transporte y logística · NOA</span>
+  </div>
+</footer>
+
+<div class="wa-bar" aria-label="Acciones rápidas">
+  <a class="btn btn-ghost" href="tel:+5493875377527"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>Llamar</a>
+  <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20un%20traslado%20corporativo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizar por WhatsApp</a>
+</div>
+
+<script>
+/* Mismo comportamiento que la home: el botón de WhatsApp del encabezado
+   aparece recién cuando el visitante pasó la portada. */
+(function () {
+  var portada = document.querySelector('.page-head');
+  var mostrar = function () { document.body.classList.add('past-hero'); };
+  if (!portada || !('IntersectionObserver' in window)) { mostrar(); return; }
+  new IntersectionObserver(function (entradas) {
+    document.body.classList.toggle('past-hero', !entradas[0].isIntersecting);
+  }).observe(portada);
+})();
+</script>
+
+</body>
+</html>
