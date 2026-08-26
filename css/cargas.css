@@ -51,6 +51,12 @@
   border-bottom:3px solid var(--gold);box-shadow:var(--shadow);
 }
 
+/* ---- enlace interno al pie de una sección de texto ----
+   La regla de styles.css sólo alcanza a los .walink dentro de .card;
+   acá el enlace vive suelto al final del bloque de depósito. */
+.texto a.walink{display:inline-block;margin-top:4px;font-size:.95rem;font-weight:700;color:var(--wa-ink);text-decoration:none}
+@media (hover:hover){.texto a.walink:hover{text-decoration:underline}}
+
 /* ---- preguntas frecuentes ----
    details/summary nativo: se abre y cierra sin JavaScript. */
 .faq{margin-top:32px;display:flex;flex-direction:column;gap:10px;max-width:760px}
