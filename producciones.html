@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es-AR" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <!-- Título servicio-primero, con las búsquedas del rubro ("logística para
+       rodajes salta", "4x4 para producciones salta"): mismo patrón que la
+       página de logística minera. -->
+  <title>Apoyo Logístico para Producciones y Rodajes — Salta y la Puna | Lausof SRL</title>
+  <meta name="description" content="Camionetas 4x4 para ripio y altura, combis para el equipo técnico y asistencia mecánica propia en locación. Apoyo logístico para rodajes en Salta, la Puna, la Quebrada y los Valles. Cotizá por WhatsApp.">
+  <link rel="canonical" href="https://www.lausof.com/producciones.html">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/styles.css?v=23">
+  <link rel="stylesheet" href="css/producciones.css?v=1">
+
+  <!-- El fondo del encabezado es la imagen más grande de la página (la LCP):
+       se precarga porque, al venir de la CSS, se descubriría tarde. Acá no hay
+       variante de mobile: la misma foto sirve en todos los anchos. -->
+  <link rel="preload" as="image" href="assets/producciones/producciones-hero-4x4.webp" fetchpriority="high">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="Lausof SRL">
+  <meta property="og:title" content="Apoyo Logístico para Producciones y Rodajes — Lausof SRL">
+  <meta property="og:description" content="Camionetas 4x4 para ripio y altura, combis para el equipo técnico y asistencia mecánica propia en locación. Rodajes en Salta, la Puna, la Quebrada y los Valles.">
+  <meta property="og:url" content="https://www.lausof.com/producciones.html">
+  <!-- og:image en recorte propio de 1200×630 y SIEMPRE en JPEG: los scrapers
+       de WhatsApp/Facebook manejan mal el WebP. -->
+  <meta property="og:image" content="https://www.lausof.com/assets/producciones/og-producciones.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Camioneta 4x4 de Lausof en las Salinas Grandes">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Ficha del servicio para Google. El proveedor se referencia por el @id de
+       la ficha LocalBusiness completa de la portada: para los buscadores, las
+       dos páginas hablan de la misma empresa. Los datos (dirección, teléfonos,
+       geo) viven solo en la portada; acá no se duplican para que nunca queden
+       desincronizados. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Apoyo logístico a producciones audiovisuales",
+    "serviceType": "Apoyo logístico a producciones audiovisuales y rodajes",
+    "description": "Camionetas 4x4 para locaciones de ripio y altura, combis para traslado de equipo técnico y elenco, transporte de equipamiento y asistencia mecánica propia en locación, para producciones que filman en Salta y el NOA.",
+    "url": "https://www.lausof.com/producciones.html",
+    "provider": {
+      "@type": "LocalBusiness",
+      "@id": "https://www.lausof.com/#empresa",
+      "name": "Lausof SRL",
+      "url": "https://www.lausof.com/"
+    },
+    "areaServed": [
+      { "@type": "State", "name": "Salta" },
+      { "@type": "State", "name": "Jujuy" }
+    ]
+  }
+  </script>
+
+  <script>document.documentElement.className='js'</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-row">
+    <a class="brand" href="index.html" aria-label="Lausof SRL — inicio">
+      <img src="assets/logo-horizontal-web.webp" alt="Transportes Lausof — Pasajeros, Cargas, Remolques">
+    </a>
+    <!-- El mismo menú que la home, porque desde acá se vuelve al sitio. -->
+    <nav class="main" aria-label="Secciones">
+      <a href="index.html#servicios">Servicios</a>
+      <a href="index.html#seguridad">Seguridad</a>
+      <a href="index.html#flota">Flota</a>
+      <a href="index.html#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="btn btn-wa btn-sm nav-cta" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20apoyo%20log%C3%ADstico%20para%20un%20rodaje" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Consultar por WhatsApp</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-head" aria-label="Presentación">
+    <div class="page-head-photo" role="presentation"></div>
+    <div class="wrap page-head-inner">
+      <p class="kicker on-dark">Producciones audiovisuales</p>
+      <h1>Apoyo logístico para producciones y rodajes en Salta y la Puna</h1>
+      <p class="lead">Camionetas 4x4 para ripio y altura, combis para el equipo técnico y asistencia mecánica propia en locación. Años operando en las zonas donde hoy se filma.</p>
+      <div class="ctas">
+        <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20apoyo%20log%C3%ADstico%20para%20un%20rodaje" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizar por WhatsApp</a>
+        <a class="btn btn-outline" href="#servicios">Ver los servicios</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="certs" aria-label="Habilitaciones">
+    <div class="wrap certs-row">
+      <span><b>Habilitación CNRT</b> N.º 60284 — interjurisdiccional</span>
+      <span><b>Habilitación AMT</b> transporte de pasajeros</span>
+      <span><b>Seguro de carga y pasajeros</b> vigente</span>
+      <span><b>Facturamos A</b> — CUIT 30-71146774-9</span>
+      <span><b>Choferes profesionales</b> con licencia habilitante</span>
+      <span><b>Unidades en servicio</b> con revisión técnica y seguro vigentes</span>
+    </div>
+  </div>
+
+  <section class="block intro" id="experiencia">
+    <div class="wrap">
+      <p class="kicker">Experiencia</p>
+      <h2>Años operando donde hoy se filma</h2>
+      <!-- Redactado en capacidad y trayectoria a propósito: no nombra ninguna
+           producción ni productora, no inventa filmografía y no afirma
+           inscripción en registros. La experiencia citada es la real (Puna,
+           ripio, altura), transferida al rodaje. -->
+      <p>Lausof es una empresa familiar salteña de transporte y logística. Hace años operamos en las zonas que las producciones eligen como locación —las Salinas Grandes, la Quebrada del Toro, San Antonio de los Cobres, la Cuesta del Obispo, los Valles Calchaquíes—, moviendo personal, cargas y equipos por ripio y por encima de los 4.000 metros.</p>
+      <p>Un rodaje en una locación remota enfrenta lo mismo que cualquier operación en la Puna: distancia, altura y caminos que castigan a los vehículos, y jornadas paradas que cuestan caro. La respuesta: unidades preparadas, choferes que conocen cada camino y un taller propio detrás de cada servicio.</p>
+    </div>
+  </section>
+
+  <section class="block alt" id="servicios">
+    <div class="wrap">
+      <p class="kicker">Servicios</p>
+      <h2>Qué resolvemos en un rodaje</h2>
+      <p class="sub">Contanos qué necesita tu producción: te cotizamos en el día.</p>
+
+      <div class="cards producciones">
+        <article class="card">
+          <div class="card-photo">
+            <div class="slideshow slideshow-1" role="img" aria-label="Camionetas 4x4 de Lausof en un operativo en las Salinas Grandes">
+              <img src="assets/4x4-1-salinas.webp" alt="Camionetas 4x4 de Lausof en un operativo en las Salinas Grandes" width="780" height="672" loading="lazy">
+            </div>
+          </div>
+          <div class="card-body">
+            <h3>Camionetas 4x4 para ripio y altura</h3>
+            <p>Camionetas 4x4 doble cabina para producciones: scouting, movimientos internos del rodaje y los tramos donde un vehículo común no llega.</p>
+            <ul class="ficha">
+              <li>Camionetas 4x4 doble cabina, con o sin chofer</li>
+              <li>Choferes que conocen los caminos de la Puna, la Quebrada y los Valles</li>
+              <li>Teléfono satelital a bordo en los servicios de altura</li>
+            </ul>
+            <a class="walink" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20camionetas%204x4%20para%20un%20rodaje" target="_blank" rel="noopener">Cotizar camionetas 4x4 →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-photo">
+            <div class="slideshow slideshow-1" role="img" aria-label="Combi de Lausof en la Quebrada de las Flechas, camino de ripio">
+              <img src="assets/pasajeros-4-ruta.webp" alt="Combi de Lausof en la Quebrada de las Flechas, camino de ripio" width="834" height="718" loading="lazy">
+            </div>
+          </div>
+          <div class="card-body">
+            <h3>Combis para el equipo técnico y el elenco</h3>
+            <p>Traslado del equipo de filmación entre la ciudad, el set y las locaciones, en combis de 19+1 plazas con chofer profesional.</p>
+            <ul class="ficha">
+              <li>Combis Mercedes-Benz Sprinter de 19+1 plazas</li>
+              <li>Recorridos fijos al set o traslados puntuales</li>
+              <li>Choferes con licencia habilitante y psicofísico al día</li>
+            </ul>
+            <a class="walink" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20traslado%20de%20equipo%20t%C3%A9cnico%20para%20un%20rodaje" target="_blank" rel="noopener">Cotizar traslado de equipo →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-photo">
+            <div class="slideshow slideshow-1" role="img" aria-label="Camioneta Hilux 4x4 de Lausof equipada para terreno exigente">
+              <img src="assets/4x4-2-hilux.webp" alt="Camioneta Hilux 4x4 de Lausof equipada para terreno exigente" width="780" height="672" loading="lazy">
+            </div>
+          </div>
+          <div class="card-body">
+            <h3>Asistencia mecánica en locación</h3>
+            <p>Taller propio en Salta capital y asistencia en ruta y en locación, con equipo y personal nuestros, para que un desperfecto no frene el plan de rodaje.</p>
+            <ul class="ficha">
+              <li>Mecánicos de nuestro propio taller</li>
+              <li>Grúa de plancha para traslado y auxilio de vehículos</li>
+              <li>Unidad de reemplazo para que el rodaje siga</li>
+            </ul>
+            <a class="walink" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20asistencia%20mec%C3%A1nica%20en%20locaci%C3%B3n" target="_blank" rel="noopener">Consultar por asistencia →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-photo">
+            <div class="slideshow slideshow-1" role="img" aria-label="Grúa de plancha de Lausof trasladando maquinaria en la Puna salteña">
+              <img src="assets/mineria-tractor.webp" alt="Grúa de plancha de Lausof trasladando maquinaria en la Puna salteña" width="1032" height="581" loading="lazy">
+            </div>
+          </div>
+          <div class="card-body">
+            <h3>Equipamiento, vehículos de escena y catering</h3>
+            <p>Equipamiento de filmación, vehículos de escena y la cadena de frío del catering.</p>
+            <ul class="ficha">
+              <li>Camión con plancha hidráulica para equipamiento y vehículos de escena — hasta 7,5 toneladas</li>
+              <li>Camión térmico para catering y perecederos en locación</li>
+              <li>Depósito de 3.000 m² en Salta capital para acopio de equipamiento</li>
+              <li>Remito y factura A</li>
+            </ul>
+            <a class="walink" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20traslado%20de%20equipos%20para%20un%20rodaje" target="_blank" rel="noopener">Cotizar traslado de equipos →</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="locaciones">
+    <div class="wrap">
+      <p class="kicker">Locaciones</p>
+      <h2>Conocemos el camino antes de que lleguen las cámaras</h2>
+      <div class="ruta-grid">
+        <div class="ruta-texto">
+          <p>Los caminos que una producción descubre en el scouting son los que nosotros hacemos hace años: sabemos cómo se ponen en invierno, dónde se corta la señal de celular y qué tiene que llevar una unidad para llegar y volver con el cronograma intacto.</p>
+          <p>Y trabajamos con los requisitos de rodaje de la provincia: presupuesto y contrato por escrito, factura A y vouchers por cada servicio, listos para que la producción rinda cada traslado.</p>
+        </div>
+        <figure>
+          <img src="assets/galeria/lausof-salinasgrandes-combis.webp" alt="Combis de Lausof en las Salinas Grandes" width="1200" height="675" loading="lazy">
+          <figcaption>Combis de Lausof en las Salinas Grandes.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="preguntas">
+    <div class="wrap">
+      <p class="kicker">Preguntas frecuentes</p>
+      <h2>Lo que nos preguntan antes de cotizar</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <h3>¿Llegan a locaciones sin camino?</h3>
+          <p>A locaciones de ripio, arena, salar y altura llegamos con camionetas 4x4 y choferes que conocen el terreno. Si la locación pide algo fuera de lo común, pasanos el punto exacto y lo vemos.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Dan asistencia mecánica en locación?</h3>
+          <p>Sí. Llevamos lo necesario para resolver en el lugar: mecánicos propios, soldadora, grupo electrógeno y grúa de plancha. Si una unidad no se puede reparar, entra la de reemplazo.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Cómo se cotiza un rodaje?</h3>
+          <p>Escribinos por WhatsApp con las fechas, las locaciones y qué hay que mover. Cotizamos por día, por semana o por paquete de rodaje, todo incluido en un solo precio, y respondemos en el día.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block cta-final" id="contacto">
+    <div class="wrap">
+      <img src="assets/logo-insignia-web.webp" alt="" width="340" height="340">
+      <h2>¿Están armando un rodaje en Salta?</h2>
+      <p>Contanos fechas, locaciones y qué hay que mover: te respondemos con la cotización en el día.</p>
+      <div class="ctas">
+        <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20apoyo%20log%C3%ADstico%20para%20un%20rodaje" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizar por WhatsApp</a>
+        <a class="btn btn-ghost" href="tel:+5493875377527">Llamar al 387 537-7527</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot-grid">
+    <div>
+      <p>Transporte y logística en Salta y el norte argentino.<br>Junín 1334 / Siria 1333 — Salta Capital (4400)</p>
+      <p>Instagram <a href="https://www.instagram.com/lausofsrl" target="_blank" rel="noopener">@lausofsrl</a> · Facebook <a href="https://www.facebook.com/lausoftransportes" target="_blank" rel="noopener">@lausoftransportes</a></p>
+    </div>
+    <div>
+      <b>Teléfonos</b>
+      <ul>
+        <!-- los dos primeros son móviles: llevan el 9 (+549). El tercero es fijo y no lo lleva -->
+        <li><a href="tel:+5493875377527">387 537-7527</a></li>
+        <li><a href="tel:+5493875269009">387 526-9009</a></li>
+        <li><a href="tel:+543874311584">0387 431-1584</a></li>
+      </ul>
+    </div>
+    <div>
+      <b>Correo</b>
+      <ul>
+        <li><a href="mailto:contacto@lausof.com">contacto@lausof.com</a></li>
+        <li><a href="mailto:transporte@lausof.com">transporte@lausof.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap proveedores">
+    <b>Datos para proveedores y compras</b>
+    <ul>
+      <li>Razón social: Lausof S.R.L.</li>
+      <li>CUIT: 30-71146774-9</li>
+      <li>Emitimos factura A.</li>
+    </ul>
+    <p>¿Sos empresa? Escribinos a <a href="mailto:contacto@lausof.com">contacto@lausof.com</a> y coordinamos una visita.</p>
+  </div>
+
+  <div class="wrap legal">
+    <span>© Lausof SRL · CUIT 30-71146774-9 · Salta Capital, Argentina</span>
+    <span>Empresa familiar de transporte y logística · NOA</span>
+  </div>
+</footer>
+
+<div class="wa-bar" aria-label="Acciones rápidas">
+  <a class="btn btn-ghost" href="tel:+5493875377527"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>Llamar</a>
+  <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20apoyo%20log%C3%ADstico%20para%20un%20rodaje" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizar por WhatsApp</a>
+</div>
+
+<script>
+/* Mismo comportamiento que la home: el botón de WhatsApp del encabezado
+   aparece recién cuando el visitante pasó la portada. */
+(function () {
+  var portada = document.querySelector('.page-head');
+  var mostrar = function () { document.body.classList.add('past-hero'); };
+  if (!portada || !('IntersectionObserver' in window)) { mostrar(); return; }
+  new IntersectionObserver(function (entradas) {
+    document.body.classList.toggle('past-hero', !entradas[0].isIntersecting);
+  }).observe(portada);
+})();
+</script>
+
+</body>
+</html>
