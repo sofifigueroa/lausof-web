@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es-AR" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <!-- Título servicio-primero, marca después: el mismo patrón con el que
+       rankea la home. Apunta a "transporte para delegaciones deportivas salta",
+       "combi para club rugby salta" y "traslado equipo a jujuy tucumán". -->
+  <title>Traslados para Clubes y Delegaciones Deportivas — Salta y el NOA | Lausof SRL</title>
+  <meta name="description" content="Traslados de delegaciones deportivas en combis 19+1 con chofer profesional: rugby, hockey y fútbol juvenil a partidos de visitante y torneos en Salta, Jujuy, Tucumán y el NOA. Habilitación CNRT interjurisdiccional. Cotizá por WhatsApp.">
+  <link rel="canonical" href="https://www.lausof.com/clubes-deportivos.html">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/styles.css?v=23">
+  <link rel="stylesheet" href="css/clubes.css?v=1">
+
+  <!-- El fondo del encabezado es la imagen más grande de la página (la LCP):
+       se precarga porque, al venir de la CSS, se descubriría tarde. La misma
+       foto sirve en todos los anchos. -->
+  <link rel="preload" as="image" href="assets/clubes/clubes-combi-hornocal-jujuy-lausof.webp" fetchpriority="high">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="Lausof SRL">
+  <meta property="og:title" content="Traslados para Clubes y Delegaciones Deportivas — Salta y el NOA | Lausof SRL">
+  <meta property="og:description" content="Traslados de delegaciones deportivas en combis 19+1 con chofer profesional: partidos de visitante y torneos en Salta, Jujuy, Tucumán y el NOA. Habilitación CNRT interjurisdiccional.">
+  <meta property="og:url" content="https://www.lausof.com/clubes-deportivos.html">
+  <!-- og:image en recorte propio de 1200×630 y SIEMPRE en JPEG: los scrapers
+       de WhatsApp/Facebook manejan mal el WebP. -->
+  <meta property="og:image" content="https://www.lausof.com/assets/clubes/og-clubes.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Combi de Lausof con un grupo en el Hornocal, Jujuy">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Ficha del servicio. El proveedor referencia por @id la ficha
+       LocalBusiness completa de la portada: para Google, las dos páginas
+       hablan de la misma empresa. Los datos (dirección, teléfonos, geo)
+       viven solo en la portada; acá no se duplican para que nunca queden
+       desincronizados.
+       Las preguntas frecuentes NO se marcan como FAQPage: desde agosto de
+       2023 Google solo muestra ese resultado enriquecido a sitios de
+       gobierno y salud, así que el marcado no aporta nada acá. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Traslados para clubes y delegaciones deportivas",
+    "serviceType": "Transporte de delegaciones deportivas",
+    "description": "Traslado de delegaciones deportivas en combis de 19+1 plazas con chofer profesional: equipos de rugby, hockey y fútbol juvenil a partidos de visitante y torneos en Salta, Jujuy, Tucumán y el NOA. Ida y vuelta el mismo día o con noche incluida.",
+    "url": "https://www.lausof.com/clubes-deportivos.html",
+    "areaServed": [
+      { "@type": "State", "name": "Salta" },
+      { "@type": "State", "name": "Jujuy" },
+      { "@type": "State", "name": "Tucumán" }
+    ],
+    "provider": {
+      "@type": "LocalBusiness",
+      "@id": "https://www.lausof.com/#empresa",
+      "name": "Lausof SRL",
+      "url": "https://www.lausof.com/"
+    }
+  }
+  </script>
+
+  <script>document.documentElement.className='js'</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-row">
+    <a class="brand" href="index.html" aria-label="Lausof SRL — inicio">
+      <img src="assets/logo-horizontal-web.webp" alt="Transportes Lausof — Pasajeros, Cargas, Remolques">
+    </a>
+    <!-- El mismo menú que la home, porque desde acá se vuelve al sitio. -->
+    <nav class="main" aria-label="Secciones">
+      <a href="index.html#servicios">Servicios</a>
+      <a href="index.html#seguridad">Seguridad</a>
+      <a href="index.html#flota">Flota</a>
+      <a href="index.html#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="btn btn-wa btn-sm nav-cta" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20un%20traslado%20para%20nuestro%20club" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizar por WhatsApp</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-head" aria-label="Presentación">
+    <div class="page-head-photo" role="presentation"></div>
+    <div class="wrap page-head-inner">
+      <p class="kicker on-dark">Clubes y delegaciones deportivas</p>
+      <h1>Traslados para clubes y delegaciones deportivas</h1>
+      <p class="lead">Llevamos a tu equipo a la fecha de visitante: combis de 19+1 plazas con chofer profesional para delegaciones de rugby, hockey y fútbol, desde el club hasta canchas de Salta, Jujuy, Tucumán y todo el NOA.</p>
+      <div class="ctas">
+        <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20un%20traslado%20para%20nuestro%20club" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizá por WhatsApp</a>
+        <a class="btn btn-outline" href="#el-viaje">Cómo es el servicio</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- La misma franja de habilitaciones que la home, con los datos que le
+       importan al dirigente que organiza el viaje del club. -->
+  <div class="certs" aria-label="Habilitaciones">
+    <div class="wrap certs-row">
+      <span><b>Habilitación CNRT</b> N.º 60284 — interjurisdiccional</span>
+      <span><b>Seguro de pasajeros</b> vigente</span>
+      <span><b>Choferes profesionales</b> con psicofísico y ART al día</span>
+      <span><b>GPS</b> en las unidades en servicio</span>
+      <span><b>Facturamos A</b> — CUIT 30-71146774-9</span>
+      <span><b>Empresa de transporte</b> desde 2010</span>
+    </div>
+  </div>
+
+  <section class="block" id="transporte-habilitado">
+    <div class="wrap">
+      <p class="kicker">Por qué habilitado</p>
+      <h2>Cuando viaja el club, el transporte no se improvisa</h2>
+      <p class="sub">En una delegación juvenil viajan menores a cargo del club. Por eso, para nosotros hay cosas que no son negociables: unidad habilitada, seguro de pasajeros y un chofer profesional al volante.</p>
+      <div class="why-grid">
+        <div class="why-item"><b>Habilitación CNRT interjurisdiccional</b><p>Habilitación N.º 60284: las unidades pueden cruzar a Jujuy, Tucumán o cualquier provincia del NOA con los papeles en regla.</p></div>
+        <div class="why-item"><b>Seguro de pasajeros vigente</b><p>Cada persona que sube a la combi viaja cubierta por el seguro de pasajeros, desde la salida hasta la vuelta al club.</p></div>
+        <div class="why-item"><b>Chofer profesional</b><p>Licencia habilitante, psicofísico y ART al día. Choferes que conocen las rutas del NOA de memoria, con sol, lluvia o nieve.</p></div>
+        <div class="why-item"><b>GPS en las unidades</b><p>Las unidades en servicio llevan GPS: el viaje se puede seguir, y el club sabe dónde está el equipo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="el-viaje">
+    <div class="wrap">
+      <p class="kicker">El viaje</p>
+      <h2>De la puerta del club a la cancha, y de vuelta</h2>
+      <p class="sub">Transportamos pasajeros desde 2010. El servicio se arma según el fixture: nos pasás la fecha y el horario del partido, y nosotros armamos la salida.</p>
+      <div class="why-grid">
+        <div class="why-item"><b>Ida y vuelta el mismo día</b><p>Para la fecha de visitante: la combi lleva al equipo, espera el partido y los trae de vuelta en el día.</p></div>
+        <div class="why-item"><b>Con noche incluida</b><p>Para torneos de fin de semana o canchas lejanas: el chofer y la unidad quedan a disposición de la delegación.</p></div>
+        <div class="why-item"><b>Toda la delegación junta</b><p>Jugadores, cuerpo técnico y delegados en combis de 19+1 plazas, con lugar para bolsos y utilería.</p></div>
+        <div class="why-item"><b>Salida desde el club</b><p>La combi busca al equipo en el club y lo deja en el club: ningún chico queda a pie ni llega por su cuenta.</p></div>
+        <div class="why-item"><b>Horarios según el fixture</b><p>Salida calculada para llegar con tiempo de entrar en calor, no sobre la hora del partido.</p></div>
+        <div class="why-item"><b>¿Juegan varias categorías?</b><p>Si viaja más de un plantel, sumamos unidades y toda la delegación viaja coordinada.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="unidades">
+    <div class="wrap">
+      <p class="kicker">Las unidades</p>
+      <h2>Combis 19+1 mantenidas en taller propio</h2>
+      <p class="sub">Las combis se revisan y se reparan con nuestro propio equipo mecánico, antes de cada viaje largo. Menos riesgo de que una rotura deje al equipo sin partido.</p>
+      <div class="fotos-grid">
+        <figure>
+          <img src="assets/clubes/clubes-minibus-ruta-noa-lausof.webp" alt="Minibús de Lausof en un camino de la Quebrada de las Flechas, en ruta por el NOA" width="1280" height="720">
+          <figcaption>Por las rutas del NOA: Salta, Jujuy y Tucumán, en asfalto o ripio.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/clubes/clubes-minibus-delegaciones-lausof.webp" alt="Minibús de Lausof estacionado junto a un lago, listo para un grupo" width="821" height="547" loading="lazy">
+          <figcaption>Unidades para grupos, con lugar para bolsos y utilería.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/clubes/clubes-minibus-nieve-lausof.webp" alt="Minibús de Lausof en un camino de montaña nevado" width="1024" height="576" loading="lazy">
+          <figcaption>Operación todo clima: el partido se juega igual, el equipo llega igual.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="como-cotizar">
+    <div class="wrap">
+      <p class="kicker">Cómo cotizar</p>
+      <h2>Tres datos y te cotizamos en el día</h2>
+      <p class="sub">Escribinos por WhatsApp con estos tres datos y te respondemos con la cotización. Hablás siempre con la misma persona, de la cotización al día del viaje.</p>
+      <div class="why-grid">
+        <div class="why-item"><b>1. La fecha</b><p>Qué día se juega y a qué hora: con eso armamos el horario de salida.</p></div>
+        <div class="why-item"><b>2. El destino</b><p>A qué cancha o club van, en Salta, Jujuy, Tucumán o donde toque de visitante.</p></div>
+        <div class="why-item"><b>3. Cuántos viajan</b><p>Jugadores, cuerpo técnico y delegados: con la cantidad definimos cuántas unidades hacen falta.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="preguntas">
+    <div class="wrap">
+      <p class="kicker">Preguntas frecuentes</p>
+      <h2>Lo que los clubes nos preguntan antes de viajar</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <h3>¿Pueden llevar una delegación a Jujuy o Tucumán?</h3>
+          <p>Sí. Tenemos habilitación CNRT interjurisdiccional (N.º 60284), así que las unidades pueden viajar entre provincias: Jujuy, Tucumán y todo el NOA.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿El viaje puede ser ida y vuelta el mismo día?</h3>
+          <p>Sí, es lo más habitual en la fecha de visitante: la combi lleva al equipo, el chofer espera el partido y vuelven en el día. Para torneos largos también cotizamos el viaje con noche incluida.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Entran los bolsos y la utilería?</h3>
+          <p>Sí. Las combis tienen lugar para los bolsos de todo el plantel y la utilería del equipo: palos, bochas, conos, botiquín y lo que el cuerpo técnico necesite llevar.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Emiten factura para el club?</h3>
+          <p>Sí. Somos Lausof S.R.L., CUIT 30-71146774-9, y emitimos factura A, a nombre del club o de quien organice el viaje.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block cta-clubes" id="contacto">
+    <div class="wrap">
+      <img src="assets/logo-insignia-web.webp" alt="" width="340" height="340" style="width:112px;height:auto;margin-bottom:18px">
+      <h2>¿Tu equipo juega de visitante?</h2>
+      <p>Contanos la fecha del partido, a dónde viajan y cuántos son. Te respondemos con la cotización en el día.</p>
+      <div class="ctas">
+        <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20un%20traslado%20para%20nuestro%20club" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizá por WhatsApp</a>
+        <a class="btn btn-ghost" href="tel:+5493875377527">Llamar al 387 537-7527</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot-grid">
+    <div>
+      <p>Transporte y logística en Salta y el norte argentino.<br>Junín 1334 / Siria 1333 — Salta Capital (4400)</p>
+      <p>Instagram <a href="https://www.instagram.com/lausofsrl" target="_blank" rel="noopener">@lausofsrl</a> · Facebook <a href="https://www.facebook.com/lausoftransportes" target="_blank" rel="noopener">@lausoftransportes</a></p>
+    </div>
+    <div>
+      <b>Teléfonos</b>
+      <ul>
+        <!-- los dos primeros son móviles: llevan el 9 (+549). El tercero es fijo y no lo lleva -->
+        <li><a href="tel:+5493875377527">387 537-7527</a></li>
+        <li><a href="tel:+5493875269009">387 526-9009</a></li>
+        <li><a href="tel:+543874311584">0387 431-1584</a></li>
+      </ul>
+    </div>
+    <div>
+      <b>Correo</b>
+      <ul>
+        <li><a href="mailto:contacto@lausof.com">contacto@lausof.com</a></li>
+        <li><a href="mailto:transporte@lausof.com">transporte@lausof.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap proveedores">
+    <b>Datos para proveedores y compras</b>
+    <ul>
+      <li>Razón social: Lausof S.R.L.</li>
+      <li>CUIT: 30-71146774-9</li>
+      <li>Emitimos factura A.</li>
+    </ul>
+  </div>
+
+  <div class="wrap legal">
+    <span>© Lausof SRL · CUIT 30-71146774-9 · Salta Capital, Argentina</span>
+    <span>Empresa familiar de transporte y logística · NOA</span>
+  </div>
+</footer>
+
+<div class="wa-bar" aria-label="Acciones rápidas">
+  <a class="btn btn-ghost" href="tel:+5493875377527"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>Llamar</a>
+  <a class="btn btn-wa" href="https://wa.me/5493875377527?text=Hola%20Lausof%2C%20quiero%20cotizar%20un%20traslado%20para%20nuestro%20club" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Cotizar por WhatsApp</a>
+</div>
+
+<script>
+/* Mismo comportamiento que la home: el botón de WhatsApp del encabezado
+   aparece recién cuando el visitante pasó la portada. */
+(function () {
+  var portada = document.querySelector('.page-head');
+  var mostrar = function () { document.body.classList.add('past-hero'); };
+  if (!portada || !('IntersectionObserver' in window)) { mostrar(); return; }
+  new IntersectionObserver(function (entradas) {
+    document.body.classList.toggle('past-hero', !entradas[0].isIntersecting);
+  }).observe(portada);
+})();
+</script>
+
+</body>
+</html>
