@@ -23,6 +23,7 @@ const dedicadas = {
   'traslados-empresas.html': 'Traslados Corporativos y Congresos — Salta, Jujuy y Tucumán | Lausof SRL',
   'peregrinaciones-eventos.html': 'Peregrinaciones, Casamientos y Eventos — Traslados en Combi | Lausof SRL',
   'alquiler-4x4.html': 'Alquiler de Camionetas 4x4 en Salta — Mensual, para Empresas y Minería | Lausof SRL',
+  'alquiler-autoelevadores.html': 'Alquiler de Autoelevadores en Salta — 3 y 4 Toneladas, con o sin Operador | Lausof SRL',
   'deposito-galpon.html': 'Depósito y Galpón en Salta — Cámara de Frío y Playa de Maniobras | Lausof SRL',
   'producciones.html': 'Apoyo Logístico para Producciones y Rodajes — Salta y la Puna | Lausof SRL',
 };
@@ -52,8 +53,8 @@ test('todas las páginas cargan styles.css en la misma versión que la portada',
 });
 
 // El sitemap lista exactamente las páginas indexables: la portada, flota y
-// las catorce dedicadas. La 404 no va (no es una página para indexar).
-test('el sitemap lista las 16 URLs indexables y ninguna más', () => {
+// las quince dedicadas. La 404 no va (no es una página para indexar).
+test('el sitemap lista las 17 URLs indexables y ninguna más', () => {
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
   const esperadas = [
     'https://www.lausof.com/',
@@ -63,7 +64,7 @@ test('el sitemap lista las 16 URLs indexables y ninguna más', () => {
   for (const url of esperadas) {
     assert.ok(urls.includes(url), `falta ${url} en el sitemap`);
   }
-  assert.strictEqual(urls.length, 16, `el sitemap tiene ${urls.length} URLs y se esperaban 16`);
+  assert.strictEqual(urls.length, 17, `el sitemap tiene ${urls.length} URLs y se esperaban 17`);
   assert.ok(!sitemap.includes('404.html'), 'la 404 no va en el sitemap');
 });
 
