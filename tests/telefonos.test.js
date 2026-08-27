@@ -69,6 +69,9 @@ test('index.html: la tarjeta de auxilio lleva plantilla de WhatsApp y tel: visib
   for (const campo of ['Ubicaci%C3%B3n%3A', 'Veh%C3%ADculo%3A', 'Qu%C3%A9%20pas%C3%B3%3A']) {
     assert.ok(wa[1].includes(campo), `la plantilla de auxilio perdió el campo ${campo}`);
   }
-  assert.ok(tarjeta.includes('href="tel:+5493875377527"'),
+  // 27/08: el 537-7527 quedó sin línea (solo WhatsApp); el tel: de auxilio va al 526-9009.
+  assert.ok(tarjeta.includes('href="tel:+5493875269009"'),
     'la tarjeta de auxilio no tiene enlace tel: para llamar directo');
+  assert.ok(!tarjeta.includes('tel:+5493875377527'),
+    'la tarjeta de auxilio sigue ofreciendo llamar al 537-7527, que no tiene línea');
 });
