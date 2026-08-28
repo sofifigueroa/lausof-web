@@ -5,6 +5,8 @@
 
 const test = require('node:test');
 const assert = require('node:assert');
+const fs = require('node:fs');
+const path = require('node:path');
 const { index, flota, sitemap, robots, redirects } = require('./util.js');
 
 test('las canónicas de las dos páginas apuntan al dominio con www', () => {
@@ -139,6 +141,17 @@ test('el fondo del hero (LCP) se precarga en las dos páginas', () => {
   for (const foto of ['hero-flota-paisaje.webp', 'pasajeros-1-quebrada.webp']) {
     assert.ok(css.includes(`assets/${foto}`), `la CSS ya no usa ${foto}: actualizar la precarga`);
   }
+});
+
+// Los tokens de verificación de los buscadores no son decoración: Bing y
+// Google los revalidan cada tanto y, si desaparecen, se pierde el acceso a las
+// herramientas para webmasters (y con él los datos de rastreo). El de Bing es
+// un meta en la portada; el de Google, un archivo suelto en la raíz.
+test('los tokens de verificación de Bing y Google siguen en el sitio', () => {
+  assert.ok(index.includes('<meta name="msvalidate.01" content="3A66C4DA67522FB30ABB2560CC0FDEC2" />'),
+    'se borró el meta msvalidate.01 de Bing Webmaster Tools de la portada');
+  assert.ok(fs.existsSync(path.join(__dirname, '..', 'google40eac84837fa77f1.html')),
+    'se borró el archivo de verificación de Google Search Console');
 });
 
 test('las redirecciones no tienen un comodín que tape páginas reales', () => {
