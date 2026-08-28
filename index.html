@@ -44,6 +44,11 @@
        que tampoco se toca. -->
   <meta name="msvalidate.01" content="3A66C4DA67522FB30ABB2560CC0FDEC2" />
 
+  <!-- Ficha de la empresa. Es la ÚNICA definición completa de la entidad: las
+       demás páginas la referencian por su @id #empresa y heredan de acá los
+       datos (horario, fotos, redes). Lo que dice esta ficha tiene que decir lo
+       mismo que las fichas de Google, Apple Maps y Bing: si se contradicen,
+       los buscadores y las IA se quedan con la versión que más se repite. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -51,10 +56,15 @@
     "@id": "https://www.lausof.com/#empresa",
     "name": "Lausof SRL",
     "legalName": "Lausof S.R.L.",
-    "description": "Empresa familiar salteña de transporte y logística: auxilio mecánico y remolques, transporte de personal, cargas refrigeradas y depósito, servicios de taller, turismo y logística en la Puna.",
+    "description": "Empresa familiar salteña de transporte y logística con más de 15 años de trayectoria: auxilio mecánico y remolques las 24 hs, transporte de personal, cargas generales y refrigeradas, depósito, servicios de taller, turismo y logística en la Puna. Base propia en Junín 1334, Salta.",
     "url": "https://www.lausof.com/",
-    "logo": "https://www.lausof.com/assets/apple-touch-icon.png",
-    "image": "https://www.lausof.com/assets/og-portada.jpg",
+    "foundingDate": "2010",
+    "logo": "https://www.lausof.com/assets/logo-horizontal-web.png",
+    "image": [
+      "https://www.lausof.com/assets/og-portada.jpg",
+      "https://www.lausof.com/assets/hero-flota-paisaje.jpg",
+      "https://www.lausof.com/assets/auxilio-5-ruta.jpg"
+    ],
     "taxID": "30-71146774-9",
     "telephone": "+54-9-387-526-9009",
     "email": "contacto@lausof.com",
@@ -68,6 +78,14 @@
     },
     "geo": { "@type": "GeoCoordinates", "latitude": -24.771929, "longitude": -65.4272135 },
     "hasMap": "https://www.google.com/maps/place/Lausof+Transportes+SRL/@-24.771929,-65.4272135,17z/",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
     "areaServed": [
       { "@type": "State", "name": "Salta" },
       { "@type": "State", "name": "Jujuy" },
@@ -75,7 +93,8 @@
     ],
     "sameAs": [
       "https://www.instagram.com/lausofsrl",
-      "https://www.facebook.com/lausoftransportes"
+      "https://www.facebook.com/lausoftransportes",
+      "https://maps.apple.com/place?place-id=IFDAF471150EB87B7"
     ],
     "hasOfferCatalog": {
       "@type": "OfferCatalog",

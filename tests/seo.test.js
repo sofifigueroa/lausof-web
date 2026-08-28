@@ -89,6 +89,66 @@ test('el JSON-LD de la portada lleva geo, hasMap y el teléfono de la ficha', ()
     'el teléfono del JSON-LD tiene que ser el 526-9009 (la línea real)');
 });
 
+// La ficha de la portada es la única definición completa de la entidad, así
+// que tiene que contar lo mismo que las fichas de Google, Apple Maps y Bing:
+// horario 24 hs, antigüedad, CUIT, logo, fotos y las redes reales. Si acá
+// falta algo, las páginas que referencian el @id #empresa tampoco lo heredan.
+const empresa = () => JSON.parse(
+  index.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+
+test('el JSON-LD de la portada declara la guardia de 24 hs los 7 días', () => {
+  const horarios = empresa().openingHoursSpecification;
+  assert.ok(Array.isArray(horarios) && horarios.length,
+    'falta openingHoursSpecification: la ficha no dice que el auxilio es 24 hs');
+  const dias = horarios.flatMap((h) => [].concat(h.dayOfWeek));
+  for (const dia of ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+    'Saturday', 'Sunday']) {
+    assert.ok(dias.includes(dia), `el horario no cubre ${dia}`);
+  }
+  // El día completo se expresa 00:00–23:59 (la forma que documenta Google
+  // para negocios abiertos las 24 horas).
+  for (const h of horarios) {
+    assert.strictEqual(h.opens, '00:00', 'un tramo horario no abre a las 00:00');
+    assert.strictEqual(h.closes, '23:59', 'un tramo horario no cierra a las 23:59');
+  }
+});
+
+test('la ficha lleva antigüedad, CUIT y la descripción de las 24 hs', () => {
+  const datos = empresa();
+  assert.strictEqual(datos.foundingDate, '2010',
+    'falta foundingDate 2010 (Contrato Social de 2010)');
+  assert.strictEqual(datos.taxID, '30-71146774-9', 'el CUIT del JSON-LD no es el de Lausof');
+  for (const palabra of ['24 hs', 'Salta', 'Junín 1334']) {
+    assert.ok(datos.description.includes(palabra),
+      `la descripción perdió "${palabra}": ${datos.description}`);
+  }
+});
+
+// El logo y las fotos van con URL absoluta (los buscadores las leen fuera del
+// contexto de la página) y tienen que existir en assets/: si se renombra un
+// archivo, la ficha queda apuntando al vacío y Google descarta la imagen.
+test('el logo y las fotos de la ficha son absolutos y existen en assets', () => {
+  const datos = empresa();
+  const fotos = [].concat(datos.logo, datos.image);
+  assert.ok(fotos.length >= 3, 'la ficha tiene menos de un logo y dos fotos');
+  for (const url of fotos) {
+    assert.match(url, /^https:\/\/www\.lausof\.com\/assets\/\S+$/,
+      `la imagen de la ficha no es absoluta al dominio canónico: ${url}`);
+    const archivo = url.replace('https://www.lausof.com/', '');
+    assert.ok(fs.existsSync(path.join(__dirname, '..', archivo)),
+      `la ficha apunta a ${archivo} y ese archivo no está en el sitio`);
+  }
+});
+
+test('el sameAs de la ficha lista los perfiles reales de la empresa', () => {
+  const redes = empresa().sameAs;
+  for (const perfil of ['https://www.instagram.com/lausofsrl',
+    'https://www.facebook.com/lausoftransportes',
+    'https://maps.apple.com/place?place-id=IFDAF471150EB87B7']) {
+    assert.ok(redes.includes(perfil), `falta ${perfil} en el sameAs`);
+  }
+});
+
 test('la página de flota referencia la entidad #empresa de la portada', () => {
   const bloque = flota.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
   assert.ok(bloque, 'no hay JSON-LD estático en flota-en-venta.html');
