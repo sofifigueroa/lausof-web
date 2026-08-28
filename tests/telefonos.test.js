@@ -11,12 +11,18 @@ const assert = require('node:assert');
 // Cubre TODAS las páginas de la raíz: una página nueva entra sola.
 const { paginas } = require('./util.js');
 
-// Canon de teléfonos (27/08, indicación del dueño): el sitio quedó con dos
-// líneas y una función para cada una. El 526-9009 es el móvil que toma las
-// llamadas; el 509-2489 es el único WhatsApp (antes solo atendía la venta de
-// flota, ahora es el de todo el sitio) y nunca va como tel:.
+// Canon de teléfonos (27/08, indicación del dueño): el 526-9009 es la única
+// línea pública del sitio y atiende llamadas y WhatsApp. El 509-2489 es un
+// número personal de la familia: no se publica en las páginas de servicios.
 const lineasMoviles = ['5269009'];
-const lineasWhatsApp = ['5493875092489'];
+const lineasWhatsApp = ['5493875269009'];
+
+// Única excepción: la venta de flota sigue derivando al 509-2489 mientras se
+// decide qué línea la atiende. Vale sólo en esa página; en cualquier otra, que
+// aparezca el número es el error que esta guardia tiene que encontrar.
+const paginaDeVenta = 'flota-en-venta.html';
+const whatsAppVenta = '5493875092489';
+const lineaPersonal = ['5092489', '509-2489'];
 
 // Líneas dadas de baja: no vuelven a entrar ni en un enlace, ni en un texto,
 // ni en un comentario. Se buscan en las dos formas en que se escriben.
@@ -34,17 +40,33 @@ for (const [nombre, contenido] of Object.entries(paginas)) {
     assert.ok(was.length > 0, `no se encontró ningún wa.me en ${nombre}`);
   });
 
+  // En la página de venta también vale el WhatsApp de ventas, hasta que se
+  // decida qué línea lo atiende.
+  const permitidas = nombre === paginaDeVenta
+    ? [...lineasWhatsApp, whatsAppVenta]
+    : lineasWhatsApp;
+
   test(`${nombre}: todo wa.me apunta a la línea de WhatsApp`, () => {
     for (const href of was) {
       const m = href.match(/^https:\/\/wa\.me\/(\d+)(\?text=[^"]*)?$/);
       assert.ok(m, `wa.me con formato inesperado: ${href}`);
-      assert.ok(lineasWhatsApp.includes(m[1]),
+      assert.ok(permitidas.includes(m[1]),
         `wa.me a una línea que no atiende WhatsApp: ${href}`);
     }
   });
 
-  // El 509-2489 atiende solo por WhatsApp: si aparece en un tel:, el que
-  // llama cae en una línea que nadie levanta.
+  // El 509-2489 es personal: fuera de la página de venta no puede aparecer ni
+  // como enlace ni escrito en el texto. Un tel: a esa línea, además, manda a
+  // llamar a un número que no atiende consultas del sitio.
+  if (nombre !== paginaDeVenta) {
+    test(`${nombre}: el 509-2489 no se publica`, () => {
+      for (const forma of lineaPersonal) {
+        assert.ok(!contenido.includes(forma),
+          `${nombre} publica la línea personal ${forma}`);
+      }
+    });
+  }
+
   test(`${nombre}: el 509-2489 nunca se ofrece para llamar`, () => {
     for (const href of tels) {
       assert.ok(!href.includes('5092489'),
@@ -83,9 +105,9 @@ test('index.html: la tarjeta de auxilio lleva plantilla de WhatsApp y tel: visib
   for (const campo of ['Ubicaci%C3%B3n%3A', 'Veh%C3%ADculo%3A', 'Qu%C3%A9%20pas%C3%B3%3A']) {
     assert.ok(wa[1].includes(campo), `la plantilla de auxilio perdió el campo ${campo}`);
   }
-  // El WhatsApp de la tarjeta va a la línea que atiende; el tel: al móvil que
-  // toma llamadas. Las dos cosas tienen que estar: el que quedó varado elige.
-  assert.ok(wa[1].includes('/5493875092489?'),
+  // El WhatsApp de la tarjeta va a la línea que atiende; el tel: al mismo
+  // número. Las dos cosas tienen que estar: el que quedó varado elige.
+  assert.ok(wa[1].includes('/5493875269009?'),
     'la plantilla de auxilio no va al WhatsApp que atiende');
   assert.ok(tarjeta.includes('href="tel:+5493875269009"'),
     'la tarjeta de auxilio no tiene enlace tel: para llamar directo');
