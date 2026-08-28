@@ -81,8 +81,8 @@ test('el JSON-LD de la portada lleva geo, hasMap y el teléfono de la ficha', ()
   assert.strictEqual(datos.geo && datos.geo.longitude, -65.4272135, 'falta la longitud del pin');
   assert.match(datos.hasMap || '', /^https:\/\/www\.google\.com\/maps\/place\//,
     'falta el hasMap con el enlace a la ficha');
-  // 27/08: el 526-9009 pasó a ser EL teléfono (el 537-7527 quedó sin línea);
-  // ya no hace falta contactPoint aparte.
+  // 27/08: el 526-9009 es EL teléfono de llamadas del sitio, así que la ficha
+  // se describe con una sola línea y no hace falta contactPoint aparte.
   assert.strictEqual(datos.telephone, '+54-9-387-526-9009',
     'el teléfono del JSON-LD tiene que ser el 526-9009 (la línea real)');
 });
