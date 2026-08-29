@@ -99,3 +99,22 @@ test('todas las páginas cargan Google Analytics con el ID de la propiedad', () 
     assert.match(s, /gtag\('config','G-GHHRS5LDE7'\)/, `${f} sin la config de GA4`);
   }
 });
+
+// La foto de #nosotros vive en la columna derecha de .nosotros-grid: si se
+// cae el <img> o se renombra el archivo, la sección vuelve a quedar con la
+// mitad de ancho vacía en desktop y nadie se entera hasta verla.
+test('#nosotros conserva su foto de flota y la columna que la sostiene', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const seccion = index.match(/<section class="block" id="nosotros">([\s\S]*?)<\/section>/);
+  assert.ok(seccion, 'no está la sección #nosotros');
+  assert.match(seccion[1], /class="nosotros-grid"/, '#nosotros perdió la grilla de texto + foto');
+  const img = seccion[1].match(/<img src="(assets\/[^"]+)"[^>]*alt="([^"]+)"/);
+  assert.ok(img, '#nosotros se quedó sin foto');
+  assert.ok(fs.existsSync(path.join(__dirname, '..', img[1])),
+    `#nosotros apunta a ${img[1]}, que no existe en assets/`);
+  assert.match(css, /\.nosotros-grid\{display:grid;grid-template-columns:1\.1fr \.9fr/,
+    'falta la grilla de dos columnas de .nosotros-grid');
+  assert.match(css, /\.nosotros-grid\{grid-template-columns:1fr[;}]/,
+    'falta el colapso a una columna de .nosotros-grid en mobile');
+});

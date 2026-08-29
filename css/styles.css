@@ -333,6 +333,17 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 /* ---- nosotros ---- */
 .nosotros p{max-width:62ch;color:var(--ink-mid);margin:18px 0 0}
 .nosotros .cierre{font-weight:700;color:var(--ink)}
+/* El relato a la izquierda y la foto de flota en la columna que quedaba
+   vacía, con la misma proporción y el mismo tratamiento que el texto+foto
+   de logística minera. En pantalla angosta la foto pasa abajo. */
+.nosotros-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+@media(max-width:880px){.nosotros-grid{grid-template-columns:1fr;gap:26px}}
+.nosotros-grid figure{margin:0}
+.nosotros-grid img{
+  display:block;width:100%;height:auto;
+  border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+}
+.nosotros-grid figcaption{font-size:.85rem;color:var(--ink-soft);margin-top:10px}
 
 /* ---- testimonios ---- */
 /* Pared de reseñas: todas visibles, sin carrusel. flex-wrap centrado para
