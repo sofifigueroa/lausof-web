@@ -85,7 +85,7 @@ export const UNIDADES = [
     estado: 'publicada',
     foto: 'sprinter-2019.webp',
     ficha: ['2019', '480.000 km', '19+1 pasajeros', 'Diésel', 'Único dueño'],
-    resumen: 'Motor y estado general excelentes, funciona todo. Unidad habilitada CNRT, con el mantenimiento hecho por nuestro propio taller.'
+    resumen: 'Unidad habilitada CNRT, con mantenimiento hecho en nuestro taller. Se puede ver y probar.'
   },
 
   {
@@ -123,7 +123,7 @@ export const UNIDADES = [
     /* La ficha de Mercado Libre y la descripción no coincidían en los kilómetros.
        Lautaro confirmó el 16/08 que valen los 120.000 km de la ficha. */
     ficha: ['2007', '120.000 km', '4x4', 'Automática', 'Nafta', '272 hp'],
-    resumen: 'Se le cambiaron amortiguadores, parrillas y bujes. Neumáticos nuevos Kumho y pantalla multimedia con cámara. Estado general impecable, con detalles menores de pintura.'
+    resumen: 'Se le cambiaron amortiguadores, parrillas y bujes. Neumáticos nuevos Kumho y pantalla multimedia con cámara. Estado general impecable.'
   },
 
   {

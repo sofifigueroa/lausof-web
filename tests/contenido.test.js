@@ -39,7 +39,7 @@ for (const [nombre, contenido] of Object.entries(paginas)) {
       !/\b(un|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|\d+)\s+tel[eé]fonos?\s+satelitales?/i.test(contenido),
       `se publica la cantidad de teléfonos satelitales en ${nombre}`,
     );
-    const dimension = /\b(dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|once|doce|quince|veinte|\d+)\s+(unidades|veh[ií]culos|camiones|camionetas|combis|minibuses|gr[uú]as|choferes|conductores|mec[aá]nicos|empleados)\b/i;
+    const dimension = /\b(dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|once|doce|quince|veinte|\d+)\s+(unidades|veh[ií]culos|camiones|camionetas|combis|minib[uú]s(?:es)?|autoelevadores|gr[uú]as|choferes|conductores|mec[aá]nicos|empleados)\b/i;
     const m = contenido.match(dimension);
     assert.ok(!m, `se dimensiona la flota o el personal en ${nombre}: "${m && m[0]}"`);
   });
