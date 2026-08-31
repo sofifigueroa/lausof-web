@@ -85,6 +85,32 @@ nav.main a:focus-visible{color:var(--gold-ink)}
   .brand img{height:44px}
 }
 
+/* ---- selector de idioma ----
+   Un enlace de texto por idioma alternativo, con el nombre del idioma escrito
+   en ese idioma ("English", "Español", "Français"). Sin banderas: una bandera
+   es un país, no un idioma. Va en la barra superior, después del menú.
+
+   La regla no nombra ningún idioma: cuando se sume un tercero (/fr/) alcanza
+   con agregar otro <a class="lang-switch"> al HTML, sin tocar esta hoja. */
+.lang-switch{
+  font-size:.9rem;font-weight:700;text-decoration:none;white-space:nowrap;
+  color:var(--ink-soft);
+  border:1px solid var(--border);border-radius:var(--radius);
+  padding:7px 12px;line-height:1;
+}
+.lang-switch:focus-visible{color:var(--gold-ink);border-color:var(--gold)}
+
+/* En mobile el menú desaparece y la barra centra la marca. El auto empuja el
+   grupo de idiomas contra el borde derecho —los márgenes automáticos se comen
+   el espacio libre antes que el justify-content— y la marca queda a la
+   izquierda. El auto va sólo en el primero para que los idiomas siguientes
+   queden pegados a él y no repartidos por la barra. Vive arriba, en la barra
+   pegajosa: nunca pisa la barra fija de acción, que está abajo. */
+@media(max-width:880px){
+  .lang-switch{margin-left:auto;padding:7px 10px}
+  .lang-switch ~ .lang-switch{margin-left:0}
+}
+
 /* El CTA del header sólo aparece cuando el del hero ya salió de pantalla,
    para que nunca haya dos botones de WhatsApp visibles a la vez. */
 html.js .nav-cta{opacity:0;visibility:hidden;transition:opacity .18s ease}

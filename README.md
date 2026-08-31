@@ -84,6 +84,54 @@ Dos cosas propias de esta página:
   bloque de configuración). De esos avisos va sólo el enlace: el precio que vale
   es el de Mercado Libre, porque los demás sitios lo redondean.
 
+## Versión en inglés
+
+El sitio se publica en dos idiomas. El español es el original; el inglés vive
+bajo `/en/` y hoy son ocho páginas más su propia 404:
+
+| Español | Inglés |
+|---|---|
+| `index.html` | `en/index.html` |
+| `logistica-minera.html` | `en/mining-logistics.html` |
+| `transporte-de-personal.html` | `en/personnel-transport.html` |
+| `turismo.html` | `en/tours-and-transfers.html` |
+| `alquiler-4x4.html` | `en/4x4-rental.html` |
+| `cargas-refrigeradas.html` | `en/refrigerated-freight.html` |
+| `deposito-galpon.html` | `en/warehouse.html` |
+| `producciones.html` | `en/film-production-logistics.html` |
+
+**El mapa `pares` de `tests/util.js` es la única fuente de verdad** de qué
+página tiene gemela. De ahí salen el hreflang, el selector de idioma, el
+sitemap y la guardia de que ninguna página de `/en/` quede huérfana. `en/404.html`
+no entra al mapa: no se indexa, no lleva hreflang y no va al sitemap.
+
+Cuatro reglas que no se negocian:
+
+- **Todas las rutas de `/en/` son root-absolutas** (`/css/styles.css?v=25`,
+  `/assets/…`, `/logistica-minera.html`). Una ruta relativa desde un
+  subdirectorio resuelve a `/en/assets/…` y rompe las imágenes. Hay un test.
+- **El hreflang tiene que ser recíproco.** Las tres líneas (`es`, `en`,
+  `x-default`) son idénticas en las dos gemelas y el `x-default` apunta
+  **siempre** al español. Si una sola de las dos no apunta a la otra, Google
+  descarta el bloque entero.
+- **La portada de cada idioma es un directorio** (`/` y `/en/`), nunca
+  `/en/index.html` (que redirige 301). Vale para la canónica, el hreflang, el
+  sitemap y el `href` del selector.
+- **Un solo `.lang-switch` por página**, el de la barra superior. El enlace de
+  idioma del pie lleva la misma forma en las 27 páginas pero **sin** esa clase:
+  con dos, la guardia del selector cuenta dos enlaces y falla.
+
+**Para sumar una gemela nueva:** se escriben las dos páginas, se agrega el
+renglón a `pares`, se le pone a la española el bloque hreflang (debajo de la
+canónica), el `og:locale:alternate` y el selector deep-link, se suma el `<url>`
+al sitemap y se suben los contadores de `tests/paginas.test.js` (URLs del
+sitemap) y `tests/contenido.test.js` (logos decorativos). Las dos gemelas van
+**en el mismo deploy**: media gemela publicada es peor que ninguna.
+
+El generador `scripts/generar-flota.mjs` no se tocó y `flota-en-venta.html`
+**no tiene gemela inglesa** (sus textos están hardcodeados en castellano dentro
+del generador). Las páginas en inglés no la enlazan.
+
 ## Cómo verlo en local
 
 Abrir `index.html` en el navegador (doble click), o servirlo:

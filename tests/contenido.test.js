@@ -67,10 +67,12 @@ test('toda imagen lleva alt descriptivo salvo los logos decorativos', () => {
       }
     }
   }
-  // Hoy lo llevan 15 páginas (portada, flota, las 4 de servicios, las 8 de
-  // la ola del 26/08 y autoelevadores del 27/08); si una página lo suma o lo
-  // pierde, este número se actualiza a conciencia.
-  assert.strictEqual(decorativos, 15, `se esperaban 15 logos decorativos con alt="", hay ${decorativos}`);
+  // Hoy lo llevan 23 páginas: las 15 en español (portada, flota, las 4 de
+  // servicios, las 8 de la ola del 26/08 y autoelevadores del 27/08) y las 8
+  // gemelas inglesas del 31/08, que cierran igual que su gemela. La 404 de
+  // cada idioma no lo lleva. Si una página lo suma o lo pierde, este número
+  // se actualiza a conciencia.
+  assert.strictEqual(decorativos, 23, `se esperaban 23 logos decorativos con alt="", hay ${decorativos}`);
 });
 
 // Afirmaciones verificadas que la portada tiene que conservar, se redacte

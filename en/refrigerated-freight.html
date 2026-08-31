@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <!-- English twin of cargas-refrigeradas.html. Same facts, different reading
+       order: this reader is a camp-catering or facility contractor, or a food
+       company shipping into the northwest, and buys on compliance and on the
+       temperature record before it buys on equipment. So the credentials strip
+       comes first and the call to action is email, not WhatsApp.
+       Every path is root-absolute: a relative href from /en/ would resolve to
+       /en/assets/... and break every image on the page. -->
+  <title>Refrigerated Freight in Salta, Argentina — Cold Chain and Cold Room Storage | Lausof SRL</title>
+  <meta name="description" content="Frozen and chilled cargo across Salta and northwest Argentina with an unbroken cold chain, a temperature log in transit and cold room storage. Request a quote.">
+  <link rel="canonical" href="https://www.lausof.com/en/refrigerated-freight.html">
+  <!-- hreflang: the same three lines have to sit in the Spanish twin, or
+       Google discards the whole set. x-default goes to the Spanish page: it is
+       the original and the better default for anyone who is neither. -->
+  <link rel="alternate" hreflang="es" href="https://www.lausof.com/cargas-refrigeradas.html">
+  <link rel="alternate" hreflang="en" href="https://www.lausof.com/en/refrigerated-freight.html">
+  <link rel="alternate" hreflang="x-default" href="https://www.lausof.com/cargas-refrigeradas.html">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="/css/styles.css?v=25">
+  <link rel="stylesheet" href="/css/cargas.css?v=2">
+
+  <!-- Same LCP preload as the Spanish twin: the page-head background is the
+       largest image and it comes from the stylesheet, so it is discovered
+       late unless it is preloaded here. -->
+  <link rel="preload" as="image" href="/assets/refrigerados-1-lateral.webp" fetchpriority="high">
+
+  <style>
+    /* Email is the primary call to action on the English pages: a foreign
+       buyer opens a request for quote from a corporate mailbox, not from
+       WhatsApp. The fill is the brand gold already used for the card tags in
+       css/styles.css, so no new color enters the palette. Page-scoped on
+       purpose while the English wave is being built; if the other English
+       pages keep it, it belongs in css/styles.css and that means bumping the
+       stylesheet version on every page at once. */
+    .btn-mail{background:var(--gold-ink);color:#fff;border-color:var(--gold-ink)}
+    @media (hover:hover){.btn-mail:hover{background:#6a5019;border-color:#6a5019}}
+  </style>
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="es_AR">
+  <meta property="og:site_name" content="Lausof SRL">
+  <meta property="og:title" content="Refrigerated Freight in Salta, Argentina — Cold Chain and Cold Room Storage | Lausof SRL">
+  <meta property="og:description" content="Frozen and chilled goods at controlled temperature from origin to destination, a temperature log during the trip, a 4x4 refrigerated truck for gravel roads and altitude, and cold room storage in Salta.">
+  <meta property="og:url" content="https://www.lausof.com/en/refrigerated-freight.html">
+  <!-- Same JPEG crop as the Spanish twin: the images are reused, never
+       duplicated, and the WhatsApp and Facebook scrapers handle WebP badly. -->
+  <meta property="og:image" content="https://www.lausof.com/assets/og-portada.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Lausof freight and towing trucks in northern Argentina">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- One company, one entity: this page REFERENCES the full LocalBusiness
+       record on the Spanish home page by its @id and never redefines it. The
+       language lives on the WebPage node, which is where schema.org allows
+       inLanguage. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://www.lausof.com/en/refrigerated-freight.html#webpage",
+        "url": "https://www.lausof.com/en/refrigerated-freight.html",
+        "name": "Refrigerated Freight in Salta, Argentina — Cold Chain and Cold Room Storage | Lausof SRL",
+        "description": "Frozen and chilled cargo across Salta and northwest Argentina with an unbroken cold chain, a temperature log in transit and cold room storage.",
+        "inLanguage": "en",
+        "about": { "@id": "https://www.lausof.com/#empresa" },
+        "isPartOf": { "@type": "WebSite", "url": "https://www.lausof.com/", "name": "Lausof SRL" }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://www.lausof.com/en/refrigerated-freight.html#service",
+        "name": "Refrigerated freight and cold room storage",
+        "serviceType": "Temperature-controlled freight with an unbroken cold chain",
+        "description": "Frozen and chilled goods at controlled temperature from origin to destination, a temperature log during the trip, a 4x4 refrigerated truck for gravel and high-altitude destinations, and cold room storage in Salta for storage, consolidation and distribution.",
+        "url": "https://www.lausof.com/en/refrigerated-freight.html",
+        "availableLanguage": ["es", "en"],
+        "areaServed": [
+          { "@type": "State", "name": "Salta" },
+          { "@type": "State", "name": "Jujuy" },
+          { "@type": "Country", "name": "Argentina" }
+        ],
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://www.lausof.com/#empresa",
+          "name": "Lausof SRL",
+          "url": "https://www.lausof.com/"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script>document.documentElement.className='js'</script>
+  <!-- Traffic measurement (Google Analytics 4). Same tag as the Spanish
+       pages: the /en/ landing path is what separates the two versions in the
+       reports. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GHHRS5LDE7"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-GHHRS5LDE7')</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-row">
+    <a class="brand" href="/en/" aria-label="Lausof SRL — home">
+      <img src="/assets/logo-horizontal-web.webp" alt="Transportes Lausof — passengers, freight and towing in Salta">
+    </a>
+    <nav class="main" aria-label="Sections">
+      <a href="/en/#services">Services</a>
+      <a href="/en/#safety">Safety</a>
+      <a href="/en/#fleet">Fleet</a>
+      <a href="/en/#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="lang-switch" href="/cargas-refrigeradas.html" hreflang="es" lang="es" rel="alternate">Español</a>
+    <a class="btn btn-mail btn-sm nav-cta" href="mailto:contacto@lausof.com?cc=transporte@lausof.com&amp;subject=Quote%20request%20%E2%80%94%20refrigerated%20freight&amp;body=Cargo%20type%3A%0D%0AWeight%20or%20volume%3A%0D%0ATemperature%20required%20(%C2%B0C)%3A%0D%0AOrigin%3A%0D%0ADestination%3A%0D%0APickup%20and%20delivery%20dates%3A%0D%0ACompany%20and%20contact%3A%0D%0A">Request a quote</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-head" aria-label="Introduction">
+    <div class="page-head-photo" role="presentation"></div>
+    <div class="wrap page-head-inner">
+      <p class="kicker on-dark">Refrigerated freight</p>
+      <h1>Refrigerated freight in Salta, with an unbroken cold chain.</h1>
+      <p class="lead">Frozen and chilled goods at controlled temperature from origin to destination, a temperature log for the trip, and a cold room in our own warehouse in Salta. Quotes the same business day.</p>
+      <div class="ctas">
+        <a class="btn btn-mail" href="mailto:contacto@lausof.com?cc=transporte@lausof.com&amp;subject=Quote%20request%20%E2%80%94%20refrigerated%20freight&amp;body=Cargo%20type%3A%0D%0AWeight%20or%20volume%3A%0D%0ATemperature%20required%20(%C2%B0C)%3A%0D%0AOrigin%3A%0D%0ADestination%3A%0D%0APickup%20and%20delivery%20dates%3A%0D%0ACompany%20and%20contact%3A%0D%0A">Request a quote by email</a>
+        <a class="btn btn-wa" href="https://wa.me/5493875269009?text=Hello%20Lausof%2C%20I%20would%20like%20a%20quote%20for%20refrigerated%20freight.%20Cargo%3A%20%2F%20Temperature%3A%20%2F%20From%3A%20%2F%20To%3A%20%2F%20Dates%3A" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Message us on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compliance before catalogue. A contractor screening a local supplier for
+       a prequalification pack reads this strip first; each Argentine
+       institution carries a one-clause gloss so the buyer knows which
+       certificate to ask for. Only the CNRT number is published: it is the one
+       number the buyer can verify. -->
+  <div class="certs" aria-label="Credentials">
+    <div class="wrap certs-row">
+      <span><b>CNRT license No. 60284</b> — Argentina's national road-transport regulator, interprovincial freight</span>
+      <span><b>Cargo insurance</b> in force</span>
+      <span><b>Factura A</b> (Argentine tax invoice) — CUIT 30-71146774-9</span>
+      <span><b>Professional drivers</b> licensed for the vehicle class</span>
+      <span><b>Units in service</b> with mandatory technical inspection (RTO) and insurance current</span>
+    </div>
+  </div>
+
+  <!-- The four facts that answer what a cold-chain buyer asks first. -->
+  <div class="claves" aria-label="Service at a glance">
+    <div class="wrap claves-grid">
+      <div class="clave">
+        <b>Unbroken cold chain</b>
+        <p>Controlled temperature from origin to destination, with no gaps.</p>
+      </div>
+      <div class="clave">
+        <b>Temperature log</b>
+        <p>The temperature of the trip is recorded and documented.</p>
+      </div>
+      <div class="clave">
+        <b>Warehouse with a cold room</b>
+        <p>Storage, consolidation and distribution in Salta.</p>
+      </div>
+      <div class="clave">
+        <b>We issue Factura A</b>
+        <p>Lausof S.R.L. — CUIT 30-71146774-9. We work with companies.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="block texto" id="cold-chain">
+    <div class="wrap">
+      <p class="kicker">The service</p>
+      <h2>Cold chain transport in Salta and northwest Argentina</h2>
+      <p>We move frozen and chilled goods at controlled temperature from origin to destination. The cold chain is not broken on any leg: the cargo travels in refrigerated trucks with a refrigeration unit and is delivered at the temperature it requires.</p>
+      <p>The temperature is logged during the trip. If your customer or your quality team asks for a record of how the goods traveled, you have it.</p>
+      <p>We do the whole leg or only the part you need: pickup, storage, consolidation or distribution. And because the refrigeration units are maintained in our own workshop, the trucks go out on the road in condition.</p>
+      <div class="fotos">
+        <img src="/assets/refrigerados-1-lateral.webp" alt="Lausof refrigerated truck with its refrigeration unit, seen from the side" width="722" height="604">
+        <img src="/assets/refrigerados-2-frente.webp" alt="Front of the Lausof Iveco refrigerated truck with its Thermo King refrigeration unit" width="722" height="604" loading="lazy">
+        <img src="/assets/refrigerados-3-interior.webp" alt="Inside the Lausof insulated body, with rails for hanging half carcasses" width="722" height="604" loading="lazy">
+        <img src="/assets/refrigerados-4-trasera.webp" alt="Lausof insulated body seen from the rear, with the door closed" width="722" height="604" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="equipment">
+    <div class="wrap">
+      <p class="kicker">Equipment</p>
+      <h2>A refrigerated truck for each destination</h2>
+      <p class="sub">Not every cold load is the same, and not every destination in northwest Argentina is paved. This is the equipment we work with.</p>
+      <div class="why-grid">
+        <div class="why-item">
+          <b>Refrigerated trucks with refrigeration units</b>
+          <p>For frozen and chilled goods at controlled temperature for the whole trip.</p>
+        </div>
+        <div class="why-item">
+          <b>Insulated body with rails for hanging meat</b>
+          <p>An insulated body prepared to carry hanging half carcasses.</p>
+        </div>
+        <div class="why-item">
+          <b>4x4 refrigerated truck</b>
+          <p>Cold where an ordinary truck does not reach: gravel roads and high altitude.</p>
+        </div>
+        <div class="why-item">
+          <b>Temperature log</b>
+          <p>The temperature is recorded during the trip and there is a record of how the cargo traveled.</p>
+        </div>
+      </div>
+      <!-- The 4x4 refrigerated truck is what this page has to say that the
+           competition does not: it gets its own paragraph, not just a card. -->
+      <p class="sub">The 4x4 refrigerated truck is the least common of the three: it holds the cold chain on gravel roads and at altitude, where a conventional refrigerated truck cannot go. If your delivery point is off the paved road, ask us about that unit.</p>
+    </div>
+  </section>
+
+  <section class="block texto" id="warehouse">
+    <div class="wrap">
+      <p class="kicker">Warehouse</p>
+      <h2>Cold room storage in Salta</h2>
+      <p>We have our own warehouse in Salta with a cold room, a truck yard and truck access. Companies in the region, in sectors such as mining and catering, have been storing goods with us for years, both chilled and ambient.</p>
+      <p>The cold room is capacity of the warehouse itself, and it is set up around what your operation needs: cold positions on demand for storage, consolidation of cargo from different origins, order preparation and staging, and cross-docking, where goods arrive, are prepared and go straight out for delivery without being stored. We also handle distribution in the city and the region.</p>
+      <p>You do not have to contract the whole service: you can use only the storage, only the distribution, or the leg you are missing. Tell us how your operation works and we will put the scheme together.</p>
+      <p><a class="walink" href="/en/warehouse.html">See the warehouse and truck yard →</a></p>
+    </div>
+  </section>
+
+  <section class="block alt texto" id="general-freight">
+    <div class="wrap">
+      <p class="kicker">General freight</p>
+      <h2>General freight and haulage across Salta and northwest Argentina</h2>
+      <p>Besides the cold chain, we do haulage and general freight across Salta and northern Argentina: tarpaulin trucks, box vans and a flatbed truck with a 7.5-ton payload, for distribution and door-to-door cargo.</p>
+      <div class="fotos tres">
+        <img src="/assets/cargas-3-campo.webp" alt="Lausof tarpaulin truck carrying general freight in open country" width="834" height="698" loading="lazy">
+        <img src="/assets/cargas-2-furgon.webp" alt="Lausof box van for general freight, with the company livery" width="722" height="604" loading="lazy">
+        <img src="/assets/cargas-4-ciudad.webp" alt="Lausof tarpaulin truck carrying general freight in the city of Salta" width="834" height="698" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="faq">
+    <div class="wrap">
+      <p class="kicker">Frequently asked questions</p>
+      <h2>What buyers ask us before we quote</h2>
+      <div class="faq">
+        <details>
+          <summary>What kinds of cargo do you carry?</summary>
+          <p>Frozen and chilled goods at controlled temperature, hanging half carcasses in the insulated body with rails, and general freight without refrigeration: tarpaulin, box van and flatbed truck.</p>
+        </details>
+        <details>
+          <summary>How do I know what temperature my cargo traveled at?</summary>
+          <p>The temperature is logged during the trip. There is a record of how the goods traveled, for your customer or your quality team.</p>
+        </details>
+        <details>
+          <summary>Do you reach destinations on gravel roads or at high altitude?</summary>
+          <p>Yes. For destinations a conventional refrigerated truck cannot reach, we have a 4x4 refrigerated truck that holds the cold chain on gravel and at altitude.</p>
+        </details>
+        <details>
+          <summary>Can I use the warehouse without the freight?</summary>
+          <p>Yes. The cold room storage can be used on its own: storage, consolidation or distribution, depending on what your operation needs.</p>
+        </details>
+        <details>
+          <summary>Do you work with companies, and how do we onboard you as a supplier?</summary>
+          <p>Yes. Our legal name is Lausof S.R.L., our CUIT (Argentine tax ID) is 30-71146774-9 and we issue Factura A. We hold CNRT license No. 60284 and cargo insurance in force, and the supporting documents are available on request for a prequalification pack. You talk to the same person from the quote through to the delivery.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="quote">
+    <div class="wrap">
+      <p class="kicker">Request a quote</p>
+      <h2>What to include in your first message</h2>
+      <p class="sub">Four things are enough for us to price the job in one round instead of three.</p>
+      <div class="claves-grid">
+        <div class="clave">
+          <b>What you are moving</b>
+          <p>Cargo type, weight or volume, and the temperature it has to travel at.</p>
+        </div>
+        <div class="clave">
+          <b>Dates</b>
+          <p>Pickup and delivery dates, or the frequency if the job is recurring.</p>
+        </div>
+        <div class="clave">
+          <b>Origin and destination</b>
+          <p>The addresses, and whether the last stretch is off the paved road.</p>
+        </div>
+        <div class="clave">
+          <b>Your company and a contact</b>
+          <p>Legal name, tax ID and the person we should reply to.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block cta-final">
+    <div class="wrap">
+      <img src="/assets/logo-insignia-web.webp" alt="" width="340" height="340">
+      <h2>Do you have a load that needs to stay cold?</h2>
+      <p>Tell us what you are moving, from where, to where and at what temperature. We reply with the quote the same business day.</p>
+      <a class="btn btn-mail" href="mailto:contacto@lausof.com?cc=transporte@lausof.com&amp;subject=Quote%20request%20%E2%80%94%20refrigerated%20freight&amp;body=Cargo%20type%3A%0D%0AWeight%20or%20volume%3A%0D%0ATemperature%20required%20(%C2%B0C)%3A%0D%0AOrigin%3A%0D%0ADestination%3A%0D%0APickup%20and%20delivery%20dates%3A%0D%0ACompany%20and%20contact%3A%0D%0A">Request a quote by email</a>
+      <a class="btn btn-wa" href="https://wa.me/5493875269009?text=Hello%20Lausof%2C%20I%20would%20like%20a%20quote%20for%20refrigerated%20freight.%20Cargo%3A%20%2F%20Temperature%3A%20%2F%20From%3A%20%2F%20To%3A%20%2F%20Dates%3A" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Message us on WhatsApp</a>
+    </div>
+  </section>
+</main>
+
+<footer class="site" id="contact">
+  <div class="wrap foot-grid">
+    <div>
+      <!-- Routing sentence for English inquiries, verbatim from the plan
+           (C.7). It promises email and WhatsApp replies in English, never
+           English phone support: the line is answered in Spanish. -->
+      <p><b>English inquiries:</b> write to <a href="mailto:contacto@lausof.com?cc=transporte@lausof.com&amp;subject=Quote%20request%20%E2%80%94%20refrigerated%20freight">contacto@lausof.com</a> or send a WhatsApp message to <a href="https://wa.me/5493875269009" target="_blank" rel="noopener">+54 9 387 526-9009</a>. We reply in English, normally the same business day (Argentina time, UTC−3). Phone calls are answered in Spanish.</p>
+      <p>Transport and logistics in Salta and northwest Argentina.<br>Junín 1334 / Siria 1333 — Salta (A4400), Argentina</p>
+      <p>Instagram <a href="https://www.instagram.com/lausofsrl" target="_blank" rel="noopener">@lausofsrl</a> · Facebook <a href="https://www.facebook.com/lausoftransportes" target="_blank" rel="noopener">@lausoftransportes</a></p>
+    </div>
+    <div>
+      <b>Phone</b>
+      <ul>
+        <!-- Phone canon: 526-9009 is the only public line on the site and it
+             takes both calls and WhatsApp. Do not add other lines: the
+             previous ones are out of service. -->
+        <li><a href="tel:+5493875269009">+54 9 387 526-9009</a> — calls and <a href="https://wa.me/5493875269009" target="_blank" rel="noopener">WhatsApp</a></li>
+        <li>Argentine mobile numbers include a 9 after the country code when dialed from abroad.</li>
+      </ul>
+    </div>
+    <div>
+      <b>Email</b>
+      <ul>
+        <!-- Every English mailto copies transporte@ so the English inquiry is
+             seen on both sides. -->
+        <li><a href="mailto:contacto@lausof.com?cc=transporte@lausof.com&amp;subject=Quote%20request%20%E2%80%94%20refrigerated%20freight">contacto@lausof.com</a></li>
+      </ul>
+      <!-- Text link to the twin, for mobile: below 880 px the top navigation
+           is hidden. It must NOT carry the .lang-switch class, or the switcher
+           test counts two links on the page. -->
+      <p><a href="/cargas-refrigeradas.html" hreflang="es" lang="es">Español</a> — this page in Spanish</p>
+    </div>
+  </div>
+  <div class="wrap proveedores">
+    <b>Supplier and procurement data</b>
+    <ul>
+      <li>Legal name: Lausof S.R.L.</li>
+      <li>CUIT (Argentine tax ID): 30-71146774-9</li>
+      <li>We issue Factura A (Argentine tax invoice).</li>
+    </ul>
+  </div>
+
+  <div class="wrap legal">
+    <span>© Lausof SRL · CUIT 30-71146774-9 · Salta, Argentina</span>
+    <span>Family-owned transport and logistics company · NOA (northwest Argentina)</span>
+  </div>
+</footer>
+
+<div class="wa-bar" aria-label="Quick actions">
+  <a class="btn btn-ghost" href="mailto:contacto@lausof.com?cc=transporte@lausof.com&amp;subject=Quote%20request%20%E2%80%94%20refrigerated%20freight&amp;body=Cargo%20type%3A%0D%0AWeight%20or%20volume%3A%0D%0ATemperature%20required%20(%C2%B0C)%3A%0D%0AOrigin%3A%0D%0ADestination%3A%0D%0APickup%20and%20delivery%20dates%3A%0D%0ACompany%20and%20contact%3A%0D%0A"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4.24l-8 4.76-8-4.76V6l8 4.76L20 6v2.24z"/></svg>Email</a>
+  <a class="btn btn-wa" href="https://wa.me/5493875269009?text=Hello%20Lausof%2C%20I%20would%20like%20a%20quote%20for%20refrigerated%20freight.%20Cargo%3A%20%2F%20Temperature%3A%20%2F%20From%3A%20%2F%20To%3A%20%2F%20Dates%3A" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp</a>
+</div>
+
+<script>
+/* Same behavior as the Spanish twin: the header call to action and the fixed
+   mobile bar appear only once the visitor has scrolled past the page head. */
+(function () {
+  var portada = document.querySelector('.page-head');
+  var mostrar = function () { document.body.classList.add('past-hero'); };
+  if (!portada || !('IntersectionObserver' in window)) { mostrar(); return; }
+  new IntersectionObserver(function (entradas) {
+    document.body.classList.toggle('past-hero', !entradas[0].isIntersecting);
+  }).observe(portada);
+})();
+</script>
+
+</body>
+</html>

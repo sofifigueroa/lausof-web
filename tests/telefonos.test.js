@@ -26,7 +26,10 @@ const lineaPersonal = ['5092489', '509-2489'];
 
 // Líneas dadas de baja: no vuelven a entrar ni en un enlace, ni en un texto,
 // ni en un comentario. Se buscan en las dos formas en que se escriben.
-const lineasMuertas = ['5377527', '537-7527', '4311584', '431-1584'];
+// El 537-7218 (celular de administrativa 2018-19) y el 538-0900 entran acá
+// por POL-CLAIMS del 29/08: están de baja igual que los otros dos.
+const lineasMuertas = ['5377527', '537-7527', '4311584', '431-1584',
+  '5377218', '537-7218', '5380900', '538-0900'];
 
 const extraer = (contenido, patron) =>
   [...contenido.matchAll(patron)].map((m) => m[1]);
@@ -118,9 +121,21 @@ test('index.html: la tarjeta de auxilio lleva plantilla de WhatsApp y tel: visib
 // el archivo de verificación de Google y cualquier .html nuevo, y se mira el
 // archivo entero —comentarios incluidos— porque un número muerto en un
 // comentario es el que después alguien vuelve a pegar en el HTML.
+// También barre /en/: las líneas de baja no pueden reaparecer por la puerta
+// de atrás en la versión en inglés.
 const raiz = path.join(__dirname, '..');
+const archivos = [];
 for (const nombre of fs.readdirSync(raiz).sort()) {
-  if (!nombre.endsWith('.html')) continue;
+  if (nombre.endsWith('.html')) archivos.push(nombre);
+}
+const dirEn = path.join(raiz, 'en');
+if (fs.existsSync(dirEn)) {
+  for (const nombre of fs.readdirSync(dirEn).sort()) {
+    if (nombre.endsWith('.html')) archivos.push(`en/${nombre}`);
+  }
+}
+
+for (const nombre of archivos) {
   const contenido = fs.readFileSync(path.join(raiz, nombre), 'utf8');
   test(`${nombre}: no quedó ninguna línea dada de baja`, () => {
     for (const muerta of lineasMuertas) {

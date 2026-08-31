@@ -53,8 +53,10 @@ test('todas las páginas cargan styles.css en la misma versión que la portada',
 });
 
 // El sitemap lista exactamente las páginas indexables: la portada, flota y
-// las quince dedicadas. La 404 no va (no es una página para indexar).
-test('el sitemap lista las 17 URLs indexables y ninguna más', () => {
+// las quince dedicadas, más las ocho gemelas inglesas bajo /en/ (que verifica
+// una por una tests/ingles.test.js). Ninguna de las dos 404 va: no son
+// páginas para indexar.
+test('el sitemap lista las 25 URLs indexables y ninguna más', () => {
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
   const esperadas = [
     'https://www.lausof.com/',
@@ -64,7 +66,7 @@ test('el sitemap lista las 17 URLs indexables y ninguna más', () => {
   for (const url of esperadas) {
     assert.ok(urls.includes(url), `falta ${url} en el sitemap`);
   }
-  assert.strictEqual(urls.length, 17, `el sitemap tiene ${urls.length} URLs y se esperaban 17`);
+  assert.strictEqual(urls.length, 25, `el sitemap tiene ${urls.length} URLs y se esperaban 25`);
   assert.ok(!sitemap.includes('404.html'), 'la 404 no va en el sitemap');
 });
 

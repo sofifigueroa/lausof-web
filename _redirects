@@ -28,3 +28,20 @@
 # hay bucle: la portada se pide como / y ese path no matchea /index.html.
 /index.html                    /                              301!
 https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
+
+# Versión en inglés bajo /en/. Las dos reglas van en este orden y no al revés:
+# Netlify aplica la PRIMERA que matchea, y /en/* también matchearía
+# /en/index.html. La específica primero, el comodín después.
+
+# Misma lógica que /index.html → /: la portada en inglés se pide como /en/ y
+# /en/index.html es una copia que repartiría señales. Lleva ! porque el
+# archivo existe y sin él Netlify no aplica reglas sobre rutas reales. No hay
+# bucle: el destino /en/ no matchea /en/index.html.
+/en/index.html  /en/           301!
+
+# La 404 propia del directorio: cualquier ruta inexistente que empiece con
+# /en/ devuelve la 404 en inglés, con estado 404 de verdad. No es un comodín
+# que tape páginas: Netlify sirve primero el archivo que existe y sólo cae acá
+# cuando no hay ninguno, así que las páginas reales de /en/ se siguen sirviendo
+# normal. El resto del sitio sigue cayendo en la 404 en español de la raíz.
+/en/*           /en/404.html   404

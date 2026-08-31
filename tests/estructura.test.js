@@ -5,7 +5,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert');
-const { index, flota, css } = require('./util.js');
+const { index, flota, css, paginas, paginasEn } = require('./util.js');
 
 // Todo el JSON-LD del sitio es estático (el ItemList de flota lo escribe
 // scripts/generar-flota.mjs a partir de scripts/unidades.mjs): acá se valida
@@ -14,6 +14,23 @@ const { index, flota, css } = require('./util.js');
 test('el JSON-LD estático de las dos páginas es JSON válido', () => {
   for (const [nombre, contenido] of [['index.html', index], ['flota-en-venta.html', flota]]) {
     const bloques = [...contenido.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)];
+    assert.ok(bloques.length > 0, `no hay JSON-LD en ${nombre}`);
+    for (const [, cuerpo] of bloques) {
+      assert.doesNotThrow(() => JSON.parse(cuerpo), `JSON-LD roto en ${nombre}`);
+    }
+  }
+});
+
+// Las páginas en inglés llevan su propio @graph (WebPage + la referencia a
+// #empresa): que sea JSON válido se revisa acá, y qué dice, en ingles.test.js.
+// La 404 no lleva datos estructurados —no se indexa—, igual que la española.
+test('el JSON-LD de las páginas en inglés es JSON válido', () => {
+  for (const [nombre, contenido] of Object.entries(paginasEn)) {
+    const bloques = [...contenido.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)];
+    if (nombre.endsWith('404.html')) {
+      assert.strictEqual(bloques.length, 0, `${nombre} no debería llevar JSON-LD: no se indexa`);
+      continue;
+    }
     assert.ok(bloques.length > 0, `no hay JSON-LD en ${nombre}`);
     for (const [, cuerpo] of bloques) {
       assert.doesNotThrow(() => JSON.parse(cuerpo), `JSON-LD roto en ${nombre}`);
@@ -90,13 +107,14 @@ test('todo botón verde de WhatsApp lleva el logo inline', () => {
   }
 });
 
-// GA4: todas las páginas llevan la etiqueta de medición con el ID correcto.
+// GA4: todas las páginas llevan la etiqueta de medición con el ID correcto,
+// las de /en/ incluidas (la ruta /en/… es lo que separa los dos idiomas en los
+// informes). Se lee de `paginas`, no del directorio actual: leyendo del cwd el
+// test se saltea las páginas inglesas y depende de desde dónde se corra.
 test('todas las páginas cargan Google Analytics con el ID de la propiedad', () => {
-  const glob = require('node:fs').readdirSync('.').filter(f => f.endsWith('.html') && !f.startsWith('google'));
-  for (const f of glob) {
-    const s = require('node:fs').readFileSync(f, 'utf8');
-    assert.match(s, /googletagmanager\.com\/gtag\/js\?id=G-GHHRS5LDE7/, `${f} sin la etiqueta de GA4`);
-    assert.match(s, /gtag\('config','G-GHHRS5LDE7'\)/, `${f} sin la config de GA4`);
+  for (const [nombre, contenido] of Object.entries(paginas)) {
+    assert.match(contenido, /googletagmanager\.com\/gtag\/js\?id=G-GHHRS5LDE7/, `${nombre} sin la etiqueta de GA4`);
+    assert.match(contenido, /gtag\('config','G-GHHRS5LDE7'\)/, `${nombre} sin la config de GA4`);
   }
 });
 
