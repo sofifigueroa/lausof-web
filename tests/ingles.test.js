@@ -170,6 +170,60 @@ for (const nombre of Object.keys(paginasEn)) {
 }
 
 // ---------------------------------------------------------------------------
+// 6.bis. El enlace de idioma del PIE. B.10 lo pedía ("footer link present") y
+//        era la única guardia de esa lista que nunca se escribió: la
+//        verificación por inyección del 31/08 comprobó que se podía borrar de
+//        una página, o apuntarlo a la gemela equivocada, y la suite seguía en
+//        verde.
+//
+//        Existe además del selector de la barra porque por debajo de 880 px el
+//        menú se esconde, y es el único camino al otro idioma que queda abajo
+//        de todo. Se lo busca por su LUGAR (dentro del <footer>) y por su
+//        atributo hreflang, nunca por una clase: el del pie no lleva
+//        .lang-switch a propósito —si la llevara, switcherDe() contaría dos
+//        enlaces y la guardia del selector fallaría—, así que una guardia por
+//        clase no lo vería nunca.
+// ---------------------------------------------------------------------------
+const pieDe = (html) => {
+  const pie = sinComentarios(html).match(/<footer class="site"[^>]*>[\s\S]*?<\/footer>/);
+  return pie ? pie[0] : '';
+};
+
+const idiomaEnPie = (html) =>
+  [...pieDe(html).matchAll(/<a\b[^>]*\bhreflang="[^"]*"[^>]*>/g)].map((m) => m[0]);
+
+const hrefDe = (etiqueta) => (etiqueta.match(/\bhref="([^"]+)"/) || [])[1];
+
+// Qué gemela le toca al pie de cada página. Una página sin gemela manda a la
+// portada del otro idioma, igual que su selector de la barra: es lo más
+// cercano que hay, y la portada lista el resto.
+const gemelaDelPie = {};
+for (const nombre of Object.keys(paginasEs)) {
+  gemelaDelPie[nombre] = { href: pares[nombre] ? rutaDe(pares[nombre]) : '/en/', idioma: 'en' };
+}
+for (const nombre of Object.keys(paginasEn)) {
+  const es = Object.keys(pares).find((k) => pares[k] === nombre);
+  gemelaDelPie[nombre] = { href: es ? rutaDe(es) : rutaDe('index.html'), idioma: 'es' };
+}
+
+for (const [nombre, html] of Object.entries(paginas)) {
+  const { href, idioma } = gemelaDelPie[nombre];
+  test(`${nombre}: el pie lleva un enlace al otro idioma y apunta a la gemela`, () => {
+    const enlaces = idiomaEnPie(html);
+    assert.strictEqual(enlaces.length, 1,
+      `${nombre} tendría que tener exactamente un enlace de idioma en el pie y tiene ${enlaces.length}` +
+      ' (por debajo de 880 px el menú se esconde y el pie es la única salida al otro idioma)');
+    assert.strictEqual(hrefDe(enlaces[0]), href,
+      `el enlace de idioma del pie de ${nombre} no apunta a ${href}`);
+    assert.match(enlaces[0], new RegExp(`hreflang="${idioma}"`),
+      `el enlace de idioma del pie de ${nombre} no declara hreflang="${idioma}"`);
+    assert.ok(!/class="[^"]*\blang-switch\b/.test(enlaces[0]),
+      `el enlace del pie de ${nombre} lleva la clase .lang-switch: esa clase marca el ` +
+      'selector de la barra y sólo puede haber uno por página');
+  });
+}
+
+// ---------------------------------------------------------------------------
 // 7. Sitemap: están todas las gemelas inglesas y ninguna URL de /en/ que no
 //    sea una gemela registrada. La 404 nunca va.
 // ---------------------------------------------------------------------------
@@ -330,17 +384,49 @@ for (const [nombre, html] of Object.entries(paginasEn)) {
 //     patrones van atados al sustantivo para no pisar especificaciones
 //     legítimas: "19-seat", "7.5-ton" y "3,000 m²" tienen que pasar.
 // ---------------------------------------------------------------------------
-const numeroEn = '(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|\\d+)';
-const dimensionEn = new RegExp(
-  `\\b${numeroEn}\\s+(units?|vehicles?|trucks?|pickups?|vans?|minibus(?:es)?|buses|` +
-  'forklifts?|tow trucks?|cranes?|drivers?|mechanics?|employees?|staff)\\b', 'i');
-const satelitalEn = new RegExp(`\\b${numeroEn}\\s+satellite phones?\\b`, 'i');
+// Numerales en palabra y en dígitos. La lista original saltaba de `twelve` a
+// `fifteen` y `twenty`, y la verificación por inyección del 31/08 mostró que
+// dejaba pasar "a dozen trucks" y "thirty drivers". Ahora está completa hasta
+// `ninety`, con `hundred` y `dozen`.
+const numeroEn = '(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|' +
+  'thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|' +
+  'fifty|sixty|seventy|eighty|ninety|hundreds?|dozens?|\\d+)';
+
+// Los sustantivos que CUENTAN unidades o gente. `seats`, `tons` y `m²` no están
+// y no tienen que estar: "19-seat", "7.5-ton" y "3,000 m²" son la
+// especificación de una unidad, no un recuento de cuántas hay. Todo el diseño
+// de estas tres guardias se apoya en esa distinción.
+const sustantivoFlota = '(?:units?|vehicles?|trucks?|pickups?|vans?|minibus(?:es)?|buses|' +
+  'forklifts?|tow trucks?|cranes?|drivers?|mechanics?|employees?|staff)';
+
+// (a) La forma canónica: "12 trucks", "three minibuses". El "of" opcional cubre
+//     "dozens of trucks", donde el numeral y el sustantivo no van pegados.
+const dimensionEn = new RegExp(`\\b${numeroEn}\\s+(?:of\\s+)?${sustantivoFlota}\\b`, 'i');
+
+// (b) La forma guionada: "our 12-vehicle fleet". El guion rompe el \s+ de (a),
+//     así que necesita su propio patrón. Sigue atado al sustantivo de flota,
+//     que es lo que deja pasar "19-seat" y "7.5-ton".
+const dimensionGuionadaEn = new RegExp(`\\b${numeroEn}-${sustantivoFlota}\\b`, 'i');
+
+// (c) El número pelado detrás de una palabra que ya significa "cuántos":
+//     "a fleet of 12", "a team of thirty". Acá el sustantivo va ADELANTE, así
+//     que el ancla es esa palabra y no hace falta que detrás siga otra.
+const dimensionSueltaEn = new RegExp(
+  `\\b(?:fleets?|teams?|crews?|staff|workforce|roster)\\s+of\\s+${numeroEn}\\b`, 'i');
+
+const satelitalEn = new RegExp(`\\b${numeroEn}[\\s-]+satellite phones?\\b`, 'i');
 
 for (const [nombre, html] of Object.entries(paginasEn)) {
   const visible = textoVisible(html);
   test(`${nombre}: sin dimensionar la flota ni el personal`, () => {
-    const m = visible.match(dimensionEn);
-    assert.ok(!m, `se dimensiona la flota o el personal en ${nombre}: "${m && m[0]}"`);
+    for (const [forma, patron] of [
+      ['numeral + sustantivo', dimensionEn],
+      ['numeral guionado', dimensionGuionadaEn],
+      ['número suelto detrás de "fleet of"', dimensionSueltaEn],
+    ]) {
+      const m = visible.match(patron);
+      assert.ok(!m, `se dimensiona la flota o el personal en ${nombre} (${forma}): "${m && m[0]}"`);
+    }
     const s = visible.match(satelitalEn);
     assert.ok(!s, `se publica la cantidad de teléfonos satelitales en ${nombre}: "${s && s[0]}"`);
   });
