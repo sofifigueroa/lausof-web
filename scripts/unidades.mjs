@@ -16,7 +16,7 @@
 
      id        Número de publicación de Mercado Libre, sin la sigla MLA.
                Sirve de referencia: es el número que aparece al pie de la
-               publicación como "Publicación #1972787369".
+               publicación como "Publicación #3932258578".
      titulo    Cómo se llama la unidad en la tarjeta. Corto.
      precio    SOLO el número, sin puntos ni signo $. La página lo formatea sola.
      moneda    'ARS' para pesos, 'USD' para dólares.
@@ -45,16 +45,35 @@
 
    Datos verificados en las publicaciones el 12 de agosto de 2026.
    La Amarok se verificó el 15 de agosto de 2026, el día que se publicó.
+   Actualizado el 5 de septiembre de 2026: Sprinter 2016, ML350 y Accelo se
+   republicaron y cambiaron de id, de URL y de precio; a la H1 y a la Sprinter
+   2019 se les bajó el precio al de Mercado Libre (la 2019 conserva su id y su
+   URL: todavía no se republicó). La Amarok no se tocó.
+   Actualizado el 10 de septiembre de 2026: la Sprinter 2019 se republicó y
+   cambió de id y de URL, y bajaron cinco precios (Sprinter 2019, Sprinter
+   2016, ML350, Accelo y Amarok). La H1 no cambió en Mercado Libre y sigue
+   publicándose en $ 22.900.000 por la decisión del 05/09.
+   Actualizado el 16 de septiembre de 2026: la Amarok se republicó y cambió de
+   id y de URL, y su precio subió a US$ 29.500. Ningún otro precio cambió: los
+   demás siguen como quedaron el 10/09, y la H1 sigue publicándose en
+   $ 22.900.000 por la decisión del 05/09.
+   Actualizado el 23 de septiembre de 2026: se sacó la Hyundai H1 (IBH185),
+   vendida con cierre confirmado el 23/09, y la tarjeta "próximamente" de la
+   Sprinter 2011 escolar (JYL060), vendida el 04/09. Quedan cinco unidades
+   publicadas y ninguna por publicar.
    ============================================================================= */
 
 export const UNIDADES = [
 
   {
-    id: '3738952536',
+    id: '2064023885',
     titulo: 'Mercedes-Benz Accelo 1016 — camión plancha con auxilio',
-    precio: 69369,
+    precio: 66000,
     moneda: 'USD',
-    url: 'https://vehiculo.mercadolibre.com.ar/MLA-3738952536-mercedes-benz-accelo-1016-camion-plancha-auxilio-mecanico-_JM',
+    /* Republicada el 05/09/2026 (id nuevo; el viejo #3738952536 queda muerto).
+       Precio bajado a US$ 66.000 entre el 07/09 y el 10/09, verificado en la
+       ficha pública el 10/09. Antes estaba en US$ 67.000. */
+    url: 'https://vehiculo.mercadolibre.com.ar/MLA-2064023885-mercedes-benz-accelo-1016-camion-plancha-auxilio-mecanico-_JM',
     estado: 'publicada',
     foto: 'accelo-1016-2016.webp',
     ficha: ['2016', '103.000 km', 'Carga 7.500 kg', 'Único dueño'],
@@ -65,11 +84,15 @@ export const UNIDADES = [
   },
 
   {
-    id: '3786044120',
+    id: '3956228786',
     titulo: 'Volkswagen Amarok V6 Highline — 3.0 258 cv 4x4 AT',
-    precio: 30000,
+    precio: 29500,
     moneda: 'USD',
-    url: 'https://auto.mercadolibre.com.ar/MLA-3786044120-volkswagen-amarok-30-cd-tdi-258cv-v6-highline-4x4-at-_JM',
+    /* Republicada entre el 11/09 y el 16/09/2026 (id nuevo; el viejo
+       #3786044120 quedó finalizado y su enlace está muerto). Al republicarla
+       se le subió el precio a US$ 29.500, verificado en la ficha pública el
+       16/09. Antes estaba en US$ 28.000. */
+    url: 'https://auto.mercadolibre.com.ar/MLA-3956228786-volkswagen-amarok-30-cd-tdi-258cv-v6-highline-4x4-at-_JM',
     estado: 'publicada',
     foto: 'amarok-v6-2023.webp',
     ficha: ['2023', '185.000 km', 'Diésel', 'Automática', 'Único dueño'],
@@ -77,11 +100,15 @@ export const UNIDADES = [
   },
 
   {
-    id: '1972787369',
+    id: '3932258578',
     titulo: 'Mercedes-Benz Sprinter 515 — combi 19+1',
-    precio: 59000000,
+    precio: 54000000,
     moneda: 'ARS',
-    url: 'https://auto.mercadolibre.com.ar/MLA-1972787369-mercedes-benz-sprinter-21-515-combi-4325-150cv-191-_JM',
+    /* Republicada entre el 08/09 y el 10/09/2026 (id nuevo; el viejo
+       #1972787369 quedó finalizado y su enlace está muerto). Al republicarla
+       se le bajó el precio a $ 54.000.000, verificado en la ficha pública el
+       10/09. Antes estaba en $ 54.900.000. */
+    url: 'https://auto.mercadolibre.com.ar/MLA-3932258578-mercedes-benz-sprinter-21-515-combi-4325-150cv-191-_JM',
     estado: 'publicada',
     foto: 'sprinter-2019.webp',
     ficha: ['2019', '480.000 km', '19+1 pasajeros', 'Diésel', 'Único dueño'],
@@ -89,11 +116,14 @@ export const UNIDADES = [
   },
 
   {
-    id: '3738699720',
+    id: '2064023927',
     titulo: 'Mercedes-Benz Sprinter 515 — combi 19+1',
-    precio: 39369369,
+    precio: 38000000,
     moneda: 'ARS',
-    url: 'https://auto.mercadolibre.com.ar/MLA-3738699720-mercedes-benz-sprinter-21-515-combi-4325-150cv-191-_JM',
+    /* Republicada el 05/09/2026 (id nuevo; el viejo #3738699720 queda muerto).
+       Precio bajado a $ 38.000.000 entre el 07/09 y el 10/09, verificado en la
+       ficha pública el 10/09. Antes estaba en $ 39.900.000. */
+    url: 'https://auto.mercadolibre.com.ar/MLA-2064023927-mercedes-benz-sprinter-21-515-combi-4325-150cv-191-_JM',
     estado: 'publicada',
     foto: 'sprinter-2016.webp',
     ficha: ['2016', '684.000 km', '19+1 pasajeros', 'Diésel', 'Único dueño'],
@@ -101,41 +131,20 @@ export const UNIDADES = [
   },
 
   {
-    id: '1947677517',
-    titulo: 'Hyundai H1 2.5 Premium — 12 asientos',
-    precio: 23900000,
-    moneda: 'ARS',
-    url: 'https://auto.mercadolibre.com.ar/MLA-1947677517-hyundai-h1-25-premium-1-at-_JM',
-    estado: 'publicada',
-    foto: 'hyundai-h1-2009.webp',
-    ficha: ['2009', '320.000 km', '12 asientos', 'Automática', 'Diésel'],
-    resumen: 'Motor hecho a nuevo y caja automática. Neumáticos nuevos, aire acondicionado delantero y trasero funcionando, pantalla multimedia y sensores de estacionamiento. Service y mantenimiento al día.'
-  },
-
-  {
-    id: '3738703124',
+    id: '2064024005',
     titulo: 'Mercedes-Benz ML350 3.5 nafta — 4x4',
-    precio: 25000000,
+    precio: 23000000,
     moneda: 'ARS',
-    url: 'https://auto.mercadolibre.com.ar/MLA-3738703124-mercedes-benz-clase-ml-35-ml350-nafta-_JM',
+    /* Republicada el 05/09/2026 (id nuevo; el viejo #3738703124 queda muerto).
+       Precio bajado a $ 23.000.000 entre el 07/09 y el 10/09, verificado en la
+       ficha pública el 10/09. Antes estaba en $ 24.500.000. */
+    url: 'https://auto.mercadolibre.com.ar/MLA-2064024005-mercedes-benz-clase-ml-35-ml350-nafta-_JM',
     estado: 'publicada',
     foto: 'ml350-2007.webp',
     /* La ficha de Mercado Libre y la descripción no coincidían en los kilómetros.
        Lautaro confirmó el 16/08 que valen los 120.000 km de la ficha. */
     ficha: ['2007', '120.000 km', '4x4', 'Automática', 'Nafta', '272 hp'],
     resumen: 'Se le cambiaron amortiguadores, parrillas y bujes. Neumáticos nuevos Kumho y pantalla multimedia con cámara. Estado general impecable.'
-  },
-
-  {
-    id: null,
-    titulo: 'Mercedes-Benz Sprinter — combi 19+1 escolar',
-    precio: null,
-    moneda: 'ARS',
-    url: null,
-    estado: 'proximamente',
-    foto: null,
-    ficha: ['2011', '19+1 pasajeros', 'Diésel'],
-    resumen: 'Unidad escolar de la flota. La vamos a publicar en los próximos días.'
   }
 
 ];
