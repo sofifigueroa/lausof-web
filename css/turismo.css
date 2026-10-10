@@ -67,3 +67,97 @@
   border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
 }
 @media(max-width:640px){.postales-grid{grid-template-columns:1fr}}
+
+/* ==========================================================================
+   v2 (10/10/2026): piezas compartidas por turismo.html, su gemela inglesa y
+   las páginas de ruta (Quebrada de Humahuaca y Salinas Grandes, ES y EN).
+   Antes las preguntas frecuentes, el índice de la página y el párrafo de
+   atención en inglés vivían en un <style> de la página inglesa; ahora que el
+   español también los usa, viven acá una sola vez.
+   ========================================================================== */
+
+/* ---- foto del encabezado de cada página de ruta ----
+   Mismo encabezado que turismo, con la foto propia de la ruta. Son fotos de
+   Lausof de 1200 px y 60 KB: más livianas que la de la Ruta 68. */
+.page-head-photo.ph-quebrada{background-image:url('../assets/galeria/turismo-purmamarca-transporte-lausof.webp');background-position:center 55%}
+.page-head-photo.ph-salinas{background-image:url('../assets/galeria/lausof-salinasgrandes-combis.webp');background-position:center 60%}
+
+/* ---- miga de pan visible ----
+   La misma jerarquía que declara el BreadcrumbList del JSON-LD (Google pide
+   que los datos estructurados describan lo que se ve). */
+.crumbs{padding-top:18px;font-size:.86rem;color:var(--ink-soft)}
+.crumbs ol{display:flex;flex-wrap:wrap;gap:4px 0;margin:0;padding:0;list-style:none}
+.crumbs li+li::before{content:"/";margin:0 8px;color:var(--border)}
+.crumbs a{color:var(--ink-mid);text-decoration:none;border-bottom:1px solid var(--border)}
+@media (hover:hover){.crumbs a:hover{color:var(--gold-ink);border-bottom-color:var(--gold)}}
+
+/* ---- índice de la página ----
+   Enlaces de texto en la medida del cuerpo, no una segunda barra de menú. */
+.jump{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px;
+  padding-top:22px;font-size:.9rem;
+}
+.jump span{color:var(--ink-soft);font-weight:700}
+.jump a{
+  color:var(--ink-mid);text-decoration:none;
+  border-bottom:1px solid var(--border);padding-bottom:2px;
+}
+@media (hover:hover){.jump a:hover{color:var(--gold-ink);border-bottom-color:var(--gold)}}
+
+/* ---- preguntas frecuentes ----
+   details/summary nativos: abren sin JavaScript. Texto visible, sin marcado
+   FAQPage (Google retiró ese resultado enriquecido en 2026). */
+.faq{margin-top:32px;display:flex;flex-direction:column;gap:10px;max-width:760px}
+.faq details{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:0 18px;
+}
+.faq summary{
+  cursor:pointer;font-weight:700;font-size:.98rem;
+  padding:15px 0;list-style:none;position:relative;padding-right:28px;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"+";position:absolute;right:2px;top:50%;transform:translateY(-50%);
+  color:var(--gold-ink);font-size:1.25rem;font-weight:700;line-height:1;
+}
+.faq details[open] summary::after{content:"-"}
+.faq details p{margin:0 0 16px;color:var(--ink-mid);font-size:.94rem;max-width:60ch}
+@media (hover:hover){.faq summary:hover{color:var(--gold-ink)}}
+
+/* ---- párrafo de atención dentro del cierre azul ----
+   Panel en la misma paleta del bloque, no una tarjeta blanca: el selector
+   tiene que ganarle a .cta-final p (color claro y medida de 46ch). */
+.cta-final .routing{
+  max-width:56ch;margin:0 auto 28px;padding:16px 18px;text-align:left;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);
+  border-radius:var(--radius);
+  font-size:.93rem;color:var(--on-navy-soft);
+}
+.cta-final .routing b{color:var(--on-navy)}
+.cta-final .routing a{color:var(--gold-bright)}
+
+/* ---- texto corrido de las páginas de ruta ---- */
+.prosa{max-width:66ch;color:var(--ink-mid)}
+.prosa p{margin:16px 0 0}
+.prosa ul{margin:16px 0 0;padding-left:20px}
+.prosa li{margin:6px 0}
+.prosa a{color:var(--ink)}
+.nota-fuente{margin-top:14px;font-size:.84rem;color:var(--ink-soft);max-width:72ch}
+.block .tabla-flota{margin-top:28px}
+
+/* ---- fotos propias de la ruta, en fila de tres ---- */
+.fotos-ruta{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:30px 0 0;padding:0}
+.fotos-ruta figure{margin:0}
+.fotos-ruta img{
+  width:100%;aspect-ratio:4/3;object-fit:cover;display:block;
+  border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+}
+.fotos-ruta figcaption{margin-top:8px;font-size:.84rem;color:var(--ink-soft)}
+@media(max-width:720px){.fotos-ruta{grid-template-columns:1fr}}
+
+/* ---- enlace a la página de ruta desde la tarjeta del circuito ---- */
+.circuito .card-body a.ruta-link{
+  display:inline-block;margin-top:10px;padding:6px 0;font-weight:700;font-size:.92rem;
+  color:var(--gold-ink);text-decoration:none;border-bottom:1px solid var(--gold);
+}
