@@ -21,6 +21,10 @@
      precio    SOLO el número, sin puntos ni signo $. La página lo formatea sola.
      moneda    'ARS' para pesos, 'USD' para dólares.
      url       Enlace a la publicación de Mercado Libre.
+               Si la publicación venció y todavía no se republicó, dejá el
+               campo url en null: la tarjeta sigue con su precio y su botón
+               de WhatsApp, pero sin botón ni enlace a Mercado Libre, hasta
+               que haya un enlace vivo para poner.
                ¡OJO! Tiene que ser el enlace largo con el nombre del vehículo
                (el que termina en _JM). Los enlaces cortos del tipo
                articulo.mercadolibre.com.ar/MLA-1234567- le piden al visitante
@@ -61,19 +65,26 @@
    vendida con cierre confirmado el 23/09, y la tarjeta "próximamente" de la
    Sprinter 2011 escolar (JYL060), vendida el 04/09. Quedan cinco unidades
    publicadas y ninguna por publicar.
+   Actualizado el 10 de octubre de 2026: el Accelo, la Sprinter 2016 y el
+   ML350 se republicaron entre el 04/10 y el 06/10 y cambiaron de id y de URL.
+   Subieron tres precios: Accelo a US$ 67.000, Sprinter 2016 a $ 39.000.000 y
+   Amarok a US$ 30.000 (la Amarok conserva su id). La publicación de la
+   Sprinter 2019 venció cerca del 08/10 y todavía no se republicó: su tarjeta
+   queda sin enlace a Mercado Libre hasta que tenga id nuevo.
    ============================================================================= */
 
 export const UNIDADES = [
 
   {
-    id: '2064023885',
+    id: '4031197440',
     titulo: 'Mercedes-Benz Accelo 1016 — camión plancha con auxilio',
-    precio: 66000,
+    precio: 67000,
     moneda: 'USD',
-    /* Republicada el 05/09/2026 (id nuevo; el viejo #3738952536 queda muerto).
-       Precio bajado a US$ 66.000 entre el 07/09 y el 10/09, verificado en la
-       ficha pública el 10/09. Antes estaba en US$ 67.000. */
-    url: 'https://vehiculo.mercadolibre.com.ar/MLA-2064023885-mercedes-benz-accelo-1016-camion-plancha-auxilio-mecanico-_JM',
+    /* Republicada entre el 04/10 y el 06/10/2026 (id nuevo; el viejo
+       #2064023885 quedó finalizado y su enlace está muerto). Precio subido a
+       US$ 67.000, verificado en la ficha pública el 10/10. Antes estaba en
+       US$ 66.000. */
+    url: 'https://vehiculo.mercadolibre.com.ar/MLA-4031197440-mercedes-benz-accelo-1016-camion-plancha-auxilio-mecanico-_JM',
     estado: 'publicada',
     foto: 'accelo-1016-2016.webp',
     ficha: ['2016', '103.000 km', 'Carga 7.500 kg', 'Único dueño'],
@@ -86,12 +97,14 @@ export const UNIDADES = [
   {
     id: '3956228786',
     titulo: 'Volkswagen Amarok V6 Highline — 3.0 258 cv 4x4 AT',
-    precio: 29500,
+    precio: 30000,
     moneda: 'USD',
     /* Republicada entre el 11/09 y el 16/09/2026 (id nuevo; el viejo
        #3786044120 quedó finalizado y su enlace está muerto). Al republicarla
        se le subió el precio a US$ 29.500, verificado en la ficha pública el
-       16/09. Antes estaba en US$ 28.000. */
+       16/09. Antes estaba en US$ 28.000.
+       Precio subido a US$ 30.000 sin republicar (mismo id), verificado en la
+       ficha pública el 10/10. */
     url: 'https://auto.mercadolibre.com.ar/MLA-3956228786-volkswagen-amarok-30-cd-tdi-258cv-v6-highline-4x4-at-_JM',
     estado: 'publicada',
     foto: 'amarok-v6-2023.webp',
@@ -108,7 +121,11 @@ export const UNIDADES = [
        #1972787369 quedó finalizado y su enlace está muerto). Al republicarla
        se le bajó el precio a $ 54.000.000, verificado en la ficha pública el
        10/09. Antes estaba en $ 54.900.000. */
-    url: 'https://auto.mercadolibre.com.ar/MLA-3932258578-mercedes-benz-sprinter-21-515-combi-4325-150cv-191-_JM',
+    /* TODO 10/10/2026: relinkear al republicar. La publicación #3932258578
+       venció cerca del 08/10 y su enlace abre "Publicación finalizada". La
+       unidad sigue en venta al mismo precio. Cuando se republique, poner acá
+       el id nuevo y el enlace largo nuevo en el campo url. */
+    url: null,
     estado: 'publicada',
     foto: 'sprinter-2019.webp',
     ficha: ['2019', '480.000 km', '19+1 pasajeros', 'Diésel', 'Único dueño'],
@@ -116,14 +133,15 @@ export const UNIDADES = [
   },
 
   {
-    id: '2064023927',
+    id: '4031198338',
     titulo: 'Mercedes-Benz Sprinter 515 — combi 19+1',
-    precio: 38000000,
+    precio: 39000000,
     moneda: 'ARS',
-    /* Republicada el 05/09/2026 (id nuevo; el viejo #3738699720 queda muerto).
-       Precio bajado a $ 38.000.000 entre el 07/09 y el 10/09, verificado en la
-       ficha pública el 10/09. Antes estaba en $ 39.900.000. */
-    url: 'https://auto.mercadolibre.com.ar/MLA-2064023927-mercedes-benz-sprinter-21-515-combi-4325-150cv-191-_JM',
+    /* Republicada entre el 04/10 y el 06/10/2026 (id nuevo; el viejo
+       #2064023927 quedó finalizado y su enlace está muerto). Precio subido a
+       $ 39.000.000, verificado en la ficha pública el 10/10. Antes estaba en
+       $ 38.000.000. */
+    url: 'https://auto.mercadolibre.com.ar/MLA-4031198338-mercedes-benz-sprinter-21-515-combi-4325-150cv-191-_JM',
     estado: 'publicada',
     foto: 'sprinter-2016.webp',
     ficha: ['2016', '684.000 km', '19+1 pasajeros', 'Diésel', 'Único dueño'],
@@ -131,14 +149,14 @@ export const UNIDADES = [
   },
 
   {
-    id: '2064024005',
+    id: '2154314473',
     titulo: 'Mercedes-Benz ML350 3.5 nafta — 4x4',
     precio: 23000000,
     moneda: 'ARS',
-    /* Republicada el 05/09/2026 (id nuevo; el viejo #3738703124 queda muerto).
-       Precio bajado a $ 23.000.000 entre el 07/09 y el 10/09, verificado en la
-       ficha pública el 10/09. Antes estaba en $ 24.500.000. */
-    url: 'https://auto.mercadolibre.com.ar/MLA-2064024005-mercedes-benz-clase-ml-35-ml350-nafta-_JM',
+    /* Republicada entre el 04/10 y el 06/10/2026 (id nuevo; el viejo
+       #2064024005 quedó finalizado y su enlace está muerto). El precio no
+       cambió: $ 23.000.000, verificado en la ficha pública el 10/10. */
+    url: 'https://auto.mercadolibre.com.ar/MLA-2154314473-mercedes-benz-clase-ml-35-ml350-nafta-_JM',
     estado: 'publicada',
     foto: 'ml350-2007.webp',
     /* La ficha de Mercado Libre y la descripción no coincidían en los kilómetros.

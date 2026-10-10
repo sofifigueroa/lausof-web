@@ -150,7 +150,9 @@ function datosEstructurados(publicadas) {
       item: {
         '@type': 'Vehicle',
         name: unidad.titulo,
-        url: unidad.url,
+        // Sin publicación viva en Mercado Libre no se declara url: un enlace
+        // a una publicación finalizada es peor que no declarar ninguno.
+        ...(unidad.url ? { url: unidad.url } : {}),
         // image/description/brand: los pide Search Console (reporte
         // Merchant listings 25/08/2026) — sin image el resultado enriquecido
         // no se muestra. La marca es la primera palabra del título.

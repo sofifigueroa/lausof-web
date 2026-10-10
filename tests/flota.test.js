@@ -72,9 +72,43 @@ test('el ItemList estático parsea y lista todas las publicadas', async () => {
     'el ItemList no lista la misma cantidad de unidades que la configuración');
   datos.itemListElement.forEach((item, indice) => {
     assert.strictEqual(item.item.name, publicadas[indice].titulo);
-    assert.strictEqual(item.item.url, publicadas[indice].url);
+    // Una unidad sin publicación viva no declara url (ver el test de abajo).
+    assert.strictEqual(item.item.url, publicadas[indice].url || undefined);
     assert.strictEqual(item.item.offers.price, publicadas[indice].precio);
     assert.strictEqual(item.item.offers.priceCurrency, publicadas[indice].moneda);
+  });
+});
+
+// Cuando una publicación vence y todavía no se republicó, la unidad sigue en
+// la página con su precio y su WhatsApp, pero sin enlace a Mercado Libre: ni
+// el botón de la tarjeta ni la url del ItemList pueden apuntar a un aviso
+// finalizado.
+test('una unidad sin enlace vivo no enlaza a Mercado Libre', async () => {
+  const { UNIDADES } = await config;
+  const publicadas = UNIDADES.filter((u) => u.estado !== 'proximamente');
+  const grilla = flota.match(/<!-- GENERADO:UNIDADES [\s\S]*?<!-- \/GENERADO:UNIDADES -->/);
+  assert.ok(grilla, 'no se encontró la zona generada de tarjetas');
+  const tarjetas = grilla[0].match(/<article class="card unidad">[\s\S]*?<\/article>/g) || [];
+  assert.strictEqual(tarjetas.length, publicadas.length,
+    'la grilla no tiene una tarjeta por cada unidad publicada');
+  const datos = JSON.parse(flota.match(
+    /<script type="application\/ld\+json" id="datos-estructurados">([\s\S]*?)<\/script>/)[1]);
+  publicadas.forEach((unidad, indice) => {
+    const botones = tarjetas[indice].match(/class="btn btn-ml"/g) || [];
+    if (unidad.url) {
+      assert.strictEqual(botones.length, 1, `"${unidad.titulo}" perdió su botón de Mercado Libre`);
+      assert.ok(tarjetas[indice].includes(`href="${unidad.url}"`),
+        `el botón de "${unidad.titulo}" no apunta a su publicación`);
+      assert.ok(unidad.url.includes(`MLA-${unidad.id}-`),
+        `la url de "${unidad.titulo}" no corresponde a su id ${unidad.id}`);
+    } else {
+      assert.strictEqual(botones.length, 0,
+        `"${unidad.titulo}" no tiene publicación viva y aun así enlaza a Mercado Libre`);
+      assert.ok(!tarjetas[indice].includes('mercadolibre.com'),
+        `la tarjeta de "${unidad.titulo}" conserva un enlace a Mercado Libre`);
+      assert.ok(!('url' in datos.itemListElement[indice].item),
+        `el ItemList declara una url para "${unidad.titulo}", que no tiene publicación viva`);
+    }
   });
 });
 
