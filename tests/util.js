@@ -75,6 +75,7 @@ const pares = {
   'traslado-salta-cachi.html':                    'en/salta-to-cachi-transfer.html',
   'traslado-salta-san-antonio-de-los-cobres.html': 'en/salta-to-san-antonio-de-los-cobres.html',
   'traslados-casamientos.html':                   'en/wedding-transportation.html',
+  'traslado-carnaval-quebrada-de-humahuaca.html': 'en/transfer-carnival-quebrada-de-humahuaca.html',
 };
 
 // Página de /en/ que existe sin ser gemela de nadie (no se indexa).

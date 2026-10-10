@@ -32,6 +32,11 @@ const dedicadas = {
   'traslado-salta-cachi.html': 'Traslado de Salta a Cachi por la Cuesta del Obispo — y la vuelta por la Ruta 40 | Lausof SRL',
   'traslado-salta-san-antonio-de-los-cobres.html': 'Traslado de Salta a San Antonio de los Cobres — Ruta 51, La Polvorilla y la Puna | Lausof SRL',
   'traslados-casamientos.html': 'Traslados para Casamientos en Salta — Combis para Invitados, Fincas y Bodegas | Lausof SRL',
+  // Ola de eventos del 10/10/2026: el hub de feriados y dos eventos
+  // recurrentes (URL sin año; el año vive en el título y se actualiza ahí).
+  'feriados-fines-de-semana-largos.html': 'Feriados y Fines de Semana Largos 2026-2027 — Viajes en Combi desde Salta | Lausof SRL',
+  'traslado-carnaval-quebrada-de-humahuaca.html': 'Traslado al Carnaval de la Quebrada 2027 desde Salta — Combi con Chofer a Humahuaca, Tilcara y Purmamarca | Lausof SRL',
+  'traslado-serenata-a-cafayate.html': 'Traslado a la Serenata a Cafayate 2027 desde Salta — Combi con Chofer y Vuelta en la Noche | Lausof SRL',
 };
 
 for (const [nombre, titulo] of Object.entries(dedicadas)) {
