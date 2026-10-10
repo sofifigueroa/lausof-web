@@ -144,6 +144,7 @@
 .prosa li{margin:6px 0}
 .prosa a{color:var(--ink)}
 .nota-fuente{margin-top:14px;font-size:.84rem;color:var(--ink-soft);max-width:72ch}
+.nota-fuente a{color:var(--ink-mid)}
 .block .tabla-flota{margin-top:28px}
 
 /* ---- fotos propias de la ruta, en fila de tres ---- */
@@ -173,3 +174,19 @@
 
 /* ---- pie de la ficha: fecha de actualización ---- */
 .actualizado{margin-top:26px;font-size:.84rem;color:var(--ink-soft)}
+
+/* ---- encabezados de los viajes internacionales (Salta–San Pedro de
+   Atacama, Salta–Uyuni y la página que los agrupa; antes en
+   css/internacional.css, que repetía las piezas compartidas) ---- */
+.page-head-photo.ph-atacama{background-image:url('../assets/galeria/lausof-salinasgrandes-combis.webp');background-position:center 60%}
+.page-head-photo.ph-uyuni{background-image:url('../assets/galeria/turismo-humahuaca-purmamarca-lausof.webp');background-position:center 55%}
+.page-head-photo.ph-internacional{background-image:url('../assets/galeria/lausof-combis-vehiculos-turismo-salta.webp');background-position:center 55%}
+
+/* ---- aviso destacado (cruces de frontera): borde dorado a la izquierda,
+   el mismo gesto de las filas de recitales ---- */
+.aviso{
+  max-width:66ch;margin:24px 0 0;padding:14px 18px;
+  background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);
+  border-radius:var(--radius);box-shadow:var(--shadow);color:var(--ink-mid);font-size:.95rem;
+}
+.aviso b{color:var(--ink)}

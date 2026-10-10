@@ -76,6 +76,9 @@ const pares = {
   'traslado-salta-san-antonio-de-los-cobres.html': 'en/salta-to-san-antonio-de-los-cobres.html',
   'traslados-casamientos.html':                   'en/wedding-transportation.html',
   'traslado-carnaval-quebrada-de-humahuaca.html': 'en/transfer-carnival-quebrada-de-humahuaca.html',
+  'viajes-internacionales.html':               'en/international-trips.html',
+  'traslado-salta-san-pedro-de-atacama.html':  'en/salta-to-san-pedro-de-atacama.html',
+  'traslado-salta-uyuni.html':                 'en/salta-to-uyuni.html',
 };
 
 // Página de /en/ que existe sin ser gemela de nadie (no se indexa).

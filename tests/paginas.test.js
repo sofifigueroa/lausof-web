@@ -37,6 +37,11 @@ const dedicadas = {
   'feriados-fines-de-semana-largos.html': 'Feriados y Fines de Semana Largos 2026-2027 — Viajes en Combi desde Salta | Lausof SRL',
   'traslado-carnaval-quebrada-de-humahuaca.html': 'Traslado al Carnaval de la Quebrada 2027 desde Salta — Combi con Chofer a Humahuaca, Tilcara y Purmamarca | Lausof SRL',
   'traslado-serenata-a-cafayate.html': 'Traslado a la Serenata a Cafayate 2027 desde Salta — Combi con Chofer y Vuelta en la Noche | Lausof SRL',
+  // Viajes internacionales (10/10/2026): la página que los agrupa y las dos
+  // rutas con página propia. Sus gemelas inglesas van en tests/util.js.
+  'viajes-internacionales.html': 'Viajes internacionales desde Salta — Chile, Bolivia y otros destinos | Lausof SRL',
+  'traslado-salta-san-pedro-de-atacama.html': 'Traslado privado de Salta a San Pedro de Atacama por el Paso de Jama | Lausof SRL',
+  'traslado-salta-uyuni.html': 'Traslado privado de Salta a Uyuni (Bolivia) por La Quiaca y Villazón | Lausof SRL',
 };
 
 for (const [nombre, titulo] of Object.entries(dedicadas)) {
