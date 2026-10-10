@@ -79,6 +79,7 @@ test('toda imagen lleva alt descriptivo salvo los logos decorativos', () => {
 // como se redacte.
 const requeridas = [
   ['habilitación CNRT', /CNRT/],
+  ['habilitación AMT', /AMT/],
   ['capacidad de carga de 7,5 toneladas', /capacidad de carga de 7,5 toneladas/],
   ['registro de temperatura', /registro de temperatura/i],
   ['agencia de turismo habilitada', /agencia de turismo habilitada/i],
@@ -97,15 +98,17 @@ const requeridas = [
   ['grúa y cargas desde 2017', /en 2017 sumamos remolques, auxilio mecánico y cargas generales/],
 ];
 
-// La única habilitación publicable es la CNRT N.º 60284: es la que el
-// comprador puede verificar. El permiso provincial AMT figura en trámite
-// (BACKLOG POL-CLAIMS) y no se menciona hasta que haya constancia de que fue
-// otorgado: ni en el texto visible ni en el JSON-LD, en ningún idioma. Los
-// comentarios quedan afuera porque ahí se explica la regla.
-test('ninguna página afirma la habilitación AMT', () => {
+// La habilitación AMT se publica como afirmación general ("Habilitación AMT",
+// "habilitaciones CNRT y AMT vigentes"), pero NUNCA con su número de permiso
+// ni de expediente (política de Lautaro, BUILD-BRIEF 10/10/2026). El único
+// número de habilitación publicable es el CNRT 60284. Los comentarios quedan
+// afuera porque ahí se explica la regla.
+test('ninguna página publica el número de permiso o expediente AMT', () => {
   for (const [nombre, html] of Object.entries(paginas)) {
-    const m = html.match(/[^<>]{0,40}\bAMT\b[^<>]{0,40}/);
-    assert.ok(!m, `${nombre} menciona AMT: "${m && m[0].trim()}"`);
+    const conNumero = html.match(/\bAMT\b[^<>]{0,40}?(?:N\.?\s*[º°o]|No\.?|#|n[uú]mero|expediente|exp\.|file)\s*:?\s*\d[\d./-]*/i)
+      || html.match(/(?:expediente|exp\.)\s*(?:N\.?\s*[º°o]\s*)?\d{2,}-\d+/i)
+      || html.match(/238-74749/);
+    assert.ok(!conNumero, `${nombre} publica un número AMT: "${conNumero && conNumero[0].trim()}"`);
   }
 });
 

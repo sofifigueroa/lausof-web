@@ -530,6 +530,7 @@ for (const [nombre, html] of Object.entries(paginasEn)) {
 const requeridasEn = [
   ['habilitación CNRT', /CNRT/],
   ['número de CNRT', /60284/],
+  ['habilitación AMT', /AMT/],
   ['capacidad de carga de 7,5 toneladas', /7\.5[- ]ton/i],
   ['registro de temperatura', /temperature log/i],
   ['agencia de turismo habilitada', /licensed (travel agency|tour operator)/i],
