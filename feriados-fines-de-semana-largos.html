@@ -16,7 +16,7 @@
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="stylesheet" href="css/styles.css?v=26">
-  <link rel="stylesheet" href="css/charter.css?v=3">
+  <link rel="stylesheet" href="css/charter.css?v=4">
   <link rel="stylesheet" href="css/eventos.css?v=2">
 
   <meta property="og:type" content="website">
@@ -85,7 +85,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GHHRS5LDE7"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-GHHRS5LDE7')</script>
   <script defer src="/js/contacto.js?v=1"></script>
-  <script defer src="/js/vigencia.js?v=1"></script>
+  <script defer src="/js/vigencia.js?v=2"></script>
 </head>
 <body>
 
@@ -133,7 +133,8 @@
   </div>
 
   <!-- Una fila por fin de semana largo o feriado. data-hasta = último día;
-       /js/vigencia.js esconde la fila desde el día siguiente. Las de 2027 se
+       desde el día siguiente /js/vigencia.js la pasa a "Fechas anteriores"
+       (nunca se saca ni se esconde: BUILD-BRIEF, "Past events", 10/10/2026). Las de 2027 se
        marcan "por regla" hasta que el Gobierno publique el calendario 2027 en
        argentina.gob.ar/feriados: ese día se revisan contra la fuente oficial. -->
   <section class="block alt" id="fechas">
@@ -209,6 +210,10 @@
         </li>
       </ol>
       <p class="recitales-vacio" data-sin-proximos hidden>Estamos cargando las fechas del año que viene. Si el grupo ya tiene un fin de semana en mente, puede escribirnos igual con la fecha y el destino.</p>
+      <div class="fechas-anteriores" data-anteriores data-enlace="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20una%20combi%20para%20un%20pr%C3%B3ximo%20fin%20de%20semana%20largo" data-etiqueta="Consultar por un fin de semana similar →" hidden>
+        <h3>Fechas anteriores</h3>
+        <ol class="recitales fechas"></ol>
+      </div>
       <p class="recitales-aviso"><b>Fuentes, verificadas el 10/10/2026:</b> <a href="https://www.argentina.gob.ar/feriados" target="_blank" rel="noopener">calendario oficial de feriados</a> (2026 y la regla de traslado de la Ley 27.399) y el <a href="https://www.lanacion.com.ar/feriados/2027/" target="_blank" rel="noopener">calendario 2027 de La Nación</a>. En 2027 no hay fin de semana largo por el 1 de mayo (sábado), el 25 de mayo (martes, sin puente decretado), el 8 de diciembre (miércoles) ni Navidad (sábado).</p>
     </div>
   </section>

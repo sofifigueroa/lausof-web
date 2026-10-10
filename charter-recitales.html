@@ -13,7 +13,7 @@
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="stylesheet" href="css/styles.css?v=26">
-  <link rel="stylesheet" href="css/charter.css?v=3">
+  <link rel="stylesheet" href="css/charter.css?v=4">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_AR">
@@ -92,7 +92,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GHHRS5LDE7"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-GHHRS5LDE7')</script>
   <script defer src="/js/contacto.js?v=1"></script>
-  <script defer src="/js/vigencia.js?v=1"></script>
+  <script defer src="/js/vigencia.js?v=2"></script>
 </head>
 <body>
 
@@ -156,10 +156,11 @@
   </section>
 
   <!-- Próximos recitales: fechas fechadas, una fila por show. Cada fila lleva
-       su último día en data-hasta y /js/vigencia.js la esconde desde el día
-       siguiente, así la página nunca ofrece un viaje a una fecha pasada. En la
-       revisión mensual las filas vencidas se sacan del HTML y se suman las
-       nuevas, cada una verificada en la ticketera o en el anuncio del artista
+       su último día en data-hasta y desde el día siguiente /js/vigencia.js la
+       pasa a "Fechas anteriores", con el enlace cambiado a consultar por un
+       recital similar. Las filas pasadas nunca se sacan del HTML ni se esconden
+       (BUILD-BRIEF, "Past events", 10/10/2026). En la revisión mensual se
+       suman las fechas nuevas, cada una verificada en la ticketera o en el anuncio del artista
        (hoja de datos: ~/lausof/web/growth-2026-10/facts/charter-recitales.md).
        Sólo nombres en texto: sin logos, sin fotos de artistas, sin "oficial". -->
   <section class="block alt" id="proximos">
@@ -210,6 +211,10 @@
         </li>
       </ol>
       <p class="recitales-vacio" data-sin-proximos hidden>Por ahora no hay fechas cargadas en esta lista. Si tu grupo va a un recital en Tucumán o Jujuy, escribinos igual con la fecha y el evento.</p>
+      <div class="fechas-anteriores" data-anteriores data-enlace="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20una%20combi%20a%20un%20recital%20en%20Tucum%C3%A1n%20o%20Jujuy" data-etiqueta="Consultar por un recital similar →" hidden>
+        <h3>Fechas anteriores</h3>
+        <ol class="recitales fechas"></ol>
+      </div>
       <p class="recitales-aviso"><b>Lausof SRL es una empresa de transporte independiente.</b> No organiza estos recitales ni vende entradas: las fechas, los horarios y las entradas se confirman en la ticketera de cada show. Datos verificados el 10/10/2026 en las ticketeras y en los anuncios de cada artista.</p>
 
       <h3 class="llegada-titulo">Cómo se llega desde Salta</h3>

@@ -3,7 +3,8 @@
 // molde de charter-recitales.html y las reglas del blueprint de páginas de
 // eventos (~/lausof/web/growth-2026-10/02-event-pages-rules-blueprint.md):
 // WebPage + Service + BreadcrumbList sin Event, migas visibles, filas fechadas
-// que /js/vigencia.js esconde al vencer, aviso de independencia junto a las
+// que /js/vigencia.js pasa a "Fechas anteriores" al vencer (nunca las
+// esconde; ver tests/vigencia.test.js), aviso de independencia junto a las
 // fechas, tiempos de manejo declarados aproximados, enlaces de ida y vuelta
 // con el hub y fechas coherentes entre JSON-LD, texto y sitemap.
 'use strict';
@@ -100,7 +101,8 @@ for (const nombre of nuevas) {
   test(`${nombre}: filas fechadas válidas, en orden, con el día de la semana correcto`, () => {
     const filas = filasDe(html);
     assert.ok(filas.length >= 3, 'la lista de fechas quedó casi vacía');
-    assert.match(visible(), /data-sin-proximos hidden>/, 'falta el aviso para cuando no queda ninguna fecha');
+    assert.match(visible(), nombre === HUB ? /data-sin-proximos hidden>/ : /data-edicion-pasada hidden/,
+      'falta el aviso para cuando no queda ninguna fecha');
     for (const { hasta, cuerpo } of filas) {
       assert.match(hasta, /^\d{4}-\d{2}-\d{2}$/, `data-hasta mal escrito: "${hasta}"`);
       const t = cuerpo.match(/<time datetime="(\d{4}-\d{2}-\d{2})">([^<]*)<\/time>/);
@@ -223,15 +225,5 @@ test('hub: los feriados trasladables de 2027 se marcan a confirmar', () => {
   }
   for (const { hasta, cuerpo } of filas) {
     if (hasta >= '2027-01-01') assert.doesNotMatch(cuerpo, /calendario oficial/, `la fila ${hasta} se atribuye al calendario oficial`);
-  }
-});
-
-// Aviso de mantenimiento (no falla), igual que en recitales: una fecha
-// vencida hace más de 7 días sale del HTML (blueprint §3.2).
-test('páginas de eventos: avisa las filas vencidas hace más de 7 días', (t) => {
-  const limite = new Date(Date.now() - 7 * 864e5).toISOString().slice(0, 10);
-  for (const nombre of nuevas) {
-    const vencidas = filasDe(paginas[nombre]).filter((f) => f.hasta < limite).map((f) => f.hasta);
-    if (vencidas.length) t.diagnostic(`${nombre}: filas vencidas para sacar del HTML: ${vencidas.join(', ')}`);
   }
 });

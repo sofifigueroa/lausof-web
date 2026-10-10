@@ -7,9 +7,11 @@
   <!-- Evento recurrente: URL sin año, el año vive en el título y el texto y
        se actualiza en el mismo lugar cada edición. Hoja de datos:
        ~/lausof/web/growth-2026-10/facts/traslado-carnaval-quebrada-de-humahuaca.md
-       Después del 14/02/2027 la página pasa a "entre ediciones" (blueprint
-       §3.2): /js/vigencia.js esconde las fechas y muestra el aviso, y dentro
-       de los 7 días se saca el 2027 del título hasta que haya fechas 2028. -->
+       Después del 14/02/2027 la página pasa a "entre ediciones": la página y sus
+       fechas siguen publicadas, /js/vigencia.js las pasa a "Fechas anteriores"
+       y muestra la nota de edición pasada arriba (BUILD-BRIEF, "Past events",
+       10/10/2026, reemplaza el §3.2 del blueprint). El título se actualiza
+       cuando se anuncien las fechas 2028. -->
   <title>Traslado al Carnaval de la Quebrada 2027 desde Salta — Combi con Chofer a Humahuaca, Tilcara y Purmamarca | Lausof SRL</title>
   <meta name="description" content="Combi de 19+1 plazas con chofer desde Salta al Carnaval de la Quebrada, del 6 al 9 de febrero de 2027: ida y vuelta cada noche a Humahuaca, Tilcara o Purmamarca, o la unidad a disposición del grupo.">
   <link rel="canonical" href="https://www.lausof.com/traslado-carnaval-quebrada-de-humahuaca.html">
@@ -20,7 +22,7 @@
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="stylesheet" href="css/styles.css?v=26">
-  <link rel="stylesheet" href="css/charter.css?v=3">
+  <link rel="stylesheet" href="css/charter.css?v=4">
   <link rel="stylesheet" href="css/eventos.css?v=2">
 
   <meta property="og:type" content="website">
@@ -89,7 +91,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GHHRS5LDE7"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-GHHRS5LDE7')</script>
   <script defer src="/js/contacto.js?v=1"></script>
-  <script defer src="/js/vigencia.js?v=1"></script>
+  <script defer src="/js/vigencia.js?v=2"></script>
 </head>
 <body>
 
@@ -111,6 +113,21 @@
 </header>
 
 <main>
+  <!-- Nota de edición pasada: /js/vigencia.js la muestra cuando ya no queda
+       ninguna fecha próxima en la página (BUILD-BRIEF, "Past events",
+       10/10/2026). Las fechas pasadas siguen publicadas más abajo. -->
+  <aside class="edicion-pasada" data-edicion-pasada hidden aria-label="Edición pasada">
+    <div class="wrap">
+      <div class="edicion-pasada-ficha">
+        <p><b>Esta edición ya pasó.</b> Consúltenos por la próxima edición o por traslados a eventos similares.</p>
+        <div class="ctas">
+          <a class="btn btn-wa btn-sm" href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20la%20pr%C3%B3xima%20edici%C3%B3n%20del%20Carnaval%20de%20la%20Quebrada%20o%20por%20un%20traslado%20a%20un%20evento%20similar" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Consultar por WhatsApp</a>
+          <a class="enlace-alt" href="mailto:contacto@lausof.com">contacto@lausof.com</a>
+        </div>
+      </div>
+    </div>
+  </aside>
+
   <section class="page-head" aria-label="Presentación">
     <div class="page-head-photo foto-quebrada" role="presentation"><picture><source type="image/avif" srcset="assets/galeria/turismo-humahuaca-purmamarca-lausof-400w.avif 400w, assets/galeria/turismo-humahuaca-purmamarca-lausof-640w.avif 640w, assets/galeria/turismo-humahuaca-purmamarca-lausof-960w.avif 960w, assets/galeria/turismo-humahuaca-purmamarca-lausof.avif 1200w" sizes="(max-width: 720px) 895px, 100vw"><img src="assets/galeria/turismo-humahuaca-purmamarca-lausof.webp" srcset="assets/galeria/turismo-humahuaca-purmamarca-lausof-400w.webp 400w, assets/galeria/turismo-humahuaca-purmamarca-lausof-640w.webp 640w, assets/galeria/turismo-humahuaca-purmamarca-lausof-960w.webp 960w, assets/galeria/turismo-humahuaca-purmamarca-lausof.webp 1200w" alt="" width="1200" height="675" sizes="(max-width: 720px) 895px, 100vw" fetchpriority="high"></picture></div>
     <div class="wrap page-head-inner">
@@ -137,9 +154,9 @@
   </div>
 
   <!-- Fechas del carnaval 2027. Una fila por momento del calendario; cada una
-       lleva su último día en data-hasta y /js/vigencia.js la esconde desde el
-       día siguiente. Cuando ya no queda ninguna aparece el aviso de "entre
-       ediciones". Sólo texto: sin logos ni afiches del carnaval. -->
+       lleva su último día en data-hasta; desde el día siguiente /js/vigencia.js
+       la pasa a "Fechas anteriores" (nunca la esconde). Cuando ya no queda
+       ninguna próxima aparece la nota de edición pasada arriba. Sólo texto: sin logos ni afiches del carnaval. -->
   <section class="block alt" id="fechas">
     <div class="wrap">
       <p class="kicker">Carnaval 2027</p>
@@ -172,7 +189,10 @@
           <a class="walink" href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20combi%20al%20Carnaval%20Chico%20de%20la%20Quebrada%20%2810%20al%2014%2F2%29" target="_blank" rel="noopener">Cotizar la combi →</a>
         </li>
       </ol>
-      <p class="recitales-vacio" data-sin-proximos hidden>El Carnaval 2027 ya pasó. Cuando se anuncien las fechas del próximo carnaval las publicamos acá; mientras tanto, el viaje a la Quebrada se cotiza igual por WhatsApp.</p>
+      <div class="fechas-anteriores" data-anteriores data-enlace="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20la%20pr%C3%B3xima%20edici%C3%B3n%20del%20Carnaval%20de%20la%20Quebrada%20o%20por%20un%20traslado%20a%20un%20evento%20similar" data-etiqueta="Consultar por la próxima edición →" hidden>
+        <h3>Fechas anteriores</h3>
+        <ol class="recitales fechas"></ol>
+      </div>
       <p class="recitales-aviso"><b>Lausof SRL es una empresa de transporte independiente.</b> No organiza el Carnaval de la Quebrada ni ninguno de sus festejos. Las fechas y la programación se confirman con cada municipio y con el <a href="https://www.turismo.jujuy.gob.ar/" target="_blank" rel="noopener">Ministerio de Cultura y Turismo de Jujuy</a>. Fechas verificadas el 10/10/2026 en el cronograma 2027 publicado por <a href="https://www.todojujuy.com/jujuy/confirmado-mira-el-cronograma-del-carnaval-2027-n286954" target="_blank" rel="noopener">Todo Jujuy</a> y <a href="https://www.quepasajujuy.com.ar/jujuy/ya-estan-las-fechas-oficiales-del-carnaval-2027-jujuy/" target="_blank" rel="noopener">Qué Pasa Jujuy</a>.</p>
     </div>
   </section>
