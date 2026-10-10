@@ -22,7 +22,7 @@ const dedicadas = {
   'viajes-de-estudio.html': 'Viajes de Estudio y Salidas Educativas — Colegios y Universidades | Lausof SRL',
   'traslados-empresas.html': 'Traslados Corporativos y Congresos — Salta, Jujuy y Tucumán | Lausof SRL',
   'peregrinaciones-eventos.html': 'Peregrinaciones, Casamientos y Eventos — Traslados en Combi | Lausof SRL',
-  'alquiler-4x4.html': 'Alquiler de Camionetas 4x4 en Salta — Mensual, para Empresas y Minería | Lausof SRL',
+  'alquiler-4x4.html': 'Alquiler de Camionetas 4x4 en Salta — Con o sin Chofer, para Viajeros y Empresas | Lausof SRL',
   'alquiler-autoelevadores.html': 'Alquiler de Autoelevadores en Salta — 3 y 4 Toneladas, con o sin Operador | Lausof SRL',
   'deposito-galpon.html': 'Depósito y Galpón en Salta — Cámara de Frío y Playa de Maniobras | Lausof SRL',
   'producciones.html': 'Apoyo Logístico para Producciones y Rodajes — Salta y la Puna | Lausof SRL',
