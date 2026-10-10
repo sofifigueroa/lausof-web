@@ -209,5 +209,5 @@ test('turismo.css trae las piezas compartidas y todas sus páginas piden la mism
       assert.ok(m, `${nombre} no carga turismo.css`);
     }
   }
-  assert.deepStrictEqual([...versiones], ['2']);
+  assert.strictEqual(versiones.size, 1, `turismo.css se pide en más de una versión: ${[...versiones].join(', ')}`);
 });

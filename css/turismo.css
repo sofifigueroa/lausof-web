@@ -161,3 +161,15 @@
   display:inline-block;margin-top:10px;padding:6px 0;font-weight:700;font-size:.92rem;
   color:var(--gold-ink);text-decoration:none;border-bottom:1px solid var(--gold);
 }
+
+/* ---- v3 (10/10/2026): encabezados de las páginas de ruta de los Valles y la
+   Puna, y casamientos (antes en css/valles.css, que repetía las piezas
+   compartidas de arriba; ahora viven una sola vez acá). Fotos propias de
+   Lausof; ninguna pasa de 145 KB. ---- */
+.page-head-photo.ph-cafayate{background-image:url('../assets/turismo/garganta-del-diablo-cafayate-lausof.webp');background-position:center 50%}
+.page-head-photo.ph-cachi{background-image:url('../assets/turismo/quebrada-de-las-flechas-angastaco-lausof.webp');background-position:center 55%}
+.page-head-photo.ph-cobres{background-image:url('../assets/galeria/turismo-sanantoniodeloscobres-lausof-transportes.webp');background-position:center 60%}
+.page-head-photo.ph-casamientos{background-image:url('../assets/galeria/lausof-combis-vehiculos-turismo-salta.webp');background-position:center 55%}
+
+/* ---- pie de la ficha: fecha de actualización ---- */
+.actualizado{margin-top:26px;font-size:.84rem;color:var(--ink-soft)}

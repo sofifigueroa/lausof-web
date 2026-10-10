@@ -6,7 +6,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert');
-const { paginas, index, sitemap, redirects } = require('./util.js');
+const { paginas, index, sitemap, redirects, pares, urlDe } = require('./util.js');
 
 // Título y canónica van juntos: si una página se renombra o se reescribe,
 // acá se decide a conciencia (los títulos llevan keywords ganadas).
@@ -28,6 +28,10 @@ const dedicadas = {
   'producciones.html': 'Apoyo Logístico para Producciones y Rodajes — Salta y la Puna | Lausof SRL',
   'traslado-salta-purmamarca-tilcara-humahuaca.html': 'Traslado de Salta a Purmamarca, Tilcara y Humahuaca — Combi con chofer para grupos | Lausof SRL',
   'salinas-grandes-desde-salta.html': 'Salinas Grandes desde Salta por Purmamarca — Excursión en combi con chofer para grupos | Lausof SRL',
+  'traslado-salta-cafayate.html': 'Traslado de Salta a Cafayate — Combi con chofer, solo ida o día completo | Lausof SRL',
+  'traslado-salta-cachi.html': 'Traslado de Salta a Cachi por la Cuesta del Obispo — y la vuelta por la Ruta 40 | Lausof SRL',
+  'traslado-salta-san-antonio-de-los-cobres.html': 'Traslado de Salta a San Antonio de los Cobres — Ruta 51, La Polvorilla y la Puna | Lausof SRL',
+  'traslados-casamientos.html': 'Traslados para Casamientos en Salta — Combis para Invitados, Fincas y Bodegas | Lausof SRL',
 };
 
 for (const [nombre, titulo] of Object.entries(dedicadas)) {
@@ -55,10 +59,12 @@ test('todas las páginas cargan styles.css en la misma versión que la portada',
 });
 
 // El sitemap lista exactamente las páginas indexables: la portada, flota y
-// las diecisiete dedicadas (dos son las páginas de ruta del 10/10), más las diez gemelas inglesas bajo /en/ (que verifica
-// una por una tests/ingles.test.js). Ninguna de las dos 404 va: no son
-// páginas para indexar.
-test('el sitemap lista las 29 URLs indexables y ninguna más', () => {
+// las páginas dedicadas de `dedicadas`, más todas las gemelas inglesas del
+// mapa `pares` (que verifica una por una tests/ingles.test.js). Ninguna de las
+// dos 404 va: no son páginas para indexar. El total se deriva de esas dos
+// fuentes, no de un número fijo: así cada rama que suma una página no choca
+// con la otra en este test.
+test('el sitemap lista exactamente las URLs indexables y ninguna más', () => {
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
   const esperadas = [
     'https://www.lausof.com/',
@@ -68,7 +74,13 @@ test('el sitemap lista las 29 URLs indexables y ninguna más', () => {
   for (const url of esperadas) {
     assert.ok(urls.includes(url), `falta ${url} en el sitemap`);
   }
-  assert.strictEqual(urls.length, 29, `el sitemap tiene ${urls.length} URLs y se esperaban 29`);
+  const indexables = new Set([...esperadas, ...Object.values(pares).map(urlDe)]);
+  for (const url of urls) {
+    assert.ok(indexables.has(url), `${url} está en el sitemap y no es una página indexable conocida`);
+  }
+  assert.strictEqual(new Set(urls).size, urls.length, 'el sitemap repite URLs');
+  assert.strictEqual(urls.length, indexables.size,
+    `el sitemap tiene ${urls.length} URLs y se esperaban ${indexables.size}`);
   assert.ok(!sitemap.includes('404.html'), 'la 404 no va en el sitemap');
 });
 
