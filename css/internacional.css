@@ -1,0 +1,109 @@
+/* ==========================================================================
+   Lausof SRL — "Viajes internacionales"
+   Complemento de styles.css y turismo.css para las tres páginas de viajes
+   internacionales (Salta–San Pedro de Atacama, Salta–Uyuni y la página que
+   las agrupa) y sus gemelas inglesas. Mismo criterio que css/turismo.css:
+   acá viven sólo las piezas que estas páginas agregan.
+
+   Las clases .crumbs, .jump, .faq, .routing, .prosa, .nota-fuente y
+   .fotos-ruta usan los mismos nombres y las mismas reglas que las páginas de
+   ruta de la Quebrada y Salinas (rama web-routes, turismo.css v2). Si esa
+   versión de turismo.css se publica, estos bloques quedan repetidos y se
+   pueden borrar de acá sin cambiar nada en pantalla.
+   ========================================================================== */
+
+/* ---- foto del encabezado de cada página ----
+   Mismo encabezado que turismo, con una foto propia de Lausof sobre el
+   camino de cada viaje: Salinas Grandes está sobre la RN 52 que sigue a
+   Jama; la Quebrada de Humahuaca, sobre la RN 9 que sigue a La Quiaca. */
+.page-head-photo.ph-atacama{background-image:url('../assets/galeria/lausof-salinasgrandes-combis.webp');background-position:center 60%}
+.page-head-photo.ph-uyuni{background-image:url('../assets/galeria/turismo-humahuaca-purmamarca-lausof.webp');background-position:center 55%}
+.page-head-photo.ph-internacional{background-image:url('../assets/galeria/lausof-combis-vehiculos-turismo-salta.webp');background-position:center 55%}
+
+/* ---- miga de pan visible ----
+   La misma jerarquía que declara el BreadcrumbList del JSON-LD. */
+.crumbs{padding-top:18px;font-size:.86rem;color:var(--ink-soft)}
+.crumbs ol{display:flex;flex-wrap:wrap;gap:4px 0;margin:0;padding:0;list-style:none}
+.crumbs li+li::before{content:"/";margin:0 8px;color:var(--border)}
+.crumbs a{color:var(--ink-mid);text-decoration:none;border-bottom:1px solid var(--border)}
+@media (hover:hover){.crumbs a:hover{color:var(--gold-ink);border-bottom-color:var(--gold)}}
+
+/* ---- índice de la página ---- */
+.jump{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px;
+  padding-top:22px;font-size:.9rem;
+}
+.jump span{color:var(--ink-soft);font-weight:700}
+.jump a{
+  color:var(--ink-mid);text-decoration:none;
+  border-bottom:1px solid var(--border);padding-bottom:2px;
+}
+@media (hover:hover){.jump a:hover{color:var(--gold-ink);border-bottom-color:var(--gold)}}
+
+/* ---- preguntas frecuentes ----
+   details/summary nativos: abren sin JavaScript. Texto visible, sin marcado
+   FAQPage (Google retiró ese resultado enriquecido en 2026). */
+.faq{margin-top:32px;display:flex;flex-direction:column;gap:10px;max-width:760px}
+.faq details{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:0 18px;
+}
+.faq summary{
+  cursor:pointer;font-weight:700;font-size:.98rem;
+  padding:15px 0;list-style:none;position:relative;padding-right:28px;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"+";position:absolute;right:2px;top:50%;transform:translateY(-50%);
+  color:var(--gold-ink);font-size:1.25rem;font-weight:700;line-height:1;
+}
+.faq details[open] summary::after{content:"-"}
+.faq details p{margin:0 0 16px;color:var(--ink-mid);font-size:.94rem;max-width:60ch}
+@media (hover:hover){.faq summary:hover{color:var(--gold-ink)}}
+
+/* ---- párrafo de atención dentro del cierre azul ---- */
+.cta-final .routing{
+  max-width:56ch;margin:0 auto 28px;padding:16px 18px;text-align:left;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);
+  border-radius:var(--radius);
+  font-size:.93rem;color:var(--on-navy-soft);
+}
+.cta-final .routing b{color:var(--on-navy)}
+.cta-final .routing a{color:var(--gold-bright)}
+
+/* ---- texto corrido ---- */
+.prosa{max-width:66ch;color:var(--ink-mid)}
+.prosa p{margin:16px 0 0}
+.prosa ul{margin:16px 0 0;padding-left:20px}
+.prosa li{margin:6px 0}
+.prosa a{color:var(--ink)}
+.nota-fuente{margin-top:14px;font-size:.84rem;color:var(--ink-soft);max-width:72ch}
+.nota-fuente a{color:var(--ink-mid)}
+.block .tabla-flota{margin-top:28px}
+
+/* ---- fotos propias del camino, en fila de tres ---- */
+.fotos-ruta{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:30px 0 0;padding:0}
+.fotos-ruta figure{margin:0}
+.fotos-ruta img{
+  width:100%;aspect-ratio:4/3;object-fit:cover;display:block;
+  border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+}
+.fotos-ruta figcaption{margin-top:8px;font-size:.84rem;color:var(--ink-soft)}
+@media(max-width:720px){.fotos-ruta{grid-template-columns:1fr}}
+
+/* ---- tarjetas de destino de la página que agrupa los viajes ----
+   Enlace al pie de cada tarjeta, en el dorado de los enlaces de texto. */
+.circuito .card-body a.ruta-link{
+  display:inline-block;margin-top:10px;padding:6px 0;font-weight:700;font-size:.92rem;
+  color:var(--gold-ink);text-decoration:none;border-bottom:1px solid var(--gold);
+}
+
+/* ---- aviso práctico (frontera, clima) ----
+   Un recuadro con borde dorado a la izquierda, el mismo gesto de las filas
+   de recitales: es la información que no conviene pasar por alto. */
+.aviso{
+  max-width:66ch;margin:24px 0 0;padding:14px 18px;
+  background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);
+  border-radius:var(--radius);box-shadow:var(--shadow);color:var(--ink-mid);font-size:.95rem;
+}
+.aviso b{color:var(--ink)}

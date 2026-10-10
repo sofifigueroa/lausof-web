@@ -68,6 +68,9 @@ const pares = {
   'cargas-refrigeradas.html':    'en/refrigerated-freight.html',
   'deposito-galpon.html':        'en/warehouse.html',
   'producciones.html':           'en/film-production-logistics.html',
+  'viajes-internacionales.html':               'en/international-trips.html',
+  'traslado-salta-san-pedro-de-atacama.html':  'en/salta-to-san-pedro-de-atacama.html',
+  'traslado-salta-uyuni.html':                 'en/salta-to-uyuni.html',
 };
 
 // Página de /en/ que existe sin ser gemela de nadie (no se indexa).
