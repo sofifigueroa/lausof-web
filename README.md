@@ -356,7 +356,48 @@ ver `WEB-LANE-HANDOFF.md`): el CLI sólo deja afuera lo que empieza con punto.
 Por eso `_redirects` tiene reglas `404!` para todo lo que está en la raíz y no
 es el sitio (`README.md`, `package.json`, `package-lock.json`, `tests/`,
 `scripts/`). Si se suma un archivo o carpeta interna a la raíz, necesita su
-regla en el mismo commit; `tests/seo.test.js` lo exige.
+regla en el mismo commit; `tests/seo.test.js` lo exige. La excepción es el
+archivo de la clave de IndexNow (`d1eb0835b80b7ebe76ad80c22dc86589.txt`), que
+sí es público: ver la sección siguiente.
+
+### Después de cada deploy: avisar a Bing con IndexNow
+
+IndexNow es el protocolo con el que Bing (y Yandex, Seznam, Naver, Yep...)
+se enteran enseguida de qué páginas son nuevas o cambiaron, sin esperar a que
+el rastreador pase. Google no lo usa: para Google sigue valiendo el sitemap
+y Search Console. Fuentes: https://www.indexnow.org/documentation y
+https://www.bing.com/indexnow/getstarted (leídas el 10/10/2026).
+
+- **Clave:** `d1eb0835b80b7ebe76ad80c22dc86589`, publicada en
+  https://www.lausof.com/d1eb0835b80b7ebe76ad80c22dc86589.txt (opción 1 del
+  protocolo: archivo en la raíz, cubre todo el host). No es secreta. No se
+  borra ni se renombra: sin ese archivo cada aviso da 403.
+- **Cuándo:** después de cada deploy a producción que agregue páginas o les
+  cambie el `<lastmod>` en `sitemap.xml`. Sólo lo que cambió: Bing pide no
+  reenviar URLs viejas que no cambiaron.
+- **Cómo** (desde la carpeta del sitio, ya desplegado):
+
+  ```bash
+  # Lo normal: lo que cambió en el sitemap desde el commit del deploy anterior
+  node scripts/indexnow.mjs --desde <sha del deploy anterior> --prueba   # mira la lista
+  node scripts/indexnow.mjs --desde <sha del deploy anterior>            # envía
+  # Alternativa por fecha de lastmod
+  node scripts/indexnow.mjs --desde 2026-10-10
+  # Todas las URLs (sólo la primera vez o con el sitio rehecho)
+  node scripts/indexnow.mjs --todas
+  ```
+
+  El script compara los `<lastmod>`, así que una página editada sin subirle
+  el `<lastmod>` no se avisa (los tests ya exigen que coincida con la fecha
+  visible en las páginas que la muestran). Antes de enviar comprueba que el
+  archivo de la clave esté en vivo; después imprime el código HTTP:
+  **200 o 202 = recibido** (202: clave todavía en validación). 403 = clave no
+  publicada, 422 = URL de otro host, 429 = demasiados pedidos (esperar, no
+  reintentar en loop). Sale con código 1 si no fue 200/202.
+- **Dónde mirar el resultado:** Bing Webmaster Tools → IndexNow. Que llegue el
+  aviso no garantiza que la página se indexe.
+- Tests: `tests/indexnow.test.js` (formato de la clave, archivo en la raíz,
+  ninguna regla de `_redirects` lo tapa, selección de URLs y pedido).
 
 El dominio `lausof.com` ya existe (hoy apunta a Wix). Plan:
 

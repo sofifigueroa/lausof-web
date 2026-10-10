@@ -223,11 +223,17 @@ test('las redirecciones no tienen un comodín que tape páginas reales', () => {
 const reglasActivas = () => redirects.split('\n').map((l) => l.trim())
   .filter((l) => l && !l.startsWith('#')).map((l) => l.split(/\s+/));
 
+// La clave de IndexNow (scripts/indexnow.mjs) vive en un .txt de la raíz que
+// los buscadores leen para validar cada aviso: ES parte del sitio público y
+// tiene que servirse con 200, no esconderse como los internos.
+const claveIndexNow = fs.readFileSync(path.join(__dirname, '..', 'scripts', 'indexnow.mjs'), 'utf8')
+  .match(/export const CLAVE = '([0-9a-f]+)'/)[1];
+
 const esDelSitio = (nombre, esDir) => {
   if (nombre.startsWith('.')) return true; // el CLI no los sube
   if (esDir) return ['assets', 'css', 'js', 'en'].includes(nombre);
   return nombre.endsWith('.html') ||
-    ['sitemap.xml', 'robots.txt', '_redirects', '_headers'].includes(nombre);
+    ['sitemap.xml', 'robots.txt', '_redirects', '_headers', `${claveIndexNow}.txt`].includes(nombre);
 };
 
 test('los archivos internos de la raíz no se sirven: 404 forzada', () => {
