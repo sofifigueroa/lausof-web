@@ -13,7 +13,7 @@
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="stylesheet" href="css/styles.css?v=25">
-  <link rel="stylesheet" href="css/charter.css?v=1">
+  <link rel="stylesheet" href="css/charter.css?v=2">
 
   <!-- El fondo del encabezado es la imagen más grande de la página (la LCP):
        se precarga porque, al venir de la CSS, se descubriría tarde. La misma
@@ -34,33 +34,59 @@
   <meta property="og:image:alt" content="Combi Sprinter de Lausof en la Serranía del Hornocal, Jujuy">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Ficha del servicio. El proveedor referencia por @id la ficha
-       LocalBusiness completa de la portada: para Google, las dos páginas
-       hablan de la misma empresa. Los datos (dirección, teléfonos, geo)
-       viven solo en la portada; acá no se duplican para que nunca queden
-       desincronizados.
-       Las preguntas frecuentes NO se marcan como FAQPage: desde agosto de
-       2023 Google solo muestra ese resultado enriquecido a sitios de
-       gobierno y salud, así que el marcado no aporta nada acá. -->
+  <!-- Datos estructurados con la forma del blueprint de páginas de eventos
+       (~/lausof/web/growth-2026-10/02-event-pages-rules-blueprint.md §7.6):
+       WebPage + Service + BreadcrumbList en un @graph. El proveedor
+       referencia por @id la ficha LocalBusiness completa de la portada; los
+       datos de la empresa viven sólo ahí. Sin Event: la página ofrece un
+       servicio de transporte, no los recitales, y Google prohíbe marcar un
+       servicio como evento. Sin FAQPage: Google retiró ese resultado en 2026.
+       dateModified = "Actualizado" visible = lastmod del sitemap. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "Combis a recitales y festivales",
-    "serviceType": "Transporte de pasajeros para eventos",
-    "description": "Traslado de grupos en combis de 19+1 plazas con chofer profesional a recitales, festivales y eventos en Jujuy y Tucumán, saliendo desde Salta. Ida y vuelta la misma noche, con el chofer esperando al grupo.",
-    "url": "https://www.lausof.com/charter-recitales.html",
-    "areaServed": [
-      { "@type": "State", "name": "Salta" },
-      { "@type": "State", "name": "Jujuy" },
-      { "@type": "State", "name": "Tucumán" }
-    ],
-    "provider": {
-      "@type": "LocalBusiness",
-      "@id": "https://www.lausof.com/#empresa",
-      "name": "Lausof SRL",
-      "url": "https://www.lausof.com/"
-    }
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://www.lausof.com/charter-recitales.html#webpage",
+        "url": "https://www.lausof.com/charter-recitales.html",
+        "name": "Combis a Recitales y Festivales — Salta, Jujuy y Tucumán | Lausof SRL",
+        "description": "Combis 19+1 con chofer profesional para ir en grupo a recitales y festivales en Jujuy y Tucumán saliendo desde Salta. Ida y vuelta la misma noche: el chofer espera y el grupo vuelve junto. Habilitación CNRT interjurisdiccional. Cotizá por WhatsApp.",
+        "inLanguage": "es",
+        "dateModified": "2026-10-10",
+        "isPartOf": { "@type": "WebSite", "url": "https://www.lausof.com/", "name": "Lausof SRL" },
+        "about": { "@id": "https://www.lausof.com/#empresa" },
+        "breadcrumb": { "@id": "https://www.lausof.com/charter-recitales.html#breadcrumb" },
+        "mainEntity": { "@id": "https://www.lausof.com/charter-recitales.html#servicio" }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://www.lausof.com/charter-recitales.html#servicio",
+        "name": "Combis a recitales y festivales",
+        "serviceType": "Transporte de pasajeros para eventos",
+        "description": "Traslado de grupos en combis de 19+1 plazas con chofer profesional a recitales, festivales y eventos en Jujuy y Tucumán, saliendo desde Salta. Ida y vuelta la misma noche, con el chofer esperando al grupo.",
+        "url": "https://www.lausof.com/charter-recitales.html",
+        "areaServed": [
+          { "@type": "State", "name": "Salta" },
+          { "@type": "State", "name": "Jujuy" },
+          { "@type": "State", "name": "Tucumán" }
+        ],
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://www.lausof.com/#empresa",
+          "name": "Lausof SRL",
+          "url": "https://www.lausof.com/"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.lausof.com/charter-recitales.html#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://www.lausof.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Recitales y festivales", "item": "https://www.lausof.com/charter-recitales.html" }
+        ]
+      }
+    ]
   }
   </script>
 
@@ -71,6 +97,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GHHRS5LDE7"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-GHHRS5LDE7')</script>
   <script defer src="/js/contacto.js?v=1"></script>
+  <script defer src="/js/vigencia.js?v=1"></script>
 </head>
 <body>
 
@@ -96,7 +123,7 @@
   <section class="page-head" aria-label="Presentación">
     <div class="page-head-photo" role="presentation"></div>
     <div class="wrap page-head-inner">
-      <p class="kicker on-dark">Recitales y festivales</p>
+      <nav class="migas" aria-label="Ruta de navegación"><a href="index.html">Inicio</a> <span aria-hidden="true">›</span> <span aria-current="page">Recitales y festivales</span></nav>
       <h1>Combis a recitales y festivales en Jujuy y Tucumán</h1>
       <p class="lead">Tu grupo sale de Salta en una combi de 19+1 plazas con chofer profesional, el chofer espera durante el show y vuelven todos juntos la misma noche.</p>
       <div class="ctas">
@@ -133,7 +160,88 @@
     </div>
   </section>
 
-  <section class="block alt" id="como-funciona">
+  <!-- Próximos recitales: fechas fechadas, una fila por show. Cada fila lleva
+       su último día en data-hasta y /js/vigencia.js la esconde desde el día
+       siguiente, así la página nunca ofrece un viaje a una fecha pasada. En la
+       revisión mensual las filas vencidas se sacan del HTML y se suman las
+       nuevas, cada una verificada en la ticketera o en el anuncio del artista
+       (hoja de datos: ~/lausof/web/growth-2026-10/facts/charter-recitales.md).
+       Sólo nombres en texto: sin logos, sin fotos de artistas, sin "oficial". -->
+  <section class="block alt" id="proximos">
+    <div class="wrap">
+      <p class="kicker">Próximos recitales</p>
+      <h2>Fechas en Tucumán y Jujuy para ir en grupo desde Salta</h2>
+      <p class="sub">Si tu grupo va a alguno de estos shows, escribinos con la fecha y cuántos viajan: cotizamos la combi para esa noche, con el chofer esperando y la vuelta al terminar.</p>
+      <ol class="recitales" data-vigencia>
+        <li data-hasta="2026-10-16">
+          <time datetime="2026-10-16">vie 16 oct</time>
+          <div class="recital-datos"><b>Él Mató a un Policía Motorizado</b><span>Palacio de los Deportes · San Miguel de Tucumán · 20 h · entradas en Passline</span></div>
+          <a class="walink" href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20combi%20al%20recital%20de%20%C3%89l%20Mat%C3%B3%20a%20un%20Polic%C3%ADa%20Motorizado%20en%20Tucum%C3%A1n%20%2816%2F10%29" target="_blank" rel="noopener">Cotizar la combi →</a>
+        </li>
+        <li data-hasta="2026-10-17">
+          <time datetime="2026-10-17">sáb 17 oct</time>
+          <div class="recital-datos"><b>Él Mató a un Policía Motorizado</b><span>Ciudad Cultural · San Salvador de Jujuy · 22 h · entradas en Passline</span></div>
+          <a class="walink" href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20combi%20al%20recital%20de%20%C3%89l%20Mat%C3%B3%20a%20un%20Polic%C3%ADa%20Motorizado%20en%20Jujuy%20%2817%2F10%29" target="_blank" rel="noopener">Cotizar la combi →</a>
+        </li>
+        <li data-hasta="2026-10-24">
+          <time datetime="2026-10-24">sáb 24 oct</time>
+          <div class="recital-datos"><b>Andrés Calamaro</b><span>Palacio de los Deportes · San Miguel de Tucumán · 22 h · entradas en All Access</span></div>
+          <a class="walink" href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20combi%20al%20recital%20de%20Andr%C3%A9s%20Calamaro%20en%20Tucum%C3%A1n%20%2824%2F10%29" target="_blank" rel="noopener">Cotizar la combi →</a>
+        </li>
+        <li data-hasta="2026-11-06">
+          <time datetime="2026-11-06">vie 6 nov</time>
+          <div class="recital-datos"><b>Babasónicos</b><span>Palacio de los Deportes · San Miguel de Tucumán · 21 h · entradas en Venti</span></div>
+          <a class="walink" href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20combi%20al%20recital%20de%20Babas%C3%B3nicos%20en%20Tucum%C3%A1n%20%286%2F11%29" target="_blank" rel="noopener">Cotizar la combi →</a>
+        </li>
+        <li data-hasta="2026-11-07">
+          <time datetime="2026-11-07">sáb 7 nov</time>
+          <div class="recital-datos"><b>Jesse &amp; Joy</b><span>Palacio de los Deportes · San Miguel de Tucumán · 21 h · entradas en Entrada Uno</span></div>
+          <a class="walink" href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20combi%20al%20recital%20de%20Jesse%20%26%20Joy%20en%20Tucum%C3%A1n%20%287%2F11%29" target="_blank" rel="noopener">Cotizar la combi →</a>
+        </li>
+        <li data-hasta="2026-11-14">
+          <time datetime="2026-11-14">sáb 14 nov</time>
+          <div class="recital-datos"><b>Divididos</b><span>Estadio de Central Córdoba · San Miguel de Tucumán · 21 h · entradas en Ticketek</span></div>
+          <a class="walink" href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20combi%20al%20recital%20de%20Divididos%20en%20Tucum%C3%A1n%20%2814%2F11%29" target="_blank" rel="noopener">Cotizar la combi →</a>
+        </li>
+        <li data-hasta="2026-12-10">
+          <time datetime="2026-12-10">jue 10 dic</time>
+          <div class="recital-datos"><b>Eruca Sativa</b><span>Paraíso Club · San Salvador de Jujuy · 21 h · entradas en Passline</span></div>
+          <a class="walink" href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20combi%20al%20recital%20de%20Eruca%20Sativa%20en%20Jujuy%20%2810%2F12%29" target="_blank" rel="noopener">Cotizar la combi →</a>
+        </li>
+        <li data-hasta="2026-12-11">
+          <time datetime="2026-12-11">vie 11 dic</time>
+          <div class="recital-datos"><b>Eruca Sativa</b><span>Teatro Puerto Libertad · San Miguel de Tucumán · 21 h · entradas en Passline</span></div>
+          <a class="walink" href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20combi%20al%20recital%20de%20Eruca%20Sativa%20en%20Tucum%C3%A1n%20%2811%2F12%29" target="_blank" rel="noopener">Cotizar la combi →</a>
+        </li>
+      </ol>
+      <p class="recitales-vacio" data-sin-proximos hidden>Por ahora no hay fechas cargadas en esta lista. Si tu grupo va a un recital en Tucumán o Jujuy, escribinos igual con la fecha y el evento.</p>
+      <p class="recitales-aviso"><b>Lausof SRL es una empresa de transporte independiente.</b> No organiza estos recitales ni vende entradas: las fechas, los horarios y las entradas se confirman en la ticketera de cada show. Datos verificados el 10/10/2026 en las ticketeras y en los anuncios de cada artista.</p>
+
+      <h3 class="llegada-titulo">Cómo se llega desde Salta</h3>
+      <div class="llegada-grid">
+        <div class="why-item">
+          <b>San Miguel de Tucumán</b>
+          <p>Unos 310 km por la RN 9 y la RN 34, pasando por Metán y Rosario de la Frontera. Alrededor de 4 horas de manejo por trayecto (tiempo aproximado).</p>
+          <ul>
+            <li><b>Palacio de los Deportes</b> — Parque 9 de Julio</li>
+            <li><b>Estadio de Central Córdoba</b> — Bolívar 1380</li>
+            <li><b>Teatro Puerto Libertad</b> — Las Piedras 1850</li>
+          </ul>
+        </div>
+        <div class="why-item">
+          <b>San Salvador de Jujuy</b>
+          <p>Entre 99 y 115 km según el camino. Alrededor de 1 hora y media de manejo por trayecto (tiempo aproximado).</p>
+          <ul>
+            <li><b>Ciudad Cultural</b> — acceso norte, Alto Padilla</li>
+            <li><b>Paraíso Club</b> — Florida 23</li>
+          </ul>
+        </div>
+      </div>
+      <p class="recitales-act">Actualizado el <time datetime="2026-10-10">10/10/2026</time>.</p>
+    </div>
+  </section>
+
+  <section class="block" id="como-funciona">
     <div class="wrap">
       <p class="kicker">Cómo funciona</p>
       <h2>Ida y vuelta la misma noche</h2>
@@ -147,7 +255,7 @@
     </div>
   </section>
 
-  <section class="block" id="unidades">
+  <section class="block alt" id="unidades">
     <div class="wrap">
       <p class="kicker">Las unidades</p>
       <h2>Combis 19+1 mantenidas en taller propio</h2>
@@ -169,7 +277,7 @@
     </div>
   </section>
 
-  <section class="block alt" id="reservar">
+  <section class="block" id="reservar">
     <div class="wrap texto">
       <p class="kicker">Cómo reservar</p>
       <h2>Un mensaje de WhatsApp alcanza</h2>
@@ -178,7 +286,7 @@
     </div>
   </section>
 
-  <section class="block" id="preguntas">
+  <section class="block alt" id="preguntas">
     <div class="wrap">
       <p class="kicker">Preguntas frecuentes</p>
       <h2>Lo que nos preguntan antes de reservar</h2>

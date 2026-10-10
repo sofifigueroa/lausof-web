@@ -79,7 +79,6 @@ test('toda imagen lleva alt descriptivo salvo los logos decorativos', () => {
 // como se redacte.
 const requeridas = [
   ['habilitación CNRT', /CNRT/],
-  ['habilitación AMT', /AMT/],
   ['capacidad de carga de 7,5 toneladas', /capacidad de carga de 7,5 toneladas/],
   ['registro de temperatura', /registro de temperatura/i],
   ['agencia de turismo habilitada', /agencia de turismo habilitada/i],
@@ -97,6 +96,26 @@ const requeridas = [
   ['empezamos en 2010', /Empezamos en 2010 con el transporte de pasajeros/],
   ['grúa y cargas desde 2017', /en 2017 sumamos remolques, auxilio mecánico y cargas generales/],
 ];
+
+// La única habilitación publicable es la CNRT N.º 60284: es la que el
+// comprador puede verificar. El permiso provincial AMT figura en trámite
+// (BACKLOG POL-CLAIMS) y no se menciona hasta que haya constancia de que fue
+// otorgado: ni en el texto visible ni en el JSON-LD, en ningún idioma. Los
+// comentarios quedan afuera porque ahí se explica la regla.
+test('ninguna página afirma la habilitación AMT', () => {
+  for (const [nombre, html] of Object.entries(paginas)) {
+    const m = html.match(/[^<>]{0,40}\bAMT\b[^<>]{0,40}/);
+    assert.ok(!m, `${nombre} menciona AMT: "${m && m[0].trim()}"`);
+  }
+});
+
+test('las páginas que nombran la habilitación citan la CNRT 60284', () => {
+  for (const nombre of ['index.html', 'logistica-minera.html', 'transporte-de-personal.html',
+    'turismo.html', 'en/index.html', 'en/mining-logistics.html',
+    'en/personnel-transport.html', 'en/tours-and-transfers.html']) {
+    assert.match(paginas[nombre], /CNRT/, `${nombre} perdió la habilitación CNRT`);
+  }
+});
 
 test('index.html: las afirmaciones verificadas siguen presentes', () => {
   for (const [etiqueta, patron] of requeridas) {
