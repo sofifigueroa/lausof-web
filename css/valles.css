@@ -1,0 +1,101 @@
+/* ==========================================================================
+   Lausof SRL — páginas de ruta de los Valles y la Puna, y casamientos
+   (Salta–Cafayate, Salta–Cachi y la vuelta por la Ruta 40, Salta–San Antonio
+   de los Cobres, traslados para casamientos; ES y EN). Complemento de
+   styles.css y de turismo.css (encabezado, tarjetas, "Cómo viajamos").
+
+   Las piezas compartidas (miga de pan, índice, preguntas frecuentes, párrafo
+   de atención, texto corrido, fila de fotos) son las MISMAS reglas que la
+   rama web-routes suma a css/turismo.css para las páginas de Quebrada y
+   Salinas, copiadas letra por letra para que las ocho páginas de ruta se
+   vean iguales. Cuando las dos ramas estén integradas, este bloque puede
+   salir de acá y quedar sólo en turismo.css (nota para el integrador).
+   ========================================================================== */
+
+/* ---- foto del encabezado de cada página ----
+   Fotos propias de Lausof; ninguna pasa de 145 KB. La de la Ruta 68 (324 KB)
+   queda para turismo.html. */
+.page-head-photo.ph-cafayate{background-image:url('../assets/turismo/garganta-del-diablo-cafayate-lausof.webp');background-position:center 50%}
+.page-head-photo.ph-cachi{background-image:url('../assets/turismo/quebrada-de-las-flechas-angastaco-lausof.webp');background-position:center 55%}
+.page-head-photo.ph-cobres{background-image:url('../assets/galeria/turismo-sanantoniodeloscobres-lausof-transportes.webp');background-position:center 60%}
+.page-head-photo.ph-casamientos{background-image:url('../assets/galeria/lausof-combis-vehiculos-turismo-salta.webp');background-position:center 55%}
+
+/* ---- miga de pan visible ----
+   La misma jerarquía que declara el BreadcrumbList del JSON-LD (Google pide
+   que los datos estructurados describan lo que se ve). */
+.crumbs{padding-top:18px;font-size:.86rem;color:var(--ink-soft)}
+.crumbs ol{display:flex;flex-wrap:wrap;gap:4px 0;margin:0;padding:0;list-style:none}
+.crumbs li+li::before{content:"/";margin:0 8px;color:var(--border)}
+.crumbs a{color:var(--ink-mid);text-decoration:none;border-bottom:1px solid var(--border)}
+@media (hover:hover){.crumbs a:hover{color:var(--gold-ink);border-bottom-color:var(--gold)}}
+
+/* ---- índice de la página ---- */
+.jump{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px;
+  padding-top:22px;font-size:.9rem;
+}
+.jump span{color:var(--ink-soft);font-weight:700}
+.jump a{
+  color:var(--ink-mid);text-decoration:none;
+  border-bottom:1px solid var(--border);padding-bottom:2px;
+}
+@media (hover:hover){.jump a:hover{color:var(--gold-ink);border-bottom-color:var(--gold)}}
+
+/* ---- preguntas frecuentes ----
+   details/summary nativos: abren sin JavaScript. Texto visible, sin marcado
+   FAQPage (Google retiró ese resultado enriquecido en 2026). */
+.faq{margin-top:32px;display:flex;flex-direction:column;gap:10px;max-width:760px}
+.faq details{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:0 18px;
+}
+.faq summary{
+  cursor:pointer;font-weight:700;font-size:.98rem;
+  padding:15px 0;list-style:none;position:relative;padding-right:28px;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"+";position:absolute;right:2px;top:50%;transform:translateY(-50%);
+  color:var(--gold-ink);font-size:1.25rem;font-weight:700;line-height:1;
+}
+.faq details[open] summary::after{content:"-"}
+.faq details p{margin:0 0 16px;color:var(--ink-mid);font-size:.94rem;max-width:60ch}
+@media (hover:hover){.faq summary:hover{color:var(--gold-ink)}}
+
+/* ---- párrafo de atención dentro del cierre azul ---- */
+.cta-final .routing{
+  max-width:56ch;margin:0 auto 28px;padding:16px 18px;text-align:left;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);
+  border-radius:var(--radius);
+  font-size:.93rem;color:var(--on-navy-soft);
+}
+.cta-final .routing b{color:var(--on-navy)}
+.cta-final .routing a{color:var(--gold-bright)}
+
+/* ---- texto corrido de las páginas de ruta ---- */
+.prosa{max-width:66ch;color:var(--ink-mid)}
+.prosa p{margin:16px 0 0}
+.prosa ul{margin:16px 0 0;padding-left:20px}
+.prosa li{margin:6px 0}
+.prosa a{color:var(--ink)}
+.nota-fuente{margin-top:14px;font-size:.84rem;color:var(--ink-soft);max-width:72ch}
+.block .tabla-flota{margin-top:28px}
+
+/* ---- fotos propias de la ruta, en fila de tres ---- */
+.fotos-ruta{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:30px 0 0;padding:0}
+.fotos-ruta figure{margin:0}
+.fotos-ruta img{
+  width:100%;aspect-ratio:4/3;object-fit:cover;display:block;
+  border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+}
+.fotos-ruta figcaption{margin-top:8px;font-size:.84rem;color:var(--ink-soft)}
+@media(max-width:720px){.fotos-ruta{grid-template-columns:1fr}}
+
+/* ---- enlace a la página de ruta desde la tarjeta del circuito ---- */
+.circuito .card-body a.ruta-link{
+  display:inline-block;margin-top:10px;padding:6px 0;font-weight:700;font-size:.92rem;
+  color:var(--gold-ink);text-decoration:none;border-bottom:1px solid var(--gold);
+}
+
+/* ---- pie de la ficha: fecha de actualización ---- */
+.actualizado{margin-top:26px;font-size:.84rem;color:var(--ink-soft)}

@@ -68,6 +68,11 @@ const pares = {
   'cargas-refrigeradas.html':    'en/refrigerated-freight.html',
   'deposito-galpon.html':        'en/warehouse.html',
   'producciones.html':           'en/film-production-logistics.html',
+  // Páginas de ruta de los Valles y la Puna, y casamientos (10/10/2026).
+  'traslado-salta-cafayate.html':                 'en/salta-to-cafayate-transfer.html',
+  'traslado-salta-cachi.html':                    'en/salta-to-cachi-transfer.html',
+  'traslado-salta-san-antonio-de-los-cobres.html': 'en/salta-to-san-antonio-de-los-cobres.html',
+  'traslados-casamientos.html':                   'en/wedding-transportation.html',
 };
 
 // Página de /en/ que existe sin ser gemela de nadie (no se indexa).

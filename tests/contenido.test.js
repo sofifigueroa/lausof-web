@@ -71,8 +71,9 @@ test('toda imagen lleva alt descriptivo salvo los logos decorativos', () => {
   // servicios, las 8 de la ola del 26/08 y autoelevadores del 27/08) y las 8
   // gemelas inglesas del 31/08, que cierran igual que su gemela. La 404 de
   // cada idioma no lo lleva. Si una página lo suma o lo pierde, este número
-  // se actualiza a conciencia.
-  assert.strictEqual(decorativos, 23, `se esperaban 23 logos decorativos con alt="", hay ${decorativos}`);
+  // se actualiza a conciencia. 10/10/2026: +8 por las cuatro páginas de rutas
+  // y casamientos y sus gemelas inglesas.
+  assert.strictEqual(decorativos, 31, `se esperaban 31 logos decorativos con alt="", hay ${decorativos}`);
 });
 
 // Afirmaciones verificadas que la portada tiene que conservar, se redacte
