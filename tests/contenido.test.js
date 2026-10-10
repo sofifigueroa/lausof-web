@@ -53,13 +53,18 @@ for (const [nombre, contenido] of Object.entries(paginas)) {
 // Google Imágenes solo indexa el alt de cada <img>: los slides ocultos de los
 // slideshows lo llevan descriptivo (con role="img" en el contenedor no les
 // cuesta nada de accesibilidad). Los únicos alt="" permitidos son los del
-// logo decorativo de cierre de página (uno por página que lo lleva).
+// logo decorativo de cierre de página (uno por página que lo lleva) y la
+// foto de fondo del hero/encabezado.
 test('toda imagen lleva alt descriptivo salvo los logos decorativos', () => {
   let decorativos = 0;
   for (const [nombre, contenido] of Object.entries(paginas)) {
     for (const [etiqueta] of contenido.matchAll(/<img [^>]*>/g)) {
       const alt = etiqueta.match(/alt="([^"]*)"/);
       assert.ok(alt, `imagen sin atributo alt en ${nombre}: ${etiqueta.slice(0, 80)}`);
+      // La foto de fondo del hero/encabezado es decorativa (el contenedor es
+      // role="presentation" y el texto va encima): alt vacío, se reconoce por
+      // fetchpriority="high", que sólo lleva esa foto (tests/imagenes.test.js).
+      if (alt[1] === '' && /fetchpriority="high"/.test(etiqueta)) continue;
       if (alt[1] === '') {
         assert.match(etiqueta, /logo-insignia-web/,
           `alt vacío en una imagen que no es el logo decorativo (${nombre}): ${etiqueta.slice(0, 80)}`);

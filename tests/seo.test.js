@@ -186,22 +186,9 @@ test('las variantes duplicadas redirigen al canónico', () => {
     'se perdió el 301 de /principal-old del mapa del sitio viejo');
 });
 
-// El fondo del hero es la LCP de cada página y viene de la CSS, así que las
-// dos páginas lo precargan en el head. La precarga tiene que apuntar al MISMO
-// archivo que usa la hoja de estilos: si se cambia la foto en la CSS y no acá,
-// se descarga dos veces (la vieja precargada y la nueva del fondo).
-test('el fondo del hero (LCP) se precarga en las dos páginas', () => {
-  const { css } = require('./util.js');
-  assert.match(index, /<link rel="preload" as="image" href="assets\/hero-flota-paisaje\.webp" fetchpriority="high" media="\(min-width: [\d.]+px\)">/,
-    'falta la precarga del hero de escritorio en index.html');
-  assert.match(index, /<link rel="preload" as="image" href="assets\/pasajeros-1-quebrada\.webp" fetchpriority="high" media="\(max-width: 720px\)">/,
-    'falta la precarga del hero de mobile en index.html');
-  assert.match(flota, /<link rel="preload" as="image" href="assets\/pasajeros-5-flota\.webp" fetchpriority="high">/,
-    'falta la precarga del encabezado en flota-en-venta.html');
-  for (const foto of ['hero-flota-paisaje.webp', 'pasajeros-1-quebrada.webp']) {
-    assert.ok(css.includes(`assets/${foto}`), `la CSS ya no usa ${foto}: actualizar la precarga`);
-  }
-});
+// La foto del hero (la LCP) ya no viene de la CSS: es un <img> del HTML con
+// fetchpriority="high", y el navegador la descubre al leer el HTML sin
+// precarga. Las guardias de esa regla viven en tests/imagenes.test.js.
 
 // Los tokens de verificación de los buscadores no son decoración: Bing y
 // Google los revalidan cada tanto y, si desaparecen, se pierde el acceso a las

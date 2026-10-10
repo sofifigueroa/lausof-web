@@ -23,13 +23,8 @@
        relative path would resolve to /en/assets/... and break. -->
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="/css/styles.css?v=25">
-  <link rel="stylesheet" href="/css/personal.css?v=1">
-
-  <!-- The page-head background is the largest image on the page (the LCP):
-       it is preloaded because, coming from the CSS, it would be discovered
-       late. Same file and same crop as the Spanish twin. -->
-  <link rel="preload" as="image" href="/assets/personal/personal-1-lacaldera.webp" fetchpriority="high">
+  <link rel="stylesheet" href="/css/styles.css?v=26">
+  <link rel="stylesheet" href="/css/personal.css?v=2">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
@@ -108,7 +103,7 @@
 <header class="topbar">
   <div class="wrap topbar-row">
     <a class="brand" href="/en/" aria-label="Lausof SRL — home">
-      <img src="/assets/logo-horizontal-web.webp" alt="Transportes Lausof — passengers, freight and towing in Salta">
+      <picture><source type="image/avif" srcset="/assets/logo-horizontal-web-400w.avif 400w, /assets/logo-horizontal-web-640w.avif 640w, /assets/logo-horizontal-web.avif 760w" sizes="159px"><img src="/assets/logo-horizontal-web.webp" srcset="/assets/logo-horizontal-web-400w.webp 400w, /assets/logo-horizontal-web-640w.webp 640w, /assets/logo-horizontal-web.webp 760w" alt="Transportes Lausof — passengers, freight and towing in Salta" width="760" height="221" sizes="159px"></picture>
     </a>
     <!-- Same menu as the English home, because this is where the reader goes
          back to the rest of the site. -->
@@ -126,7 +121,7 @@
 
 <main>
   <section class="page-head" aria-label="Introduction">
-    <div class="page-head-photo" role="presentation"></div>
+    <div class="page-head-photo" role="presentation"><picture><source type="image/avif" srcset="/assets/personal/personal-1-lacaldera-400w.avif 400w, /assets/personal/personal-1-lacaldera-640w.avif 640w, /assets/personal/personal-1-lacaldera.avif 821w" sizes="(max-width: 720px) 786px, 100vw"><img src="/assets/personal/personal-1-lacaldera.webp" srcset="/assets/personal/personal-1-lacaldera-400w.webp 400w, /assets/personal/personal-1-lacaldera-640w.webp 640w, /assets/personal/personal-1-lacaldera.webp 821w" alt="" width="821" height="547" sizes="(max-width: 720px) 786px, 100vw" fetchpriority="high"></picture></div>
     <div class="wrap page-head-inner">
       <p class="kicker on-dark">Personnel transport</p>
       <h1>Personnel transport in Salta</h1>
@@ -199,15 +194,15 @@
       <p class="sub">Our workshop was set up to maintain the fleet: the minibuses are inspected and repaired by our own mechanics, so a route is not cancelled for a mechanical fault.</p>
       <div class="fotos-grid">
         <figure>
-          <img src="/assets/pasajeros-1-quebrada.webp" alt="Lausof Sprinter minibus in the Quebrada, Salta, on a personnel transport run" width="834" height="718">
+          <picture><source type="image/avif" srcset="/assets/pasajeros-1-quebrada-400w.avif 400w, /assets/pasajeros-1-quebrada-640w.avif 640w, /assets/pasajeros-1-quebrada.avif 834w" sizes="(max-width: 720px) 93vw, (max-width: 960px) 94vw, 345px"><img src="/assets/pasajeros-1-quebrada.webp" srcset="/assets/pasajeros-1-quebrada-400w.webp 400w, /assets/pasajeros-1-quebrada-640w.webp 640w, /assets/pasajeros-1-quebrada.webp 834w" alt="Lausof Sprinter minibus in the Quebrada, Salta, on a personnel transport run" width="834" height="718" sizes="(max-width: 720px) 93vw, (max-width: 960px) 94vw, 345px" loading="lazy" decoding="async"></picture>
           <figcaption>Minibuses seating 19 plus the driver, in the city and on the highway.</figcaption>
         </figure>
         <figure>
-          <img src="/assets/personal/personal-1-lacaldera.webp" alt="Lausof minibus on a route through La Caldera, Salta" width="821" height="547" loading="lazy">
+          <picture><source type="image/avif" srcset="/assets/personal/personal-1-lacaldera-400w.avif 400w, /assets/personal/personal-1-lacaldera-640w.avif 640w, /assets/personal/personal-1-lacaldera.avif 821w" sizes="(max-width: 720px) 93vw, (max-width: 960px) 94vw, 345px"><img src="/assets/personal/personal-1-lacaldera.webp" srcset="/assets/personal/personal-1-lacaldera-400w.webp 400w, /assets/personal/personal-1-lacaldera-640w.webp 640w, /assets/personal/personal-1-lacaldera.webp 821w" alt="Lausof minibus on a route through La Caldera, Salta" width="821" height="547" sizes="(max-width: 720px) 93vw, (max-width: 960px) 94vw, 345px" loading="lazy" decoding="async"></picture>
           <figcaption>Fixed or on-demand routes, across Salta city and the province.</figcaption>
         </figure>
         <figure>
-          <img src="/assets/pasajeros-3-taller.webp" alt="Lausof passenger units inside the company's own workshop in Salta" width="675" height="581" loading="lazy">
+          <picture><source type="image/avif" srcset="/assets/pasajeros-3-taller-400w.avif 400w, /assets/pasajeros-3-taller.avif 675w" sizes="(max-width: 720px) 93vw, (max-width: 960px) 94vw, 345px"><img src="/assets/pasajeros-3-taller.webp" srcset="/assets/pasajeros-3-taller-400w.webp 400w, /assets/pasajeros-3-taller.webp 675w" alt="Lausof passenger units inside the company's own workshop in Salta" width="675" height="581" sizes="(max-width: 720px) 93vw, (max-width: 960px) 94vw, 345px" loading="lazy" decoding="async"></picture>
           <figcaption>Maintenance in our own workshop.</figcaption>
         </figure>
       </div>
@@ -272,7 +267,7 @@
 
   <section class="block cta-personal" id="contact">
     <div class="wrap">
-      <img src="/assets/logo-insignia-web.webp" alt="" width="340" height="340" style="width:112px;height:auto;margin-bottom:18px">
+      <picture><source type="image/avif" srcset="/assets/logo-insignia-web.avif 340w" sizes="112px"><img src="/assets/logo-insignia-web.webp" srcset="/assets/logo-insignia-web.webp 340w" alt="" width="340" height="340" style="width:112px;height:auto;margin-bottom:18px" sizes="112px" loading="lazy" decoding="async"></picture>
       <h2>Do you need to move your people?</h2>
       <p>To get a useful quote in one round, include: the service; the dates; origin and destination; how many passengers are traveling; and your company and a contact. We reply the same business day (Argentina time).</p>
       <div class="ctas">

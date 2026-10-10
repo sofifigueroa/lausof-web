@@ -23,13 +23,7 @@
        relative path would resolve to /en/assets/… and break. -->
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="/css/styles.css?v=25">
-
-  <!-- Same LCP preloads as the Spanish twin: the hero background comes from
-       the stylesheet, so the browser would discover it late. The breakpoints
-       copy the 720px cut of the stylesheet. -->
-  <link rel="preload" as="image" href="/assets/hero-flota-paisaje.webp" fetchpriority="high" media="(min-width: 720.1px)">
-  <link rel="preload" as="image" href="/assets/pasajeros-1-quebrada.webp" fetchpriority="high" media="(max-width: 720px)">
+  <link rel="stylesheet" href="/css/styles.css?v=26">
 
   <!-- Link preview. Same 1200×630 JPEG crop as the Spanish home (the WhatsApp
        and Facebook scrapers handle WebP badly), with English title, text and
@@ -102,7 +96,7 @@
 <header class="topbar">
   <div class="wrap topbar-row">
     <a class="brand" href="/en/" aria-label="Lausof SRL — home">
-      <img src="/assets/logo-horizontal-web.webp" alt="Transportes Lausof — passengers, freight and towing">
+      <picture><source type="image/avif" srcset="/assets/logo-horizontal-web-400w.avif 400w, /assets/logo-horizontal-web-640w.avif 640w, /assets/logo-horizontal-web.avif 760w" sizes="159px"><img src="/assets/logo-horizontal-web.webp" srcset="/assets/logo-horizontal-web-400w.webp 400w, /assets/logo-horizontal-web-640w.webp 640w, /assets/logo-horizontal-web.webp 760w" alt="Transportes Lausof — passengers, freight and towing" width="760" height="221" sizes="159px"></picture>
     </a>
     <nav class="main" aria-label="Sections">
       <a href="#services">Services</a>
@@ -121,7 +115,7 @@
 
 <main>
   <section class="hero" aria-label="Introduction">
-    <div class="hero-photo" role="presentation"></div>
+    <div class="hero-photo" role="presentation"><picture><source media="(max-width: 720px)" type="image/avif" srcset="/assets/pasajeros-1-quebrada-400w.avif 400w, /assets/pasajeros-1-quebrada-640w.avif 640w, /assets/pasajeros-1-quebrada.avif 834w" sizes="(max-width: 720px) 860px, (max-width: 960px) 113vw, 100vw" width="834" height="718"><source media="(max-width: 720px)" type="image/webp" srcset="/assets/pasajeros-1-quebrada-400w.webp 400w, /assets/pasajeros-1-quebrada-640w.webp 640w, /assets/pasajeros-1-quebrada.webp 834w" sizes="(max-width: 720px) 860px, (max-width: 960px) 113vw, 100vw" width="834" height="718"><source type="image/avif" srcset="/assets/hero-flota-paisaje-400w.avif 400w, /assets/hero-flota-paisaje-640w.avif 640w, /assets/hero-flota-paisaje-960w.avif 960w, /assets/hero-flota-paisaje-1280w.avif 1280w, /assets/hero-flota-paisaje.avif 1800w" sizes="(max-width: 720px) 860px, (max-width: 960px) 113vw, 100vw"><img src="/assets/hero-flota-paisaje.webp" srcset="/assets/hero-flota-paisaje-400w.webp 400w, /assets/hero-flota-paisaje-640w.webp 640w, /assets/hero-flota-paisaje-960w.webp 960w, /assets/hero-flota-paisaje-1280w.webp 1280w, /assets/hero-flota-paisaje.webp 1800w" data-movil="/assets/pasajeros-1-quebrada.webp" alt="" width="1800" height="1506" sizes="(max-width: 720px) 860px, (max-width: 960px) 113vw, 100vw" fetchpriority="high"></picture></div>
     <div class="wrap hero-inner">
       <p class="kicker on-dark">Transport and logistics in Salta</p>
       <h1>We move people, freight and vehicles across Salta and northwest Argentina.</h1>
@@ -174,11 +168,11 @@
         <article class="card">
           <div class="card-photo">
             <div class="slideshow" role="img" aria-label="Lausof passenger units: minibuses on the roads of Salta and in the company workshop">
-              <img src="/assets/pasajeros-1-quebrada.webp" alt="Lausof minibus in the Quebrada, on a personnel transport run" width="834" height="718">
-              <img src="/assets/pasajeros-2-viaducto.webp" alt="Lausof minibus in front of the La Polvorilla viaduct, in the Puna of Salta" width="834" height="718" loading="lazy">
-              <img src="/assets/pasajeros-3-taller.webp" alt="Lausof minibuses in the company's own workshop" width="675" height="581" loading="lazy">
-              <img src="/assets/pasajeros-4-ruta.webp" alt="Lausof minibus on the gravel road through the Quebrada de las Flechas" width="834" height="718" loading="lazy">
-              <img src="/assets/pasajeros-5-flota.webp" alt="Mercedes-Benz Sprinter minibuses of the Lausof fleet in the company yard" width="675" height="581" loading="lazy">
+              <picture><source type="image/avif" srcset="/assets/pasajeros-1-quebrada-400w.avif 400w, /assets/pasajeros-1-quebrada-640w.avif 640w, /assets/pasajeros-1-quebrada.avif 834w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/pasajeros-1-quebrada.webp" srcset="/assets/pasajeros-1-quebrada-400w.webp 400w, /assets/pasajeros-1-quebrada-640w.webp 640w, /assets/pasajeros-1-quebrada.webp 834w" alt="Lausof minibus in the Quebrada, on a personnel transport run" width="834" height="718" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/pasajeros-2-viaducto-400w.avif 400w, /assets/pasajeros-2-viaducto-640w.avif 640w, /assets/pasajeros-2-viaducto.avif 834w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/pasajeros-2-viaducto.webp" srcset="/assets/pasajeros-2-viaducto-400w.webp 400w, /assets/pasajeros-2-viaducto-640w.webp 640w, /assets/pasajeros-2-viaducto.webp 834w" alt="Lausof minibus in front of the La Polvorilla viaduct, in the Puna of Salta" width="834" height="718" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/pasajeros-3-taller-400w.avif 400w, /assets/pasajeros-3-taller.avif 675w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/pasajeros-3-taller.webp" srcset="/assets/pasajeros-3-taller-400w.webp 400w, /assets/pasajeros-3-taller.webp 675w" alt="Lausof minibuses in the company's own workshop" width="675" height="581" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/pasajeros-4-ruta-400w.avif 400w, /assets/pasajeros-4-ruta-640w.avif 640w, /assets/pasajeros-4-ruta.avif 834w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/pasajeros-4-ruta.webp" srcset="/assets/pasajeros-4-ruta-400w.webp 400w, /assets/pasajeros-4-ruta-640w.webp 640w, /assets/pasajeros-4-ruta.webp 834w" alt="Lausof minibus on the gravel road through the Quebrada de las Flechas" width="834" height="718" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/pasajeros-5-flota-400w.avif 400w, /assets/pasajeros-5-flota.avif 675w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/pasajeros-5-flota.webp" srcset="/assets/pasajeros-5-flota-400w.webp 400w, /assets/pasajeros-5-flota.webp 675w" alt="Mercedes-Benz Sprinter minibuses of the Lausof fleet in the company yard" width="675" height="581" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
             </div>
           </div>
           <div class="card-body">
@@ -200,10 +194,10 @@
         <article class="card">
           <div class="card-photo">
             <div class="slideshow slideshow-4" role="img" aria-label="Lausof operations in the Puna: machinery on a flatbed tow truck, crew in a minibus on the way to a camp, and 4x4 pickups on the Salinas Grandes salt flat">
-              <img src="/assets/mineria-tractor.webp" alt="Lausof flatbed tow truck carrying machinery in the Puna of Salta" width="1032" height="581">
-              <img src="/assets/mineria-personal.webp" alt="Lausof minibus carrying crew on a gravel road in the Puna" width="1280" height="720" loading="lazy">
-              <img src="/assets/4x4-1-salinas.webp" alt="Lausof 4x4 pickups on the Salinas Grandes salt flat during a job" width="780" height="672" loading="lazy">
-              <img src="/assets/4x4-2-hilux.webp" alt="Lausof Hilux 4x4 pickup fitted out for mine-site entry" width="780" height="672" loading="lazy">
+              <picture><source type="image/avif" srcset="/assets/mineria-tractor-400w.avif 400w, /assets/mineria-tractor-640w.avif 640w, /assets/mineria-tractor.avif 1032w" sizes="(max-width: 720px) 104vw, (max-width: 960px) 54vw, 400px"><img src="/assets/mineria-tractor.webp" srcset="/assets/mineria-tractor-400w.webp 400w, /assets/mineria-tractor-640w.webp 640w, /assets/mineria-tractor.webp 1032w" alt="Lausof flatbed tow truck carrying machinery in the Puna of Salta" width="1032" height="581" sizes="(max-width: 720px) 104vw, (max-width: 960px) 54vw, 400px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/mineria-personal-400w.avif 400w, /assets/mineria-personal-640w.avif 640w, /assets/mineria-personal-960w.avif 960w, /assets/mineria-personal.avif 1280w" sizes="(max-width: 720px) 104vw, (max-width: 960px) 54vw, 400px"><img src="/assets/mineria-personal.webp" srcset="/assets/mineria-personal-400w.webp 400w, /assets/mineria-personal-640w.webp 640w, /assets/mineria-personal-960w.webp 960w, /assets/mineria-personal.webp 1280w" alt="Lausof minibus carrying crew on a gravel road in the Puna" width="1280" height="720" sizes="(max-width: 720px) 104vw, (max-width: 960px) 54vw, 400px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/4x4-1-salinas-400w.avif 400w, /assets/4x4-1-salinas-640w.avif 640w, /assets/4x4-1-salinas.avif 780w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/4x4-1-salinas.webp" srcset="/assets/4x4-1-salinas-400w.webp 400w, /assets/4x4-1-salinas-640w.webp 640w, /assets/4x4-1-salinas.webp 780w" alt="Lausof 4x4 pickups on the Salinas Grandes salt flat during a job" width="780" height="672" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/4x4-2-hilux-400w.avif 400w, /assets/4x4-2-hilux-640w.avif 640w, /assets/4x4-2-hilux.avif 780w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/4x4-2-hilux.webp" srcset="/assets/4x4-2-hilux-400w.webp 400w, /assets/4x4-2-hilux-640w.webp 640w, /assets/4x4-2-hilux.webp 780w" alt="Lausof Hilux 4x4 pickup fitted out for mine-site entry" width="780" height="672" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
             </div>
           </div>
           <div class="card-body">
@@ -227,15 +221,15 @@
         <article class="card">
           <div class="card-photo">
             <div class="slideshow slideshow-9" role="img" aria-label="Lausof refrigerated Iveco truck with a Thermo King refrigeration unit, and curtain-side freight trucks on the highway, in the field and in the city">
-              <img src="/assets/refrigerados-1-lateral.webp" alt="Lausof refrigerated truck with a refrigeration unit for frozen and chilled goods" width="722" height="604">
-              <img src="/assets/refrigerados-2-frente.webp" alt="Front of the Lausof refrigerated Iveco truck with its Thermo King unit" width="722" height="604" loading="lazy">
-              <img src="/assets/refrigerados-3-interior.webp" alt="Inside the Lausof insulated body, with rails for half carcasses" width="722" height="604" loading="lazy">
-              <img src="/assets/refrigerados-4-trasera.webp" alt="Rear of the Lausof insulated body with the door closed" width="722" height="604" loading="lazy">
-              <img src="/assets/cargas-1-monumento.webp" alt="Lausof trucks in front of the Güemes monument in Salta" width="834" height="698" loading="lazy">
-              <img src="/assets/cargas-2-furgon.webp" alt="Lausof box-body freight truck with the company markings" width="722" height="604" loading="lazy">
-              <img src="/assets/cargas-3-campo.webp" alt="Lausof curtain-side truck for general freight in the countryside" width="834" height="698" loading="lazy">
-              <img src="/assets/cargas-4-ciudad.webp" alt="Lausof curtain-side truck for general freight in the city" width="834" height="698" loading="lazy">
-              <img src="/assets/cargas-5-flota.webp" alt="Lausof freight and towing trucks in the valley" width="834" height="698" loading="lazy">
+              <picture><source type="image/avif" srcset="/assets/refrigerados-1-lateral-400w.avif 400w, /assets/refrigerados-1-lateral.avif 722w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/refrigerados-1-lateral.webp" srcset="/assets/refrigerados-1-lateral-400w.webp 400w, /assets/refrigerados-1-lateral.webp 722w" alt="Lausof refrigerated truck with a refrigeration unit for frozen and chilled goods" width="722" height="604" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/refrigerados-2-frente-400w.avif 400w, /assets/refrigerados-2-frente.avif 722w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/refrigerados-2-frente.webp" srcset="/assets/refrigerados-2-frente-400w.webp 400w, /assets/refrigerados-2-frente.webp 722w" alt="Front of the Lausof refrigerated Iveco truck with its Thermo King unit" width="722" height="604" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/refrigerados-3-interior-400w.avif 400w, /assets/refrigerados-3-interior.avif 722w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/refrigerados-3-interior.webp" srcset="/assets/refrigerados-3-interior-400w.webp 400w, /assets/refrigerados-3-interior.webp 722w" alt="Inside the Lausof insulated body, with rails for half carcasses" width="722" height="604" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/refrigerados-4-trasera-400w.avif 400w, /assets/refrigerados-4-trasera.avif 722w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/refrigerados-4-trasera.webp" srcset="/assets/refrigerados-4-trasera-400w.webp 400w, /assets/refrigerados-4-trasera.webp 722w" alt="Rear of the Lausof insulated body with the door closed" width="722" height="604" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/cargas-1-monumento-400w.avif 400w, /assets/cargas-1-monumento-640w.avif 640w, /assets/cargas-1-monumento.avif 834w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/cargas-1-monumento.webp" srcset="/assets/cargas-1-monumento-400w.webp 400w, /assets/cargas-1-monumento-640w.webp 640w, /assets/cargas-1-monumento.webp 834w" alt="Lausof trucks in front of the Güemes monument in Salta" width="834" height="698" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/cargas-2-furgon-400w.avif 400w, /assets/cargas-2-furgon.avif 722w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/cargas-2-furgon.webp" srcset="/assets/cargas-2-furgon-400w.webp 400w, /assets/cargas-2-furgon.webp 722w" alt="Lausof box-body freight truck with the company markings" width="722" height="604" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/cargas-3-campo-400w.avif 400w, /assets/cargas-3-campo-640w.avif 640w, /assets/cargas-3-campo.avif 834w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/cargas-3-campo.webp" srcset="/assets/cargas-3-campo-400w.webp 400w, /assets/cargas-3-campo-640w.webp 640w, /assets/cargas-3-campo.webp 834w" alt="Lausof curtain-side truck for general freight in the countryside" width="834" height="698" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/cargas-4-ciudad-400w.avif 400w, /assets/cargas-4-ciudad-640w.avif 640w, /assets/cargas-4-ciudad.avif 834w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/cargas-4-ciudad.webp" srcset="/assets/cargas-4-ciudad-400w.webp 400w, /assets/cargas-4-ciudad-640w.webp 640w, /assets/cargas-4-ciudad.webp 834w" alt="Lausof curtain-side truck for general freight in the city" width="834" height="698" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/cargas-5-flota-400w.avif 400w, /assets/cargas-5-flota-640w.avif 640w, /assets/cargas-5-flota.avif 834w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/cargas-5-flota.webp" srcset="/assets/cargas-5-flota-400w.webp 400w, /assets/cargas-5-flota-640w.webp 640w, /assets/cargas-5-flota.webp 834w" alt="Lausof freight and towing trucks in the valley" width="834" height="698" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
             </div>
           </div>
           <div class="card-body">
@@ -257,12 +251,12 @@
         <article class="card">
           <div class="card-photo">
             <div class="slideshow slideshow-6" role="img" aria-label="Lausof flatbed tow trucks recovering and transporting vehicles: pickups, minibuses, road machinery and racing cars">
-              <img src="/assets/auxilio-1-lago.webp" alt="Lausof flatbed tow truck carrying a pickup along the highway" width="834" height="718">
-              <img src="/assets/auxilio-2-minibus.webp" alt="Lausof flatbed tow truck carrying a Sprinter minibus" width="571" height="492" loading="lazy">
-              <img src="/assets/auxilio-3-maquinaria.webp" alt="Lausof flatbed tow truck carrying a backhoe loader" width="834" height="718" loading="lazy">
-              <img src="/assets/auxilio-4-fitito.webp" alt="Lausof flatbed tow truck loading a Fiat 600 racing car" width="834" height="718" loading="lazy">
-              <img src="/assets/auxilio-5-ruta.webp" alt="Lausof flatbed tow truck recovering a pickup at the side of the highway" width="834" height="718" loading="lazy">
-              <img src="/assets/auxilio-6-ciudad.webp" alt="Lausof flatbed tow truck carrying a car through the city of Salta" width="834" height="718" loading="lazy">
+              <picture><source type="image/avif" srcset="/assets/auxilio-1-lago-400w.avif 400w, /assets/auxilio-1-lago-640w.avif 640w, /assets/auxilio-1-lago.avif 834w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/auxilio-1-lago.webp" srcset="/assets/auxilio-1-lago-400w.webp 400w, /assets/auxilio-1-lago-640w.webp 640w, /assets/auxilio-1-lago.webp 834w" alt="Lausof flatbed tow truck carrying a pickup along the highway" width="834" height="718" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/auxilio-2-minibus-400w.avif 400w, /assets/auxilio-2-minibus.avif 571w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/auxilio-2-minibus.webp" srcset="/assets/auxilio-2-minibus-400w.webp 400w, /assets/auxilio-2-minibus.webp 571w" alt="Lausof flatbed tow truck carrying a Sprinter minibus" width="571" height="492" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/auxilio-3-maquinaria-400w.avif 400w, /assets/auxilio-3-maquinaria-640w.avif 640w, /assets/auxilio-3-maquinaria.avif 834w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/auxilio-3-maquinaria.webp" srcset="/assets/auxilio-3-maquinaria-400w.webp 400w, /assets/auxilio-3-maquinaria-640w.webp 640w, /assets/auxilio-3-maquinaria.webp 834w" alt="Lausof flatbed tow truck carrying a backhoe loader" width="834" height="718" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/auxilio-4-fitito-400w.avif 400w, /assets/auxilio-4-fitito-640w.avif 640w, /assets/auxilio-4-fitito.avif 834w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/auxilio-4-fitito.webp" srcset="/assets/auxilio-4-fitito-400w.webp 400w, /assets/auxilio-4-fitito-640w.webp 640w, /assets/auxilio-4-fitito.webp 834w" alt="Lausof flatbed tow truck loading a Fiat 600 racing car" width="834" height="718" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/auxilio-5-ruta-400w.avif 400w, /assets/auxilio-5-ruta-640w.avif 640w, /assets/auxilio-5-ruta.avif 834w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/auxilio-5-ruta.webp" srcset="/assets/auxilio-5-ruta-400w.webp 400w, /assets/auxilio-5-ruta-640w.webp 640w, /assets/auxilio-5-ruta.webp 834w" alt="Lausof flatbed tow truck recovering a pickup at the side of the highway" width="834" height="718" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/auxilio-6-ciudad-400w.avif 400w, /assets/auxilio-6-ciudad-640w.avif 640w, /assets/auxilio-6-ciudad.avif 834w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/auxilio-6-ciudad.webp" srcset="/assets/auxilio-6-ciudad-400w.webp 400w, /assets/auxilio-6-ciudad-640w.webp 640w, /assets/auxilio-6-ciudad.webp 834w" alt="Lausof flatbed tow truck carrying a car through the city of Salta" width="834" height="718" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
             </div>
           </div>
           <div class="card-body">
@@ -288,7 +282,7 @@
           <div class="card-photo">
             <!-- One photograph only, no rotation (slideshow-1 variant). -->
             <div class="slideshow slideshow-1" role="img" aria-label="The Lausof workshop: a fleet unit under repair">
-              <img src="/assets/pasajeros-3-taller.webp" alt="A Lausof fleet unit under repair in the company's own workshop" width="675" height="581">
+              <picture><source type="image/avif" srcset="/assets/pasajeros-3-taller-400w.avif 400w, /assets/pasajeros-3-taller.avif 675w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/pasajeros-3-taller.webp" srcset="/assets/pasajeros-3-taller-400w.webp 400w, /assets/pasajeros-3-taller.webp 675w" alt="A Lausof fleet unit under repair in the company's own workshop" width="675" height="581" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
             </div>
           </div>
           <div class="card-body">
@@ -308,11 +302,11 @@
         <article class="card">
           <div class="card-photo">
             <div class="slideshow" role="img" aria-label="Lausof minibuses and 4x4 pickups on the routes of Salta and Jujuy: the Quebrada, the viaduct, the highway, the colored hills and the Salinas Grandes salt flat">
-              <img src="/assets/pasajeros-1-quebrada.webp" alt="Lausof minibus in the Quebrada on a day trip in Salta and Jujuy" width="834" height="718">
-              <img src="/assets/pasajeros-2-viaducto.webp" alt="Lausof minibus on a day trip to the La Polvorilla viaduct" width="834" height="718" loading="lazy">
-              <img src="/assets/pasajeros-4-ruta.webp" alt="Lausof minibus in the Quebrada de las Flechas, on the road to Cafayate" width="834" height="718" loading="lazy">
-              <img src="/assets/4x4-3-cerros.webp" alt="Lausof 4x4 pickup in front of the colored hills of the Puna" width="780" height="672" loading="lazy">
-              <img src="/assets/4x4-1-salinas.webp" alt="Lausof 4x4 pickups on the Salinas Grandes salt flat during a day trip" width="780" height="672" loading="lazy">
+              <picture><source type="image/avif" srcset="/assets/pasajeros-1-quebrada-400w.avif 400w, /assets/pasajeros-1-quebrada-640w.avif 640w, /assets/pasajeros-1-quebrada.avif 834w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/pasajeros-1-quebrada.webp" srcset="/assets/pasajeros-1-quebrada-400w.webp 400w, /assets/pasajeros-1-quebrada-640w.webp 640w, /assets/pasajeros-1-quebrada.webp 834w" alt="Lausof minibus in the Quebrada on a day trip in Salta and Jujuy" width="834" height="718" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/pasajeros-2-viaducto-400w.avif 400w, /assets/pasajeros-2-viaducto-640w.avif 640w, /assets/pasajeros-2-viaducto.avif 834w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/pasajeros-2-viaducto.webp" srcset="/assets/pasajeros-2-viaducto-400w.webp 400w, /assets/pasajeros-2-viaducto-640w.webp 640w, /assets/pasajeros-2-viaducto.webp 834w" alt="Lausof minibus on a day trip to the La Polvorilla viaduct" width="834" height="718" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/pasajeros-4-ruta-400w.avif 400w, /assets/pasajeros-4-ruta-640w.avif 640w, /assets/pasajeros-4-ruta.avif 834w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/pasajeros-4-ruta.webp" srcset="/assets/pasajeros-4-ruta-400w.webp 400w, /assets/pasajeros-4-ruta-640w.webp 640w, /assets/pasajeros-4-ruta.webp 834w" alt="Lausof minibus in the Quebrada de las Flechas, on the road to Cafayate" width="834" height="718" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/4x4-3-cerros-400w.avif 400w, /assets/4x4-3-cerros-640w.avif 640w, /assets/4x4-3-cerros.avif 780w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/4x4-3-cerros.webp" srcset="/assets/4x4-3-cerros-400w.webp 400w, /assets/4x4-3-cerros-640w.webp 640w, /assets/4x4-3-cerros.webp 780w" alt="Lausof 4x4 pickup in front of the colored hills of the Puna" width="780" height="672" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
+              <picture><source type="image/avif" srcset="/assets/4x4-1-salinas-400w.avif 400w, /assets/4x4-1-salinas-640w.avif 640w, /assets/4x4-1-salinas.avif 780w" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px"><img src="/assets/4x4-1-salinas.webp" srcset="/assets/4x4-1-salinas-400w.webp 400w, /assets/4x4-1-salinas-640w.webp 640w, /assets/4x4-1-salinas.webp 780w" alt="Lausof 4x4 pickups on the Salinas Grandes salt flat during a day trip" width="780" height="672" sizes="(max-width: 720px) 78vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture>
             </div>
           </div>
           <div class="card-body">
@@ -415,7 +409,7 @@
           <p class="cierre">The phone is answered by someone from the company, not a call center.</p>
         </div>
         <figure>
-          <img src="/assets/nosotros-flota-mixta-lausof.webp" alt="A Lausof tow truck, a curtain-side freight truck and a passenger minibus lined up in front of the hills of Salta" width="1094" height="500" loading="lazy">
+          <picture><source type="image/avif" srcset="/assets/nosotros-flota-mixta-lausof-400w.avif 400w, /assets/nosotros-flota-mixta-lausof-640w.avif 640w, /assets/nosotros-flota-mixta-lausof.avif 1094w" sizes="(max-width: 960px) 94vw, 464px"><img src="/assets/nosotros-flota-mixta-lausof.webp" srcset="/assets/nosotros-flota-mixta-lausof-400w.webp 400w, /assets/nosotros-flota-mixta-lausof-640w.webp 640w, /assets/nosotros-flota-mixta-lausof.webp 1094w" alt="A Lausof tow truck, a curtain-side freight truck and a passenger minibus lined up in front of the hills of Salta" width="1094" height="500" sizes="(max-width: 960px) 94vw, 464px" loading="lazy" decoding="async"></picture>
           <figcaption>A tow truck, a freight truck and a passenger minibus, in front of the hills of Salta.</figcaption>
         </figure>
       </div>
@@ -483,7 +477,7 @@
 
   <section class="block cta-final">
     <div class="wrap">
-      <img src="/assets/logo-insignia-web.webp" alt="" width="340" height="340">
+      <picture><source type="image/avif" srcset="/assets/logo-insignia-web.avif 340w" sizes="132px"><img src="/assets/logo-insignia-web.webp" srcset="/assets/logo-insignia-web.webp 340w" alt="" width="340" height="340" sizes="132px" loading="lazy" decoding="async"></picture>
       <h2>Something to move, or a vehicle to recover?</h2>
       <p>Tell us what, from where and to where. We reply with a quote the same business day (Argentina time).</p>
       <div class="ctas">

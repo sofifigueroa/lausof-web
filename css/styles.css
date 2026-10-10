@@ -47,6 +47,14 @@ body{
 }
 h1,h2,h3{line-height:1.15;text-wrap:balance;margin:0;font-weight:700}
 img{max-width:100%;height:auto}
+/* Cada foto va en un <picture> (AVIF + WebP en varios anchos, ver README,
+   "Fotos responsive"). display:contents lo saca del layout: el <img> sigue
+   siendo hijo directo de su grilla o slideshow a efectos de caja. Los
+   <source> se ocultan porque, sin caja propia del <picture>, cada uno sería
+   una celda vacía de la grilla (el navegador los elige igual: la elección
+   no depende de la CSS). */
+picture{display:contents}
+picture source{display:none}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 
@@ -132,8 +140,19 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 .hero{position:relative;color:var(--on-navy);overflow:hidden;background:var(--navy-deep)}
 .hero-photo{
   position:absolute;inset:0;
-  background:#151e36 url('../assets/hero-flota-paisaje.webp') center 68%/cover no-repeat;
+  background:#151e36;
 }
+/* La foto del hero y de los encabezados de cada página es un <img> del HTML
+   (antes era un fondo de la CSS): el navegador la descubre al leer el HTML,
+   elige ancho y formato, y la pide con fetchpriority="high" porque es la
+   LCP. object-fit/object-position encuadran exactamente igual que el
+   background cover de antes; el encuadre propio de cada página vive en su
+   hoja (.page-head-photo img{object-position:…}). */
+.hero-photo img,.page-head-photo img{
+  position:absolute;inset:0;
+  width:100%;height:100%;object-fit:cover;
+}
+.hero-photo img{object-position:center 68%}
 /* velo: garantiza contraste del texto sin tapar del todo la foto de la flota */
 .hero-photo::after{
   content:"";position:absolute;inset:0;
@@ -195,10 +214,10 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
   opacity:0;
   animation:rotarFotos 17s infinite;
 }
-.slideshow img:nth-child(2){animation-delay:3.4s}
-.slideshow img:nth-child(3){animation-delay:6.8s}
-.slideshow img:nth-child(4){animation-delay:10.2s}
-.slideshow img:nth-child(5){animation-delay:13.6s}
+.slideshow picture:nth-child(2) img{animation-delay:3.4s}
+.slideshow picture:nth-child(3) img{animation-delay:6.8s}
+.slideshow picture:nth-child(4) img{animation-delay:10.2s}
+.slideshow picture:nth-child(5) img{animation-delay:13.6s}
 
 @keyframes rotarFotos{
   0%{opacity:0}
@@ -235,7 +254,7 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 /* Variante para tarjetas con 6 fotos: mismo ritmo de 3,4s por foto,
    el ciclo se estira a 20,4s y se suma el retardo de la sexta. */
 .slideshow-6 img{animation:rotarFotos6 20.4s infinite}
-.slideshow-6 img:nth-child(6){animation-delay:17s}
+.slideshow-6 picture:nth-child(6) img{animation-delay:17s}
 
 @keyframes rotarFotos6{
   0%{opacity:0}
@@ -249,10 +268,10 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
    el ciclo se estira a 30,6s y hay que sumar los retardos de la sexta
    a la novena. */
 .slideshow-9 img{animation:rotarFotos9 30.6s infinite}
-.slideshow-9 img:nth-child(6){animation-delay:17s}
-.slideshow-9 img:nth-child(7){animation-delay:20.4s}
-.slideshow-9 img:nth-child(8){animation-delay:23.8s}
-.slideshow-9 img:nth-child(9){animation-delay:27.2s}
+.slideshow-9 picture:nth-child(6) img{animation-delay:17s}
+.slideshow-9 picture:nth-child(7) img{animation-delay:20.4s}
+.slideshow-9 picture:nth-child(8) img{animation-delay:23.8s}
+.slideshow-9 picture:nth-child(9) img{animation-delay:27.2s}
 
 @keyframes rotarFotos9{
   0%{opacity:0}
@@ -268,7 +287,7 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 /* Sin movimiento: queda fija la primera foto */
 @media (prefers-reduced-motion: reduce){
   .slideshow img{animation:none}
-  .slideshow img:first-child{opacity:1}
+  .slideshow picture:first-child img{opacity:1}
 }
 .card-body{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1}
 .card h3{font-size:1.1rem}
@@ -509,11 +528,10 @@ footer.site .proveedores ul{flex-direction:row;flex-wrap:wrap;gap:6px 28px}
   .wrap{padding:0 20px}
   .hero-inner{padding:56px 20px 60px}
   /* art direction: en pantalla angosta la foto de la flota queda tapada por
-     los botones; va el minibús en la quebrada, más vertical y con aire */
-  .hero-photo{
-    background-image:url('../assets/pasajeros-1-quebrada.webp');
-    background-position:32% center;
-  }
+     los botones; va el minibús en la quebrada, más vertical y con aire.
+     La foto la cambia el <picture> (data-movil, mismo corte de 720px); acá
+     sólo el encuadre. */
+  .hero-photo img{object-position:32% center}
   /* velo más liviano que en desktop: fuerte arriba (contraste del título),
      suelto abajo para que el minibús se aprecie */
   .hero-photo::after{

@@ -22,6 +22,7 @@ lausof-web/
 └── assets/
     ├── unidades/                 # fotos de portada de cada publicación
     ├── *.webp                    # fotos del sitio (calidad 80; el JPEG original queda al lado)
+    ├── *-400w.webp, *.avif, …    # variantes generadas por scripts/imagenes.mjs (no se editan a mano)
     ├── *.jpg                     # originales, fuente de futuros recortes; el HTML no los usa
     ├── og-portada.jpg / og-flota.jpg  # 1200×630 para las previews de WhatsApp/Facebook (og:image va SIEMPRE en JPEG: los scrapers no toman bien WebP)
     ├── favicon-96.png            # favicon liviano
@@ -38,14 +39,55 @@ lausof-web/
   (p. ej. `auxilio-quebrada-de-las-flechas-lausof.webp`). El nombre del archivo
   es una señal para Google Imágenes; "IMG_4032.jpg" no dice nada.
 - **Formato WebP calidad 80** (`cwebp -q 80 -m 6 -metadata none foto.jpg -o foto.webp`),
-  guardando el JPEG original al lado. Excepción: las imágenes de `og:image`
+  guardando el JPEG original al lado. Las variantes AVIF y de menor ancho las
+  genera `scripts/imagenes.mjs` (ver "Fotos responsive"). Excepción: las imágenes de `og:image`
   van en JPEG 1200×630, porque los scrapers de WhatsApp/Facebook manejan mal
   el WebP.
 - **Alt descriptivo en cada `<img>`**, también en los slides ocultos de los
   slideshows: el contenedor con `role="img"` ya aplana los hijos para los
   lectores de pantalla, así que el alt de los slides no molesta a la
-  accesibilidad y es lo único que indexa Google Imágenes. Solo los dos logos
-  decorativos de cierre llevan `alt=""`.
+  accesibilidad y es lo único que indexa Google Imágenes. Solo los logos
+  decorativos de cierre y la foto de fondo del hero/encabezado llevan `alt=""`.
+
+## Fotos responsive (AVIF + WebP en varios anchos)
+
+Cada foto se escribe en el HTML como un `<img>` común **con `sizes`**, y
+después se corre
+
+```bash
+node scripts/imagenes.mjs              # genera variantes y reescribe las páginas
+node scripts/imagenes.mjs --comprobar  # no escribe nada; sale con 1 si falta algo
+```
+
+El script (necesita ImageMagick 7 con AVIF: `brew install imagemagick`) genera
+al lado de cada `foto.webp` las variantes `foto-400w.webp`, `-640w`, `-960w`…
+(sólo anchos menores al original) y `foto.avif`, `foto-400w.avif`…, todas a
+partir del mismo `.webp` publicado (mismo recorte, mismos colores), y envuelve
+el `<img>` en `<picture>` con la fuente AVIF y el `srcset`. El `.webp`
+original queda como `src` (fallback). Es idempotente; `tests/imagenes.test.js`
+falla si una página quedó sin regenerar o si falta una variante.
+
+Lo que el script no decide y va escrito a mano en el `<img>`:
+
+- **`sizes`**: cuánto mide la foto en pantalla en cada ancho. Los valores
+  actuales se midieron en Chrome a 360–1920 px de ancho (10/10/2026) y, si la
+  foto va con `object-fit:cover`, con el ancho que realmente ocupa la foto
+  recortada. Para una foto nueva, copiar el `sizes` de otra en la misma
+  grilla.
+- **`width`/`height`** del archivo real (evitan saltos de layout).
+- **`loading="lazy" decoding="async"`** en toda foto, salvo el logo del menú
+  y la foto del hero/encabezado.
+- **La foto del hero/encabezado** (la LCP de cada página) es un `<img>` con
+  `fetchpriority="high"` dentro de `.hero-photo`/`.page-head-photo`; el
+  encuadre que antes daba `background-position` ahora es
+  `.page-head-photo img{object-position:…}` en la hoja de cada página. No se
+  precarga: ya está en el HTML, y una precarga no sabe qué formato ni ancho
+  va a elegir el `<picture>` (bajaría la foto dos veces). En la portada,
+  `data-movil="assets/pasajeros-1-quebrada.webp"` hace la dirección de arte
+  de mobile (≤720px).
+- **Slideshows**: el hijo n-ésimo del `.slideshow` ahora es el `<picture>`
+  (`picture{display:contents}` lo deja fuera del layout); los retardos se
+  escriben `.slideshow picture:nth-child(n) img`.
 
 Dos cosas que hay que recordar al tocar el código:
 
