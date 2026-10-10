@@ -27,6 +27,11 @@
 /contact            /en/#contact  301
 /contact-us         /en/#contact  301
 /about-us           /en/#about    301
+# Las mismas dos bajo /en/ (también daban 404, curl 10/10). Tienen que ir
+# antes del comodín /en/* del final, que si no las agarra primero y devuelve
+# la 404 inglesa. Sin ! porque no hay ningún en/contact.html ni en/about.html.
+/en/contact         /en/#contact  301
+/en/about           /en/#about    301
 
 # Variantes duplicadas de las URLs reales. /index.html sirve lo mismo que /
 # y el subdominio de Netlify sirve el sitio entero: los dos van con 301 al
@@ -35,6 +40,20 @@
 # hay bucle: la portada se pide como / y ese path no matchea /index.html.
 /index.html                    /                              301!
 https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
+
+# Archivos internos del repo que NO son el sitio (NET-PUB). El deploy publica
+# la carpeta entera (`netlify deploy --dir .`): el CLI sólo deja afuera los
+# archivos que empiezan con punto, así que el README, el package.json, los
+# tests y los scripts suben igual que las páginas. Estas reglas los esconden
+# sin cambiar el comando de deploy: devuelven la 404 propia con estado 404 de
+# verdad. Llevan ! porque los archivos existen, y sin ! Netlify los sirve
+# igual (shadowing, docs de Netlify "Rewrites and proxies"). El
+# package-lock.json hoy no existe; la regla queda por si npm lo crea.
+/README.md                     /404.html                      404!
+/package.json                  /404.html                      404!
+/package-lock.json             /404.html                      404!
+/tests/*                       /404.html                      404!
+/scripts/*                     /404.html                      404!
 
 # Versión en inglés bajo /en/. Las dos reglas van en este orden y no al revés:
 # Netlify aplica la PRIMERA que matchea, y /en/* también matchearía

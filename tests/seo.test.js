@@ -225,3 +225,71 @@ test('las redirecciones no tienen un comodín que tape páginas reales', () => {
       `hay una regla que pisa una página real: ${regla}`);
   }
 });
+
+// NET-PUB: el deploy publica la carpeta entera (`netlify deploy --dir .`) y
+// el CLI sólo deja afuera los archivos que empiezan con punto. Sin reglas,
+// /README.md y /package.json respondían 200 (curl 10/10/2026). Cada archivo
+// o carpeta de la raíz que no es parte del sitio tiene que tener su regla
+// forzada (con !, porque el archivo existe) que devuelve la 404 propia con
+// estado 404. Si alguien suma un archivo interno a la raíz, este test lo
+// frena hasta que tenga su regla.
+const reglasActivas = () => redirects.split('\n').map((l) => l.trim())
+  .filter((l) => l && !l.startsWith('#')).map((l) => l.split(/\s+/));
+
+const esDelSitio = (nombre, esDir) => {
+  if (nombre.startsWith('.')) return true; // el CLI no los sube
+  if (esDir) return ['assets', 'css', 'js', 'en'].includes(nombre);
+  return nombre.endsWith('.html') ||
+    ['sitemap.xml', 'robots.txt', '_redirects', '_headers'].includes(nombre);
+};
+
+test('los archivos internos de la raíz no se sirven: 404 forzada', () => {
+  const reglas = reglasActivas();
+  const raiz = path.join(__dirname, '..');
+  // Lo que se publica es el árbol comiteado (el deploy se hace siempre desde
+  // un árbol limpio), así que se mira lo que git rastrea: lo que un runner
+  // deja suelto en la raíz (node_modules, e2e/) no es parte del deploy.
+  const { execFileSync } = require('node:child_process');
+  const rastreados = execFileSync('git', ['ls-files'], { cwd: raiz, encoding: 'utf8' })
+    .split('\n').filter(Boolean);
+  const primeros = new Map();
+  for (const ruta of rastreados) {
+    const [primero, ...resto] = ruta.split('/');
+    primeros.set(primero, primeros.get(primero) || resto.length > 0);
+  }
+  assert.ok(primeros.has('index.html'), 'git ls-files no listó el sitio');
+  const internos = [...primeros]
+    .filter(([nombre, esDir]) => !esDelSitio(nombre, esDir))
+    .map(([nombre, esDir]) => (esDir ? `/${nombre}/*` : `/${nombre}`));
+  // Los que el análisis del 10/10 pidió por nombre, existan o no hoy.
+  for (const fijo of ['/README.md', '/package.json', '/package-lock.json', '/tests/*', '/scripts/*']) {
+    if (!internos.includes(fijo)) internos.push(fijo);
+  }
+  for (const origen of internos) {
+    const i = reglas.findIndex(([o]) => o === origen);
+    assert.ok(i > -1, `${origen} se publica y no tiene regla que lo esconda`);
+    assert.deepStrictEqual(reglas[i].slice(1), ['/404.html', '404!'],
+      `${origen} tiene que ir a /404.html con 404! (sin ! Netlify sirve el archivo igual)`);
+  }
+  assert.ok(fs.existsSync(path.join(raiz, '404.html')), 'falta la 404.html a la que apuntan');
+});
+
+// /en/contact y /en/about daban 404 (curl 10/10/2026). Van a la sección de la
+// portada inglesa, igual que /contact → /en/#contact. Tienen que ir ANTES del
+// comodín /en/* (Netlify aplica la primera regla que matchea), y el ancla
+// tiene que existir en en/index.html.
+test('/en/contact y /en/about redirigen con 301 a su sección en inglés', () => {
+  const { paginasEn } = require('./util.js');
+  const reglas = reglasActivas();
+  const comodin = reglas.findIndex(([o]) => o === '/en/*');
+  assert.ok(comodin > -1, 'falta el comodín /en/* de la 404 inglesa');
+  for (const [origen, destino] of [['/en/contact', '/en/#contact'], ['/en/about', '/en/#about']]) {
+    const i = reglas.findIndex(([o]) => o === origen);
+    assert.ok(i > -1, `falta la regla de ${origen}`);
+    assert.deepStrictEqual(reglas[i].slice(1), [destino, '301'], `${origen} no va a ${destino} con 301`);
+    assert.ok(i < comodin, `${origen} queda detrás del comodín /en/* y nunca se aplica`);
+    const ancla = destino.split('#')[1];
+    assert.match(paginasEn['en/index.html'], new RegExp(`\\bid="${ancla}"`),
+      `en/index.html no tiene la sección #${ancla}`);
+  }
+});

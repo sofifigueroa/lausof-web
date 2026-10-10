@@ -237,24 +237,26 @@ lugar exacto donde entra el dato. Se pueden buscar todos con
 `grep -n PENDIENTE index.html`.
 
 El **16/08** Lautaro confirmó una tanda de datos y esas afirmaciones ya están
-publicadas: habilitación CNRT vigente, seguro de carga y pasajeros
+publicadas: habilitaciones CNRT y AMT vigentes, seguro de carga y pasajeros
 vigente, agencia de turismo habilitada, registro de temperatura durante el
 viaje, psicofísicos y ART de los choferes al día, GPS en las unidades en
 servicio, capacidad de carga de 7,5 toneladas del camión plancha, más de una
 década de trabajo en la Puna y los 120.000 km de la ML350. De todo eso siguen
-faltando el legajo de la agencia y el nombre de la aseguradora, que son lo
-único que se publica cuando lleguen.
+faltando los números (CNRT, AMT, legajo de la agencia) y el nombre de la
+aseguradora, que son lo único que se publica cuando lleguen.
 
-**AMT (10/10/2026):** el permiso provincial figura en trámite/observado
-(BACKLOG POL-CLAIMS; `knowledge/legal-regulatory.md`). Hasta que haya
-constancia de que fue otorgado, el sitio no lo menciona en ningún idioma: la
-única habilitación publicada es CNRT N.º 60284. Lo vigilan
-`tests/contenido.test.js` y `tests/ingles.test.js`.
+**10/10/2026 (BUILD-BRIEF de Lautaro):** se quedan en el sitio las
+afirmaciones que el cliente busca para reservar, aunque el papel esté en
+trámite: guardia de auxilio las 24 hs, agencia de turismo habilitada,
+habilitación AMT como afirmación general (nunca su número de permiso ni de
+expediente) y viajes al exterior (Chile, Bolivia y otros destinos). Las
+vigila `tests/contenido.test.js`.
 
 Papeles y habilitaciones:
 
-- [x] **N° de habilitación CNRT**: 60284, publicado en la franja.
-- [ ] **Permiso AMT**: en trámite; no se publica hasta que esté otorgado
+- [ ] **N° de habilitación CNRT y N° de habilitación AMT**. Que las dos están
+      vigentes lo confirmó Lautaro el 16/08 y ya figura en la franja y en la
+      tarjeta de personal; falta el número de cada una para poder publicarlo
 - [ ] **N° de legajo de la agencia de turismo**. Que está habilitada ya figura en
       la tarjeta de turismo; falta el legajo
 - [ ] **Aseguradora**: qué compañía y qué cubre (RC, carga, pasajeros). El seguro
@@ -267,8 +269,9 @@ Papeles y habilitaciones:
 
 Contacto:
 
-- [ ] **Horarios de atención** reales, y si hay **guardia para auxilio fuera de
-      hora** (por eso el sitio no promete nada de 24 horas)
+- [x] **Guardia de auxilio las 24 hs**: confirmada por la familia el 10/10/2026
+      (BUILD-BRIEF); figura en la portada (ES y EN) y en el JSON-LD
+- [ ] **Horarios de atención** de oficina, si se quieren publicar aparte
 - [ ] **Dirección**: Junín 1334 y Siria 1333 son dos. ¿Cuál puede visitar un
       cliente? Y en las facturas figura una tercera (Los Perales 22): hay que
       saber cuál va en el sitio y cuál en los datos fiscales
@@ -305,6 +308,13 @@ Del lado técnico:
       Salta" y las búsquedas locales rinde más que cualquier cambio del sitio
 
 ## Publicación
+
+El deploy publica la carpeta entera (`npx netlify-cli deploy --prod --dir .`,
+ver `WEB-LANE-HANDOFF.md`): el CLI sólo deja afuera lo que empieza con punto.
+Por eso `_redirects` tiene reglas `404!` para todo lo que está en la raíz y no
+es el sitio (`README.md`, `package.json`, `package-lock.json`, `tests/`,
+`scripts/`). Si se suma un archivo o carpeta interna a la raíz, necesita su
+regla en el mismo commit; `tests/seo.test.js` lo exige.
 
 El dominio `lausof.com` ya existe (hoy apunta a Wix). Plan:
 

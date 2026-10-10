@@ -79,6 +79,7 @@ test('toda imagen lleva alt descriptivo salvo los logos decorativos', () => {
 // como se redacte.
 const requeridas = [
   ['habilitación CNRT', /CNRT/],
+  ['habilitación AMT', /AMT/],
   ['capacidad de carga de 7,5 toneladas', /capacidad de carga de 7,5 toneladas/],
   ['registro de temperatura', /registro de temperatura/i],
   ['agencia de turismo habilitada', /agencia de turismo habilitada/i],
@@ -97,15 +98,17 @@ const requeridas = [
   ['grúa y cargas desde 2017', /en 2017 sumamos remolques, auxilio mecánico y cargas generales/],
 ];
 
-// La única habilitación publicable es la CNRT N.º 60284: es la que el
-// comprador puede verificar. El permiso provincial AMT figura en trámite
-// (BACKLOG POL-CLAIMS) y no se menciona hasta que haya constancia de que fue
-// otorgado: ni en el texto visible ni en el JSON-LD, en ningún idioma. Los
-// comentarios quedan afuera porque ahí se explica la regla.
-test('ninguna página afirma la habilitación AMT', () => {
+// La habilitación AMT se publica como afirmación general ("Habilitación AMT",
+// "habilitaciones CNRT y AMT vigentes"), pero NUNCA con su número de permiso
+// ni de expediente (política de Lautaro, BUILD-BRIEF 10/10/2026). El único
+// número de habilitación publicable es el CNRT 60284. Los comentarios quedan
+// afuera porque ahí se explica la regla.
+test('ninguna página publica el número de permiso o expediente AMT', () => {
   for (const [nombre, html] of Object.entries(paginas)) {
-    const m = html.match(/[^<>]{0,40}\bAMT\b[^<>]{0,40}/);
-    assert.ok(!m, `${nombre} menciona AMT: "${m && m[0].trim()}"`);
+    const conNumero = html.match(/\bAMT\b[^<>]{0,40}?(?:N\.?\s*[º°o]|No\.?|#|n[uú]mero|expediente|exp\.|file)\s*:?\s*\d[\d./-]*/i)
+      || html.match(/(?:expediente|exp\.)\s*(?:N\.?\s*[º°o]\s*)?\d{2,}-\d+/i)
+      || html.match(/238-74749/);
+    assert.ok(!conNumero, `${nombre} publica un número AMT: "${conNumero && conNumero[0].trim()}"`);
   }
 });
 
@@ -114,6 +117,32 @@ test('las páginas que nombran la habilitación citan la CNRT 60284', () => {
     'turismo.html', 'en/index.html', 'en/mining-logistics.html',
     'en/personnel-transport.html', 'en/tours-and-transfers.html']) {
     assert.match(paginas[nombre], /CNRT/, `${nombre} perdió la habilitación CNRT`);
+  }
+});
+
+// Afirmaciones que la familia confirmó el 10/10/2026 (BUILD-BRIEF) y que el
+// cliente busca para reservar: guardia de auxilio las 24 hs, agencia de
+// turismo habilitada y viajes al exterior. Antes se sacaban "por no estar en
+// los papeles"; la política ahora es que se quedan. Se miran en el texto
+// visible (sin etiquetas) de cada página donde viven, en los dos idiomas.
+const confirmadas = {
+  'index.html': [/Auxilio en ruta 24 hs/, /Urgencias 24 hs/, /las 24 hs, todos los días/,
+    /Agencia de turismo habilitada/, /Viajes al exterior[^.]{0,40}Chile[^.]{0,40}Bolivia/],
+  'turismo.html': [/Agencia de turismo habilitada/, /Somos agencia de turismo habilitada/,
+    /Viajes al exterior[^.]{0,60}Chile[^.]{0,40}Bolivia/],
+  'viajes-de-estudio.html': [/Agencia de turismo habilitada/],
+  'en/index.html': [/24-hour roadside assistance/, /24-hour on-call/, /On call 24 hours a day/,
+    /Licensed travel agency/, /Trips abroad[^.]{0,40}Chile[^.]{0,40}Bolivia/],
+  'en/tours-and-transfers.html': [/Licensed travel agency/, /We are a licensed travel agency/,
+    /Trips abroad[^.]{0,60}Chile[^.]{0,40}Bolivia/, /Do you go to Chile or Bolivia\?/],
+};
+
+test('las afirmaciones confirmadas por la familia siguen publicadas', () => {
+  for (const [nombre, patrones] of Object.entries(confirmadas)) {
+    const plano = paginas[nombre].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    for (const patron of patrones) {
+      assert.match(plano, patron, `${nombre} perdió una afirmación confirmada: ${patron}`);
+    }
   }
 });
 
