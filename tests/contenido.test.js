@@ -120,6 +120,32 @@ test('las páginas que nombran la habilitación citan la CNRT 60284', () => {
   }
 });
 
+// Afirmaciones que la familia confirmó el 10/10/2026 (BUILD-BRIEF) y que el
+// cliente busca para reservar: guardia de auxilio las 24 hs, agencia de
+// turismo habilitada y viajes al exterior. Antes se sacaban "por no estar en
+// los papeles"; la política ahora es que se quedan. Se miran en el texto
+// visible (sin etiquetas) de cada página donde viven, en los dos idiomas.
+const confirmadas = {
+  'index.html': [/Auxilio en ruta 24 hs/, /Urgencias 24 hs/, /las 24 hs, todos los días/,
+    /Agencia de turismo habilitada/, /Viajes al exterior[^.]{0,40}Chile[^.]{0,40}Bolivia/],
+  'turismo.html': [/Agencia de turismo habilitada/, /Somos agencia de turismo habilitada/,
+    /Viajes al exterior[^.]{0,60}Chile[^.]{0,40}Bolivia/],
+  'viajes-de-estudio.html': [/Agencia de turismo habilitada/],
+  'en/index.html': [/24-hour roadside assistance/, /24-hour on-call/, /On call 24 hours a day/,
+    /Licensed travel agency/, /Trips abroad[^.]{0,40}Chile[^.]{0,40}Bolivia/],
+  'en/tours-and-transfers.html': [/Licensed travel agency/, /We are a licensed travel agency/,
+    /Trips abroad[^.]{0,60}Chile[^.]{0,40}Bolivia/, /Do you go to Chile or Bolivia\?/],
+};
+
+test('las afirmaciones confirmadas por la familia siguen publicadas', () => {
+  for (const [nombre, patrones] of Object.entries(confirmadas)) {
+    const plano = paginas[nombre].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    for (const patron of patrones) {
+      assert.match(plano, patron, `${nombre} perdió una afirmación confirmada: ${patron}`);
+    }
+  }
+});
+
 test('index.html: las afirmaciones verificadas siguen presentes', () => {
   for (const [etiqueta, patron] of requeridas) {
     assert.ok(patron.test(paginas['index.html']), `falta "${etiqueta}" en index.html`);

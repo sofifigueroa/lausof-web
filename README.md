@@ -245,6 +245,13 @@ década de trabajo en la Puna y los 120.000 km de la ML350. De todo eso siguen
 faltando los números (CNRT, AMT, legajo de la agencia) y el nombre de la
 aseguradora, que son lo único que se publica cuando lleguen.
 
+**10/10/2026 (BUILD-BRIEF de Lautaro):** se quedan en el sitio las
+afirmaciones que el cliente busca para reservar, aunque el papel esté en
+trámite: guardia de auxilio las 24 hs, agencia de turismo habilitada,
+habilitación AMT como afirmación general (nunca su número de permiso ni de
+expediente) y viajes al exterior (Chile, Bolivia y otros destinos). Las
+vigila `tests/contenido.test.js`.
+
 Papeles y habilitaciones:
 
 - [ ] **N° de habilitación CNRT y N° de habilitación AMT**. Que las dos están
@@ -262,8 +269,9 @@ Papeles y habilitaciones:
 
 Contacto:
 
-- [ ] **Horarios de atención** reales, y si hay **guardia para auxilio fuera de
-      hora** (por eso el sitio no promete nada de 24 horas)
+- [x] **Guardia de auxilio las 24 hs**: confirmada por la familia el 10/10/2026
+      (BUILD-BRIEF); figura en la portada (ES y EN) y en el JSON-LD
+- [ ] **Horarios de atención** de oficina, si se quieren publicar aparte
 - [ ] **Dirección**: Junín 1334 y Siria 1333 son dos. ¿Cuál puede visitar un
       cliente? Y en las facturas figura una tercera (Los Perales 22): hay que
       saber cuál va en el sitio y cuál en los datos fiscales
