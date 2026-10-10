@@ -301,6 +301,13 @@ Del lado técnico:
 
 ## Publicación
 
+El deploy publica la carpeta entera (`npx netlify-cli deploy --prod --dir .`,
+ver `WEB-LANE-HANDOFF.md`): el CLI sólo deja afuera lo que empieza con punto.
+Por eso `_redirects` tiene reglas `404!` para todo lo que está en la raíz y no
+es el sitio (`README.md`, `package.json`, `package-lock.json`, `tests/`,
+`scripts/`). Si se suma un archivo o carpeta interna a la raíz, necesita su
+regla en el mismo commit; `tests/seo.test.js` lo exige.
+
 El dominio `lausof.com` ya existe (hoy apunta a Wix). Plan:
 
 1. Subir este repo a GitHub y activar **GitHub Pages** (o conectar a **Netlify/Cloudflare Pages**) — hosting gratuito.

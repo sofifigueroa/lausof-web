@@ -130,3 +130,60 @@ test('el pie de la portada enlaza turismo, galería y depósito', () => {
   assert.ok(index.includes('<a href="deposito-galpon.html">Depósito y galpón →</a>'),
     'el pie perdió el enlace al depósito');
 });
+
+// Ninguna página queda huérfana: cada una recibe al menos un enlace interno
+// desde OTRA página de su mismo idioma (el selector de idioma y el hreflang
+// no cuentan, porque cruzan de idioma). Hasta el 10/10/2026 golf-torneos no
+// recibía ningún enlace y las páginas de eventos sólo uno, desde la portada
+// (análisis de servicios del 10/10, ítem 8). Las 404 no se enlazan.
+test('cada página recibe al menos un enlace interno de su mismo idioma', () => {
+  const path = require('node:path');
+  const { sinComentarios } = require('./util.js');
+  const idioma = (archivo) => (archivo.startsWith('en/') ? 'en' : 'es');
+  const resolver = (desde, href) => {
+    let ruta = href.replace(/^https:\/\/www\.lausof\.com/, '');
+    if (/^[a-z]+:|^\/\//i.test(ruta)) return null; // externo, mailto, tel, wa.me
+    ruta = ruta.split('#')[0].split('?')[0];
+    if (!ruta) return null; // ancla en la misma página
+    let archivo = ruta.startsWith('/')
+      ? ruta.slice(1)
+      : path.posix.normalize(path.posix.join(path.posix.dirname(desde), ruta));
+    if (archivo === '' || archivo.endsWith('/')) archivo += 'index.html';
+    if (archivo === 'en') archivo = 'en/index.html';
+    return archivo;
+  };
+  const entrantes = Object.fromEntries(Object.keys(paginas).map((p) => [p, new Set()]));
+  for (const [desde, html] of Object.entries(paginas)) {
+    for (const [, href] of sinComentarios(html).matchAll(/<a\b[^>]*\bhref="([^"]+)"/g)) {
+      const destino = resolver(desde, href);
+      if (destino && destino !== desde && entrantes[destino] && idioma(destino) === idioma(desde)) {
+        entrantes[destino].add(desde);
+      }
+    }
+  }
+  for (const [pagina, origenes] of Object.entries(entrantes)) {
+    if (/(^|\/)404\.html$/.test(pagina)) continue;
+    assert.ok(origenes.size > 0, `${pagina} no recibe ningún enlace interno de su idioma`);
+  }
+});
+
+// Las páginas de eventos y la de golf reciben enlaces desde turismo y desde
+// al menos una página de servicio además de la portada: la portada sola es
+// un solo camino, y es el que se pierde primero en un rediseño.
+test('las páginas de eventos y golf se enlazan desde turismo y desde otra página de servicio', () => {
+  const eventos = ['charter-recitales.html', 'clubes-deportivos.html', 'viajes-de-estudio.html',
+    'traslados-empresas.html', 'peregrinaciones-eventos.html', 'golf-torneos.html'];
+  const { sinComentarios } = require('./util.js');
+  const enlazan = (origen, destino) => new RegExp(`<a\\b[^>]*\\bhref="${destino.replace('.', '\\.')}"`)
+    .test(sinComentarios(paginas[origen]));
+  for (const evento of eventos) {
+    assert.ok(enlazan('turismo.html', evento), `turismo.html no enlaza a ${evento}`);
+    assert.ok(enlazan('index.html', evento), `la portada no enlaza a ${evento}`);
+    const otras = Object.keys(paginas).filter((p) => !p.startsWith('en/') &&
+      !['index.html', 'turismo.html', evento].includes(p) && enlazan(p, evento));
+    assert.ok(otras.length > 0, `${evento} sólo se enlaza desde la portada y turismo`);
+  }
+  for (const servicio of ['transporte-de-personal.html', 'alquiler-4x4.html']) {
+    assert.ok(enlazan('turismo.html', servicio), `turismo.html no enlaza a ${servicio}`);
+  }
+});
