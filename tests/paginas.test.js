@@ -26,6 +26,11 @@ const dedicadas = {
   'alquiler-autoelevadores.html': 'Alquiler de Autoelevadores en Salta — 3 y 4 Toneladas, con o sin Operador | Lausof SRL',
   'deposito-galpon.html': 'Depósito y Galpón en Salta — Cámara de Frío y Playa de Maniobras | Lausof SRL',
   'producciones.html': 'Apoyo Logístico para Producciones y Rodajes — Salta y la Puna | Lausof SRL',
+  // Páginas de eventos y temporada del 10/10/2026 (tests/eventos.test.js).
+  'traslados-trail-jujuy-utmb.html': 'Traslados para Jujuy Fuerza Sagrada by UTMB 2027 — Aeropuerto, Largadas y Regreso | Lausof SRL',
+  'traslado-tren-a-las-nubes.html': 'Traslado al Tren a las Nubes desde Salta — Combi o 4x4 a San Antonio de los Cobres | Lausof SRL',
+  'semana-santa-salta-jujuy.html': 'Semana Santa 2027 en Salta y Jujuy — Traslados y Excursiones con Chofer | Lausof SRL',
+  'traslados-fiesta-del-milagro.html': 'Traslados para la Fiesta del Milagro 2027 en Salta — Combis para Peregrinos y Parroquias | Lausof SRL',
 };
 
 for (const [nombre, titulo] of Object.entries(dedicadas)) {
@@ -53,10 +58,11 @@ test('todas las páginas cargan styles.css en la misma versión que la portada',
 });
 
 // El sitemap lista exactamente las páginas indexables: la portada, flota y
-// las quince dedicadas, más las ocho gemelas inglesas bajo /en/ (que verifica
-// una por una tests/ingles.test.js). Ninguna de las dos 404 va: no son
-// páginas para indexar.
-test('el sitemap lista las 25 URLs indexables y ninguna más', () => {
+// las diecinueve dedicadas (quince de servicio y cuatro de eventos), más las
+// once gemelas inglesas bajo /en/ (que verifica una por una
+// tests/ingles.test.js). Ninguna de las dos 404 va: no son páginas para
+// indexar.
+test('el sitemap lista las 32 URLs indexables y ninguna más', () => {
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
   const esperadas = [
     'https://www.lausof.com/',
@@ -66,7 +72,7 @@ test('el sitemap lista las 25 URLs indexables y ninguna más', () => {
   for (const url of esperadas) {
     assert.ok(urls.includes(url), `falta ${url} en el sitemap`);
   }
-  assert.strictEqual(urls.length, 25, `el sitemap tiene ${urls.length} URLs y se esperaban 25`);
+  assert.strictEqual(urls.length, 32, `el sitemap tiene ${urls.length} URLs y se esperaban 32`);
   assert.ok(!sitemap.includes('404.html'), 'la 404 no va en el sitemap');
 });
 

@@ -68,6 +68,12 @@ const pares = {
   'cargas-refrigeradas.html':    'en/refrigerated-freight.html',
   'deposito-galpon.html':        'en/warehouse.html',
   'producciones.html':           'en/film-production-logistics.html',
+  // Páginas de eventos y temporada (10/10/2026). La de la Fiesta del Milagro
+  // queda sin gemela a propósito: su público son peregrinos de Salta y las
+  // provincias vecinas y no hay señales de demanda en inglés.
+  'traslados-trail-jujuy-utmb.html': 'en/jujuy-utmb-trail-race-transfers.html',
+  'traslado-tren-a-las-nubes.html':  'en/train-to-the-clouds-transfer.html',
+  'semana-santa-salta-jujuy.html':   'en/holy-week-salta-jujuy.html',
 };
 
 // Página de /en/ que existe sin ser gemela de nadie (no se indexa).
