@@ -42,6 +42,11 @@ const dedicadas = {
   'viajes-internacionales.html': 'Viajes internacionales desde Salta — Chile, Bolivia y otros destinos | Lausof SRL',
   'traslado-salta-san-pedro-de-atacama.html': 'Traslado privado de Salta a San Pedro de Atacama por el Paso de Jama | Lausof SRL',
   'traslado-salta-uyuni.html': 'Traslado privado de Salta a Uyuni (Bolivia) por La Quiaca y Villazón | Lausof SRL',
+  // Páginas de eventos y temporada del 10/10/2026 (tests/eventos.test.js).
+  'traslados-trail-jujuy-utmb.html': 'Traslados para Jujuy Fuerza Sagrada by UTMB 2027 — Aeropuerto, Largadas y Regreso | Lausof SRL',
+  'traslado-tren-a-las-nubes.html': 'Traslado al Tren a las Nubes desde Salta — Combi o 4x4 a San Antonio de los Cobres | Lausof SRL',
+  'semana-santa-salta-jujuy.html': 'Semana Santa 2027 en Salta y Jujuy — Traslados y Excursiones con Chofer | Lausof SRL',
+  'traslados-fiesta-del-milagro.html': 'Traslados para la Fiesta del Milagro 2027 en Salta — Combis para Peregrinos y Parroquias | Lausof SRL',
 };
 
 for (const [nombre, titulo] of Object.entries(dedicadas)) {
