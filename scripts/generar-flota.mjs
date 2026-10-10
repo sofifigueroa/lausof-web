@@ -13,8 +13,7 @@
    Google, Bing y los scrapers de vista previa de WhatsApp/Facebook las vean
    sin ejecutar JavaScript. El marcado que emite es el mismo que generaba el
    código del navegador, más width/height en cada <img> (evita saltos de
-   layout); las medidas se leen del archivo .webp real, así nunca quedan
-   desincronizadas de la foto.
+   layout) y el <picture> con las variantes AVIF/WebP de scripts/imagenes.mjs.
 
    Sin dependencias: corre con Node solo. Es idempotente: correrlo dos veces
    deja el archivo igual.
@@ -24,6 +23,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { UNIDADES, WHATSAPP, MOSTRAR_PROXIMAS } from './unidades.mjs';
+import { medidasWebp, pictureDe } from './imagenes.mjs';
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PAGINA = join(raiz, 'flota-en-venta.html');
@@ -50,30 +50,13 @@ function enlaceWhatsApp(unidad) {
   return 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(texto);
 }
 
-/* ---- medidas de las fotos ------------------------------------------------
-   Lee ancho y alto directamente del encabezado del .webp (formatos VP8,
-   VP8L y VP8X), sin librerías. Si el archivo no existe o no se entiende,
-   corta con error: mejor que publicar una medida inventada. */
-function medidasWebp(archivo) {
-  const b = readFileSync(archivo);
-  if (b.length < 30 || b.toString('ascii', 0, 4) !== 'RIFF' || b.toString('ascii', 8, 12) !== 'WEBP') {
-    throw new Error(`${archivo} no es un .webp válido`);
-  }
-  const fourcc = b.toString('ascii', 12, 16);
-  if (fourcc === 'VP8X') {
-    return { ancho: 1 + b.readUIntLE(24, 3), alto: 1 + b.readUIntLE(27, 3) };
-  }
-  if (fourcc === 'VP8 ') {
-    if (b.readUIntLE(23, 3) !== 0x2a019d) throw new Error(`${archivo}: encabezado VP8 inesperado`);
-    return { ancho: b.readUInt16LE(26) & 0x3fff, alto: b.readUInt16LE(28) & 0x3fff };
-  }
-  if (fourcc === 'VP8L') {
-    if (b[20] !== 0x2f) throw new Error(`${archivo}: encabezado VP8L inesperado`);
-    const bits = b.readUInt32LE(21);
-    return { ancho: 1 + (bits & 0x3fff), alto: 1 + ((bits >> 14) & 0x3fff) };
-  }
-  throw new Error(`${archivo}: formato webp desconocido (${fourcc})`);
-}
+/* ---- fotos ----------------------------------------------------------------
+   Medidas y <picture> salen de scripts/imagenes.mjs, el mismo pipeline del
+   resto del sitio: width/height se leen del .webp real (nunca quedan
+   desincronizados de la foto) y la tarjeta se publica con sus variantes
+   AVIF/WebP. Si se suma una foto nueva, correr después
+   `node scripts/imagenes.mjs` para generar esas variantes. */
+const SIZES_TARJETA = '(max-width: 720px) 93vw, (max-width: 960px) 46vw, 342px';
 
 /* ---- tarjeta de una unidad -----------------------------------------------
    Emite el mismo árbol que armaba crearTarjeta() en el navegador. Los
@@ -88,7 +71,8 @@ function tarjeta(unidad) {
 
   if (unidad.foto) {
     const { ancho, alto } = medidasWebp(join(raiz, 'assets', 'unidades', unidad.foto));
-    filas.push(`        <div class="card-photo"><img src="assets/unidades/${escaparAtributo(unidad.foto)}" alt="${escaparAtributo(unidad.titulo)}" loading="lazy" width="${ancho}" height="${alto}"></div>`);
+    const img = `<img src="assets/unidades/${escaparAtributo(unidad.foto)}" alt="${escaparAtributo(unidad.titulo)}" width="${ancho}" height="${alto}" sizes="${SIZES_TARJETA}" loading="lazy" decoding="async">`;
+    filas.push(`        <div class="card-photo">${pictureDe(img, 'flota-en-venta.html')}</div>`);
   } else {
     filas.push(`        <div class="card-photo"><span>Fotos en preparación</span></div>`);
   }

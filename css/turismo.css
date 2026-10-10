@@ -13,8 +13,11 @@
 .page-head{position:relative;color:var(--on-navy);overflow:hidden;background:var(--navy-deep)}
 .page-head-photo{
   position:absolute;inset:0;
-  background:#151e36 url('../assets/turismo/ruta-68-cafayate-salta-lausof.webp') center 62%/cover no-repeat;
+  background:#151e36;
 }
+/* la foto es un <img> del HTML (ver README, "Fotos responsive"); este es
+   el encuadre que antes daba background-position */
+.page-head-photo img{object-position:center 62%}
 .page-head-photo::after{
   content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(16,23,42,.78),rgba(16,23,42,.6));
@@ -79,8 +82,8 @@
 /* ---- foto del encabezado de cada página de ruta ----
    Mismo encabezado que turismo, con la foto propia de la ruta. Son fotos de
    Lausof de 1200 px y 60 KB: más livianas que la de la Ruta 68. */
-.page-head-photo.ph-quebrada{background-image:url('../assets/galeria/turismo-purmamarca-transporte-lausof.webp');background-position:center 55%}
-.page-head-photo.ph-salinas{background-image:url('../assets/galeria/lausof-salinasgrandes-combis.webp');background-position:center 60%}
+.page-head-photo.ph-quebrada img{object-position:center 55%}
+.page-head-photo.ph-salinas img{object-position:center 60%}
 
 /* ---- miga de pan visible ----
    La misma jerarquía que declara el BreadcrumbList del JSON-LD (Google pide
@@ -167,10 +170,10 @@
    Puna, y casamientos (antes en css/valles.css, que repetía las piezas
    compartidas de arriba; ahora viven una sola vez acá). Fotos propias de
    Lausof; ninguna pasa de 145 KB. ---- */
-.page-head-photo.ph-cafayate{background-image:url('../assets/turismo/garganta-del-diablo-cafayate-lausof.webp');background-position:center 50%}
-.page-head-photo.ph-cachi{background-image:url('../assets/turismo/quebrada-de-las-flechas-angastaco-lausof.webp');background-position:center 55%}
-.page-head-photo.ph-cobres{background-image:url('../assets/galeria/turismo-sanantoniodeloscobres-lausof-transportes.webp');background-position:center 60%}
-.page-head-photo.ph-casamientos{background-image:url('../assets/galeria/lausof-combis-vehiculos-turismo-salta.webp');background-position:center 55%}
+.page-head-photo.ph-cafayate img{object-position:center 50%}
+.page-head-photo.ph-cachi img{object-position:center 55%}
+.page-head-photo.ph-cobres img{object-position:center 60%}
+.page-head-photo.ph-casamientos img{object-position:center 55%}
 
 /* ---- pie de la ficha: fecha de actualización ---- */
 .actualizado{margin-top:26px;font-size:.84rem;color:var(--ink-soft)}
@@ -178,9 +181,9 @@
 /* ---- encabezados de los viajes internacionales (Salta–San Pedro de
    Atacama, Salta–Uyuni y la página que los agrupa; antes en
    css/internacional.css, que repetía las piezas compartidas) ---- */
-.page-head-photo.ph-atacama{background-image:url('../assets/galeria/lausof-salinasgrandes-combis.webp');background-position:center 60%}
-.page-head-photo.ph-uyuni{background-image:url('../assets/galeria/turismo-humahuaca-purmamarca-lausof.webp');background-position:center 55%}
-.page-head-photo.ph-internacional{background-image:url('../assets/galeria/lausof-combis-vehiculos-turismo-salta.webp');background-position:center 55%}
+.page-head-photo.ph-atacama img{object-position:center 60%}
+.page-head-photo.ph-uyuni img{object-position:center 55%}
+.page-head-photo.ph-internacional img{object-position:center 55%}
 
 /* ---- aviso destacado (cruces de frontera): borde dorado a la izquierda,
    el mismo gesto de las filas de recitales ---- */

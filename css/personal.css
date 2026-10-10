@@ -12,8 +12,11 @@
 .page-head{position:relative;color:var(--on-navy);overflow:hidden;background:var(--navy-deep)}
 .page-head-photo{
   position:absolute;inset:0;
-  background:#151e36 url('../assets/personal/personal-1-lacaldera.webp') center 62%/cover no-repeat;
+  background:#151e36;
 }
+/* la foto es un <img> del HTML (ver README, "Fotos responsive"); este es
+   el encuadre que antes daba background-position */
+.page-head-photo img{object-position:center 62%}
 .page-head-photo::after{
   content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(16,23,42,.82),rgba(16,23,42,.66));

@@ -15,13 +15,8 @@
   <link rel="alternate" hreflang="x-default" href="https://www.lausof.com/logistica-minera.html">
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="css/styles.css?v=25">
-  <link rel="stylesheet" href="css/mineria.css?v=1">
-
-  <!-- El fondo del encabezado es la imagen más grande de la página (la LCP):
-       se precarga porque, al venir de la CSS, se descubriría tarde. Acá no hay
-       variante de mobile: la misma foto sirve en todos los anchos. -->
-  <link rel="preload" as="image" href="assets/mineria-tractor.webp" fetchpriority="high">
+  <link rel="stylesheet" href="css/styles.css?v=26">
+  <link rel="stylesheet" href="css/mineria.css?v=2">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_AR">
@@ -78,7 +73,7 @@
 <header class="topbar">
   <div class="wrap topbar-row">
     <a class="brand" href="index.html" aria-label="Lausof SRL — inicio">
-      <img src="assets/logo-horizontal-web.webp" alt="Transportes Lausof — Pasajeros, Cargas, Remolques">
+      <picture><source type="image/avif" srcset="assets/logo-horizontal-web-400w.avif 400w, assets/logo-horizontal-web-640w.avif 640w, assets/logo-horizontal-web.avif 760w" sizes="159px"><img src="assets/logo-horizontal-web.webp" srcset="assets/logo-horizontal-web-400w.webp 400w, assets/logo-horizontal-web-640w.webp 640w, assets/logo-horizontal-web.webp 760w" alt="Transportes Lausof — Pasajeros, Cargas, Remolques" width="760" height="221" sizes="159px"></picture>
     </a>
     <!-- El mismo menú que la home, porque desde acá se vuelve al sitio. -->
     <nav class="main" aria-label="Secciones">
@@ -95,7 +90,7 @@
 
 <main>
   <section class="page-head" aria-label="Presentación">
-    <div class="page-head-photo" role="presentation"></div>
+    <div class="page-head-photo" role="presentation"><picture><source type="image/avif" srcset="assets/mineria-tractor-400w.avif 400w, assets/mineria-tractor-640w.avif 640w, assets/mineria-tractor.avif 1032w" sizes="(max-width: 720px) 940px, 100vw"><img src="assets/mineria-tractor.webp" srcset="assets/mineria-tractor-400w.webp 400w, assets/mineria-tractor-640w.webp 640w, assets/mineria-tractor.webp 1032w" alt="" width="1032" height="581" sizes="(max-width: 720px) 940px, 100vw" fetchpriority="high"></picture></div>
     <div class="wrap page-head-inner">
       <p class="kicker on-dark">Logística minera</p>
       <h1>Transporte y logística minera en Salta y la Puna</h1>
@@ -141,7 +136,7 @@
         <article class="card">
           <div class="card-photo">
             <div class="slideshow slideshow-1" role="img" aria-label="Minibús de Lausof trasladando personal por un camino de ripio en la Puna">
-              <img src="assets/mineria-personal.webp" alt="Minibús de Lausof trasladando personal por un camino de ripio en la Puna" width="1280" height="720" loading="lazy">
+              <picture><source type="image/avif" srcset="assets/mineria-personal-400w.avif 400w, assets/mineria-personal-640w.avif 640w, assets/mineria-personal-960w.avif 960w, assets/mineria-personal.avif 1280w" sizes="(max-width: 720px) 124vw, (max-width: 960px) 54vw, 616px"><img src="assets/mineria-personal.webp" srcset="assets/mineria-personal-400w.webp 400w, assets/mineria-personal-640w.webp 640w, assets/mineria-personal-960w.webp 960w, assets/mineria-personal.webp 1280w" alt="Minibús de Lausof trasladando personal por un camino de ripio en la Puna" width="1280" height="720" sizes="(max-width: 720px) 124vw, (max-width: 960px) 54vw, 616px" loading="lazy" decoding="async"></picture>
             </div>
           </div>
           <div class="card-body">
@@ -160,7 +155,7 @@
         <article class="card">
           <div class="card-photo">
             <div class="slideshow slideshow-1" role="img" aria-label="Camionetas 4x4 de Lausof en un operativo en las Salinas Grandes">
-              <img src="assets/4x4-1-salinas.webp" alt="Camionetas 4x4 de Lausof en un operativo en las Salinas Grandes" width="780" height="672" loading="lazy">
+              <picture><source type="image/avif" srcset="assets/4x4-1-salinas-400w.avif 400w, assets/4x4-1-salinas-640w.avif 640w, assets/4x4-1-salinas.avif 780w" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 524px"><img src="assets/4x4-1-salinas.webp" srcset="assets/4x4-1-salinas-400w.webp 400w, assets/4x4-1-salinas-640w.webp 640w, assets/4x4-1-salinas.webp 780w" alt="Camionetas 4x4 de Lausof en un operativo en las Salinas Grandes" width="780" height="672" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 524px" loading="lazy" decoding="async"></picture>
             </div>
           </div>
           <div class="card-body">
@@ -179,7 +174,7 @@
         <article class="card">
           <div class="card-photo">
             <div class="slideshow slideshow-1" role="img" aria-label="Camioneta Hilux 4x4 de Lausof equipada para ingreso a mina">
-              <img src="assets/4x4-2-hilux.webp" alt="Camioneta Hilux 4x4 de Lausof equipada para ingreso a mina" width="780" height="672" loading="lazy">
+              <picture><source type="image/avif" srcset="assets/4x4-2-hilux-400w.avif 400w, assets/4x4-2-hilux-640w.avif 640w, assets/4x4-2-hilux.avif 780w" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 524px"><img src="assets/4x4-2-hilux.webp" srcset="assets/4x4-2-hilux-400w.webp 400w, assets/4x4-2-hilux-640w.webp 640w, assets/4x4-2-hilux.webp 780w" alt="Camioneta Hilux 4x4 de Lausof equipada para ingreso a mina" width="780" height="672" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 524px" loading="lazy" decoding="async"></picture>
             </div>
           </div>
           <div class="card-body">
@@ -198,7 +193,7 @@
         <article class="card">
           <div class="card-photo">
             <div class="slideshow slideshow-1" role="img" aria-label="Camión térmico de Lausof con equipo de frío para congelados y frescos">
-              <img src="assets/refrigerados-1-lateral.webp" alt="Camión térmico de Lausof con equipo de frío para congelados y frescos" width="722" height="604" loading="lazy">
+              <picture><source type="image/avif" srcset="assets/refrigerados-1-lateral-400w.avif 400w, assets/refrigerados-1-lateral.avif 722w" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 524px"><img src="assets/refrigerados-1-lateral.webp" srcset="assets/refrigerados-1-lateral-400w.webp 400w, assets/refrigerados-1-lateral.webp 722w" alt="Camión térmico de Lausof con equipo de frío para congelados y frescos" width="722" height="604" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 524px" loading="lazy" decoding="async"></picture>
             </div>
           </div>
           <div class="card-body">
@@ -226,7 +221,7 @@
           <p>También conocemos los requisitos de ingreso a mina: unidades con el equipamiento que se exige en la barrera, choferes con psicofísico al día y documentación en regla. Cuando una unidad nuestra llega al control, llega con lo que le van a pedir.</p>
         </div>
         <figure>
-          <img src="assets/pasajeros-2-viaducto.webp" alt="Combi de Lausof frente al viaducto La Polvorilla, en la Puna salteña" width="834" height="718" loading="lazy">
+          <picture><source type="image/avif" srcset="assets/pasajeros-2-viaducto-400w.avif 400w, assets/pasajeros-2-viaducto-640w.avif 640w, assets/pasajeros-2-viaducto.avif 834w" sizes="(max-width: 960px) 94vw, 464px"><img src="assets/pasajeros-2-viaducto.webp" srcset="assets/pasajeros-2-viaducto-400w.webp 400w, assets/pasajeros-2-viaducto-640w.webp 640w, assets/pasajeros-2-viaducto.webp 834w" alt="Combi de Lausof frente al viaducto La Polvorilla, en la Puna salteña" width="834" height="718" sizes="(max-width: 960px) 94vw, 464px" loading="lazy" decoding="async"></picture>
           <figcaption>Una combi de Lausof en el viaducto La Polvorilla, en la Puna salteña.</figcaption>
         </figure>
       </div>
@@ -317,7 +312,7 @@
 
   <section class="block cta-final" id="contacto">
     <div class="wrap">
-      <img src="assets/logo-insignia-web.webp" alt="" width="340" height="340">
+      <picture><source type="image/avif" srcset="assets/logo-insignia-web.avif 340w" sizes="132px"><img src="assets/logo-insignia-web.webp" srcset="assets/logo-insignia-web.webp 340w" alt="" width="340" height="340" sizes="132px" loading="lazy" decoding="async"></picture>
       <h2>¿Tu operación necesita subir a la Puna?</h2>
       <p>Contanos qué hay que mover —personal, cargas o equipos—, desde dónde y hasta dónde. Te respondemos con la cotización en el día.</p>
       <div class="ctas">

@@ -11,9 +11,9 @@
    charter.css pone la foto del Hornocal. Cada página la reemplaza por una
    foto propia de Lausof en ese destino; el navegador descarga sólo la que
    termina aplicándose, que es la que se precarga en el <head>. */
-.page-head-photo.foto-purmamarca{background-image:url('../assets/galeria/turismo-purmamarca-transporte-lausof.webp');background-position:center 55%}
-.page-head-photo.foto-quebrada{background-image:url('../assets/galeria/turismo-humahuaca-purmamarca-lausof.webp');background-position:center 50%}
-.page-head-photo.foto-cafayate{background-image:url('../assets/galeria/lausof-pasajeros-combi-cafayate.webp');background-position:center 45%}
+.page-head-photo.foto-purmamarca img{object-position:center 55%}
+.page-head-photo.foto-quebrada img{object-position:center 50%}
+.page-head-photo.foto-cafayate img{object-position:center 45%}
 
 /* ---- filas fechadas con rango de días ----
    "sáb 6 – mar 9 feb" no entra en la columna de 7.5rem de los recitales. */

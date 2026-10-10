@@ -9,13 +9,8 @@
   <link rel="canonical" href="https://www.lausof.com/flota-en-venta.html">
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="css/styles.css?v=25">
-  <link rel="stylesheet" href="css/flota.css?v=4">
-
-  <!-- El fondo del encabezado es la imagen más grande de la página (la LCP):
-       se precarga porque, al venir de la CSS, se descubriría tarde. Acá no hay
-       variante de mobile: la misma foto sirve en todos los anchos. -->
-  <link rel="preload" as="image" href="assets/pasajeros-5-flota.webp" fetchpriority="high">
+  <link rel="stylesheet" href="css/styles.css?v=26">
+  <link rel="stylesheet" href="css/flota.css?v=5">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_AR">
@@ -62,7 +57,7 @@
 <header class="topbar">
   <div class="wrap topbar-row">
     <a class="brand" href="index.html" aria-label="Lausof SRL — inicio">
-      <img src="assets/logo-horizontal-web.webp" alt="Transportes Lausof — Pasajeros, Cargas, Remolques">
+      <picture><source type="image/avif" srcset="assets/logo-horizontal-web-400w.avif 400w, assets/logo-horizontal-web-640w.avif 640w, assets/logo-horizontal-web.avif 760w" sizes="159px"><img src="assets/logo-horizontal-web.webp" srcset="assets/logo-horizontal-web-400w.webp 400w, assets/logo-horizontal-web-640w.webp 640w, assets/logo-horizontal-web.webp 760w" alt="Transportes Lausof — Pasajeros, Cargas, Remolques" width="760" height="221" sizes="159px"></picture>
     </a>
     <!-- El mismo menú que la home, porque desde acá se vuelve al sitio. Esta
          página no es un ítem del menú: se llega desde el enlace del pie. -->
@@ -80,7 +75,7 @@
 
 <main>
   <section class="page-head" aria-label="Presentación">
-    <div class="page-head-photo" role="presentation"></div>
+    <div class="page-head-photo" role="presentation"><picture><source type="image/avif" srcset="assets/pasajeros-5-flota-400w.avif 400w, assets/pasajeros-5-flota.avif 675w" sizes="(max-width: 720px) 606px, 100vw"><img src="assets/pasajeros-5-flota.webp" srcset="assets/pasajeros-5-flota-400w.webp 400w, assets/pasajeros-5-flota.webp 675w" alt="" width="675" height="581" sizes="(max-width: 720px) 606px, 100vw" fetchpriority="high"></picture></div>
     <div class="wrap page-head-inner">
       <p class="kicker on-dark">Venta de unidades</p>
       <h1>Unidades de nuestra flota, en venta.</h1>
@@ -122,7 +117,7 @@
       <div class="cards unidades" id="grilla-unidades">
       <!-- GENERADO:UNIDADES — no editar a mano: editar scripts/unidades.mjs y correr `node scripts/generar-flota.mjs` -->
       <article class="card unidad">
-        <div class="card-photo"><img src="assets/unidades/accelo-1016-2016.webp" alt="Mercedes-Benz Accelo 1016 — camión plancha con auxilio" loading="lazy" width="1000" height="750"></div>
+        <div class="card-photo"><picture><source type="image/avif" srcset="assets/unidades/accelo-1016-2016-400w.avif 400w, assets/unidades/accelo-1016-2016-640w.avif 640w, assets/unidades/accelo-1016-2016.avif 1000w" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 342px"><img src="assets/unidades/accelo-1016-2016.webp" srcset="assets/unidades/accelo-1016-2016-400w.webp 400w, assets/unidades/accelo-1016-2016-640w.webp 640w, assets/unidades/accelo-1016-2016.webp 1000w" alt="Mercedes-Benz Accelo 1016 — camión plancha con auxilio" width="1000" height="750" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture></div>
         <div class="card-body">
           <div class="unidad-head">
             <h3>Mercedes-Benz Accelo 1016 — camión plancha con auxilio</h3>
@@ -143,7 +138,7 @@
         </div>
       </article>
       <article class="card unidad">
-        <div class="card-photo"><img src="assets/unidades/amarok-v6-2023.webp" alt="Volkswagen Amarok V6 Highline — 3.0 258 cv 4x4 AT" loading="lazy" width="940" height="940"></div>
+        <div class="card-photo"><picture><source type="image/avif" srcset="assets/unidades/amarok-v6-2023-400w.avif 400w, assets/unidades/amarok-v6-2023-640w.avif 640w, assets/unidades/amarok-v6-2023.avif 940w" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 342px"><img src="assets/unidades/amarok-v6-2023.webp" srcset="assets/unidades/amarok-v6-2023-400w.webp 400w, assets/unidades/amarok-v6-2023-640w.webp 640w, assets/unidades/amarok-v6-2023.webp 940w" alt="Volkswagen Amarok V6 Highline — 3.0 258 cv 4x4 AT" width="940" height="940" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture></div>
         <div class="card-body">
           <div class="unidad-head">
             <h3>Volkswagen Amarok V6 Highline — 3.0 258 cv 4x4 AT</h3>
@@ -164,7 +159,7 @@
         </div>
       </article>
       <article class="card unidad">
-        <div class="card-photo"><img src="assets/unidades/sprinter-2019.webp" alt="Mercedes-Benz Sprinter 515 — combi 19+1" loading="lazy" width="1000" height="969"></div>
+        <div class="card-photo"><picture><source type="image/avif" srcset="assets/unidades/sprinter-2019-400w.avif 400w, assets/unidades/sprinter-2019-640w.avif 640w, assets/unidades/sprinter-2019.avif 1000w" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 342px"><img src="assets/unidades/sprinter-2019.webp" srcset="assets/unidades/sprinter-2019-400w.webp 400w, assets/unidades/sprinter-2019-640w.webp 640w, assets/unidades/sprinter-2019.webp 1000w" alt="Mercedes-Benz Sprinter 515 — combi 19+1" width="1000" height="969" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture></div>
         <div class="card-body">
           <div class="unidad-head">
             <h3>Mercedes-Benz Sprinter 515 — combi 19+1</h3>
@@ -185,7 +180,7 @@
         </div>
       </article>
       <article class="card unidad">
-        <div class="card-photo"><img src="assets/unidades/sprinter-2016.webp" alt="Mercedes-Benz Sprinter 515 — combi 19+1" loading="lazy" width="756" height="756"></div>
+        <div class="card-photo"><picture><source type="image/avif" srcset="assets/unidades/sprinter-2016-400w.avif 400w, assets/unidades/sprinter-2016-640w.avif 640w, assets/unidades/sprinter-2016.avif 756w" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 342px"><img src="assets/unidades/sprinter-2016.webp" srcset="assets/unidades/sprinter-2016-400w.webp 400w, assets/unidades/sprinter-2016-640w.webp 640w, assets/unidades/sprinter-2016.webp 756w" alt="Mercedes-Benz Sprinter 515 — combi 19+1" width="756" height="756" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture></div>
         <div class="card-body">
           <div class="unidad-head">
             <h3>Mercedes-Benz Sprinter 515 — combi 19+1</h3>
@@ -206,7 +201,7 @@
         </div>
       </article>
       <article class="card unidad">
-        <div class="card-photo"><img src="assets/unidades/ml350-2007.webp" alt="Mercedes-Benz ML350 3.5 nafta — 4x4" loading="lazy" width="750" height="1000"></div>
+        <div class="card-photo"><picture><source type="image/avif" srcset="assets/unidades/ml350-2007-400w.avif 400w, assets/unidades/ml350-2007.avif 750w" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 342px"><img src="assets/unidades/ml350-2007.webp" srcset="assets/unidades/ml350-2007-400w.webp 400w, assets/unidades/ml350-2007.webp 750w" alt="Mercedes-Benz ML350 3.5 nafta — 4x4" width="750" height="1000" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 342px" loading="lazy" decoding="async"></picture></div>
         <div class="card-body">
           <div class="unidad-head">
             <h3>Mercedes-Benz ML350 3.5 nafta — 4x4</h3>
@@ -246,7 +241,7 @@
 
   <section class="block contacto-venta" id="contacto">
     <div class="wrap">
-      <img src="assets/logo-insignia-web.webp" alt="" width="340" height="340" style="width:112px;height:auto;margin-bottom:18px">
+      <picture><source type="image/avif" srcset="assets/logo-insignia-web.avif 340w" sizes="112px"><img src="assets/logo-insignia-web.webp" srcset="assets/logo-insignia-web.webp 340w" alt="" width="340" height="340" style="width:112px;height:auto;margin-bottom:18px" sizes="112px" loading="lazy" decoding="async"></picture>
       <h2>¿Te interesa alguna unidad?</h2>
       <p>Escribinos y te contamos el estado real de la unidad, la documentación y cómo coordinar para verla en Salta Capital.</p>
       <div class="ctas">

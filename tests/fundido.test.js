@@ -36,7 +36,9 @@ function leerDuraciones() {
 function leerRetardos() {
   const base = {};
   const porVariante = {};
-  const patron = /\.slideshow(-\d+)? img:nth-child\((\d+)\)\{animation-delay:([\d.]+)s\}/g;
+  // Cada foto es un <picture> (AVIF + WebP): el que cuenta como hijo n-ésimo
+  // del slideshow es el <picture> y el retardo se le aplica a su <img>.
+  const patron = /\.slideshow(-\d+)? picture:nth-child\((\d+)\) img\{animation-delay:([\d.]+)s\}/g;
   for (const [, sufijo, hijo, retardo] of css.matchAll(patron)) {
     const destino = sufijo ? (porVariante[sufijo.slice(1)] ??= {}) : base;
     destino[Number(hijo)] = Number(retardo);

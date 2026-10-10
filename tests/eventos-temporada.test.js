@@ -133,10 +133,12 @@ for (const { archivo, idioma, madre, wa, sinFechas } of eventos) {
     assert.ok(og, 'falta la og:image');
     assert.match(og[1], /\.jpg$/, 'la og:image va en JPEG');
     assert.ok(fs.existsSync(path.join(__dirname, '..', og[1])), `la og:image ${og[1]} no existe`);
-    const fondo = html.match(/class="page-head-photo"[^>]*style="background-image:url\('([^']+)'\)"/);
-    assert.ok(fondo, 'el encabezado no declara su foto');
-    assert.ok(html.includes(`<link rel="preload" as="image" href="${fondo[1]}" fetchpriority="high">`),
-      'la foto del encabezado no se precarga');
+    // La foto del encabezado es un <img> prioritario dentro del encabezado
+    // (scripts/imagenes.mjs), no un fondo precargado.
+    const cabeza = html.match(/<div class="page-head-photo" role="presentation">([\s\S]*?)<\/div>/);
+    const img = cabeza && cabeza[1].match(/<img [^>]*src="([^"]+)"[^>]*>/);
+    assert.ok(img, 'el encabezado no declara su foto');
+    assert.match(img[0], /fetchpriority="high"/, 'la foto del encabezado no se pide con prioridad');
   });
 
   test(`${archivo}: cada WhatsApp pre-armado nombra el evento de la página`, () => {

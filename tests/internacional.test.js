@@ -152,13 +152,16 @@ for (const [nombre, { paises, foto }] of Object.entries(internacionales)) {
     }
   });
 
-  test(`${nombre}: la foto del encabezado existe y es la que se precarga`, () => {
+  test(`${nombre}: la foto del encabezado existe y es la LCP del HTML`, () => {
     assert.match(html, new RegExp(`class="page-head-photo ${foto}"`));
-    const regla = css.match(new RegExp(`\\.page-head-photo\\.${foto}\\{background-image:url\\('\\.\\./([^']+)'\\)`));
-    assert.ok(regla, `turismo.css no define .${foto}`);
-    assert.ok(fs.existsSync(path.join(raiz, regla[1])), `${regla[1]} no existe`);
-    const precarga = atributo(html, /<link rel="preload" as="image" href="([^"]+)"/).replace(/^\//, '');
-    assert.strictEqual(precarga, regla[1], 'la precarga no es la foto del encabezado');
+    const regla = css.match(new RegExp(`\\.page-head-photo\\.${foto} img\\{object-position:`));
+    assert.ok(regla, `turismo.css no encuadra .${foto}`);
+    const cabeza = html.match(new RegExp(`<div class="page-head-photo ${foto}" role="presentation">([\\s\\S]*?)</div>`));
+    const img = cabeza && cabeza[1].match(/<img\s[^>]*>/);
+    assert.ok(img, 'el encabezado no tiene su foto como <img>');
+    const src = atributo(img[0], /src="([^"]+)"/).replace(/^\//, '');
+    assert.ok(fs.existsSync(path.join(raiz, src)), `${src} no existe`);
+    assert.match(img[0], /fetchpriority="high"/, 'la foto del encabezado no se pide con prioridad');
   });
 }
 

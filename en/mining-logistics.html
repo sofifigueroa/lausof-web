@@ -26,13 +26,8 @@
        would look for /en/assets/... , which does not exist. -->
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="/css/styles.css?v=25">
-  <link rel="stylesheet" href="/css/mineria.css?v=1">
-
-  <!-- The page-head background is the largest image on the page (the LCP):
-       it is preloaded because, coming from the CSS, it would be discovered
-       late. Same photo at every width, as on the Spanish twin. -->
-  <link rel="preload" as="image" href="/assets/mineria-tractor.webp" fetchpriority="high">
+  <link rel="stylesheet" href="/css/styles.css?v=26">
+  <link rel="stylesheet" href="/css/mineria.css?v=2">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
@@ -109,7 +104,7 @@
 <header class="topbar">
   <div class="wrap topbar-row">
     <a class="brand" href="/en/" aria-label="Lausof SRL — home">
-      <img src="/assets/logo-horizontal-web.webp" alt="Transportes Lausof — passengers, freight and towing in Salta">
+      <picture><source type="image/avif" srcset="/assets/logo-horizontal-web-400w.avif 400w, /assets/logo-horizontal-web-640w.avif 640w, /assets/logo-horizontal-web.avif 760w" sizes="159px"><img src="/assets/logo-horizontal-web.webp" srcset="/assets/logo-horizontal-web-400w.webp 400w, /assets/logo-horizontal-web-640w.webp 640w, /assets/logo-horizontal-web.webp 760w" alt="Transportes Lausof — passengers, freight and towing in Salta" width="760" height="221" sizes="159px"></picture>
     </a>
     <!-- The same menu as the English home, because this is where the reader
          goes back to the site: four sections of /en/ plus this page's own
@@ -128,7 +123,7 @@
 
 <main>
   <section class="page-head" aria-label="Introduction">
-    <div class="page-head-photo" role="presentation"></div>
+    <div class="page-head-photo" role="presentation"><picture><source type="image/avif" srcset="/assets/mineria-tractor-400w.avif 400w, /assets/mineria-tractor-640w.avif 640w, /assets/mineria-tractor.avif 1032w" sizes="(max-width: 720px) 927px, 100vw"><img src="/assets/mineria-tractor.webp" srcset="/assets/mineria-tractor-400w.webp 400w, /assets/mineria-tractor-640w.webp 640w, /assets/mineria-tractor.webp 1032w" alt="" width="1032" height="581" sizes="(max-width: 720px) 927px, 100vw" fetchpriority="high"></picture></div>
     <div class="wrap page-head-inner">
       <p class="kicker on-dark">Mining logistics</p>
       <h1>Mining logistics in Salta and the Puna</h1>
@@ -184,7 +179,7 @@
         <article class="card">
           <div class="card-photo">
             <div class="slideshow slideshow-1" role="img" aria-label="A Lausof minibus carrying a crew along a gravel road in the Puna">
-              <img src="/assets/mineria-personal.webp" alt="A Lausof minibus carrying a crew along a gravel road in the Puna" width="1280" height="720" loading="lazy">
+              <picture><source type="image/avif" srcset="/assets/mineria-personal-400w.avif 400w, /assets/mineria-personal-640w.avif 640w, /assets/mineria-personal-960w.avif 960w, /assets/mineria-personal.avif 1280w" sizes="(max-width: 720px) 124vw, (max-width: 960px) 54vw, 616px"><img src="/assets/mineria-personal.webp" srcset="/assets/mineria-personal-400w.webp 400w, /assets/mineria-personal-640w.webp 640w, /assets/mineria-personal-960w.webp 960w, /assets/mineria-personal.webp 1280w" alt="A Lausof minibus carrying a crew along a gravel road in the Puna" width="1280" height="720" sizes="(max-width: 720px) 124vw, (max-width: 960px) 54vw, 616px" loading="lazy" decoding="async"></picture>
             </div>
           </div>
           <div class="card-body">
@@ -203,7 +198,7 @@
         <article class="card">
           <div class="card-photo">
             <div class="slideshow slideshow-1" role="img" aria-label="Lausof 4x4 pickups on a job at the Salinas Grandes salt flat">
-              <img src="/assets/4x4-1-salinas.webp" alt="Lausof 4x4 pickups on a job at the Salinas Grandes salt flat" width="780" height="672" loading="lazy">
+              <picture><source type="image/avif" srcset="/assets/4x4-1-salinas-400w.avif 400w, /assets/4x4-1-salinas-640w.avif 640w, /assets/4x4-1-salinas.avif 780w" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 524px"><img src="/assets/4x4-1-salinas.webp" srcset="/assets/4x4-1-salinas-400w.webp 400w, /assets/4x4-1-salinas-640w.webp 640w, /assets/4x4-1-salinas.webp 780w" alt="Lausof 4x4 pickups on a job at the Salinas Grandes salt flat" width="780" height="672" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 524px" loading="lazy" decoding="async"></picture>
             </div>
           </div>
           <div class="card-body">
@@ -222,7 +217,7 @@
         <article class="card">
           <div class="card-photo">
             <div class="slideshow slideshow-1" role="img" aria-label="A Lausof Hilux 4x4 pickup equipped for mine-site entry">
-              <img src="/assets/4x4-2-hilux.webp" alt="A Lausof Hilux 4x4 pickup equipped for mine-site entry" width="780" height="672" loading="lazy">
+              <picture><source type="image/avif" srcset="/assets/4x4-2-hilux-400w.avif 400w, /assets/4x4-2-hilux-640w.avif 640w, /assets/4x4-2-hilux.avif 780w" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 524px"><img src="/assets/4x4-2-hilux.webp" srcset="/assets/4x4-2-hilux-400w.webp 400w, /assets/4x4-2-hilux-640w.webp 640w, /assets/4x4-2-hilux.webp 780w" alt="A Lausof Hilux 4x4 pickup equipped for mine-site entry" width="780" height="672" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 524px" loading="lazy" decoding="async"></picture>
             </div>
           </div>
           <div class="card-body">
@@ -241,7 +236,7 @@
         <article class="card">
           <div class="card-photo">
             <div class="slideshow slideshow-1" role="img" aria-label="A Lausof refrigerated truck with its cooling unit, for frozen and chilled loads">
-              <img src="/assets/refrigerados-1-lateral.webp" alt="A Lausof refrigerated truck with its cooling unit, for frozen and chilled loads" width="722" height="604" loading="lazy">
+              <picture><source type="image/avif" srcset="/assets/refrigerados-1-lateral-400w.avif 400w, /assets/refrigerados-1-lateral.avif 722w" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 524px"><img src="/assets/refrigerados-1-lateral.webp" srcset="/assets/refrigerados-1-lateral-400w.webp 400w, /assets/refrigerados-1-lateral.webp 722w" alt="A Lausof refrigerated truck with its cooling unit, for frozen and chilled loads" width="722" height="604" sizes="(max-width: 720px) 93vw, (max-width: 960px) 46vw, 524px" loading="lazy" decoding="async"></picture>
             </div>
           </div>
           <div class="card-body">
@@ -269,7 +264,7 @@
           <p>We also know the mine-site entry requirements: units with the equipment demanded at the gate, drivers with a current medical fitness certificate, and paperwork in order. When one of our units reaches the checkpoint, it arrives with what it will be asked for.</p>
         </div>
         <figure>
-          <img src="/assets/pasajeros-2-viaducto.webp" alt="A Lausof minibus in front of the La Polvorilla viaduct, in the Puna of Salta" width="834" height="718" loading="lazy">
+          <picture><source type="image/avif" srcset="/assets/pasajeros-2-viaducto-400w.avif 400w, /assets/pasajeros-2-viaducto-640w.avif 640w, /assets/pasajeros-2-viaducto.avif 834w" sizes="(max-width: 960px) 94vw, 464px"><img src="/assets/pasajeros-2-viaducto.webp" srcset="/assets/pasajeros-2-viaducto-400w.webp 400w, /assets/pasajeros-2-viaducto-640w.webp 640w, /assets/pasajeros-2-viaducto.webp 834w" alt="A Lausof minibus in front of the La Polvorilla viaduct, in the Puna of Salta" width="834" height="718" sizes="(max-width: 960px) 94vw, 464px" loading="lazy" decoding="async"></picture>
           <figcaption>A Lausof minibus at the La Polvorilla viaduct, in the Puna of Salta.</figcaption>
         </figure>
       </div>
@@ -393,7 +388,7 @@
 
   <section class="block cta-final" id="contact">
     <div class="wrap">
-      <img src="/assets/logo-insignia-web.webp" alt="" width="340" height="340">
+      <picture><source type="image/avif" srcset="/assets/logo-insignia-web.avif 340w" sizes="132px"><img src="/assets/logo-insignia-web.webp" srcset="/assets/logo-insignia-web.webp 340w" alt="" width="340" height="340" sizes="132px" loading="lazy" decoding="async"></picture>
       <h2>Does your operation need to go up to the Puna?</h2>
       <p>Tell us what has to move (crews, cargo or equipment) and between which points. We reply with a quote the same business day (Argentina time).</p>
       <p>To get a useful quote in one round, include: the service; dates; origin and destination; number of passengers, or cargo type, weight and temperature; your company and a contact.</p>
