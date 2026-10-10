@@ -1,0 +1,36 @@
+/* ==========================================================================
+   Lausof SRL — páginas de eventos y fines de semana largos
+   Se carga DESPUÉS de css/charter.css: las páginas de eventos usan el mismo
+   molde que "Combis a recitales y festivales" (encabezado, migas, filas
+   fechadas, aviso de independencia, preguntas). Acá vive sólo lo que cambia:
+   la foto del encabezado de cada página y el ancho de la columna de fecha
+   cuando la fila es un rango de días.
+   ========================================================================== */
+
+/* ---- foto del encabezado ----
+   charter.css pone la foto del Hornocal. Cada página la reemplaza por una
+   foto propia de Lausof en ese destino; el navegador descarga sólo la que
+   termina aplicándose, que es la que se precarga en el <head>. */
+.page-head-photo.foto-purmamarca{background-image:url('../assets/galeria/turismo-purmamarca-transporte-lausof.webp');background-position:center 55%}
+.page-head-photo.foto-quebrada{background-image:url('../assets/galeria/turismo-humahuaca-purmamarca-lausof.webp');background-position:center 50%}
+.page-head-photo.foto-cafayate{background-image:url('../assets/galeria/lausof-pasajeros-combi-cafayate.webp');background-position:center 45%}
+
+/* ---- filas fechadas con rango de días ----
+   "sáb 6 – mar 9 feb" no entra en la columna de 7.5rem de los recitales. */
+.recitales.fechas li{grid-template-columns:11rem 1fr auto}
+.recitales.fechas .estado{display:inline-block;margin-top:4px;font-size:.8rem;color:var(--ink-soft)}
+@media(max-width:640px){.recitales.fechas li{grid-template-columns:1fr}}
+
+/* ---- destinos del fin de semana largo ----
+   Misma ficha que "Cómo se llega" de los recitales, en tres columnas. */
+.destinos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+@media(max-width:980px){.destinos-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.destinos-grid{grid-template-columns:1fr}}
+.destinos-grid .why-item p{margin-top:8px}
+.destinos-grid a{font-weight:700;color:var(--gold-ink);text-decoration:none}
+@media (hover:hover){.destinos-grid a:hover{text-decoration:underline}}
+
+/* ---- enlaces relacionados ---- */
+.relacionados{list-style:none;margin:24px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px 22px}
+.relacionados a{font-weight:700;color:var(--ink-mid);text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:2px}
+@media (hover:hover){.relacionados a:hover{color:var(--gold-ink);border-bottom-color:var(--gold)}}

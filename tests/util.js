@@ -68,6 +68,7 @@ const pares = {
   'cargas-refrigeradas.html':    'en/refrigerated-freight.html',
   'deposito-galpon.html':        'en/warehouse.html',
   'producciones.html':           'en/film-production-logistics.html',
+  'traslado-carnaval-quebrada-de-humahuaca.html': 'en/transfer-carnival-quebrada-de-humahuaca.html',
 };
 
 // Página de /en/ que existe sin ser gemela de nadie (no se indexa).
