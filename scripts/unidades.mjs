@@ -16,7 +16,7 @@
 
      id        Número de publicación de Mercado Libre, sin la sigla MLA.
                Sirve de referencia: es el número que aparece al pie de la
-               publicación como "Publicación #3932258578".
+               publicación como "Publicación #4055363136".
      titulo    Cómo se llama la unidad en la tarjeta. Corto.
      precio    SOLO el número, sin puntos ni signo $. La página lo formatea sola.
      moneda    'ARS' para pesos, 'USD' para dólares.
@@ -71,6 +71,9 @@
    Amarok a US$ 30.000 (la Amarok conserva su id). La publicación de la
    Sprinter 2019 venció cerca del 08/10 y todavía no se republicó: su tarjeta
    queda sin enlace a Mercado Libre hasta que tenga id nuevo.
+   Actualizado más tarde el 10 de octubre de 2026: Lautaro republicó la
+   Sprinter 2019 (id nuevo #4055363136, mismo precio) y la tarjeta vuelve a
+   enlazar a Mercado Libre. Las cinco unidades tienen enlace.
    ============================================================================= */
 
 export const UNIDADES = [
@@ -113,7 +116,7 @@ export const UNIDADES = [
   },
 
   {
-    id: '3932258578',
+    id: '4055363136',
     titulo: 'Mercedes-Benz Sprinter 515 — combi 19+1',
     precio: 54000000,
     moneda: 'ARS',
@@ -121,11 +124,11 @@ export const UNIDADES = [
        #1972787369 quedó finalizado y su enlace está muerto). Al republicarla
        se le bajó el precio a $ 54.000.000, verificado en la ficha pública el
        10/09. Antes estaba en $ 54.900.000. */
-    /* TODO 10/10/2026: relinkear al republicar. La publicación #3932258578
-       venció cerca del 08/10 y su enlace abre "Publicación finalizada". La
-       unidad sigue en venta al mismo precio. Cuando se republique, poner acá
-       el id nuevo y el enlace largo nuevo en el campo url. */
-    url: null,
+    /* Venció cerca del 08/10 y Lautaro la republicó a mano el 10/10/2026
+       (id nuevo; el viejo #3932258578 quedó finalizado y su enlace está
+       muerto). Mismo precio, $ 54.000.000, verificado en la ficha pública el
+       10/10 (activa, Oro Premium). */
+    url: 'https://auto.mercadolibre.com.ar/MLA-4055363136-mercedes-benz-sprinter-21-515-combi-4325-150cv-191-_JM',
     estado: 'publicada',
     foto: 'sprinter-2019.webp',
     ficha: ['2019', '480.000 km', '19+1 pasajeros', 'Diésel', 'Único dueño'],
