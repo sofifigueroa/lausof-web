@@ -68,6 +68,8 @@ const pares = {
   'cargas-refrigeradas.html':    'en/refrigerated-freight.html',
   'deposito-galpon.html':        'en/warehouse.html',
   'producciones.html':           'en/film-production-logistics.html',
+  'traslado-salta-purmamarca-tilcara-humahuaca.html': 'en/salta-to-purmamarca-tilcara-humahuaca.html',
+  'salinas-grandes-desde-salta.html': 'en/salinas-grandes-from-salta.html',
 };
 
 // Página de /en/ que existe sin ser gemela de nadie (no se indexa).

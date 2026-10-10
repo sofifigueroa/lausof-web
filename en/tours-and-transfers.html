@@ -25,7 +25,7 @@
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <link rel="stylesheet" href="/css/styles.css?v=25">
-  <link rel="stylesheet" href="/css/turismo.css?v=1">
+  <link rel="stylesheet" href="/css/turismo.css?v=2">
 
   <!-- Same LCP preload as the Spanish twin: the page header background comes
        from the stylesheet and would otherwise be discovered late. -->
@@ -88,58 +88,6 @@
   }
   </script>
 
-  <style>
-    /* Frequently asked questions, native details/summary so it opens without
-       JavaScript. Same rules as css/cargas.css, inlined here because this
-       page loads css/turismo.css, which has no FAQ block and belongs to the
-       Spanish twin: adding to it would change the Spanish page too. */
-    .faq{margin-top:32px;display:flex;flex-direction:column;gap:10px;max-width:760px}
-    .faq details{
-      background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-      box-shadow:var(--shadow);padding:0 18px;
-    }
-    .faq summary{
-      cursor:pointer;font-weight:700;font-size:.98rem;
-      padding:15px 0;list-style:none;position:relative;padding-right:28px;
-    }
-    .faq summary::-webkit-details-marker{display:none}
-    .faq summary::after{
-      content:"+";position:absolute;right:2px;top:50%;transform:translateY(-50%);
-      color:var(--gold-ink);font-size:1.25rem;font-weight:700;line-height:1;
-    }
-    .faq details[open] summary::after{content:"-"}
-    .faq details p{margin:0 0 16px;color:var(--ink-mid);font-size:.94rem;max-width:60ch}
-    @media (hover:hover){.faq summary:hover{color:var(--gold-ink)}}
-
-    /* The routing paragraph: who answers an English message, on which channel
-       and how fast. It is the one promise this page makes about service, so
-       it is set apart instead of being buried in the footer. It sits inside
-       the navy closing block, so it is an inset panel in the same palette,
-       not a white card: the selector has to beat .cta-final p, which sets
-       the light-on-navy color and a 46ch measure. */
-    .cta-final .routing{
-      max-width:56ch;margin:0 auto 28px;padding:16px 18px;text-align:left;
-      background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);
-      border-radius:var(--radius);
-      font-size:.93rem;color:var(--on-navy-soft);
-    }
-    .cta-final .routing b{color:var(--on-navy)}
-    .cta-final .routing a{color:var(--gold-bright)}
-
-    /* Index of this page, under the credentials strip. Text links in the body
-       measure, not a second menu bar: the top bar already carries the
-       site-wide menu and two bars competing at the top read as a mistake. */
-    .jump{
-      display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px;
-      padding-top:22px;font-size:.9rem;
-    }
-    .jump span{color:var(--ink-soft);font-weight:700}
-    .jump a{
-      color:var(--ink-mid);text-decoration:none;
-      border-bottom:1px solid var(--border);padding-bottom:2px;
-    }
-    @media (hover:hover){.jump a:hover{color:var(--gold-ink);border-bottom-color:var(--gold)}}
-  </style>
 
   <script>document.documentElement.className='js'</script>
   <!-- Traffic measurement (Google Analytics 4). Same tag as the Spanish
@@ -254,6 +202,7 @@
                  here because it is what English searchers look for above
                  Humahuaca; no number, no claim beyond "we drive it". -->
             <p>The Cerro de los Siete Colores and the villages of the gorge, in Jujuy. The Hornocal viewpoint above Humahuaca adds a gravel climb.</p>
+            <a class="ruta-link" href="/en/salta-to-purmamarca-tilcara-humahuaca.html">Route, drive times and altitude →</a>
           </div>
         </article>
 
@@ -264,6 +213,7 @@
           <div class="card-body">
             <h3>Salinas Grandes</h3>
             <p>The salt flat, reached either through San Antonio de los Cobres or through Jujuy, in vehicles prepared for altitude.</p>
+            <a class="ruta-link" href="/en/salinas-grandes-from-salta.html">The route through Purmamarca and the Cuesta de Lipán →</a>
           </div>
         </article>
 
@@ -317,8 +267,8 @@
           <tr><th scope="row">Salta airport (SLA) to city hotels, and back</th><td>Short and paved. Minibus or 4x4, chosen for the group and the luggage. Send the flight number, the date and the time.</td></tr>
           <tr><th scope="row">Salta to Cafayate</th><td>Paved the whole way on Ruta 68. A full day with stops in the Quebrada de las Conchas, or one way as a transfer. Minibus.</td></tr>
           <tr><th scope="row">Salta to Cachi</th><td>Mountain road with a long climb over the Cuesta del Obispo and gravel near the pass. A full day. Minibus or 4x4.</td></tr>
-          <tr><th scope="row">Salta to Purmamarca and Humahuaca</th><td>Paved, in Jujuy. A full day, or two if you add the Hornocal viewpoint, which is reached on a gravel climb above Humahuaca.</td></tr>
-          <tr><th scope="row">Salinas Grandes</th><td>The salt flat sits at about 3,450 m (11,300 ft) and the road crosses a pass above 4,000 m (13,000 ft). Vehicle prepared for altitude; we take the climb slowly.</td></tr>
+          <tr><th scope="row"><a href="/en/salta-to-purmamarca-tilcara-humahuaca.html">Salta to Purmamarca and Humahuaca</a></th><td>Paved, in Jujuy. A full day, or two if you add the Hornocal viewpoint, which is reached on a gravel climb above Humahuaca.</td></tr>
+          <tr><th scope="row"><a href="/en/salinas-grandes-from-salta.html">Salinas Grandes</a></th><td>The salt flat sits at about 3,450 m (11,300 ft) and the road crosses a pass above 4,000 m (13,000 ft). Vehicle prepared for altitude; we take the climb slowly.</td></tr>
           <tr><th scope="row">San Antonio de los Cobres and the Puna</th><td>The town is at about 3,775 m (12,400 ft). A full day from Salta, or the first leg of a longer trip into the Puna. Minibus or 4x4.</td></tr>
           <tr><th scope="row">Iruya</th><td>Gravel, high and slow. We run it in a 4x4 or a minibus prepared for gravel roads, and it works better over two days than in one.</td></tr>
         </tbody>

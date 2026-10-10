@@ -17,7 +17,7 @@
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="stylesheet" href="css/styles.css?v=25">
-  <link rel="stylesheet" href="css/turismo.css?v=1">
+  <link rel="stylesheet" href="css/turismo.css?v=2">
 
   <!-- El fondo del encabezado es la imagen más grande de la página (la LCP):
        se precarga porque, al venir de la CSS, se descubriría tarde. La misma
@@ -47,20 +47,47 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "Traslados turísticos por Salta y Jujuy",
-    "serviceType": "Transporte turístico en combi y camioneta 4x4 con chofer",
-    "description": "Traslados turísticos por los circuitos clásicos de Salta y Jujuy —Cafayate, Cachi, Quebrada de Humahuaca, Purmamarca, Salinas Grandes, Iruya y la Puna— en combis con chofer y camionetas 4x4, para agencias de turismo, grupos, empresas y familias.",
-    "url": "https://www.lausof.com/turismo.html",
-    "provider": {
-      "@type": "LocalBusiness",
-      "@id": "https://www.lausof.com/#empresa",
-      "name": "Lausof SRL",
-      "url": "https://www.lausof.com/"
-    },
-    "areaServed": [
-      { "@type": "State", "name": "Salta" },
-      { "@type": "State", "name": "Jujuy" }
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://www.lausof.com/turismo.html#webpage",
+        "url": "https://www.lausof.com/turismo.html",
+        "name": "Turismo en Salta y Jujuy — Traslados en combi y 4x4 | Lausof SRL",
+        "description": "Traslados turísticos por Salta y Jujuy: Cafayate, Cachi, Quebrada de Humahuaca, Purmamarca, Salinas Grandes e Iruya. Combis con chofer y camionetas 4x4 para ripio y altura. Para agencias, grupos y familias.",
+        "inLanguage": "es",
+        "dateModified": "2026-10-10",
+        "isPartOf": { "@type": "WebSite", "url": "https://www.lausof.com/", "name": "Lausof SRL" },
+        "about": { "@id": "https://www.lausof.com/#empresa" },
+        "breadcrumb": { "@id": "https://www.lausof.com/turismo.html#breadcrumb" },
+        "mainEntity": { "@id": "https://www.lausof.com/turismo.html#servicio" }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://www.lausof.com/turismo.html#servicio",
+        "name": "Traslados turísticos por Salta y Jujuy",
+        "serviceType": "Transporte turístico en combi y camioneta 4x4 con chofer",
+        "description": "Traslados turísticos por los circuitos clásicos de Salta y Jujuy —Cafayate, Cachi, Quebrada de Humahuaca, Purmamarca, Salinas Grandes, Iruya y la Puna— en combis con chofer y camionetas 4x4, para agencias de turismo, grupos, empresas y familias.",
+        "url": "https://www.lausof.com/turismo.html",
+        "provider": {
+          "@type": "LocalBusiness",
+          "@id": "https://www.lausof.com/#empresa",
+          "name": "Lausof SRL",
+          "url": "https://www.lausof.com/"
+        },
+        "areaServed": [
+          { "@type": "State", "name": "Salta" },
+          { "@type": "State", "name": "Jujuy" }
+        ],
+        "availableLanguage": ["es", "en"]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.lausof.com/turismo.html#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://www.lausof.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Turismo en Salta y Jujuy" }
+        ]
+      }
     ]
   }
   </script>
@@ -98,8 +125,11 @@
     <div class="page-head-photo" role="presentation"></div>
     <div class="wrap page-head-inner">
       <p class="kicker on-dark">Turismo en Salta y Jujuy</p>
-      <h1>Turismo en Salta: llevamos a conocer el Norte.</h1>
-      <p class="lead">Salta enamora, y nosotros la recorremos todas las semanas. Hacemos los circuitos clásicos de Salta y Jujuy todo el año, no solo en temporada. Los traslados turísticos van en combis con chofer y camionetas 4x4, para agencias de turismo, grupos, empresas y familias.</p>
+      <h1>Traslados y combis con chofer por Salta y Jujuy.</h1>
+      <!-- 10/10/2026: la página se puso a la par de la gemela inglesa (tabla
+           de rutas, preguntas frecuentes, índice) y enlaza las páginas de
+           ruta. Texto nuevo en castellano neutro, con trato de usted. -->
+      <p class="lead">Salta enamora, y nosotros la recorremos todas las semanas. Somos una empresa familiar de transporte con base en Salta y hacemos los circuitos clásicos de Salta y Jujuy todo el año, no solo en temporada: traslados desde el aeropuerto, viajes de punto a punto y excursiones de uno o varios días, en combis de 19+1 plazas o camionetas 4x4 con chofer profesional. La reserva se coordina directamente con la empresa que pone la unidad.</p>
       <div class="ctas">
         <a class="btn btn-wa" href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20consultar%20disponibilidad%20para%20turismo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Consultar disponibilidad</a>
         <a class="btn btn-outline" href="#circuitos">Ver los circuitos</a>
@@ -107,11 +137,38 @@
     </div>
   </section>
 
+  <div class="certs" aria-label="Habilitaciones">
+    <div class="wrap certs-row">
+      <span><b>Habilitación CNRT</b> N.º 60284 — interjurisdiccional</span>
+      <span><b>Habilitación AMT</b> para el transporte dentro de Salta</span>
+      <span><b>Agencia de turismo</b> habilitada</span>
+      <span><b>Seguro de pasajeros</b> vigente</span>
+      <span><b>Choferes profesionales</b> con psicofísico y ART al día</span>
+      <span><b>Facturamos A</b> — CUIT 30-71146774-9</span>
+    </div>
+  </div>
+
+  <nav class="crumbs wrap" aria-label="Miga de pan">
+    <ol>
+      <li><a href="index.html">Inicio</a></li>
+      <li aria-current="page">Turismo en Salta y Jujuy</li>
+    </ol>
+  </nav>
+
+  <nav class="jump wrap" aria-label="En esta página">
+    <span>En esta página</span>
+    <a href="#circuitos">Circuitos</a>
+    <a href="#detalles">Aeropuerto y detalles de cada viaje</a>
+    <a href="#como-viajamos">Cómo viajamos</a>
+    <a href="#agencias">Para agencias</a>
+    <a href="#preguntas">Preguntas</a>
+  </nav>
+
   <section class="block" id="circuitos">
     <div class="wrap">
       <p class="kicker">Circuitos</p>
       <h2>Circuitos que hacemos</h2>
-      <p class="sub">Vos elegís el destino; nosotros ponemos la unidad, el chofer que conoce el camino y la tranquilidad de viajar con una empresa habilitada.</p>
+      <p class="sub">El destino lo elige cada grupo; nosotros ponemos la unidad, un chofer que conoce el camino y el respaldo de una empresa habilitada.</p>
 
       <div class="cards circuitos">
         <article class="card circuito">
@@ -120,7 +177,7 @@
           </div>
           <div class="card-body">
             <h3>Cafayate y la Quebrada de las Conchas</h3>
-            <p>La ruta 68, la Garganta del Diablo y los viñedos. Ideal para el día completo.</p>
+            <p>La ruta 68, la Garganta del Diablo y los viñedos. Asfalto todo el camino: es el clásico día completo desde Salta.</p>
           </div>
         </article>
 
@@ -130,7 +187,7 @@
           </div>
           <div class="card-body">
             <h3>Cachi y la Cuesta del Obispo</h3>
-            <p>El camino de montaña clásico de los Valles Calchaquíes.</p>
+            <p>El camino de montaña de los Valles Calchaquíes, con una subida larga y tramos de ripio cerca del abra.</p>
           </div>
         </article>
 
@@ -140,7 +197,8 @@
           </div>
           <div class="card-body">
             <h3>Quebrada de Humahuaca y Purmamarca</h3>
-            <p>El cerro de los Siete Colores y los pueblos de la Quebrada, en Jujuy.</p>
+            <p>El cerro de los Siete Colores y los pueblos de la Quebrada, en Jujuy. El mirador del Hornocal, sobre Humahuaca, suma una subida de ripio.</p>
+            <a class="ruta-link" href="traslado-salta-purmamarca-tilcara-humahuaca.html">Ruta, tiempos y altura →</a>
           </div>
         </article>
 
@@ -151,6 +209,7 @@
           <div class="card-body">
             <h3>Salinas Grandes</h3>
             <p>Por San Antonio de los Cobres o por Jujuy, en unidades preparadas para la altura.</p>
+            <a class="ruta-link" href="salinas-grandes-desde-salta.html">Ruta por Purmamarca y la Cuesta de Lipán →</a>
           </div>
         </article>
 
@@ -160,7 +219,7 @@
           </div>
           <div class="card-body">
             <h3>Iruya</h3>
-            <p>Para los que buscan el Norte más profundo. Camino de ripio: se hace en unidades adecuadas.</p>
+            <p>Para quienes buscan el Norte más profundo. El camino es de ripio y lento: se hace en unidades preparadas, y rinde más en dos días.</p>
           </div>
         </article>
 
@@ -177,7 +236,34 @@
     </div>
   </section>
 
-  <section class="block alt" id="como-viajamos">
+  <section class="block alt" id="detalles">
+    <div class="wrap">
+      <p class="kicker">Planificación</p>
+      <h2>Traslados al aeropuerto y qué implica cada viaje</h2>
+      <p class="sub">La parte práctica: cómo es el camino, cuánto sube y qué unidad enviamos. Cada viaje puede ser un traslado solo de ida, un día completo o un recorrido de varios días.</p>
+      <!-- Alturas: las mismas fuentes que la gemela inglesa (San Antonio de
+           los Cobres 3.775 m; Salinas Grandes 3.450 m y Cuesta de Lipán
+           4.170 m, argentina.travel). Las distancias van sólo en las filas que
+           tienen página de ruta, con su fuente en
+           growth-2026-10/facts/turismo.md. -->
+      <table class="tabla-flota">
+        <thead>
+          <tr><th scope="col">Viaje</th><th scope="col">Camino, altura y unidad</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Aeropuerto de Salta (Martín Miguel de Güemes) a los hoteles de la ciudad, ida y vuelta</th><td>Corto y asfaltado: unos 11 km. Combi o 4x4, según el grupo y el equipaje. Necesitamos el número de vuelo, la fecha y la hora.</td></tr>
+          <tr><th scope="row">Salta a Cafayate</th><td>Asfalto todo el camino por la ruta 68. Día completo con paradas en la Quebrada de las Conchas, o solo ida como traslado. Combi.</td></tr>
+          <tr><th scope="row">Salta a Cachi</th><td>Camino de montaña con la subida larga de la Cuesta del Obispo y ripio cerca del abra. Día completo. Combi o 4x4.</td></tr>
+          <tr><th scope="row"><a href="traslado-salta-purmamarca-tilcara-humahuaca.html">Salta a Purmamarca, Tilcara y Humahuaca</a></th><td>Asfalto, en Jujuy: unos 188 km y 2 h 50 min hasta Purmamarca y unos 250 km hasta Humahuaca (estimación de Google Maps). Día completo, o dos si se suma el mirador del Hornocal, al que se sube por ripio desde Humahuaca.</td></tr>
+          <tr><th scope="row"><a href="salinas-grandes-desde-salta.html">Salinas Grandes</a></th><td>El salar está a unos 3.450 m y el camino cruza un abra de unos 4.170 m. Por Purmamarca son unos 255 km desde Salta (estimación de Google Maps). Unidad preparada para la altura; la subida se hace sin apuro.</td></tr>
+          <tr><th scope="row">San Antonio de los Cobres y la Puna</th><td>El pueblo está a unos 3.775 m. Día completo desde Salta, o el primer tramo de un viaje más largo por la Puna. Combi o 4x4.</td></tr>
+          <tr><th scope="row">Iruya</th><td>Ripio, altura y camino lento. Lo hacemos en 4x4 o en una combi preparada para ripio, y funciona mejor en dos días que en uno.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" id="como-viajamos">
     <div class="wrap">
       <p class="kicker">Cómo viajamos</p>
       <h2>Unidades con chofer, papeles al día</h2>
@@ -192,23 +278,61 @@
         <li>Agencia de turismo habilitada</li>
         <li>Traslados entre el aeropuerto Martín Miguel de Güemes y el hotel, y grupos de eventos</li>
         <li>Circuitos de uno o varios días</li>
-        <li>Disponibilidad según temporada: consultanos las fechas</li>
+        <li>Disponibilidad según temporada: consulte sus fechas</li>
       </ul>
     </div>
   </section>
 
-  <section class="block agencias" id="agencias">
+  <section class="block alt agencias" id="agencias">
     <div class="wrap">
       <p class="kicker">Para agencias y empresas</p>
       <h2>Traslados para agencias de turismo</h2>
-      <p>Trabajamos con agencias de turismo desde hace años: conocemos los tiempos de un receptivo, las paradas que valen la pena y lo que significa cumplir el horario. Si tu agencia necesita unidades con chofer para la temporada, escribinos y lo coordinamos.</p>
-      <a class="btn btn-wa" href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20consultar%20traslados%20para%20mi%20agencia" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Escribinos por WhatsApp</a>
+      <p>Trabajamos con agencias de turismo desde hace años: conocemos los tiempos de un receptivo, las paradas que valen la pena y lo que significa cumplir el horario. Somos también agencia de turismo habilitada, operamos todo el año y no solo en temporada, y facturamos A con el CUIT 30-71146774-9.</p>
+      <p>Si su agencia arma programas en Salta o Jujuy y necesita unidades con chofer para la temporada, escríbanos y coordinamos los horarios.</p>
+      <a class="btn btn-wa" href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quisiera%20consultar%20traslados%20para%20mi%20agencia" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Escríbanos por WhatsApp</a>
+    </div>
+  </section>
+
+  <section class="block" id="preguntas">
+    <div class="wrap">
+      <p class="kicker">Preguntas frecuentes</p>
+      <h2>Lo que nos preguntan antes de reservar</h2>
+      <div class="faq">
+        <details>
+          <summary>¿Es una excursión guiada?</summary>
+          <p>No. Lo que ofrecemos es una unidad privada con un chofer profesional que conoce el camino y cuida el viaje, pero que no es guía de turismo. Las paradas las elige el grupo. Si quiere un guía habilitado en algún lugar en particular, indíquelo al pedir la cotización y le decimos qué se puede organizar.</p>
+        </details>
+        <details>
+          <summary>¿Atienden a pasajeros extranjeros?</summary>
+          <p>Sí. Los choferes trabajan en castellano; un chofer que hable inglés se puede pedir, sujeto a disponibilidad. Los mensajes en inglés se responden en inglés por correo o WhatsApp, y la página tiene su <a href="/en/tours-and-transfers.html" lang="en">versión en inglés</a>.</p>
+        </details>
+        <details>
+          <summary>¿Pueden buscarnos en el aeropuerto de Salta?</summary>
+          <p>Sí. Los traslados desde y hacia el aeropuerto Martín Miguel de Güemes y los hoteles son parte de lo que hacemos, en los dos sentidos, y también directo a Purmamarca o a la Quebrada. Envíenos el número de vuelo, la fecha, la hora, cuántos viajan y si llevan equipaje grande.</p>
+        </details>
+        <details>
+          <summary>¿En qué unidad vamos a viajar?</summary>
+          <p>En las rutas asfaltadas, una combi de 19+1 plazas. Donde el camino pasa a ser de ripio o sube a la Puna (Iruya, el Hornocal), usamos una camioneta 4x4 o una combi preparada para esos caminos. Se lo indicamos al cotizar, para que no haya sorpresas al momento de la búsqueda.</p>
+        </details>
+        <details>
+          <summary>¿Hasta qué altura llegan estos circuitos, y eso importa?</summary>
+          <p>Las Salinas Grandes están a unos 3.450 m y el camino cruza un abra de más de 4.000 m. San Antonio de los Cobres está a unos 3.775 m. Casi todos sienten la altura el primer día. Subimos despacio, paramos y, si alguien no se siente bien, volvemos. En las páginas de <a href="salinas-grandes-desde-salta.html">Salinas Grandes</a> y de la <a href="traslado-salta-purmamarca-tilcara-humahuaca.html">Quebrada de Humahuaca</a> están las recomendaciones de los CDC para viajar en altura.</p>
+        </details>
+        <details>
+          <summary>¿Publican los precios?</summary>
+          <p>No. Cada viaje se cotiza según la ruta, las fechas, la cantidad de pasajeros y la unidad que necesita. Con esos datos le enviamos el precio, normalmente en el mismo día hábil.</p>
+        </details>
+        <details>
+          <summary>¿Con cuánta anticipación conviene escribir?</summary>
+          <p>Apenas tenga las fechas. Algunas semanas se completan con meses de anticipación y otras quedan libres, así que envíenos las fechas que está considerando y le decimos qué hay disponible.</p>
+        </details>
+      </div>
     </div>
   </section>
 
   <section class="block alt" aria-label="Comida regional">
     <div class="wrap">
-      <p class="postal-line">Y en el camino, siempre hay tiempo para una empanada salteña, un locro o un tamal: la comida regional es parte del viaje.</p>
+      <p class="postal-line">Y en el camino siempre hay tiempo para una empanada salteña, un locro o un tamal: la comida regional es parte del viaje.</p>
       <div class="postales-grid">
         <img src="assets/turismo/catedral-de-salta-atardecer-lausof.webp" alt="Catedral de Salta al atardecer, frente a la plaza 9 de Julio" width="1200" height="800" loading="lazy">
         <img src="assets/turismo/empanadas-saltenas-comida-regional-lausof.webp" alt="Empanadas salteñas, comida regional del norte argentino" width="1024" height="497" loading="lazy">
@@ -220,7 +344,8 @@
     <div class="wrap">
       <img src="assets/logo-insignia-web.webp" alt="" width="340" height="340" loading="lazy">
       <h2>¿Armamos el próximo viaje?</h2>
-      <p>Contanos el destino, la fecha y cuántos viajan. Te respondemos con la cotización en el día.</p>
+      <p>Cuéntenos el destino, las fechas, dónde empieza y termina el viaje, cuántas personas viajan y un nombre de contacto. Con eso le enviamos la cotización.</p>
+      <p class="routing"><b>Por correo:</b> <a href="mailto:contacto@lausof.com?cc=transporte@lausof.com&amp;subject=Pedido%20de%20cotizaci%C3%B3n%20%E2%80%94%20turismo%20en%20Salta%20y%20Jujuy">contacto@lausof.com</a>, o por WhatsApp al 387 526-9009. Respondemos normalmente en el mismo día hábil.</p>
       <a class="btn btn-wa" href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20consultar%20disponibilidad%20para%20turismo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Consultar disponibilidad</a>
     </div>
   </section>
