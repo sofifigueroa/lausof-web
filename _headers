@@ -2,10 +2,15 @@
 # visita revalida los ~30 archivos del sitio, uno por uno, en redes móviles.
 # Las fotos cambian solo de nombre y la CSS va versionada con ?v=, así que
 # assets y css pueden cachearse un año como inmutables. El HTML queda con el
-# default de Netlify (revalidar siempre), que es lo que corresponde.
+# default de Netlify (revalidar siempre), que es lo que corresponde. El script
+# de /js/ también va versionado con ?v= (hay que subirlo en todas las páginas
+# cada vez que cambia el archivo).
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
 /css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/js/*
   Cache-Control: public, max-age=31536000, immutable

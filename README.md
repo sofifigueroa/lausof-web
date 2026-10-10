@@ -132,6 +132,92 @@ El generador `scripts/generar-flota.mjs` no se tocó y `flota-en-venta.html`
 **no tiene gemela inglesa** (sus textos están hardcodeados en castellano dentro
 del generador). Las páginas en inglés no la enlazan.
 
+## Medición de contactos
+
+El sitio no tiene formularios: un contacto es un clic en WhatsApp, en un
+teléfono o en un mail. Cada uno de esos clics manda su propio evento a Google
+Analytics 4 (propiedad `G-GHHRS5LDE7`), para poder contarlos por canal, página,
+idioma y país.
+
+| Evento | Se manda al hacer clic en… |
+|---|---|
+| `contact_whatsapp` | un enlace a `wa.me` o `api.whatsapp.com` |
+| `contact_phone` | un enlace `tel:` |
+| `contact_email` | un enlace `mailto:` |
+
+Los tres llevan los mismos parámetros:
+
+| Parámetro | Valor |
+|---|---|
+| `contact_channel` | `whatsapp`, `phone` o `email` |
+| `page_language` | `es` o `en` (sale del `lang` de la página) |
+| `contact_page_path` | la ruta de la página (`/turismo.html`, `/en/`) |
+| `link_position` | `header`, `hero`, `cta_final`, `quick_bar` (la barra fija de abajo), `footer`, o el `id` de la sección que contiene el enlace (`servicios`, `services`…) |
+| `link_text` | el texto visible del enlace ("Cotizar por WhatsApp"). Si el texto es un número o una casilla, va el nombre del canal |
+
+**Dónde vive:** `js/contacto.js`, un solo listener delegado sobre el documento.
+Cada página lo carga en el `<head>` con
+`<script defer src="/js/contacto.js?v=1"></script>`, siempre con ruta absoluta
+(las páginas de `/en/` y las 404 se sirven desde otras rutas). Un enlace de
+contacto nuevo queda medido solo; una página nueva tiene que llevar esa línea
+(hay un test). `/js/*` se cachea un año: **si se cambia el archivo hay que
+subir el `?v=` en todas las páginas**, igual que con la hoja de estilos.
+
+**Lo que no hace, a propósito:** no frena ni modifica la navegación (el enlace
+se abre igual si Analytics está bloqueado o falla) y no manda ningún dato
+personal: ni el número, ni la casilla, ni el mensaje pre-armado de WhatsApp.
+
+**Por qué estos nombres** (documentación de Google consultada el 10/10/2026):
+
+- Google pide usar un evento recomendado cuando la acción coincide con uno
+  ([Custom events](https://support.google.com/analytics/answer/12229021)). El
+  más cercano es `generate_lead`, que se define como "submits a form or a
+  request for information"
+  ([Recommended events](https://support.google.com/analytics/answer/9267735)).
+  Un clic que abre WhatsApp o el teléfono todavía no envió nada, así que no se
+  usa `generate_lead`: contaría como lead lo que es una intención de contacto,
+  y quedaría mezclado con leads reales si un día se suma un formulario. Esto es
+  una decisión de criterio, no una regla de Google. Son eventos propios, con
+  nombres que cumplen las reglas (letras, números y guion bajo, empiezan con
+  letra, sin nombres reservados:
+  [Event naming rules](https://support.google.com/analytics/answer/13316687)).
+- Son tres eventos y no uno con un parámetro porque un evento clave se marca
+  por nombre de evento: así cada canal se cuenta solo, sin pasos extra.
+- Límites ([Event collection limits](https://support.google.com/analytics/answer/9267744)):
+  nombre de evento y de parámetro hasta 40 caracteres, valor hasta 100, 25
+  parámetros por evento. El script recorta los valores a 100.
+- `link_text` es un parámetro que GA4 ya conoce (dimensión "Link text"). Los
+  otros cuatro son propios: para verlos en los informes hay que registrarlos
+  como dimensiones personalizadas de evento en el administrador de GA4
+  ([Custom events](https://support.google.com/analytics/answer/12229021)). La
+  página y el país ya vienen solos en todos los eventos.
+
+**Doble conteo.** La medición mejorada de GA4 sigue mandando su evento `click`
+automático en los enlaces que salen del dominio
+([Enhanced measurement](https://support.google.com/analytics/answer/9216061)),
+o sea que un clic en WhatsApp genera `click` y `contact_whatsapp`. Son dos
+eventos con nombres distintos y no se suman entre sí: los contactos se cuentan
+con `contact_*`, y `click` no se marca como evento clave.
+
+**En GA4 (no se hace desde el código):** marcar `contact_whatsapp`,
+`contact_phone` y `contact_email` como eventos clave (Admin → Data display →
+Events; si todavía no aparecen, "Create event" con el mismo nombre y "Mark as
+key event":
+[Mark events as key events](https://support.google.com/analytics/answer/13128484)),
+y registrar las dimensiones personalizadas `contact_channel`, `page_language`,
+`contact_page_path` y `link_position`.
+
+**Cómo probarlo:**
+
+- `npm test` corre `tests/medicion.test.js`: ejecuta el script de verdad contra
+  un documento de utilería y revisa cada canal, los parámetros, que no viajen
+  datos personales, que no haya error sin `gtag`, y que todas las páginas
+  carguen el script.
+- En el navegador: herramientas de desarrollo → Red → filtrar `collect`, hacer
+  clic en un botón de contacto y buscar `en=contact_whatsapp` (o `_phone`,
+  `_email`) en el pedido. En GA4 aparece a los pocos minutos en el informe de
+  tiempo real.
+
 ## Cómo verlo en local
 
 Abrir `index.html` en el navegador (doble click), o servirlo:

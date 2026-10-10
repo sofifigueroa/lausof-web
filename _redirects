@@ -21,6 +21,13 @@
 /home               /             301
 /inicio             /             301
 
+# Direcciones en inglés que la gente escribe o que quedaron en enlaces viejos
+# (daban 404 hasta octubre 2026). Van a la portada en inglés, a la sección que
+# corresponde. No llevan ! porque no existe ningún archivo con ese nombre.
+/contact            /en/#contact  301
+/contact-us         /en/#contact  301
+/about-us           /en/#about    301
+
 # Variantes duplicadas de las URLs reales. /index.html sirve lo mismo que /
 # y el subdominio de Netlify sirve el sitio entero: los dos van con 301 al
 # canónico para que Google no reparta señales entre copias. Llevan ! porque
