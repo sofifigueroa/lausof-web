@@ -13,7 +13,10 @@
 
      1. Lee sitemap.xml y elige las URLs que cambiaron:
           --desde <ref git>  las que son nuevas o cambiaron de <lastmod> respecto
-                             del sitemap.xml de ese commit (git show ref:sitemap.xml).
+                             del sitemap.xml de ese commit (git show ref:sitemap.xml),
+                             más las que tienen su archivo cambiado desde ese commit.
+        Los <lastmod> los escribe scripts/lastmod.mjs desde git; si el sitemap
+        no coincide con git, este script corta antes de enviar.
           --desde AAAA-MM-DD las que tienen <lastmod> en esa fecha o después.
           --todas            todas. Bing pide avisar sólo lo que cambió desde que
                              se empezó a usar IndexNow: esto es para la primera
@@ -40,6 +43,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { desactualizadas, hayGit, locDeArchivo } from './lastmod.mjs';
 
 export const CLAVE = 'd1eb0835b80b7ebe76ad80c22dc86589';
 export const HOST = 'www.lausof.com';
@@ -73,6 +77,14 @@ export function cambiadasDesde(actual, fecha) {
   return actual.filter((u) => u.lastmod && u.lastmod.slice(0, 10) >= fecha).map((u) => u.loc);
 }
 
+// URLs del sitemap cuyo archivo cambió en git (lista de `git diff --name-only`).
+// Cubre lo que el <lastmod> no ve: una página cambiada dos veces el mismo día,
+// con un deploy en el medio, conserva la fecha y no saldría en cambiadasContra.
+export function cambiadasEnGit(actual, archivos) {
+  const tocadas = new Set(archivos.map(locDeArchivo));
+  return actual.filter((u) => tocadas.has(u.loc)).map((u) => u.loc);
+}
+
 export function armarPedido(urls) {
   for (const u of urls) {
     if (new URL(u).host !== HOST) throw new Error(`URL de otro host: ${u}`);
@@ -96,6 +108,16 @@ function parsearArgs(argv) {
 async function main() {
   const args = parsearArgs(process.argv.slice(2));
   const actual = leerSitemap(fs.readFileSync(path.join(raiz, 'sitemap.xml'), 'utf8'));
+  // Los <lastmod> salen de git (scripts/lastmod.mjs). Si el sitemap quedó
+  // atrasado, la selección de abajo dejaría afuera páginas que sí cambiaron.
+  if (hayGit()) {
+    const viejas = desactualizadas();
+    if (viejas.length) {
+      throw new Error(`sitemap.xml tiene ${viejas.length} <lastmod> que no coinciden con git `
+        + `(p. ej. ${viejas[0].loc}: dice ${viejas[0].tiene}, corresponde ${viejas[0].corresponde}). `
+        + 'Correr node scripts/lastmod.mjs, commitear y desplegar antes de avisar.');
+    }
+  }
   let urls;
   if (args.todas) {
     urls = actual.map((u) => u.loc);
@@ -103,7 +125,9 @@ async function main() {
     urls = cambiadasDesde(actual, args.desde);
   } else {
     const xml = execFileSync('git', ['show', `${args.desde}:sitemap.xml`], { cwd: raiz, encoding: 'utf8' });
-    urls = cambiadasContra(actual, leerSitemap(xml));
+    const archivos = execFileSync('git', ['diff', '--name-only', args.desde, 'HEAD'], { cwd: raiz, encoding: 'utf8' })
+      .split('\n').filter(Boolean);
+    urls = [...new Set([...cambiadasContra(actual, leerSitemap(xml)), ...cambiadasEnGit(actual, archivos)])];
   }
   if (urls.length === 0) {
     console.log('IndexNow: ninguna URL del sitemap cambió; no se envía nada.');

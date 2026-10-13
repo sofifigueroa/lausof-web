@@ -121,7 +121,9 @@ test('dateModified = "Actualizado" visible = lastmod del sitemap', () => {
   const lastmod = sitemap.match(/<loc>https:\/\/www\.lausof\.com\/charter-recitales\.html<\/loc>\s*<lastmod>([^<]*)<\/lastmod>/);
   assert.ok(lastmod, 'charter-recitales.html no está en el sitemap con lastmod');
   assert.strictEqual(pagina.dateModified, visibleAct[1]);
-  assert.strictEqual(lastmod[1], visibleAct[1]);
+  // El lastmod sale de git (scripts/lastmod.mjs) y la fecha visible es la de la
+  // última revisión del contenido: el lastmod puede ser posterior, nunca anterior.
+  assert.ok(lastmod[1] >= visibleAct[1], `lastmod ${lastmod[1]} anterior a la fecha visible ${visibleAct[1]}`);
 });
 
 test('las migas visibles coinciden con el BreadcrumbList', () => {

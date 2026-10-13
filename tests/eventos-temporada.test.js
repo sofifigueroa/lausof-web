@@ -90,7 +90,9 @@ for (const { archivo, idioma, madre, wa, sinFechas } of eventos) {
       `<loc>${canonica.replace(/[.]/g, '\\.')}</loc>\\s*<lastmod>([^<]*)</lastmod>`));
     assert.ok(lastmod, `${archivo} no está en el sitemap con lastmod`);
     assert.strictEqual(pagina.dateModified, act[1]);
-    assert.strictEqual(lastmod[1], act[1]);
+    // El lastmod sale de git (scripts/lastmod.mjs) y la fecha visible es la de la
+    // última revisión del contenido: el lastmod puede ser posterior, nunca anterior.
+    assert.ok(lastmod[1] >= act[1], `lastmod ${lastmod[1]} anterior a la fecha visible ${act[1]}`);
   });
 
   test(`${archivo}: las migas visibles coinciden con el BreadcrumbList`, () => {

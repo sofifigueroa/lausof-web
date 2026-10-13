@@ -81,10 +81,12 @@ for (const nombre of conMarcado) {
     assert.ok(!lista[lista.length - 1].item, 'el último escalón de la miga no lleva enlace');
   });
 
-  test(`${nombre}: la fecha de actualización es la misma en el sitemap`, () => {
+  test(`${nombre}: el lastmod del sitemap no es anterior a la fecha de actualización`, () => {
     const bloque = sitemap.match(new RegExp(`<loc>${urlDe(nombre).replace(/[.]/g, '\\.')}</loc>\\s*<lastmod>([^<]+)</lastmod>`));
     assert.ok(bloque, `${nombre} no está en el sitemap`);
-    assert.strictEqual(bloque[1], FECHA, `el lastmod de ${nombre} no es ${FECHA}`);
+    // El lastmod sale de git (scripts/lastmod.mjs) y la fecha visible es la de la
+    // última revisión del contenido: el lastmod puede ser posterior, nunca anterior.
+    assert.ok(bloque[1] >= FECHA, `el lastmod de ${nombre} (${bloque[1]}) es anterior a ${FECHA}`);
   });
 }
 

@@ -100,7 +100,9 @@ for (const nombre of todas) {
     const entrada = sitemap.match(new RegExp(
       `<loc>${urlDe(nombre).replace(/[.]/g, '\\.')}</loc>\\s*<lastmod>([^<]+)</lastmod>`));
     assert.ok(entrada, `${nombre} no está en el sitemap`);
-    assert.strictEqual(pagina.dateModified, entrada[1], 'dateModified distinto del lastmod del sitemap');
+    // El lastmod sale de git (scripts/lastmod.mjs) y la fecha visible es la de la
+    // última revisión del contenido: el lastmod puede ser posterior, nunca anterior.
+    assert.ok(entrada[1] >= pagina.dateModified, 'el lastmod del sitemap es anterior a dateModified');
     const [a, m, d] = pagina.dateModified.split('-').map(Number);
     const meses = es
       ? ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']

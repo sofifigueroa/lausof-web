@@ -395,6 +395,31 @@ regla en el mismo commit; `tests/seo.test.js` lo exige. La excepción es el
 archivo de la clave de IndexNow (`d1eb0835b80b7ebe76ad80c22dc86589.txt`), que
 sí es público: ver la sección siguiente.
 
+### Antes de cada commit que toque páginas: `lastmod` desde git
+
+El `<lastmod>` de cada URL de `sitemap.xml` es la fecha (hora de Salta) del
+último commit que tocó su archivo `.html`. No se escribe a mano:
+
+```bash
+node scripts/lastmod.mjs              # reescribe los <lastmod>; sitemap.xml entra en el mismo commit
+node scripts/lastmod.mjs --comprobar  # no escribe nada; sale con 1 si alguno no coincide con git
+```
+
+- Un archivo con cambios sin commitear cuenta como "hoy"; uno limpio, la
+  fecha de autor de su último commit (un rebase no la mueve).
+- El script no toca el `dateModified` del JSON-LD ni la línea visible
+  "Actualizado el …": esa es la fecha en que se revisó el contenido y la
+  cambia quien lo revisa. Los tests piden que esas dos coincidan entre sí y
+  que el `lastmod` no sea anterior.
+- `tests/lastmod.test.js` falla si un `<lastmod>` no coincide con git. Una
+  página nueva sólo necesita su `<url>` en el sitemap; la fecha la pone el
+  script.
+- Por qué: Google usa el `lastmod` sólo si es consistente y verificable
+  contra la última modificación de la página
+  (https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap,
+  leída el 13/10/2026), y `scripts/indexnow.mjs` elige qué avisar con esos
+  mismos valores.
+
 ### Después de cada deploy: avisar a Bing con IndexNow
 
 IndexNow es el protocolo con el que Bing (y Yandex, Seznam, Naver, Yep...)
@@ -422,9 +447,10 @@ https://www.bing.com/indexnow/getstarted (leídas el 10/10/2026).
   node scripts/indexnow.mjs --todas
   ```
 
-  El script compara los `<lastmod>`, así que una página editada sin subirle
-  el `<lastmod>` no se avisa (los tests ya exigen que coincida con la fecha
-  visible en las páginas que la muestran). Antes de enviar comprueba que el
+  El script compara los `<lastmod>`, que salen de git (`scripts/lastmod.mjs`),
+  y con `--desde <sha>` suma las páginas cuyo archivo cambió desde ese commit.
+  Si el sitemap no coincide con git, corta antes de enviar y pide correr
+  `node scripts/lastmod.mjs`. Antes de enviar comprueba que el
   archivo de la clave esté en vivo; después imprime el código HTTP:
   **200 o 202 = recibido** (202: clave todavía en validación). 403 = clave no
   publicada, 422 = URL de otro host, 429 = demasiados pedidos (esperar, no

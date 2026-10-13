@@ -105,8 +105,10 @@ for (const [nombre, { paises, foto }] of Object.entries(internacionales)) {
     // visible y el lastmod del sitemap.
     assert.strictEqual(fechaVisible(visible(html)), pagina.dateModified,
       'la fecha visible no coincide con dateModified');
-    assert.strictEqual(lastmodDe(url), pagina.dateModified,
-      'el lastmod del sitemap no coincide con dateModified');
+    // El lastmod sale de git (scripts/lastmod.mjs) y la fecha visible es la de la
+    // última revisión del contenido: el lastmod puede ser posterior, nunca anterior.
+    assert.ok(lastmodDe(url) >= pagina.dateModified,
+      'el lastmod del sitemap es anterior a dateModified');
   });
 
   test(`${nombre}: la miga de pan visible es la del BreadcrumbList`, () => {

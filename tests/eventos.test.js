@@ -97,7 +97,9 @@ for (const nombre of nuevas) {
     const lastmod = sitemap.match(new RegExp(`<loc>${loc}</loc>\\s*<lastmod>([^<]*)</lastmod>`));
     assert.ok(lastmod, `${nombre} no está en el sitemap con lastmod`);
     assert.strictEqual(pagina.dateModified, act[1]);
-    assert.strictEqual(lastmod[1], act[1]);
+    // El lastmod sale de git (scripts/lastmod.mjs) y la fecha visible es la de la
+    // última revisión del contenido: el lastmod puede ser posterior, nunca anterior.
+    assert.ok(lastmod[1] >= act[1], `lastmod ${lastmod[1]} anterior a la fecha visible ${act[1]}`);
   });
 
   test(`${nombre}: filas fechadas válidas, en orden, con el día de la semana correcto`, () => {
