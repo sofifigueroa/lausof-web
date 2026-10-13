@@ -188,6 +188,27 @@ El generador `scripts/generar-flota.mjs` no se tocó y `flota-en-venta.html`
 **no tiene gemela inglesa** (sus textos están hardcodeados en castellano dentro
 del generador). Las páginas en inglés no la enlazan.
 
+## Ficha de la empresa en los datos estructurados
+
+Todas las páginas referencian la entidad `https://www.lausof.com/#empresa`
+por su `@id`. Como cada buscador lee cada página por separado, la ficha
+(razón social LAUSOF S.R.L., marca Lausof Transportes, Junín 1334, la línea
+387 526-9009, CUIT, logo y la habilitación CNRT N.º 60284 como `identifier`
+y `hasCertification`) va escrita en todas:
+
+```bash
+node scripts/empresa.mjs              # escribe el bloque GENERADO:EMPRESA en cada página
+node scripts/empresa.mjs --comprobar  # no escribe nada; sale con 1 si falta o cambió
+```
+
+Los datos salen de un solo lugar, `FICHA` en `scripts/empresa.mjs`. La
+portada no lleva el bloque generado: su JSON-LD es la ficha ampliada
+(descripción, horario, fotos, catálogo) y tiene que repetir igual cada dato
+de `FICHA`. Una página nueva necesita correr el script antes del commit;
+`tests/empresa.test.js` falla si una página no resuelve `#empresa`, si el
+bloque quedó viejo o si la ficha publica algo que la política de
+afirmaciones deja afuera (número de AMT, aseguradora, otros teléfonos).
+
 ## Medición de contactos
 
 El sitio no tiene formularios: un contacto es un clic en WhatsApp, en un

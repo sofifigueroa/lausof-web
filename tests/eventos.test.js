@@ -46,7 +46,9 @@ const filasDe = (html) => {
 };
 
 const nodosDe = (html) => {
-  const bloques = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)];
+  // Sólo el bloque propio de la página: la ficha de la empresa va aparte, en
+  // el bloque id="empresa" que escribe scripts/empresa.mjs (tests/empresa.test.js).
+  const bloques = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
   assert.strictEqual(bloques.length, 1, 'se esperaba un solo bloque JSON-LD');
   return JSON.parse(bloques[0][1])['@graph'];
 };

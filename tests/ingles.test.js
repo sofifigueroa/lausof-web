@@ -303,7 +303,8 @@ for (const es of Object.keys(pares)) {
 
 // ---------------------------------------------------------------------------
 // 11. Datos estructurados. Una sola entidad para toda la empresa: las páginas
-//     inglesas REFERENCIAN #empresa por su @id, nunca la redefinen. El idioma
+//     inglesas REFERENCIAN #empresa por su @id, nunca la redefinen a mano (la
+//     ficha completa la escribe scripts/empresa.mjs en su propio bloque). El idioma
 //     va en el nodo WebPage, que es donde schema.org admite inLanguage.
 // ---------------------------------------------------------------------------
 for (const nombre of enIndexables) {
@@ -323,9 +324,15 @@ for (const nombre of enIndexables) {
       `el WebPage de ${nombre} no declara inLanguage "en"`);
     assert.ok(JSON.stringify(nodos).includes(`${DOMINIO}/#empresa`),
       `${nombre} no referencia la entidad #empresa de la portada`);
-    const completa = nodos.find((n) => n['@id'] === `${DOMINIO}/#empresa` && n.taxID);
-    assert.ok(!completa,
-      `${nombre} redefine la ficha completa de la empresa: tiene que referenciarla por @id`);
+    // La ficha completa llega una sola vez y por el bloque generado
+    // (scripts/empresa.mjs, igual en todas las páginas): el JSON-LD propio de
+    // la página la referencia por @id y no la redefine a mano.
+    const completas = nodos.filter((n) => n['@id'] === `${DOMINIO}/#empresa` && n.taxID);
+    assert.strictEqual(completas.length, 1, `${nombre} tiene ${completas.length} fichas completas de la empresa`);
+    const propios = [...paginasEn[nombre].matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+      .map((m) => m[1]).join('\n');
+    assert.ok(!/"taxID"|"telephone"/.test(propios),
+      `${nombre} redefine a mano la ficha de la empresa: tiene que referenciarla por @id`);
   });
 }
 
