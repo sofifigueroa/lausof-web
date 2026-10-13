@@ -23,6 +23,11 @@
      · `data-movil="assets/otra.webp"`: dirección de arte del hero de la
        portada. En pantallas ≤720px se sirve OTRA foto (la del minibús en la
        quebrada), igual que hacía la CSS antes.
+     · `data-movil-media="(max-width: 480px)"`: otro corte para esa foto
+       móvil. Lo usa el encabezado de turismo y de tours-and-transfers: en
+       teléfonos se ve sólo la franja central de la foto, así que se sirve
+       ese recorte (ruta-68-…-movil.webp) a la misma escala, con los mismos
+       píxeles en pantalla y menos bytes. Ver README, "Fotos responsive".
 
    Necesita ImageMagick 7 con AVIF (`brew install imagemagick`). Es
    idempotente: lo que ya existe no se vuelve a codificar y correrlo dos
@@ -140,8 +145,9 @@ export function pictureDe(etiqueta, pagina) {
   if (movil) {
     const m = medidasWebp(archivoDe(movil, pagina));
     const dim = `width="${m.ancho}" height="${m.alto}"`;
-    fuentes.push(`<source media="${MEDIA_MOVIL}" type="image/avif" srcset="${srcsetDe(movil, m.ancho, 'avif')}" sizes="${sizes}" ${dim}>`);
-    fuentes.push(`<source media="${MEDIA_MOVIL}" type="image/webp" srcset="${srcsetDe(movil, m.ancho, 'webp')}" sizes="${sizes}" ${dim}>`);
+    const media = valorDe(attrs, 'data-movil-media') || MEDIA_MOVIL;
+    fuentes.push(`<source media="${media}" type="image/avif" srcset="${srcsetDe(movil, m.ancho, 'avif')}" sizes="${sizes}" ${dim}>`);
+    fuentes.push(`<source media="${media}" type="image/webp" srcset="${srcsetDe(movil, m.ancho, 'webp')}" sizes="${sizes}" ${dim}>`);
   }
   fuentes.push(`<source type="image/avif" srcset="${srcsetDe(src, ancho, 'avif')}" sizes="${sizes}">`);
   return `<picture>${fuentes.join('')}<img ${serializar(attrs)}></picture>`;

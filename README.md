@@ -85,6 +85,20 @@ Lo que el script no decide y va escrito a mano en el `<img>`:
   va a elegir el `<picture>` (bajaría la foto dos veces). En la portada,
   `data-movil="assets/pasajeros-1-quebrada.webp"` hace la dirección de arte
   de mobile (≤720px).
+- **Recorte de teléfono** (`data-movil-media`): el encabezado de `turismo.html`
+  y `en/tours-and-transfers.html` lleva
+  `data-movil="…/ruta-68-cafayate-salta-lausof-movil.webp" data-movil-media="(max-width: 480px)"`.
+  En un teléfono la foto queda limitada por el alto del encabezado y se ve
+  sólo su franja central; el recorte es esa franja (900×1067, centrada, alto
+  completo), así que se ven los mismos píxeles a la misma escala con la mitad
+  de bytes (AVIF 290 KB → 143 KB). Medido el 13/10/2026 en la PC: captura a
+  412 px lado a lado sin diferencia visible (RMSE 0,4–0,6 %), y LCP de
+  Lighthouse 12.6.1 mobile (simulado, 3 corridas por página, servidor local)
+  3,5 s → 2,7–2,9 s en las dos páginas. Para repetir la medición: servir la
+  carpeta con `python3 -m http.server` y correr Lighthouse contra
+  `/turismo.html` y `/en/tours-and-transfers.html` con
+  `--form-factor=mobile --throttling-method=simulate`. Un recorte nuevo
+  tiene que conservar el alto del original (`tests/imagenes.test.js`).
 - **Slideshows**: el hijo n-ésimo del `.slideshow` ahora es el `<picture>`
   (`picture{display:contents}` lo deja fuera del layout); los retardos se
   escriben `.slideshow picture:nth-child(n) img`.

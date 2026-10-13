@@ -171,3 +171,29 @@ test('los encabezados con foto no la vuelven a pedir como fondo de la CSS', () =
     }
   }
 });
+
+// Recorte de teléfono del encabezado de turismo (13/10/2026). En un teléfono
+// la foto va con object-fit:cover y queda limitada por el ALTO del
+// encabezado: se ve sólo la franja central. El recorte conserva el alto
+// completo y el centro horizontal del original, así que en pantalla se ven
+// los mismos píxeles a la misma escala, con la mitad de bytes. Si el recorte
+// perdiera alto, el navegador lo agrandaría y la foto cambiaría de encuadre.
+test('el recorte de teléfono de una foto conserva su alto y se sirve sólo en teléfonos angostos', () => {
+  let vistos = 0;
+  for (const [nombre, html] of Object.entries(paginas)) {
+    for (const [img] of sinComentarios(html).matchAll(/<img\s[^>]*data-movil-media="[^"]*"[^>]*>/g)) {
+      vistos++;
+      const media = attr(img, 'data-movil-media');
+      const ancho = Number(media.match(/^\(max-width: (\d+)px\)$/)?.[1]);
+      assert.ok(ancho > 0 && ancho <= 480, `${nombre}: data-movil-media inesperado: ${media}`);
+      const original = medidas(archivoDe(attr(img, 'src'), nombre));
+      const recorte = medidas(archivoDe(attr(img, 'data-movil'), nombre));
+      assert.strictEqual(recorte.alto, original.alto, `${nombre}: el recorte de teléfono perdió alto`);
+      assert.ok(recorte.ancho < original.ancho, `${nombre}: el recorte de teléfono no es más angosto que el original`);
+      // El recorte tiene que cubrir el encabezado más ancho en proporción
+      // (480 px de ancho por 600 de alto, medido en Chrome) sin agrandarse.
+      assert.ok(recorte.ancho / recorte.alto >= 480 / 600, `${nombre}: el recorte es demasiado angosto para ${media}`);
+    }
+  }
+  assert.ok(vistos >= 2, 'turismo.html y en/tours-and-transfers.html sirven el recorte de teléfono');
+});
