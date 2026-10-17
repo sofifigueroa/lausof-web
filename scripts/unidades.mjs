@@ -78,6 +78,8 @@
    Libre, sin cambios de id: Accelo a US$ 66.000, Amarok a US$ 26.000,
    Sprinter 2019 a $ 52.000.000, Sprinter 2016 a $ 38.000.000 y ML350 a
    $ 22.000.000 (lectura pública de las fichas del 14/10).
+   Actualizado el 17 de octubre de 2026: la Amarok se republicó y cambió de
+   id y de URL (#4084892066), mismo precio US$ 26.000. Ningún otro cambio.
    ============================================================================= */
 
 export const UNIDADES = [
@@ -104,7 +106,7 @@ export const UNIDADES = [
   },
 
   {
-    id: '3956228786',
+    id: '4084892066',
     titulo: 'Volkswagen Amarok V6 Highline — 3.0 258 cv 4x4 AT',
     precio: 26000,
     moneda: 'USD',
@@ -115,8 +117,11 @@ export const UNIDADES = [
        Precio subido a US$ 30.000 sin republicar (mismo id), verificado en la
        ficha pública el 10/10.
        Precio bajado a US$ 26.000 sin republicar (mismo id), verificado en la
-       ficha pública el 14/10. */
-    url: 'https://auto.mercadolibre.com.ar/MLA-3956228786-volkswagen-amarok-30-cd-tdi-258cv-v6-highline-4x4-at-_JM',
+       ficha pública el 14/10.
+       Republicada entre el 15/10 y el 17/10/2026 (id nuevo; el viejo
+       #3956228786 quedó finalizado y su enlace está muerto). Mismo precio,
+       US$ 26.000, verificado en la ficha pública el 17/10. */
+    url: 'https://auto.mercadolibre.com.ar/MLA-4084892066-volkswagen-amarok-30-cd-tdi-258cv-v6-highline-4x4-at-_JM',
     estado: 'publicada',
     foto: 'amarok-v6-2023.webp',
     ficha: ['2023', '185.000 km', 'Diésel', 'Automática', 'Único dueño'],
