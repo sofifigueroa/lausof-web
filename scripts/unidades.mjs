@@ -80,30 +80,11 @@
    $ 22.000.000 (lectura pública de las fichas del 14/10).
    Actualizado el 17 de octubre de 2026: la Amarok se republicó y cambió de
    id y de URL (#4084892066), mismo precio US$ 26.000. Ningún otro cambio.
+   Actualizado el 29 de octubre de 2026: se sacó el Mercedes-Benz Accelo 1016
+   (#4031197440), vendido cerca del 24/10. Quedan cuatro unidades publicadas.
    ============================================================================= */
 
 export const UNIDADES = [
-
-  {
-    id: '4031197440',
-    titulo: 'Mercedes-Benz Accelo 1016 — camión plancha con auxilio',
-    precio: 66000,
-    moneda: 'USD',
-    /* Republicada entre el 04/10 y el 06/10/2026 (id nuevo; el viejo
-       #2064023885 quedó finalizado y su enlace está muerto). Precio subido a
-       US$ 67.000, verificado en la ficha pública el 10/10. Antes estaba en
-       US$ 66.000.
-       Precio bajado a US$ 66.000 sin republicar (mismo id), verificado en la
-       ficha pública el 14/10. */
-    url: 'https://vehiculo.mercadolibre.com.ar/MLA-4031197440-mercedes-benz-accelo-1016-camion-plancha-auxilio-mecanico-_JM',
-    estado: 'publicada',
-    foto: 'accelo-1016-2016.webp',
-    ficha: ['2016', '103.000 km', 'Carga 7.500 kg', 'Único dueño'],
-    resumen: 'Camión plancha con equipo de auxilio mecánico. Plancha Sica con barandas volcables y desmontables, arcos y lona con cierre completo: se pueden trasladar vehículos protegidos de la intemperie. Preparado también para cargas generales.',
-    otrosAvisos: [
-      { nombre: 'deRuedas', url: 'https://www.deruedas.com.ar/vendo/Mercedes-Benz/Accelo/Usados/Salta?cod=818717' }
-    ]
-  },
 
   {
     id: '4084892066',
