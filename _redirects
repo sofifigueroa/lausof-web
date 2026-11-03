@@ -68,6 +68,7 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 # comodín /en/*. Una página nueva necesita su renglón (tests/rutas-raiz.test.js).
 /alquiler-4x4                                 /alquiler-4x4.html                                301!
 /alquiler-autoelevadores                      /alquiler-autoelevadores.html                     301!
+/alquiler-combi-con-chofer-salta              /alquiler-combi-con-chofer-salta.html             301!
 /cargas-refrigeradas                          /cargas-refrigeradas.html                         301!
 /charter-recitales                            /charter-recitales.html                           301!
 /clubes-deportivos                            /clubes-deportivos.html                           301!
@@ -81,6 +82,7 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /salinas-grandes-desde-salta                  /salinas-grandes-desde-salta.html                 301!
 /semana-santa-salta-jujuy                     /semana-santa-salta-jujuy.html                    301!
 /transporte-de-personal                       /transporte-de-personal.html                      301!
+/traslado-aeropuerto-salta                    /traslado-aeropuerto-salta.html                   301!
 /traslado-carnaval-quebrada-de-humahuaca      /traslado-carnaval-quebrada-de-humahuaca.html     301!
 /traslado-salta-cachi                         /traslado-salta-cachi.html                        301!
 /traslado-salta-cafayate                      /traslado-salta-cafayate.html                     301!
@@ -102,10 +104,12 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /en/holy-week-salta-jujuy                     /en/holy-week-salta-jujuy.html                    301!
 /en/international-trips                       /en/international-trips.html                      301!
 /en/jujuy-utmb-trail-race-transfers           /en/jujuy-utmb-trail-race-transfers.html          301!
+/en/minibus-with-driver-salta                 /en/minibus-with-driver-salta.html                301!
 /en/mining-logistics                          /en/mining-logistics.html                         301!
 /en/personnel-transport                       /en/personnel-transport.html                      301!
 /en/refrigerated-freight                      /en/refrigerated-freight.html                     301!
 /en/salinas-grandes-from-salta                /en/salinas-grandes-from-salta.html               301!
+/en/salta-airport-transfer                    /en/salta-airport-transfer.html                   301!
 /en/salta-to-cachi-transfer                   /en/salta-to-cachi-transfer.html                  301!
 /en/salta-to-cafayate-transfer                /en/salta-to-cafayate-transfer.html               301!
 /en/salta-to-purmamarca-tilcara-humahuaca     /en/salta-to-purmamarca-tilcara-humahuaca.html    301!
