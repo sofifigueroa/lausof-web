@@ -180,7 +180,7 @@ test('portada: el hero tiene el botón de llamada a la grúa 24 hs, al lado del 
 
 test('portada: la tarjeta de auxilio enlaza la página de grúa, en los dos idiomas', () => {
   for (const [portada, titulo, destino] of [
-    ['index.html', '<h3>Auxilio mecánico y remolques</h3>', `href="${ES}"`],
+    ['index.html', '<h3>Auxilio mecánico y remolques</h3>', `href="/${ES}"`],
     ['en/index.html', '<h3>Towing and roadside assistance</h3>', `href="/${EN}"`],
   ]) {
     const html = sinComentarios(paginas[portada]);
