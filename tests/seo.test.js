@@ -299,3 +299,28 @@ test('/en/contact y /en/about redirigen con 301 a su sección en inglés', () =>
       `en/index.html no tiene la sección #${ancla}`);
   }
 });
+
+// Cargas refrigeradas a las minas: servicio principal junto con turismo y
+// personal (Lautaro, 03/11/2026). El hero lo nombra y enlaza su página, la
+// tarjeta va entre las primeras y la grúa queda última, en los dos idiomas.
+test('portada: el hero nombra las cargas refrigeradas y la grúa es la última tarjeta', () => {
+  for (const [portada, destino, primeras, ultima] of [
+    ['index.html', '/cargas-refrigeradas.html',
+      ['Turismo y traslados especiales', 'Transporte de personal', 'Logística minera y operaciones en altura', 'Cargas refrigeradas y depósito'],
+      'Auxilio mecánico y remolques'],
+    ['en/index.html', '/en/refrigerated-freight.html',
+      ['Tours and private transfers', 'Personnel transport', 'Mining logistics and high-altitude operations', 'Refrigerated freight and warehousing'],
+      'Towing and roadside assistance'],
+  ]) {
+    const html = paginas[portada].replace(/<!--[\s\S]*?-->/g, '');
+    const lead = html.match(/<section class="hero"[\s\S]*?<p class="lead">([\s\S]*?)<\/p>/)[1];
+    assert.ok(lead.includes(`href="${destino}"`), `${portada}: el hero no enlaza ${destino}`);
+    assert.match(lead, /refrigerad/i);
+    const tarjetas = [...html.match(/<div class="cards swipe">([\s\S]*?)\n      <\/div>\n/)[1]
+      .matchAll(/<h3>([^<]+)<\/h3>/g)].map((m) => m[1]);
+    assert.deepStrictEqual(tarjetas.slice(0, 4), primeras, `${portada}: orden de servicios`);
+    assert.strictEqual(tarjetas[tarjetas.length - 1], ultima, `${portada}: la grúa no va última`);
+  }
+  assert.match(index.match(/<meta name="description" content="([^"]+)">/)[1], /cargas refrigeradas/);
+  assert.match(paginas['en/index.html'].match(/<meta name="description" content="([^"]+)">/)[1], /refrigerated freight/);
+});
