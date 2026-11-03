@@ -41,7 +41,8 @@ const INVERSAS = {
 };
 const todas = [...Object.keys(RUTAS), ...Object.values(RUTAS)];
 const esIngles = (n) => n.startsWith('en/');
-const enlace = (desde, hacia) => (esIngles(desde) ? rutaDe(hacia) : hacia);
+// Desde el 03/11 todo enlace entre páginas va desde la raíz.
+const enlace = (desde, hacia) => rutaDe(hacia);
 
 const visible = (html) => sinComentarios(html)
   .replace(/<script[\s\S]*?<\/script>/gi, ' ')
