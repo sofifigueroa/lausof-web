@@ -113,6 +113,7 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /transporte-de-personal                       /transporte-de-personal.html                      301!
 /transporte-de-personal-obras-de-litio        /transporte-de-personal-obras-de-litio.html       301!
 /traslado-aeropuerto-salta                    /traslado-aeropuerto-salta.html                   301!
+/traslado-salta-jujuy                         /traslado-salta-jujuy.html                        301!
 /traslado-carnaval-quebrada-de-humahuaca      /traslado-carnaval-quebrada-de-humahuaca.html     301!
 /traslado-salta-cachi                         /traslado-salta-cachi.html                        301!
 /traslado-salta-cafayate                      /traslado-salta-cafayate.html                     301!
@@ -144,6 +145,7 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /en/refrigerated-freight                      /en/refrigerated-freight.html                     301!
 /en/salinas-grandes-from-salta                /en/salinas-grandes-from-salta.html               301!
 /en/salta-airport-transfer                    /en/salta-airport-transfer.html                   301!
+/en/salta-to-jujuy-transfer                   /en/salta-to-jujuy-transfer.html                  301!
 /en/salta-to-cachi-transfer                   /en/salta-to-cachi-transfer.html                  301!
 /en/salta-to-cafayate-transfer                /en/salta-to-cafayate-transfer.html               301!
 /en/salta-to-purmamarca-tilcara-humahuaca     /en/salta-to-purmamarca-tilcara-humahuaca.html    301!
