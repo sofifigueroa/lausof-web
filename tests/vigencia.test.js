@@ -28,6 +28,11 @@ const EVENTOS = [
   'traslado-carnaval-quebrada-de-humahuaca.html',
   'en/transfer-carnival-quebrada-de-humahuaca.html',
   'traslado-serenata-a-cafayate.html',
+  // Sweep del 03/11/2026: Semana Santa y UTMB, en los dos idiomas.
+  'semana-santa-salta-jujuy.html',
+  'en/holy-week-salta-jujuy.html',
+  'traslados-trail-jujuy-utmb.html',
+  'en/jujuy-utmb-trail-race-transfers.html',
 ];
 const CON_VIGENCIA = [RECITALES, HUB, ...EVENTOS];
 const esIngles = (nombre) => nombre.startsWith('en/');
