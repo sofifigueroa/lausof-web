@@ -141,7 +141,9 @@ for (const nombre of todas) {
       const m = todo.match(patron);
       assert.ok(!m, `${nombre} nombra "${m && m[0]}"`);
     }
-    assert.doesNotMatch(texto, /\bclientes? como\b|\bour clients include\b|\btrabajamos para [A-Z]/i);
+    assert.doesNotMatch(texto, /\bclientes? como\b|\bour clients include\b/i);
+    // "Trabajamos para los contratistas" sí; "Trabajamos para <Empresa>" no.
+    assert.doesNotMatch(texto, /\b[Tt]rabajamos para [A-ZÁÉÍÓÚ]|\b[Ww]e work for [A-Z]/);
   });
 
   test(`${nombre}: CTA por WhatsApp pre-armado y por correo`, () => {
