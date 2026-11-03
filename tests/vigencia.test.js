@@ -257,7 +257,7 @@ for (const nombre of CON_VIGENCIA) {
         : 'Esta edición ya pasó. Consúltenos por la próxima edición o por traslados a eventos similares.'), texto);
       const enlaces = nota.querySelectorAll('a').map((a) => a.getAttribute('href'));
       assert.ok(enlaces.some((h) => h.startsWith('https://wa.me/5493875269009?text=')), 'la nota no tiene WhatsApp');
-      assert.ok(enlaces.some((h) => h.startsWith(ingles ? 'mailto:contacto@lausof.com?cc=transporte@lausof.com&subject=' : 'mailto:contacto@lausof.com')),
+      assert.ok(enlaces.some((h) => h.startsWith('mailto:transporte@lausof.com?subject=')),
         'la nota no tiene el correo con el formato de la página');
 
       const antes = correrEn(domDe(html), NADA_PASADO).querySelector('[data-edicion-pasada]');

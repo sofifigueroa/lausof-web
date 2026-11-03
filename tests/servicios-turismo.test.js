@@ -170,13 +170,17 @@ for (const [nombre, km] of Object.entries(distancias)) {
   });
 }
 
-test('la portada: el título abre con las grúas 24 hs y la descripción da la guardia y el teléfono', () => {
+test('la portada: el título abre con el transporte de pasajeros y la descripción nombra los servicios de pasajeros', () => {
   const html = paginas['index.html'];
   const titulo = html.match(/<title>([^<]+)<\/title>/)[1];
   const desc = html.match(/<meta name="description" content="([^"]+)">/)[1];
-  assert.match(titulo, /^Grúas 24 hs en Salta/);
-  assert.match(desc, /24 hs, todos los días/);
-  assert.match(desc, /387 526-9009/);
+  // 03/11/2026, decisión de Lautaro: pasajeros, no grúa (tests/seo.test.js).
+  assert.match(titulo, /^Transporte de Pasajeros en Salta/);
+  assert.doesNotMatch(titulo, /^Gr[uú]a/i);
+  assert.doesNotMatch(desc, /gr[uú]a|remolque/i, 'la descripción de la portada vende la grúa');
+  for (const palabra of ['Turismo', 'minería', 'empresas', 'aeropuerto', 'charter']) {
+    assert.ok(desc.includes(palabra), `la descripción no dice "${palabra}": ${desc}`);
+  }
   assert.strictEqual(html.match(/<meta property="og:description" content="([^"]+)">/)[1], desc);
 });
 

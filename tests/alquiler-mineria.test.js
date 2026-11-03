@@ -77,7 +77,7 @@ test('alquiler 4x4: tiene sección de reserva con WhatsApp y correo', () => {
     assert.ok(desde > -1, `${nombre}: falta la sección #${id}`);
     const seccion = html.slice(desde, html.indexOf('</section>', desde));
     assert.match(seccion, /href="https:\/\/wa\.me\/5493875269009\?text=/, `${nombre}: la reserva no tiene WhatsApp`);
-    assert.match(seccion, /href="mailto:contacto@lausof\.com\?cc=transporte@lausof\.com/, `${nombre}: la reserva no tiene correo`);
+    assert.match(seccion, /href="mailto:transporte@lausof\.com\?subject=/, `${nombre}: la reserva no tiene correo`);
     assert.strictEqual((seccion.match(/<b>[1-4]\. /g) || []).length, 4, `${nombre}: la reserva no muestra los cuatro pasos`);
     assert.ok(html.includes(`href="#${id}"`), `${nombre}: el encabezado no enlaza a #${id}`);
   }

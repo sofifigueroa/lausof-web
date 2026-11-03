@@ -151,7 +151,7 @@ for (const nombre of todas) {
     assert.ok(textos.length >= 3, 'se esperan los WhatsApp del encabezado, el cierre y la barra');
     const servicio = es === AGENCIAS ? /agencia|tour operator/ : /litio|lithium/;
     for (const t of textos) assert.match(t, servicio, `mensaje pre-armado inesperado: ${t}`);
-    const correos = [...html.matchAll(/href="mailto:contacto@lausof\.com\?cc=transporte@lausof\.com&amp;subject=([^"]+)"/g)];
+    const correos = [...html.matchAll(/href="mailto:transporte@lausof\.com\?subject=([^"]+)"/g)];
     assert.ok(correos.length >= 2, 'se espera el correo en el cuerpo y en el pie');
   });
 

@@ -24,7 +24,7 @@ const enIndexables = Object.keys(paginasEn).filter((n) => !sinGemelaEn.includes(
 // Texto que el visitante realmente ve: sin comentarios, sin el contenido de
 // <script> y <style> (si no, la CSS embebida entra como "texto"), sin los
 // enlaces de correo enteros (el plan permite el castellano dentro de un
-// mailto: la dirección contacto@ es la misma en los dos idiomas) y sin
+// mailto: la dirección transporte@ es la misma en los dos idiomas) y sin
 // etiquetas —con lo que se van también todos los atributos—.
 const textoVisible = (html) => sinComentarios(html)
   .replace(/<script[\s\S]*?<\/script>/gi, ' ')
@@ -356,9 +356,9 @@ for (const [nombre, html] of Object.entries(paginasEn)) {
 
 // ---------------------------------------------------------------------------
 // 13. Contacto: el WhatsApp va a la única línea pública y con texto en inglés
-//     (un prefill en castellano delata la traducción). Y todo mailto a
-//     contacto@ copia a transporte@ — decisión de Lautaro del 31/08: quiere
-//     ver todas las consultas en inglés.
+//     (un prefill en castellano delata la traducción). Y todo mailto va a
+//     transporte@, sin copia — decisión de Lautaro del 03/11/2026 (antes,
+//     desde el 31/08, iban a contacto@ con copia a transporte@).
 // ---------------------------------------------------------------------------
 for (const [nombre, html] of Object.entries(paginasEn)) {
   test(`${nombre}: los wa.me van al 526-9009 con texto en inglés`, () => {
@@ -374,14 +374,13 @@ for (const [nombre, html] of Object.entries(paginasEn)) {
     }
   });
 
-  test(`${nombre}: todo mailto a contacto@ copia a transporte@`, () => {
+  test(`${nombre}: todo mailto va a transporte@, sin copia`, () => {
     const mailtos = [...html.matchAll(/href="mailto:([^"]+)"/g)].map((m) => m[1]);
-    const aContacto = mailtos.filter((m) => m.startsWith('contacto@lausof.com'));
-    assert.ok(aContacto.length > 0,
-      `${nombre} no ofrece el correo contacto@lausof.com (es el CTA principal en inglés)`);
-    for (const enlace of aContacto) {
-      assert.match(enlace, /[?&]cc=transporte@lausof\.com(&|$)/,
-        `el mailto de ${nombre} no copia a transporte@lausof.com: ${enlace}`);
+    assert.ok(mailtos.length > 0,
+      `${nombre} no ofrece el correo transporte@lausof.com (es el CTA principal en inglés)`);
+    for (const enlace of mailtos) {
+      assert.match(enlace, /^transporte@lausof\.com(\?|$)/, `el mailto de ${nombre} no va a transporte@: ${enlace}`);
+      assert.doesNotMatch(enlace, /[?&](amp;)?cc=/i, `el mailto de ${nombre} lleva copia: ${enlace}`);
     }
   });
 }

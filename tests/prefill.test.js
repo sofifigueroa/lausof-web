@@ -87,14 +87,14 @@ test('el wa.me del pie de cada página lleva texto', () => {
   }
 });
 
-test('cada mailto va a transporte@ (directo o en copia), con asunto y con los renglones de su tipo', async () => {
+test('cada mailto va a transporte@, sin copia, con asunto y con los renglones de su tipo', async () => {
   const { enlacesDe, leerMailto } = await guion;
   for (const [nombre, html] of Object.entries(paginas)) {
     for (const { tipo, url } of enlacesDe(html, nombre).filter((e) => e.url.startsWith('mailto:'))) {
       const { destino, params } = leerMailto(url);
       const p = Object.fromEntries(params);
-      assert.match(destino, /^(contacto|transporte)@lausof\.com$/, `${nombre}: ${url}`);
-      if (destino === 'contacto@lausof.com') assert.strictEqual(p.cc, 'transporte@lausof.com', `${nombre}: sin copia a transporte@: ${url}`);
+      assert.strictEqual(destino, 'transporte@lausof.com', `${nombre}: ${url}`);
+      assert.ok(!params.some(([k]) => k.toLowerCase() === 'cc'), `${nombre}: mailto con copia: ${url}`);
       assert.ok(p.subject, `${nombre}: mailto sin asunto: ${url}`);
       assert.ok(p.body, `${nombre}: mailto sin cuerpo: ${url}`);
       const cuerpo = decodeURIComponent(p.body);
@@ -120,9 +120,26 @@ test('el tipo de un enlace se puede pisar con data-prefill y el texto de la prim
     'Hola Lausof, necesito auxilio.\nUbicación: \nVehículo: \nQué pasó: ',
     'Hola Lausof, quiero cotizar un servicio\nServicio: \nFecha: \nOrigen y destino: \nPasajeros o carga: ',
   ]);
-  // El correo sin asunto toma el de la página; cc y asunto quedan como estaban.
-  assert.match(listo, /href="mailto:contacto@lausof\.com\?cc=transporte@lausof\.com&amp;subject=Pedido%20de%20cotizaci%C3%B3n&amp;body=Servicio%3A%0D%0A/);
-  assert.match(listo, /href="mailto:transporte@lausof\.com\?subject=Pedido%20de%20cotizaci%C3%B3n&amp;body=Servicio%3A/);
+  // El correo sin asunto toma el de la página; el destinatario pasa a ser
+  // transporte@ y la copia se va (decisión del 03/11/2026).
+  const correos = [...listo.matchAll(/href="(mailto:[^"]*)"/g)].map((m) => m[1]);
+  assert.deepStrictEqual(correos, [
+    'mailto:transporte@lausof.com?subject=Pedido%20de%20cotizaci%C3%B3n&amp;body=Servicio%3A%0D%0AFecha%3A%0D%0AOrigen%20y%20destino%3A%0D%0APasajeros%20o%20carga%3A%0D%0A',
+    'mailto:transporte@lausof.com?subject=Pedido%20de%20cotizaci%C3%B3n&amp;body=Servicio%3A%0D%0AFecha%3A%0D%0AOrigen%20y%20destino%3A%0D%0APasajeros%20o%20carga%3A%0D%0A',
+  ]);
+  assert.strictEqual(prefillHtml(listo, 'index.html'), listo, 'correrlo dos veces cambia el resultado');
+});
+
+test('el texto con contacto@ pasa a transporte@ y el pie no repite el correo', async () => {
+  const { prefillHtml } = await guion;
+  const html = '<a href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20cotizar%20un%20servicio">a</a>'
+    + '<a class="btn" href="mailto:contacto@lausof.com?cc=transporte@lausof.com&amp;subject=Consulta">Escribir a contacto@lausof.com</a>'
+    + '<ul>\n        <li><a href="mailto:contacto@lausof.com?cc=transporte@lausof.com&amp;subject=Consulta">contacto@lausof.com</a></li>\n'
+    + '        <li><a href="mailto:transporte@lausof.com?subject=Consulta">transporte@lausof.com</a></li>\n      </ul>';
+  const listo = prefillHtml(html, 'index.html');
+  assert.doesNotMatch(listo, /contacto@|cc=/);
+  assert.match(listo, />Escribir a transporte@lausof\.com</);
+  assert.strictEqual((listo.match(/<li>/g) || []).length, 1, 'el pie quedó con el correo repetido');
   assert.strictEqual(prefillHtml(listo, 'index.html'), listo, 'correrlo dos veces cambia el resultado');
 });
 
@@ -147,7 +164,7 @@ test('los enlaces pre-armados reales mandan contact_whatsapp y contact_email sin
   const codigo = fs.readFileSync(path.join(__dirname, '..', 'js', 'contacto.js'), 'utf8');
   const html = paginas['traslado-salta-cafayate.html'];
   const wa = html.match(/href="(https:\/\/wa\.me\/[^"]+)"/)[1];
-  const mail = html.match(/href="(mailto:contacto@[^"]+)"/)[1].replace(/&amp;/g, '&');
+  const mail = html.match(/href="(mailto:transporte@[^"]+)"/)[1].replace(/&amp;/g, '&');
   const eventos = [];
   let escucha;
   const window = { location: { pathname: '/traslado-salta-cafayate.html' }, gtag: (...a) => eventos.push(a) };

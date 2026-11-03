@@ -187,3 +187,24 @@ test('index.html: el GPS siempre queda acotado a las unidades en servicio', () =
   assert.strictEqual(visibles.length, acotadas.length,
     'hay una mención de GPS sin el alcance "en las unidades en servicio"');
 });
+
+// Junín 1334 no recibe clientes (decisión de Lautaro del 03/11/2026): la
+// dirección queda como domicilio de la empresa en el pie y en el JSON-LD,
+// pero ninguna página invita a pasar, ni da un horario de atención al
+// público. La guardia de 24 hs es telefónica y sí se publica.
+const SIN_VISITAS = [
+  /vis[ií]t[ae]nos/i, /vis[ií]tenos/i, /\bvenga a\b/i, /\bven[ií] a (la|nuestra)/i,
+  /\bpas[aeá] por (la|nuestra|nuestras) (oficina|base|sede)/i, /\bacerc[aá]te\b|\bacérquese\b/i,
+  /nuestra oficina/i, /horario de atenci[oó]n/i, /atenci[oó]n al p[uú]blico/i,
+  /\bvisit us\b/i, /\bcome (by|visit|to our)\b/i, /\bdrop by\b/i, /\bwalk-?ins?\b/i,
+  /\bour office\b/i, /\bopening hours\b(?! and closures)/i, /\bopen to the public\b/i,
+];
+test('ninguna página invita a visitar la base de Junín 1334', () => {
+  for (const [nombre, html] of Object.entries(paginas)) {
+    const plano = html.replace(/<!--[\s\S]*?-->/g, ' ').replace(/<script[\s\S]*?<\/script>/gi, ' ')
+      .replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    for (const patron of SIN_VISITAS) {
+      assert.doesNotMatch(plano, patron, `${nombre} invita a pasar por la oficina (${patron})`);
+    }
+  }
+});

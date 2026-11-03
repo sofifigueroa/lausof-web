@@ -7,7 +7,7 @@ const test = require('node:test');
 const assert = require('node:assert');
 const fs = require('node:fs');
 const path = require('node:path');
-const { index, flota, sitemap, robots, redirects } = require('./util.js');
+const { index, flota, sitemap, robots, redirects, paginas } = require('./util.js');
 
 test('las canónicas de las dos páginas apuntan al dominio con www', () => {
   assert.ok(index.includes('<link rel="canonical" href="https://www.lausof.com/">'),
@@ -59,17 +59,30 @@ test('cada URL indexada del sitio Wix viejo tiene su 301', () => {
 });
 
 // El título de la portada va servicio-primero (patrón del sitio viejo y de
-// todo competidor que rankea) y tiene que conservar "Grúas", "Remolques",
-// "Auxilio" y "Salta": hay puestos ganados en esas búsquedas.
-test('el título de la portada es servicio-primero y conserva las keywords', () => {
+// todo competidor que rankea). Desde el 03/11/2026 (decisión de Lautaro) el
+// servicio es el transporte de pasajeros: turismo, personal para minería y
+// empresas, aeropuerto y charter. No abre con la grúa: esas búsquedas las
+// toma grua-salta.html (tests/grua.test.js).
+test('el título de la portada es servicio-primero, abre con pasajeros y no con la grúa', () => {
   const titulo = index.match(/<title>([^<]+)<\/title>/)[1];
-  for (const palabra of ['Grúas', 'Remolques', 'Auxilio Mecánico', 'Salta', 'Lausof']) {
+  assert.match(titulo, /^Transporte de Pasajeros en Salta/, `el título no abre con pasajeros: ${titulo}`);
+  assert.doesNotMatch(titulo, /^(Gr[uú]a|Remolque|Auxilio)/i, `el título volvió a abrir con la grúa: ${titulo}`);
+  for (const palabra of ['Turismo', 'Minería', 'Empresas', 'Aeropuerto', 'Charter', 'Salta', 'Lausof']) {
     assert.ok(titulo.includes(palabra), `el título perdió "${palabra}": ${titulo}`);
   }
   assert.ok(!titulo.startsWith('Lausof'),
     `el título volvió a ser marca-primero: ${titulo}`);
   const ogTitle = index.match(/<meta property="og:title" content="([^"]+)">/)[1];
   assert.strictEqual(ogTitle, titulo, 'og:title distinto del <title>');
+});
+
+test('la portada en inglés abre con pasajeros y no con la grúa', () => {
+  const en = paginas['en/index.html'];
+  const titulo = en.match(/<title>([^<]+)<\/title>/)[1];
+  const desc = en.match(/<meta name="description" content="([^"]+)">/)[1];
+  assert.match(titulo, /^Passenger Transport in Salta/, titulo);
+  assert.doesNotMatch(`${titulo} ${desc}`, /tow|roadside/i, 'la portada en inglés todavía vende la grúa en el título o la descripción');
+  for (const palabra of ['Tours', 'Mining', 'Airport', 'Charter']) assert.ok(titulo.includes(palabra), `falta "${palabra}": ${titulo}`);
 });
 
 // La ficha LocalBusiness de la portada lleva las coordenadas del pin real de
@@ -285,4 +298,29 @@ test('/en/contact y /en/about redirigen con 301 a su sección en inglés', () =>
     assert.match(paginasEn['en/index.html'], new RegExp(`\\bid="${ancla}"`),
       `en/index.html no tiene la sección #${ancla}`);
   }
+});
+
+// Cargas refrigeradas a las minas: servicio principal junto con turismo y
+// personal (Lautaro, 03/11/2026). El hero lo nombra y enlaza su página, la
+// tarjeta va entre las primeras y la grúa queda última, en los dos idiomas.
+test('portada: el hero nombra las cargas refrigeradas y la grúa es la última tarjeta', () => {
+  for (const [portada, destino, primeras, ultima] of [
+    ['index.html', '/cargas-refrigeradas.html',
+      ['Turismo y traslados especiales', 'Transporte de personal', 'Logística minera y operaciones en altura', 'Cargas refrigeradas y depósito'],
+      'Auxilio mecánico y remolques'],
+    ['en/index.html', '/en/refrigerated-freight.html',
+      ['Tours and private transfers', 'Personnel transport', 'Mining logistics and high-altitude operations', 'Refrigerated freight and warehousing'],
+      'Towing and roadside assistance'],
+  ]) {
+    const html = paginas[portada].replace(/<!--[\s\S]*?-->/g, '');
+    const lead = html.match(/<section class="hero"[\s\S]*?<p class="lead">([\s\S]*?)<\/p>/)[1];
+    assert.ok(lead.includes(`href="${destino}"`), `${portada}: el hero no enlaza ${destino}`);
+    assert.match(lead, /refrigera(d|t)/i);
+    const tarjetas = [...html.match(/<div class="cards swipe">([\s\S]*?)\n      <\/div>\n/)[1]
+      .matchAll(/<h3>([^<]+)<\/h3>/g)].map((m) => m[1]);
+    assert.deepStrictEqual(tarjetas.slice(0, 4), primeras, `${portada}: orden de servicios`);
+    assert.strictEqual(tarjetas[tarjetas.length - 1], ultima, `${portada}: la grúa no va última`);
+  }
+  assert.match(index.match(/<meta name="description" content="([^"]+)">/)[1], /cargas refrigeradas/);
+  assert.match(paginas['en/index.html'].match(/<meta name="description" content="([^"]+)">/)[1], /refrigerated freight/);
 });
