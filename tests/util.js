@@ -39,7 +39,21 @@ if (fs.existsSync(dirEn)) {
   }
 }
 
-const paginas = { ...paginasEs, ...paginasEn };
+// Portugués de Brasil bajo /pt/ (03/11/2026, web/seo-deep-2026-11-03/
+// E-languages-markets.md §3.2): sólo las 7 páginas de `paresPt`, con la misma
+// regla de clave ('pt/index.html'). Entran en `paginas`, así que las guardias
+// de todo el sitio (teléfonos, GA4, imágenes, rutas, prefill) las cubren.
+const dirPt = path.join(raiz, 'pt');
+const paginasPt = {};
+if (fs.existsSync(dirPt)) {
+  for (const nombre of fs.readdirSync(dirPt).sort()) {
+    if (nombre.endsWith('.html')) {
+      paginasPt[`pt/${nombre}`] = leer(`pt/${nombre}`);
+    }
+  }
+}
+
+const paginas = { ...paginasEs, ...paginasEn, ...paginasPt };
 
 // ---------------------------------------------------------------------------
 // Mapa de gemelas ES ↔ EN. ÚNICA fuente de verdad de qué página tiene versión
@@ -98,6 +112,21 @@ const pares = {
   'transporte-de-personal-obras-de-litio.html': 'en/crew-transport-lithium-projects.html',
 };
 
+// Mapa de gemelas ES ↔ PT, con la misma regla que `pares`: clave = archivo en
+// español, valor = archivo en portugués bajo pt/. Sólo estas 7: el resto del
+// sitio sigue con su par ES/EN y no lleva hreflang "pt" (Google descarta un
+// hreflang que no es recíproco). Toda página de `paresPt` tiene además gemela
+// inglesa en `pares`, así que cada grupo es un trío es/en/pt.
+const paresPt = {
+  'index.html':                                   'pt/index.html',
+  'turismo.html':                                 'pt/passeios-e-traslados.html',
+  'traslado-salta-san-pedro-de-atacama.html':     'pt/traslado-salta-san-pedro-de-atacama.html',
+  'traslado-salta-uyuni.html':                    'pt/traslado-salta-uyuni.html',
+  'salinas-grandes-desde-salta.html':             'pt/salinas-grandes-saindo-de-salta.html',
+  'traslado-salta-cafayate.html':                 'pt/traslado-salta-cafayate.html',
+  'traslado-salta-purmamarca-tilcara-humahuaca.html': 'pt/traslado-salta-purmamarca-tilcara-humahuaca.html',
+};
+
 // Página de /en/ que existe sin ser gemela de nadie (no se indexa).
 const sinGemelaEn = ['en/404.html'];
 
@@ -109,6 +138,7 @@ const DOMINIO = 'https://www.lausof.com';
 const urlDe = (archivo) => {
   if (archivo === 'index.html') return `${DOMINIO}/`;
   if (archivo === 'en/index.html') return `${DOMINIO}/en/`;
+  if (archivo === 'pt/index.html') return `${DOMINIO}/pt/`;
   return `${DOMINIO}/${archivo}`;
 };
 
@@ -119,7 +149,9 @@ module.exports = {
   paginas,
   paginasEs,
   paginasEn,
+  paginasPt,
   pares,
+  paresPt,
   sinGemelaEn,
   urlDe,
   rutaDe,

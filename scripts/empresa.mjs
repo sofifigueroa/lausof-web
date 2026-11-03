@@ -41,6 +41,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { paginas as todasLasPaginas } from './rutas-raiz.mjs';
 
 export const raiz = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const ID_EMPRESA = 'https://www.lausof.com/#empresa';
@@ -94,12 +95,9 @@ export const bloque = () =>
 // Páginas que llevan el bloque: todas menos la portada (que tiene la ficha
 // ampliada), las 404 (no se indexan y no tienen datos estructurados) y el
 // archivo de verificación de Google.
+// La lista de idiomas (raíz, /en/, /pt/) vive en scripts/rutas-raiz.mjs.
 export function paginas() {
-  const es = fs.readdirSync(raiz).filter((f) => f.endsWith('.html') && !f.startsWith('google'));
-  const en = fs.existsSync(path.join(raiz, 'en'))
-    ? fs.readdirSync(path.join(raiz, 'en')).filter((f) => f.endsWith('.html')).map((f) => `en/${f}`)
-    : [];
-  return [...es, ...en].filter((f) => f !== 'index.html' && !f.endsWith('404.html')).sort();
+  return todasLasPaginas().filter((f) => f !== 'index.html' && !f.endsWith('404.html')).sort();
 }
 
 // La página con el bloque al día, justo antes de </head>. Pura e idempotente.

@@ -18,7 +18,7 @@
    así le cuesta un salto a la visita.
 
    Y para los enlaces entre páginas: `turismo.html` pasa a `/turismo.html`
-   (desde /en/, `x.html` pasa a `/en/x.html`). Con la ruta relativa, desde la
+   (desde /en/, `x.html` pasa a `/en/x.html`; desde /pt/, a `/pt/x.html`). Con la ruta relativa, desde la
    variante /turismo/ el menú llevaba a /turismo/turismo.html (pendiente del
    03/11).
 
@@ -49,7 +49,8 @@ function arreglarUrl(url, carpeta = '') {
   return url;
 }
 
-// `carpeta` es la de la página que se reescribe ('' en la raíz, 'en/' en inglés).
+// `carpeta` es la de la página que se reescribe ('' en la raíz, 'en/' en
+// inglés, 'pt/' en portugués).
 export function arreglarHtml(html, carpeta = '') {
   return html.replace(ATRIBUTO, (todo, nombre, valor) => {
     const nuevo = nombre === 'srcset'
@@ -59,11 +60,24 @@ export function arreglarHtml(html, carpeta = '') {
   });
 }
 
+// Carpetas de los otros idiomas: inglés en /en/ y portugués (Brasil) en /pt/
+// desde el 03/11/2026. ÚNICA lista de idiomas de los scripts: empresa.mjs,
+// imagenes.mjs y prefill.mjs recorren las páginas con paginas() de acá.
+export const CARPETAS_IDIOMA = ['en', 'pt'];
+
+// La carpeta de idioma de una página ('en/', 'pt/' o '' en la raíz).
+export const carpetaDe = (pagina) => {
+  const m = pagina.match(/^([a-z]{2})\//);
+  return m && CARPETAS_IDIOMA.includes(m[1]) ? `${m[1]}/` : '';
+};
+
 export function paginas() {
   const lista = readdirSync(raiz).filter((f) => f.endsWith('.html') && !f.startsWith('google')).sort();
-  const dirEn = join(raiz, 'en');
-  if (existsSync(dirEn)) {
-    lista.push(...readdirSync(dirEn).filter((f) => f.endsWith('.html')).sort().map((f) => `en/${f}`));
+  for (const carpeta of CARPETAS_IDIOMA) {
+    const dir = join(raiz, carpeta);
+    if (existsSync(dir)) {
+      lista.push(...readdirSync(dir).filter((f) => f.endsWith('.html')).sort().map((f) => `${carpeta}/${f}`));
+    }
   }
   return lista;
 }
@@ -74,7 +88,7 @@ function principal() {
   for (const pagina of paginas()) {
     const ruta = join(raiz, pagina);
     const actual = readFileSync(ruta, 'utf8');
-    const nuevo = arreglarHtml(actual, pagina.startsWith('en/') ? 'en/' : '');
+    const nuevo = arreglarHtml(actual, carpetaDe(pagina));
     if (nuevo !== actual) {
       cambiadas.push(pagina);
       if (!comprobar) writeFileSync(ruta, nuevo);

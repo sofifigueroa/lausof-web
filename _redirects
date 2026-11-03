@@ -158,6 +158,13 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /en/transfer-carnival-quebrada-de-humahuaca   /en/transfer-carnival-quebrada-de-humahuaca.html  301!
 /en/warehouse                                 /en/warehouse.html                                301!
 /en/wedding-transportation                    /en/wedding-transportation.html                   301!
+# Portugués de Brasil (03/11/2026): las mismas variantes sin .html de /pt/.
+/pt/passeios-e-traslados                      /pt/passeios-e-traslados.html                     301!
+/pt/salinas-grandes-saindo-de-salta           /pt/salinas-grandes-saindo-de-salta.html          301!
+/pt/traslado-salta-cafayate                   /pt/traslado-salta-cafayate.html                  301!
+/pt/traslado-salta-purmamarca-tilcara-humahuaca  /pt/traslado-salta-purmamarca-tilcara-humahuaca.html  301!
+/pt/traslado-salta-san-pedro-de-atacama       /pt/traslado-salta-san-pedro-de-atacama.html      301!
+/pt/traslado-salta-uyuni                      /pt/traslado-salta-uyuni.html                     301!
 
 # Versión en inglés bajo /en/. Las dos reglas van en este orden y no al revés:
 # Netlify aplica la PRIMERA que matchea, y /en/* también matchearía
@@ -168,6 +175,11 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 # archivo existe y sin él Netlify no aplica reglas sobre rutas reales. No hay
 # bucle: el destino /en/ no matchea /en/index.html.
 /en/index.html  /en/           301!
+
+# Lo mismo para la portada en portugués: se pide como /pt/ y /pt/index.html
+# es una copia. Sin comodín /pt/*: una ruta inexistente bajo /pt/ cae en la
+# 404 en español de la raíz (no hay 404 en portugués todavía).
+/pt/index.html  /pt/           301!
 
 # La 404 propia del directorio: cualquier ruta inexistente que empiece con
 # /en/ devuelve la 404 en inglés, con estado 404 de verdad. No es un comodín

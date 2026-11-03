@@ -12,7 +12,7 @@
 const test = require('node:test');
 const assert = require('node:assert');
 const {
-  paginas, paginasEs, paginasEn, pares, sinGemelaEn,
+  paginas, paginasEs, paginasEn, paginasPt, pares, paresPt, sinGemelaEn,
   urlDe, rutaDe, DOMINIO, index, sitemap, redirects, sinComentarios,
 } = require('./util.js');
 
@@ -100,17 +100,24 @@ test('ninguna página de /en/ quedó huérfana del mapa de pares', () => {
 //      páginas que tienen gemela. Google: "si dos páginas no se apuntan
 //      mutuamente, las etiquetas se ignoran".
 // ---------------------------------------------------------------------------
+// Las páginas con versión en portugués (tests/util.js, `paresPt`) suman "pt" al
+// mismo bloque, en las tres: un trío es/en/pt donde cada una nombra a las
+// otras dos y a sí misma, con el x-default igual que antes, en el español.
+const trioDe = (es) => [[es, paginasEs[es]], [pares[es], paginasEn[pares[es]]],
+  ...(paresPt[es] ? [[paresPt[es], paginasPt[paresPt[es]]]] : [])];
+
 for (const [es, en] of Object.entries(pares)) {
   test(`${es} ↔ ${en}: hreflang recíproco e idéntico en las dos gemelas`, () => {
     const esperado = { es: urlDe(es), en: urlDe(en), 'x-default': urlDe(es) };
-    for (const [nombre, html] of [[es, paginasEs[es]], [en, paginasEn[en]]]) {
+    if (paresPt[es]) esperado.pt = urlDe(paresPt[es]);
+    for (const [nombre, html] of trioDe(es)) {
       assert.deepStrictEqual(alternativas(html), esperado,
         `el bloque hreflang de ${nombre} no coincide con el de su gemela`);
     }
   });
 
   test(`${es} ↔ ${en}: el x-default apunta a la versión en español`, () => {
-    for (const [nombre, html] of [[es, paginasEs[es]], [en, paginasEn[en]]]) {
+    for (const [nombre, html] of trioDe(es)) {
       assert.strictEqual(alternativas(html)['x-default'], urlDe(es),
         `el x-default de ${nombre} no apunta al español`);
     }
@@ -118,7 +125,7 @@ for (const [es, en] of Object.entries(pares)) {
 }
 
 test('ninguna página sin gemela lleva hreflang', () => {
-  const conGemela = new Set([...Object.keys(pares), ...Object.values(pares)]);
+  const conGemela = new Set([...Object.keys(pares), ...Object.values(pares), ...Object.values(paresPt)]);
   for (const [nombre, html] of Object.entries(paginas)) {
     if (conGemela.has(nombre)) continue;
     assert.deepStrictEqual(alternativas(html), {},
@@ -135,12 +142,19 @@ const switcherDe = (html) =>
   [...sinComentarios(html).matchAll(/<a\b[^>]*\bclass="[^"]*\blang-switch\b[^"]*"[^>]*>/g)]
     .map((m) => (m[0].match(/\bhref="([^"]+)"/) || [])[1]);
 
+// Con versión en portugués, el selector lleva un enlace por cada OTRO idioma,
+// en orden fijo es · en · pt (la hoja ya separa dos .lang-switch seguidos).
 for (const [es, en] of Object.entries(pares)) {
   test(`${es} ↔ ${en}: el selector de idioma enlaza a la gemela en las dos direcciones`, () => {
-    assert.deepStrictEqual(switcherDe(paginasEs[es]), [rutaDe(en)],
-      `el selector de ${es} no apunta a su gemela ${rutaDe(en)}`);
-    assert.deepStrictEqual(switcherDe(paginasEn[en]), [rutaDe(es)],
-      `el selector de ${en} no apunta a su gemela ${rutaDe(es)}`);
+    const pt = paresPt[es];
+    assert.deepStrictEqual(switcherDe(paginasEs[es]), [rutaDe(en), ...(pt ? [rutaDe(pt)] : [])],
+      `el selector de ${es} no apunta a sus gemelas`);
+    assert.deepStrictEqual(switcherDe(paginasEn[en]), [rutaDe(es), ...(pt ? [rutaDe(pt)] : [])],
+      `el selector de ${en} no apunta a sus gemelas`);
+    if (pt) {
+      assert.deepStrictEqual(switcherDe(paginasPt[pt]), [rutaDe(es), rutaDe(en)],
+        `el selector de ${pt} no apunta a sus gemelas`);
+    }
   });
 }
 
@@ -197,29 +211,41 @@ const hrefDe = (etiqueta) => (etiqueta.match(/\bhref="([^"]+)"/) || [])[1];
 // Qué gemela le toca al pie de cada página. Una página sin gemela manda a la
 // portada del otro idioma, igual que su selector de la barra: es lo más
 // cercano que hay, y la portada lista el resto.
+// Una lista por página, en orden es · en · pt: las páginas con versión en
+// portugués llevan un enlace por cada otro idioma, igual que su selector.
 const gemelaDelPie = {};
 for (const nombre of Object.keys(paginasEs)) {
-  gemelaDelPie[nombre] = { href: pares[nombre] ? rutaDe(pares[nombre]) : '/en/', idioma: 'en' };
+  gemelaDelPie[nombre] = [{ href: pares[nombre] ? rutaDe(pares[nombre]) : '/en/', idioma: 'en' },
+    ...(paresPt[nombre] ? [{ href: rutaDe(paresPt[nombre]), idioma: 'pt' }] : [])];
 }
 for (const nombre of Object.keys(paginasEn)) {
   const es = Object.keys(pares).find((k) => pares[k] === nombre);
-  gemelaDelPie[nombre] = { href: es ? rutaDe(es) : rutaDe('index.html'), idioma: 'es' };
+  gemelaDelPie[nombre] = [{ href: es ? rutaDe(es) : rutaDe('index.html'), idioma: 'es' },
+    ...(es && paresPt[es] ? [{ href: rutaDe(paresPt[es]), idioma: 'pt' }] : [])];
+}
+for (const nombre of Object.keys(paginasPt)) {
+  const es = Object.keys(paresPt).find((k) => paresPt[k] === nombre);
+  gemelaDelPie[nombre] = es
+    ? [{ href: rutaDe(es), idioma: 'es' }, { href: rutaDe(pares[es]), idioma: 'en' }]
+    : [];
 }
 
 for (const [nombre, html] of Object.entries(paginas)) {
-  const { href, idioma } = gemelaDelPie[nombre];
-  test(`${nombre}: el pie lleva un enlace al otro idioma y apunta a la gemela`, () => {
+  const esperados = gemelaDelPie[nombre];
+  test(`${nombre}: el pie lleva un enlace a cada otro idioma y apunta a la gemela`, () => {
     const enlaces = idiomaEnPie(html);
-    assert.strictEqual(enlaces.length, 1,
-      `${nombre} tendría que tener exactamente un enlace de idioma en el pie y tiene ${enlaces.length}` +
+    assert.strictEqual(enlaces.length, esperados.length,
+      `${nombre} tendría que tener ${esperados.length} enlace(s) de idioma en el pie y tiene ${enlaces.length}` +
       ' (por debajo de 880 px el menú se esconde y el pie es la única salida al otro idioma)');
-    assert.strictEqual(hrefDe(enlaces[0]), href,
-      `el enlace de idioma del pie de ${nombre} no apunta a ${href}`);
-    assert.match(enlaces[0], new RegExp(`hreflang="${idioma}"`),
-      `el enlace de idioma del pie de ${nombre} no declara hreflang="${idioma}"`);
-    assert.ok(!/class="[^"]*\blang-switch\b/.test(enlaces[0]),
-      `el enlace del pie de ${nombre} lleva la clase .lang-switch: esa clase marca el ` +
-      'selector de la barra y sólo puede haber uno por página');
+    esperados.forEach(({ href, idioma }, i) => {
+      assert.strictEqual(hrefDe(enlaces[i]), href,
+        `el enlace de idioma del pie de ${nombre} no apunta a ${href}`);
+      assert.match(enlaces[i], new RegExp(`hreflang="${idioma}"`),
+        `el enlace de idioma del pie de ${nombre} no declara hreflang="${idioma}"`);
+      assert.ok(!/class="[^"]*\blang-switch\b/.test(enlaces[i]),
+        `el enlace del pie de ${nombre} lleva la clase .lang-switch: esa clase marca el ` +
+        'selector de la barra, no el pie');
+    });
   });
 }
 

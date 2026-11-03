@@ -196,6 +196,33 @@ El generador `scripts/generar-flota.mjs` no se tocó y `flota-en-venta.html`
 **no tiene gemela inglesa** (sus textos están hardcodeados en castellano dentro
 del generador). Las páginas en inglés no la enlazan.
 
+## Versión en portugués (Brasil)
+
+Desde el 03/11/2026 hay 7 páginas en portugués de Brasil bajo `/pt/`, sólo
+para el mercado brasileño de turismo (recomendación y reglas:
+`web/seo-deep-2026-11-03/E-languages-markets.md` §3): portada, paseos y
+traslados, San Pedro de Atacama, Uyuni, Salinas Grandes, Cafayate y la
+Quebrada. El mapa es `paresPt` en `tests/util.js` (clave = página en español).
+
+- **Grupos es/en/pt:** cada página del mapa y sus dos gemelas llevan el mismo
+  bloque hreflang de cuatro líneas (es, en, pt, x-default al español). Las
+  demás páginas siguen con su par ES/EN y **no** llevan `pt`.
+- **Selector y pie:** en esos grupos hay un `.lang-switch` por cada otro
+  idioma (orden es · en · pt) y un enlace de pie por cada otro idioma.
+- `<html lang="pt-BR">`, `og:locale` pt_BR, `inLanguage` "pt-BR". El
+  correo es sólo `transporte@lausof.com`; el WhatsApp abre con "Olá Lausof".
+  Los renglones en portugués están en `scripts/prefill.mjs` (`pt` de cada tipo).
+- Los enlaces a páginas que no tienen versión pt van a la página en español,
+  con `hreflang="es"` y la aclaración "(em espanhol)".
+- Los datos para el viajero brasileño (vuelo GOL Rio–Salta desde el
+  17/12/2026, documentos por la Decisión MERCOSUL/CMC 10/26, julio como
+  temporada alta) viven en `#brasil` de `pt/passeios-e-traslados.html`, con
+  fuente y fecha; las otras páginas enlazan ahí. Guardias:
+  `tests/portugues.test.js`.
+- No hay 404 en portugués: una ruta inexistente bajo `/pt/` cae en la 404 en
+  español. Los scripts recorren `/en/` y `/pt/` desde `CARPETAS_IDIOMA` en
+  `scripts/rutas-raiz.mjs`.
+
 ## Ficha de la empresa en los datos estructurados
 
 Todas las páginas referencian la entidad `https://www.lausof.com/#empresa`

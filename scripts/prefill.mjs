@@ -27,7 +27,8 @@
      `data-prefill="tipo"` (p. ej. el auxilio en la portada).
    - Un wa.me sin texto (el del pie) toma la primera línea más usada en la
      página. Un mailto sin asunto toma el asunto más usado en la página (o
-     "Pedido de cotización" / "Quote request" si ninguno tiene).
+     "Pedido de cotización" / "Quote request" / "Pedido de orçamento" si
+     ninguno tiene).
    - El correo lleva los mismos renglones como `body=`, sin tocar el
      destinatario, la copia (cc) ni el asunto.
    - Las zonas <!-- GENERADO:... --> son de otro script (la flota en venta) y
@@ -44,78 +45,103 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { raiz, paginas } from './rutas-raiz.mjs';
+import { raiz, paginas, carpetaDe } from './rutas-raiz.mjs';
 
 /* ---- renglones por tipo --------------------------------------------------
-   `es`/`en`: renglones del WhatsApp y del correo. `correoEs`/`correoEn`, si
-   están, reemplazan a los anteriores sólo en el correo (donde entra más). */
+   `es`/`en`/`pt`: renglones del WhatsApp y del correo. `correoEs`/`correoEn`/
+   `correoPt`, si están, reemplazan a los anteriores sólo en el correo (donde
+   entra más). `pt` es portugués de Brasil (páginas de /pt/, 03/11/2026): la
+   familia responde las consultas en portugués con traductor. */
 const PASAJEROS_ES = ['Fecha', 'Pasajeros', 'Lugar de salida', 'Solo ida o ida y vuelta'];
 const PASAJEROS_EN = ['Date', 'Passengers', 'Pickup place', 'One way or return'];
+const PASAJEROS_PT = ['Data', 'Passageiros', 'Local de saída', 'Só ida ou ida e volta'];
 
 export const TIPOS = {
   // Rutas, excursiones, eventos, grupos: lo mismo que pide cada página al pie.
-  pasajeros: { es: PASAJEROS_ES, en: PASAJEROS_EN },
-  turismo: { es: ['Destino o excursión', ...PASAJEROS_ES], en: ['Destination or day trip', ...PASAJEROS_EN] },
-  internacional: { es: ['Destino', ...PASAJEROS_ES], en: ['Destination', ...PASAJEROS_EN] },
+  pasajeros: { es: PASAJEROS_ES, en: PASAJEROS_EN, pt: PASAJEROS_PT },
+  turismo: {
+    es: ['Destino o excursión', ...PASAJEROS_ES],
+    en: ['Destination or day trip', ...PASAJEROS_EN],
+    pt: ['Destino ou passeio', ...PASAJEROS_PT],
+  },
+  internacional: { es: ['Destino', ...PASAJEROS_ES], en: ['Destination', ...PASAJEROS_EN], pt: ['Destino', ...PASAJEROS_PT] },
   aeropuerto: {
     es: ['Número de vuelo', 'Fecha y hora del vuelo', 'Pasajeros y valijas', 'Hotel o destino', 'Solo ida o ida y vuelta'],
     en: ['Flight number', 'Flight date and time', 'Passengers and bags', 'Hotel or destination', 'One way or return'],
+    pt: ['Número do voo', 'Data e horário do voo', 'Passageiros e malas', 'Hotel ou destino', 'Só ida ou ida e volta'],
   },
   'combi-dia': {
     es: ['Fecha', 'Cantidad de días', 'Pasajeros', 'Lugar de salida', 'Recorrido'],
     en: ['Date', 'Number of days', 'Passengers', 'Pickup place', 'Itinerary'],
+    pt: ['Data', 'Quantidade de dias', 'Passageiros', 'Local de saída', 'Roteiro'],
   },
   camioneta: {
     es: ['Fecha de retiro', 'Cantidad de días', 'Con o sin chofer', 'Pasajeros', 'Lugar de retiro'],
     en: ['Pickup date', 'Number of days', 'Self-drive or with driver', 'Passengers', 'Pickup place'],
+    pt: ['Data de retirada', 'Quantidade de dias', 'Com ou sem motorista', 'Passageiros', 'Local de retirada'],
   },
   personal: {
     es: ['Fecha o frecuencia', 'Personas', 'Origen', 'Destino', 'Solo ida o ida y vuelta'],
     en: ['Date or schedule', 'People', 'From', 'To', 'One way or return'],
+    pt: ['Data ou frequência', 'Pessoas', 'Origem', 'Destino', 'Só ida ou ida e volta'],
   },
-  auxilio: { es: ['Ubicación', 'Vehículo', 'Qué pasó'], en: ['Location', 'Vehicle', 'What happened'] },
-  taller: { es: ['Vehículo', 'Qué necesita', 'Fecha'], en: ['Vehicle', 'What it needs', 'Date'] },
+  auxilio: {
+    es: ['Ubicación', 'Vehículo', 'Qué pasó'],
+    en: ['Location', 'Vehicle', 'What happened'],
+    pt: ['Localização', 'Veículo', 'O que aconteceu'],
+  },
+  taller: { es: ['Vehículo', 'Qué necesita', 'Fecha'], en: ['Vehicle', 'What it needs', 'Date'], pt: ['Veículo', 'O que precisa', 'Data'] },
   carga: {
     es: ['Carga', 'Peso o volumen', 'Origen', 'Destino', 'Fecha'],
     en: ['Cargo', 'Weight or volume', 'From', 'To', 'Date'],
+    pt: ['Carga', 'Peso ou volume', 'Origem', 'Destino', 'Data'],
   },
   refrigerado: {
     es: ['Carga', 'Temperatura', 'Origen', 'Destino', 'Fechas'],
     en: ['Cargo', 'Temperature', 'From', 'To', 'Dates'],
     correoEs: ['Tipo de carga', 'Peso o volumen', 'Temperatura requerida (°C)', 'Origen', 'Destino', 'Fechas de carga y entrega', 'Empresa y contacto'],
     correoEn: ['Cargo type', 'Weight or volume', 'Temperature required (°C)', 'Origin', 'Destination', 'Pickup and delivery dates', 'Company and contact'],
+    pt: ['Carga', 'Temperatura', 'Origem', 'Destino', 'Datas'],
+    correoPt: ['Tipo de carga', 'Peso ou volume', 'Temperatura necessária (°C)', 'Origem', 'Destino', 'Datas de coleta e entrega', 'Empresa e contato'],
   },
   deposito: {
     es: ['Mercadería', 'Espacio (m² o pallets)', 'Desde cuándo', 'Por cuánto tiempo'],
     en: ['Goods', 'Space (m² or pallets)', 'Start date', 'How long'],
+    pt: ['Mercadoria', 'Espaço (m² ou paletes)', 'A partir de quando', 'Por quanto tempo'],
   },
   autoelevador: {
     es: ['Fecha', 'Cantidad de días', 'Lugar', 'Peso a mover'],
     en: ['Date', 'Number of days', 'Location', 'Weight to lift'],
+    pt: ['Data', 'Quantidade de dias', 'Local', 'Peso a movimentar'],
   },
   mineria: {
     es: ['Servicio (personal, carga o asistencia)', 'Mina o campamento', 'Fecha', 'Personas o carga'],
     en: ['Service (crew, cargo or support)', 'Mine or camp', 'Date', 'People or cargo'],
+    pt: ['Serviço (pessoal, carga ou assistência)', 'Mina ou acampamento', 'Data', 'Pessoas ou carga'],
   },
   produccion: {
     es: ['Fechas del rodaje', 'Locaciones', 'Personas del equipo', 'Vehículos o equipos'],
     en: ['Shoot dates', 'Locations', 'Crew size', 'Vehicles or equipment'],
+    pt: ['Datas da filmagem', 'Locações', 'Pessoas da equipe', 'Veículos ou equipamentos'],
   },
   agencia: {
     es: ['Agencia', 'Servicios que necesitan', 'Temporada o fechas'],
     en: ['Agency', 'Services you need', 'Season or dates'],
+    pt: ['Agência', 'Serviços de que precisam', 'Temporada ou datas'],
   },
   // Agencias y hoteles (la página B2B nombra a los dos).
   'agencia-hotel': {
     es: ['Agencia u hotel', 'Servicios que necesitan', 'Temporada o fechas'],
     en: ['Tour operator or hotel', 'Services you need', 'Season or dates'],
+    pt: ['Agência ou hotel', 'Serviços de que precisam', 'Temporada ou datas'],
   },
   general: {
     es: ['Servicio', 'Fecha', 'Origen y destino', 'Pasajeros o carga'],
     en: ['Service', 'Date', 'From and to', 'Passengers or cargo'],
+    pt: ['Serviço', 'Data', 'Origem e destino', 'Passageiros ou carga'],
   },
   // Venta de unidades (WhatsApp de ventas): no es una cotización.
-  flota: { es: ['Unidad'], en: ['Vehicle'] },
+  flota: { es: ['Unidad'], en: ['Vehicle'], pt: ['Veículo'] },
 };
 
 /* ---- tipo de cada página ---------------------------------------------------
@@ -191,14 +217,27 @@ export const PAGINAS = {
   'en/uyuni-to-salta.html': 'pasajeros',
   'en/warehouse.html': 'deposito',
   'en/wedding-transportation.html': 'pasajeros',
+  // Portugués de Brasil (03/11/2026): las 7 páginas de /pt/.
+  'pt/index.html': 'general',
+  'pt/passeios-e-traslados.html': 'turismo',
+  'pt/traslado-salta-san-pedro-de-atacama.html': 'pasajeros',
+  'pt/traslado-salta-uyuni.html': 'pasajeros',
+  'pt/salinas-grandes-saindo-de-salta.html': 'pasajeros',
+  'pt/traslado-salta-cafayate.html': 'pasajeros',
+  'pt/traslado-salta-purmamarca-tilcara-humahuaca.html': 'pasajeros',
 };
 
 /* ---- lectura y escritura de enlaces -------------------------------------- */
 
 // Asunto de un mailto que no lo tiene, cuando ningún otro de la página lo da.
-const ASUNTO = { es: encodeURIComponent('Pedido de cotización'), en: encodeURIComponent('Quote request') };
+const ASUNTO = {
+  es: encodeURIComponent('Pedido de cotización'),
+  en: encodeURIComponent('Quote request'),
+  pt: encodeURIComponent('Pedido de orçamento'),
+};
 
-export const idiomaDe = (pagina) => (pagina.startsWith('en/') ? 'en' : 'es');
+// El idioma sale de la carpeta: /en/ inglés, /pt/ portugués, la raíz español.
+export const idiomaDe = (pagina) => carpetaDe(pagina).slice(0, 2) || 'es';
 
 const ZONA_GENERADA = /<!-- GENERADO:([A-Z]+)[\s\S]*?<!-- \/GENERADO:\1 -->/g;
 // Una etiqueta de apertura que lleva un enlace de contacto en href o data-enlace.
@@ -267,7 +306,8 @@ const masUsado = (valores) => {
 
 export const renglones = (tipo, idioma, canal) => {
   const t = TIPOS[tipo];
-  return (canal === 'correo' && t[idioma === 'en' ? 'correoEn' : 'correoEs']) || t[idioma];
+  const correo = `correo${idioma[0].toUpperCase()}${idioma.slice(1)}`;
+  return (canal === 'correo' && t[correo]) || t[idioma];
 };
 
 export const primeraLinea = (texto) => texto.split('\n')[0].trim();
