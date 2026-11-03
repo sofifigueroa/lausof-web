@@ -155,7 +155,7 @@ const rutaDe = (archivo) => urlDe(archivo).slice(DOMINIO.length);
 // `sinEnlaceResenas` saca ese renglón exacto para que las guardias que vedan
 // hablar de reseñas sigan cortando cualquier otro texto.
 const RESENAS = 'https://www.google.com/maps?cid=13700114490953273065';
-const RENGLON_RESENAS = /<span><a href="https:\/\/www\.google\.com\/maps\?cid=13700114490953273065" target="_blank" rel="noopener"><b>(?:Reseñas en Google|Google reviews)<\/b><\/a>: (?:4,9 de 5, con 9 reseñas \(03\/11\/2026\)|4\.9 out of 5 from 9 reviews \(November 3, 2026\))<\/span>/g;
+const RENGLON_RESENAS = /<span><a href="https:\/\/www\.google\.com\/maps\?cid=13700114490953273065" target="_blank" rel="noopener"><b>(?:Reseñas en Google|Google reviews|Avaliações no Google)<\/b><\/a>: (?:4,9 de 5, con 9 reseñas \(03\/11\/2026\)|4\.9 out of 5 from 9 reviews \(November 3, 2026\)|4,9 de 5, com 9 avaliações \(03\/11\/2026\))<\/span>/g;
 const sinEnlaceResenas = (html) => html.replace(RENGLON_RESENAS, '');
 
 module.exports = {

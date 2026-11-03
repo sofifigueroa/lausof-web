@@ -13,7 +13,7 @@ const { paginas, sinComentarios, RESENAS, RENGLON_RESENAS, sinEnlaceResenas } = 
 
 // Páginas de ruta y de eventos, por nombre: una página nueva de ruta o de
 // evento entra sola.
-const RUTA_O_EVENTO = /^(traslados?-|salinas-grandes-|semana-santa-|charter-|peregrinaciones-|feriados-|clubes-|viajes-)|^en\/(salta-to-|[a-z-]+-to-salta|salinas-grandes-|international-|transfer-|train-|jujuy-|holy-week-|wedding-)/;
+const RUTA_O_EVENTO = /^(traslados?-|salinas-grandes-|semana-santa-|charter-|peregrinaciones-|feriados-|clubes-|viajes-)|^en\/(salta-to-|[a-z-]+-to-salta|salinas-grandes-|international-|transfer-|train-|jujuy-|holy-week-|wedding-)|^pt\/(traslado-|salinas-grandes-)/;
 const conEnlace = Object.keys(paginas).filter((n) => RUTA_O_EVENTO.test(n));
 
 const visible = (html) => sinComentarios(html)
@@ -23,7 +23,9 @@ const visible = (html) => sinComentarios(html)
   .replace(/\s+/g, ' ');
 
 test('la lista de páginas de ruta y de eventos no quedó vacía', () => {
-  assert.ok(conEnlace.length >= 38, `sólo ${conEnlace.length} páginas de ruta o de eventos`);
+  assert.ok(conEnlace.length >= 43, `sólo ${conEnlace.length} páginas de ruta o de eventos`);
+  // Las 5 páginas de ruta en portugués (03/11/2026) también llevan el renglón.
+  assert.strictEqual(conEnlace.filter((n) => n.startsWith('pt/')).length, 5, 'faltan páginas de ruta en portugués');
 });
 
 for (const nombre of conEnlace) {
@@ -36,7 +38,7 @@ for (const nombre of conEnlace) {
     // botones del encabezado.
     const franja = html.match(/<div class="certs"[^>]*>([\s\S]*?)<\/div>\s*<\/div>/);
     assert.ok(franja && franja[1].includes(RESENAS), 'el enlace no está en la franja de habilitaciones');
-    const idioma = nombre.startsWith('en/') ? /Google reviews/ : /Reseñas en Google/;
+    const idioma = nombre.startsWith('en/') ? /Google reviews/ : nombre.startsWith('pt/') ? /Avaliações no Google/ : /Reseñas en Google/;
     assert.match(renglones[0], idioma, 'el renglón no está en el idioma de la página');
   });
 }
@@ -49,7 +51,7 @@ for (const [nombre, html] of Object.entries(paginas)) {
   if (PORTADAS.includes(nombre)) continue;
   test(`${nombre}: no habla de reseñas fuera del enlace al perfil de Google`, () => {
     const texto = visible(sinEnlaceResenas(html));
-    const m = texto.match(/\b(rese[ñn]as?|reviews?|opiniones|testimonios?|calificaci[oó]n|rating|stars?|estrellas)\b|★/i);
+    const m = texto.match(/(?<![\p{L}])(rese[ñn]as?|reviews?|opiniones|testimonios?|calificaci[oó]n|rating|stars?|estrellas|avalia[çc](?:ão|ões)|depoimentos?|estrelas)(?![\p{L}])|★/iu);
     assert.ok(!m, `${nombre} habla de reseñas: "${m && texto.slice(Math.max(0, m.index - 40), m.index + 40)}"`);
     assert.ok(!/<blockquote/i.test(html), `${nombre} cita un texto como reseña`);
   });
@@ -59,7 +61,7 @@ test('el puntaje y la cantidad son los mismos en todas las páginas', () => {
   const valores = new Set();
   for (const html of Object.values(paginas)) {
     for (const r of html.match(RENGLON_RESENAS) || []) {
-      valores.add(r.replace(/.*<\/a>: /, '').replace(/<\/span>$/, '').replace('4.9 out of 5 from 9 reviews (November 3, 2026)', '4,9 de 5, con 9 reseñas (03/11/2026)'));
+      valores.add(r.replace(/.*<\/a>: /, '').replace(/<\/span>$/, '').replace('4.9 out of 5 from 9 reviews (November 3, 2026)', '4,9 de 5, con 9 reseñas (03/11/2026)').replace('4,9 de 5, com 9 avaliações (03/11/2026)', '4,9 de 5, con 9 reseñas (03/11/2026)'));
     }
   }
   assert.deepStrictEqual([...valores], ['4,9 de 5, con 9 reseñas (03/11/2026)']);
