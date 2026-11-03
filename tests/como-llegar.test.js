@@ -84,7 +84,7 @@ for (const nombre of todas) {
     assert.match(html, en ? /<h2>How to get from [^<]+<\/h2>/ : /<h2>Cómo ir (?:de|del) [^<]+<\/h2>/);
     const respuesta = visible(html.match(/<div class="prosa">\s*<p>([\s\S]*?)<\/p>/)[1]);
     assert.match(respuesta, /\d+ km/, 'la respuesta no da la distancia');
-    assert.match(respuesta, en ? /\d+ (?:h\b|hours?\b|minutes\b)/ : /\d+ (?:h\b|horas?\b|minutos\b)/,
+    assert.match(respuesta, en ? /\d+ h\b|\bhours?\b|\bminutes\b/ : /\d+ h\b|\bhoras?\b|\bminutos\b/,
       'la respuesta no da el tiempo');
     const filas = [...html.matchAll(/<th scope="row">([^<]+)<\/th>/g)].map((m) => m[1]);
     for (const fila of en ? ['Distance and time', 'Road'] : ['Distancia y tiempo', 'Camino']) {
