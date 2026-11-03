@@ -90,6 +90,8 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /traslado-salta-san-antonio-de-los-cobres     /traslado-salta-san-antonio-de-los-cobres.html    301!
 /traslado-salta-san-pedro-de-atacama          /traslado-salta-san-pedro-de-atacama.html         301!
 /traslado-salta-uyuni                         /traslado-salta-uyuni.html                        301!
+/traslado-san-pedro-de-atacama-salta          /traslado-san-pedro-de-atacama-salta.html         301!
+/traslado-uyuni-salta                         /traslado-uyuni-salta.html                        301!
 /traslado-serenata-a-cafayate                 /traslado-serenata-a-cafayate.html                301!
 /traslado-tren-a-las-nubes                    /traslado-tren-a-las-nubes.html                   301!
 /traslados-casamientos                        /traslados-casamientos.html                       301!
@@ -116,6 +118,8 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /en/salta-to-san-antonio-de-los-cobres        /en/salta-to-san-antonio-de-los-cobres.html       301!
 /en/salta-to-san-pedro-de-atacama             /en/salta-to-san-pedro-de-atacama.html            301!
 /en/salta-to-uyuni                            /en/salta-to-uyuni.html                           301!
+/en/san-pedro-de-atacama-to-salta             /en/san-pedro-de-atacama-to-salta.html            301!
+/en/uyuni-to-salta                            /en/uyuni-to-salta.html                           301!
 /en/tours-and-transfers                       /en/tours-and-transfers.html                      301!
 /en/train-to-the-clouds-transfer              /en/train-to-the-clouds-transfer.html             301!
 /en/transfer-carnival-quebrada-de-humahuaca   /en/transfer-carnival-quebrada-de-humahuaca.html  301!

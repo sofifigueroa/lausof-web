@@ -29,6 +29,11 @@ const internacionales = {
   'en/international-trips.html': { paises: ['Argentina', 'Chile', 'Bolivia'], foto: 'ph-internacional' },
   'en/salta-to-san-pedro-de-atacama.html': { paises: ['Argentina', 'Chile'], foto: 'ph-atacama' },
   'en/salta-to-uyuni.html': { paises: ['Argentina', 'Bolivia'], foto: 'ph-uyuni' },
+  // Sentido inverso (03/11/2026): el país de origen va primero.
+  'traslado-san-pedro-de-atacama-salta.html': { paises: ['Chile', 'Argentina'], foto: 'ph-atacama' },
+  'traslado-uyuni-salta.html': { paises: ['Bolivia', 'Argentina'], foto: 'ph-uyuni' },
+  'en/san-pedro-de-atacama-to-salta.html': { paises: ['Chile', 'Argentina'], foto: 'ph-atacama' },
+  'en/uyuni-to-salta.html': { paises: ['Bolivia', 'Argentina'], foto: 'ph-uyuni' },
 };
 
 const grafoDe = (html) => {
@@ -174,6 +179,10 @@ test('cada página de ruta enlaza el estado oficial de su paso de frontera', () 
     'en/salta-to-san-pedro-de-atacama.html': 'pasosinternacionales/detalle/ruta/19/Jama',
     'traslado-salta-uyuni.html': 'pasosinternacionales/detalle/ruta/18/La-Quiaca-Villaz%C3%B3n',
     'en/salta-to-uyuni.html': 'pasosinternacionales/detalle/ruta/18/La-Quiaca-Villaz%C3%B3n',
+    'traslado-san-pedro-de-atacama-salta.html': 'pasosinternacionales/detalle/ruta/19/Jama',
+    'en/san-pedro-de-atacama-to-salta.html': 'pasosinternacionales/detalle/ruta/19/Jama',
+    'traslado-uyuni-salta.html': 'pasosinternacionales/detalle/ruta/18/La-Quiaca-Villaz%C3%B3n',
+    'en/uyuni-to-salta.html': 'pasosinternacionales/detalle/ruta/18/La-Quiaca-Villaz%C3%B3n',
   };
   for (const [nombre, paso] of Object.entries(pasos)) {
     assert.ok(paginas[nombre].includes(`href="https://www.argentina.gob.ar/seguridad/${paso}"`),
@@ -189,12 +198,18 @@ test('cada página de ruta enlaza el estado oficial de su paso de frontera', () 
 // turismo en los dos idiomas.
 test('las páginas internacionales están enlazadas entre sí y desde el sitio', () => {
   const enlaces = {
-    'viajes-internacionales.html': ['traslado-salta-san-pedro-de-atacama.html', 'traslado-salta-uyuni.html'],
-    'traslado-salta-san-pedro-de-atacama.html': ['viajes-internacionales.html', 'traslado-salta-uyuni.html'],
-    'traslado-salta-uyuni.html': ['viajes-internacionales.html', 'traslado-salta-san-pedro-de-atacama.html'],
-    'en/international-trips.html': ['/en/salta-to-san-pedro-de-atacama.html', '/en/salta-to-uyuni.html'],
-    'en/salta-to-san-pedro-de-atacama.html': ['/en/international-trips.html', '/en/salta-to-uyuni.html'],
-    'en/salta-to-uyuni.html': ['/en/international-trips.html', '/en/salta-to-san-pedro-de-atacama.html'],
+    'viajes-internacionales.html': ['traslado-salta-san-pedro-de-atacama.html', 'traslado-salta-uyuni.html', 'traslado-san-pedro-de-atacama-salta.html', 'traslado-uyuni-salta.html'],
+    'traslado-salta-san-pedro-de-atacama.html': ['viajes-internacionales.html', 'traslado-salta-uyuni.html', 'traslado-san-pedro-de-atacama-salta.html'],
+    'traslado-salta-uyuni.html': ['viajes-internacionales.html', 'traslado-salta-san-pedro-de-atacama.html', 'traslado-uyuni-salta.html'],
+    'en/international-trips.html': ['/en/salta-to-san-pedro-de-atacama.html', '/en/salta-to-uyuni.html', '/en/san-pedro-de-atacama-to-salta.html', '/en/uyuni-to-salta.html'],
+    'en/salta-to-san-pedro-de-atacama.html': ['/en/international-trips.html', '/en/salta-to-uyuni.html', '/en/san-pedro-de-atacama-to-salta.html'],
+    'en/salta-to-uyuni.html': ['/en/international-trips.html', '/en/salta-to-san-pedro-de-atacama.html', '/en/uyuni-to-salta.html'],
+    // Sentido inverso: el hub y la página de ida enlazan la de vuelta, y la
+    // de vuelta vuelve al hub y a su página de ida.
+    'traslado-san-pedro-de-atacama-salta.html': ['viajes-internacionales.html', 'traslado-salta-san-pedro-de-atacama.html', 'traslado-uyuni-salta.html'],
+    'traslado-uyuni-salta.html': ['viajes-internacionales.html', 'traslado-salta-uyuni.html', 'traslado-san-pedro-de-atacama-salta.html'],
+    'en/san-pedro-de-atacama-to-salta.html': ['/en/international-trips.html', '/en/salta-to-san-pedro-de-atacama.html', '/en/uyuni-to-salta.html'],
+    'en/uyuni-to-salta.html': ['/en/international-trips.html', '/en/salta-to-uyuni.html', '/en/san-pedro-de-atacama-to-salta.html'],
     'index.html': ['viajes-internacionales.html'],
     'turismo.html': ['viajes-internacionales.html'],
     'en/index.html': ['/en/international-trips.html'],
