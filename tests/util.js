@@ -79,6 +79,9 @@ const pares = {
   'viajes-internacionales.html':               'en/international-trips.html',
   'traslado-salta-san-pedro-de-atacama.html':  'en/salta-to-san-pedro-de-atacama.html',
   'traslado-salta-uyuni.html':                 'en/salta-to-uyuni.html',
+  // Sentido inverso (03/11/2026): del otro lado de la frontera hacia Salta.
+  'traslado-san-pedro-de-atacama-salta.html':  'en/san-pedro-de-atacama-to-salta.html',
+  'traslado-uyuni-salta.html':                 'en/uyuni-to-salta.html',
   // Páginas de eventos y temporada (10/10/2026). La de la Fiesta del Milagro
   // queda sin gemela a propósito: su público son peregrinos de Salta y las
   // provincias vecinas y no hay señales de demanda en inglés.
