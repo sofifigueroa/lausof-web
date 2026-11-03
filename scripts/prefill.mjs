@@ -28,8 +28,14 @@
    - Un wa.me sin texto (el del pie) toma la primera línea más usada en la
      página. Un mailto sin asunto toma el asunto más usado en la página (o
      "Pedido de cotización" / "Quote request" si ninguno tiene).
-   - El correo lleva los mismos renglones como `body=`, sin tocar el
-     destinatario, la copia (cc) ni el asunto.
+   - El correo lleva los mismos renglones como `body=` y conserva el asunto.
+     El destinatario es siempre CORREO (scripts/empresa.mjs, transporte@) y
+     sin copia (cc): decisión de Lautaro del 03/11/2026. Hasta ese día los
+     enlaces iban a contacto@ con copia a transporte@.
+   - Las direcciones retiradas (CORREOS_RETIRADOS) que aparezcan en el texto
+     de la página se reemplazan por CORREO, y si una lista queda con el mismo
+     correo dos veces seguidas (el pie tenía contacto@ y transporte@), queda
+     uno solo.
    - Las zonas <!-- GENERADO:... --> son de otro script (la flota en venta) y
      no se tocan.
 
@@ -45,6 +51,11 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { raiz, paginas } from './rutas-raiz.mjs';
+import { CORREO } from './empresa.mjs';
+
+// Direcciones que el sitio ya no ofrece. La casilla sigue existiendo; sólo
+// deja de figurar en las páginas.
+export const CORREOS_RETIRADOS = ['contacto@lausof.com'];
 
 /* ---- renglones por tipo --------------------------------------------------
    `es`/`en`: renglones del WhatsApp y del correo. `correoEs`/`correoEn`, si
@@ -214,8 +225,8 @@ export function leerWa(url) {
   return { numero: m[1], texto: m[2] === undefined ? '' : decodeURIComponent(m[2]) };
 }
 
-// Los parámetros quedan tal cual vienen escritos (`cc=transporte@lausof.com`,
-// el asunto ya codificado): sólo el cuerpo lo arma este script.
+// Los parámetros quedan tal cual vienen escritos (el asunto ya codificado):
+// este script arma el cuerpo, fija el destinatario y saca la copia.
 export function leerMailto(url) {
   const [destino, consulta = ''] = url.slice('mailto:'.length).split('?');
   const params = consulta ? consulta.split('&').map((p) => {
@@ -308,19 +319,31 @@ export function prefillHtml(html, pagina) {
       return `https://wa.me/${numero}?text=${encodeURIComponent(cuerpo)}`;
     }
     const correo = leerMailto(url);
-    const params = correo.params.filter(([k]) => k !== 'body');
+    const params = correo.params.filter(([k]) => k !== 'body' && k.toLowerCase() !== 'cc');
     if (!params.some(([k]) => k === 'subject')) params.push(['subject', asuntoPagina || ASUNTO[idioma]]);
     params.push(['body', encodeURIComponent(renglones(tipo, idioma, 'correo').map((r) => `${r}:`).join('\r\n') + '\r\n')]);
-    return escribirMailto({ destino: correo.destino, params });
+    return escribirMailto({ destino: CORREO, params });
   };
 
-  return tramos(html).map(({ texto, editable }) => (!editable ? texto : texto.replace(ETIQUETA, (etiqueta) => {
+  return tramos(html).map(({ texto, editable }) => (!editable ? texto : sinCorreoRepetido(conCorreoPublico(texto.replace(ETIQUETA, (etiqueta) => {
     const propio = etiqueta.match(/\bdata-prefill="([^"]*)"/);
     const tipo = propio ? propio[1] : PAGINAS[pagina];
     return etiqueta.replace(ATRIBUTO_CONTACTO, (todo, atributo, valor) =>
       `${atributo}="${escaparAttr(armar(desescaparAttr(valor), tipo))}"`);
-  }))).join('');
+  }))))).join('');
 }
+
+const escaparRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+/** El texto con cada dirección retirada cambiada por CORREO. */
+export const conCorreoPublico = (texto) => CORREOS_RETIRADOS.reduce(
+  (t, retirado) => t.replace(new RegExp(escaparRegex(retirado), 'g'), CORREO), texto);
+
+// Dos renglones seguidos de una lista con el mismo correo como texto del
+// enlace: queda el primero.
+const LI_CORREO = new RegExp(
+  `(<li><a\\b[^>]*href="mailto:[^"]*"[^>]*>(${escaparRegex(CORREO)})</a></li>)\\s*<li><a\\b[^>]*href="mailto:[^"]*"[^>]*>\\2</a></li>`, 'g');
+export const sinCorreoRepetido = (texto) => texto.replace(LI_CORREO, '$1');
 
 function principal() {
   const comprobar = process.argv.includes('--comprobar');

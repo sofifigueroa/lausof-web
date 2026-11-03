@@ -7,7 +7,7 @@ const test = require('node:test');
 const assert = require('node:assert');
 const fs = require('node:fs');
 const path = require('node:path');
-const { index, flota, sitemap, robots, redirects } = require('./util.js');
+const { index, flota, sitemap, robots, redirects, paginas } = require('./util.js');
 
 test('las canónicas de las dos páginas apuntan al dominio con www', () => {
   assert.ok(index.includes('<link rel="canonical" href="https://www.lausof.com/">'),
@@ -59,17 +59,30 @@ test('cada URL indexada del sitio Wix viejo tiene su 301', () => {
 });
 
 // El título de la portada va servicio-primero (patrón del sitio viejo y de
-// todo competidor que rankea) y tiene que conservar "Grúas", "Remolques",
-// "Auxilio" y "Salta": hay puestos ganados en esas búsquedas.
-test('el título de la portada es servicio-primero y conserva las keywords', () => {
+// todo competidor que rankea). Desde el 03/11/2026 (decisión de Lautaro) el
+// servicio es el transporte de pasajeros: turismo, personal para minería y
+// empresas, aeropuerto y charter. No abre con la grúa: esas búsquedas las
+// toma grua-salta.html (tests/grua.test.js).
+test('el título de la portada es servicio-primero, abre con pasajeros y no con la grúa', () => {
   const titulo = index.match(/<title>([^<]+)<\/title>/)[1];
-  for (const palabra of ['Grúas', 'Remolques', 'Auxilio Mecánico', 'Salta', 'Lausof']) {
+  assert.match(titulo, /^Transporte de Pasajeros en Salta/, `el título no abre con pasajeros: ${titulo}`);
+  assert.doesNotMatch(titulo, /^(Gr[uú]a|Remolque|Auxilio)/i, `el título volvió a abrir con la grúa: ${titulo}`);
+  for (const palabra of ['Turismo', 'Minería', 'Empresas', 'Aeropuerto', 'Charter', 'Salta', 'Lausof']) {
     assert.ok(titulo.includes(palabra), `el título perdió "${palabra}": ${titulo}`);
   }
   assert.ok(!titulo.startsWith('Lausof'),
     `el título volvió a ser marca-primero: ${titulo}`);
   const ogTitle = index.match(/<meta property="og:title" content="([^"]+)">/)[1];
   assert.strictEqual(ogTitle, titulo, 'og:title distinto del <title>');
+});
+
+test('la portada en inglés abre con pasajeros y no con la grúa', () => {
+  const en = paginas['en/index.html'];
+  const titulo = en.match(/<title>([^<]+)<\/title>/)[1];
+  const desc = en.match(/<meta name="description" content="([^"]+)">/)[1];
+  assert.match(titulo, /^Passenger Transport in Salta/, titulo);
+  assert.doesNotMatch(`${titulo} ${desc}`, /tow|roadside/i, 'la portada en inglés todavía vende la grúa en el título o la descripción');
+  for (const palabra of ['Tours', 'Mining', 'Airport', 'Charter']) assert.ok(titulo.includes(palabra), `falta "${palabra}": ${titulo}`);
 });
 
 // La ficha LocalBusiness de la portada lleva las coordenadas del pin real de

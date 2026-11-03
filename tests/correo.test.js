@@ -1,7 +1,9 @@
-// Enlaces de correo en español (13/10/2026, MEAS-1010 punto 7). contacto@ es
-// una casilla aparte de transporte@, que es donde se responde: todo mailto a
-// contacto@ copia a transporte@, igual que en las páginas en inglés
-// (decisión de Lautaro del 31/08, tests/ingles.test.js). Además cada enlace
+// Enlaces de correo en español (13/10/2026, MEAS-1010 punto 7). Desde el
+// 03/11/2026 (decisión de Lautaro, a revisar en un mes) el correo público es
+// transporte@, que es donde se responde: todo mailto va a transporte@, sin
+// copia, y el sitio no muestra contacto@ (scripts/prefill.mjs y
+// scripts/empresa.mjs lo escriben; la casilla contacto@ sigue existiendo).
+// Antes iban a contacto@ con copia a transporte@. Además cada enlace
 // lleva un asunto fijo por página, para que el correo que llega diga desde
 // qué página escribió el cliente aunque GA4 no lo haya registrado. El
 // evento contact_email lo sigue mandando js/contacto.js (tests/medicion.test.js).
@@ -21,9 +23,10 @@ for (const [nombre, html] of Object.entries(paginasEs)) {
   const mailtos = mailtosDe(html);
   if (!mailtos.length) continue;
 
-  test(`${nombre}: todo mailto a contacto@ copia a transporte@`, () => {
-    for (const m of mailtos.filter((u) => u.pathname === 'contacto@lausof.com')) {
-      assert.strictEqual(m.searchParams.get('cc'), 'transporte@lausof.com', `${nombre}: ${m.href}`);
+  test(`${nombre}: todo mailto va a transporte@, sin copia`, () => {
+    for (const m of mailtos) {
+      assert.strictEqual(m.pathname, 'transporte@lausof.com', `${nombre}: ${m.href}`);
+      assert.strictEqual(m.searchParams.get('cc'), null, `${nombre}: lleva copia: ${m.href}`);
     }
   });
 
@@ -38,7 +41,7 @@ for (const [nombre, html] of Object.entries(paginasEs)) {
 
   test(`${nombre}: los mailto sólo van a casillas de la empresa`, () => {
     for (const m of mailtos) {
-      assert.match(m.pathname, /^(contacto|transporte)@lausof\.com$/, `${nombre}: ${m.href}`);
+      assert.match(m.pathname, /^transporte@lausof\.com$/, `${nombre}: ${m.href}`);
     }
   });
 }
@@ -54,9 +57,9 @@ test('cada página en español tiene su propio asunto', () => {
   }
 });
 
-// El enlace con copia y asunto sigue contando como contact_email y no deja
+// El enlace con asunto y cuerpo sigue contando como contact_email y no deja
 // salir ni la casilla ni el asunto en los parámetros.
-test('un mailto con cc y asunto manda contact_email sin la casilla ni el asunto', () => {
+test('un mailto con asunto manda contact_email sin la casilla ni el asunto', () => {
   const codigo = fs.readFileSync(path.join(__dirname, '..', 'js', 'contacto.js'), 'utf8');
   const eventos = [];
   let escucha;
@@ -67,10 +70,10 @@ test('un mailto con cc y asunto manda contact_email sin la casilla ni el asunto'
   };
   vm.runInNewContext(codigo, { window, document });
   // El href tal cual lo lee el navegador en turismo.html (con &, no &amp;).
-  const href = sinComentarios(paginasEs['turismo.html']).match(/href="(mailto:contacto@[^"]+)"/)[1].replace(/&amp;/g, '&');
-  assert.match(href, /cc=transporte@lausof\.com&subject=/);
+  const href = sinComentarios(paginasEs['turismo.html']).match(/href="(mailto:transporte@[^"]+)"/)[1].replace(/&amp;/g, '&');
+  assert.match(href, /^mailto:transporte@lausof\.com\?subject=/);
   const a = {
-    textContent: 'contacto@lausof.com',
+    textContent: 'transporte@lausof.com',
     getAttribute: (n) => (n === 'href' ? href : null),
     closest: (selector) => (selector === 'a[href]' ? a : null),
   };
@@ -79,4 +82,26 @@ test('un mailto con cc y asunto manda contact_email sin la casilla ni el asunto'
   const [, nombre, params] = eventos[0];
   assert.strictEqual(nombre, 'contact_email');
   assert.doesNotMatch(JSON.stringify(params), /@|cotizaci|subject|cc=/i);
+});
+
+// El correo que se ve es el mismo al que va el enlace: ninguna página (ni el
+// JSON-LD, ni el pie, ni el texto) muestra contacto@, y ninguna lista del pie
+// repite transporte@ (tenía las dos direcciones).
+const todas = require('./util.js').paginas;
+test('ninguna página muestra contacto@ ni repite transporte@ en el pie', () => {
+  for (const [nombre, html] of Object.entries(todas)) {
+    assert.doesNotMatch(sinComentarios(html), /contacto@lausof\.com/, `${nombre} muestra contacto@`);
+    for (const [, lista] of sinComentarios(html).matchAll(/<ul>([\s\S]*?)<\/ul>/g)) {
+      const vistos = [...lista.matchAll(/<li><a\b[^>]*>transporte@lausof\.com<\/a><\/li>/g)];
+      assert.ok(vistos.length <= 1, `${nombre}: transporte@ dos veces en la misma lista`);
+    }
+  }
+});
+
+test('la ficha #empresa da transporte@ como correo, en la portada y en el bloque generado', async () => {
+  const { FICHA, CORREO } = await import('../scripts/empresa.mjs');
+  assert.strictEqual(CORREO, 'transporte@lausof.com');
+  assert.strictEqual(FICHA.email, CORREO);
+  const portada = JSON.parse(todas['index.html'].match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+  assert.strictEqual(portada.email, CORREO);
 });

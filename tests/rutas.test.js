@@ -125,15 +125,14 @@ for (const nombre of paginasRuta) {
     assert.ok(was.some((t) => ruta.test(t)), `ningún WhatsApp de ${nombre} nombra la ruta`);
   });
 
-  test(`${nombre}: el correo va a contacto@ con copia a transporte@ y asunto de cotización`, () => {
+  test(`${nombre}: el correo va a transporte@, sin copia, con asunto de cotización`, () => {
     const mailtos = [...html.matchAll(/href="mailto:([^"]+)"/g)].map((m) => m[1].replace(/&amp;/g, '&'));
     const conAsunto = mailtos.filter((m) => /subject=/.test(m));
     assert.ok(conAsunto.length > 0, `${nombre} no tiene un mailto con asunto`);
-    assert.ok(conAsunto.some((m) => m.startsWith('contacto@')), `${nombre} no tiene un mailto a contacto@ con asunto`);
     for (const m of conAsunto) {
-      // Desde el 13/10 el enlace directo a transporte@ también lleva el
-      // asunto de la página (sin copia: ya es la casilla donde se responde).
-      assert.match(m, /^(contacto@lausof\.com\?cc=transporte@lausof\.com&|transporte@lausof\.com\?)subject=/);
+      // Desde el 03/11/2026 todo mailto va a transporte@ (la casilla donde
+      // se responde), sin copia; antes iban a contacto@ con copia.
+      assert.match(m, /^transporte@lausof\.com\?subject=/);
       const asunto = decodeURIComponent(m.split('subject=')[1]);
       assert.match(asunto, en ? /^Quote request — / : /^Pedido de cotización — /, `asunto inesperado en ${nombre}: ${asunto}`);
     }

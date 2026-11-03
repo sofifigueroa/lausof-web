@@ -21,8 +21,9 @@
    tests/empresa.test.js exige que cada dato de FICHA figure igual ahí.
 
    Qué va y qué no (BUILD-BRIEF, política de afirmaciones):
-     · Va: razón social, marca, dirección de la base, la línea pública
-       387 526-9009, CUIT, y la habilitación CNRT N.º 60284 (verificable en
+     · Va: razón social, marca, domicilio de la empresa (Junín 1334: no
+       recibe clientes, decisión del 03/11/2026), la línea pública
+       387 526-9009, el correo público (CORREO), CUIT, y la habilitación CNRT N.º 60284 (verificable en
        consultapme.cnrt.gob.ar), como `identifier` y como `hasCertification`.
      · No va: número de permiso o expediente de AMT, aseguradora, cantidad de
        unidades ni otros teléfonos.
@@ -45,6 +46,12 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 export const raiz = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const ID_EMPRESA = 'https://www.lausof.com/#empresa';
 
+// Correo público de la empresa: el que muestra el sitio, el destinatario de
+// cada mailto (scripts/prefill.mjs) y el `email` de esta ficha. Decisión de
+// Lautaro del 03/11/2026: transporte@ (es donde se responde), a revisar en un
+// mes. La casilla contacto@ sigue existiendo, pero el sitio ya no la ofrece.
+export const CORREO = 'transporte@lausof.com';
+
 export const FICHA = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
@@ -56,7 +63,7 @@ export const FICHA = {
   url: 'https://www.lausof.com/',
   logo: 'https://www.lausof.com/assets/logo-horizontal-web.png',
   telephone: '+54-9-387-526-9009',
-  email: 'contacto@lausof.com',
+  email: CORREO,
   taxID: '30-71146774-9',
   foundingDate: '2010',
   address: {

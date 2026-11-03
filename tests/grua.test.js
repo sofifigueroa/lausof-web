@@ -5,8 +5,11 @@
 //     sección (#puna) y no como página aparte (sin demanda en Search Console).
 //   - El botón de llamar va primero; el WhatsApp va pre-armado con ubicación,
 //     vehículo y qué pasó.
-//   - Portada: botón de llamada a la grúa 24 hs en el hero y enlace desde la
-//     tarjeta de auxilio a la página nueva.
+//   - Portada: enlace desde la tarjeta de auxilio a la página nueva. Desde el
+//     03/11/2026 (decisión de Lautaro) la portada abre con el transporte de
+//     pasajeros: el botón de llamada a la grúa salió del hero y la llamada
+//     24 hs vive en la tarjeta de auxilio. Esta página toma las búsquedas de
+//     grúa, también en plural, con remolques y auxilio mecánico.
 // Lo que estas páginas no pueden decir: precios, número de AMT, capacidad en
 // toneladas (la cifra salía del Accelo 1016, vendido ~24/10), grúa para
 // camiones pesados (no hay unidad en el archivo) ni otra línea que el 526-9009.
@@ -169,13 +172,51 @@ for (const nombre of [ES, EN]) {
   });
 }
 
-test('portada: el hero tiene el botón de llamada a la grúa 24 hs, al lado del WhatsApp', () => {
-  const html = sinComentarios(paginas['index.html']);
-  const ctas = html.match(/<section class="hero"[\s\S]*?<div class="ctas">([\s\S]*?)<\/div>/)[1];
-  const llamada = ctas.match(/<a class="btn[^"]*" href="tel:\+5493875269009">([\s\S]*?)<\/a>/);
-  assert.ok(llamada, 'el hero no tiene botón de llamada');
-  assert.match(visible(llamada[1]), /Grúa 24 hs: 387 526-9009/);
-  assert.ok(enlacesDe(ctas).some((h) => h.startsWith('https://wa.me/5493875269009')), 'el hero perdió el WhatsApp');
+test('portada: el hero no ofrece la grúa; la llamada 24 hs está en la tarjeta de auxilio', () => {
+  for (const [portada, titulo, llamada] of [
+    ['index.html', '<h3>Auxilio mecánico y remolques</h3>', /Auxilio en ruta 24 hs: 387 526-9009/],
+    ['en/index.html', '<h3>Towing and roadside assistance</h3>', /24-hour roadside assistance: call \+54 9 387 526-9009/],
+  ]) {
+    const html = sinComentarios(paginas[portada]);
+    const hero = html.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
+    assert.doesNotMatch(visible(hero), /gr[uú]a|remolque|auxilio|tow|roadside/i, `${portada}: el hero habla de la grúa`);
+    assert.ok(!enlacesDe(hero).includes(TEL), `${portada}: el hero tiene el botón de llamada a la grúa`);
+    assert.ok(enlacesDe(hero).some((h) => h.startsWith('https://wa.me/5493875269009')), `${portada}: el hero perdió el WhatsApp`);
+    const desde = html.indexOf(titulo);
+    const tarjeta = html.slice(desde, html.indexOf('</article>', desde));
+    const tel = tarjeta.match(/<a class="walink" href="tel:\+5493875269009">([\s\S]*?)<\/a>/);
+    assert.ok(tel, `${portada}: la tarjeta de auxilio no tiene la llamada`);
+    assert.match(visible(tel[1]), llamada);
+  }
+});
+
+test('grúa: el título y la descripción toman las búsquedas que dejó la portada', () => {
+  const html = paginas[ES];
+  const titulo = html.match(/<title>([^<]+)<\/title>/)[1];
+  const desc = html.match(/<meta name="description" content="([^"]+)">/)[1];
+  // "grua salta" 268, "gruas salta" 165, "gruas en salta capital" 116,
+  // "servicio de grua salta" 38 (seo-deep-2026-11-03/A-rankings-competitors.md).
+  assert.match(titulo, /^Grúa en Salta 24 hs/);
+  for (const palabra of ['Grúas', 'Remolques', 'Auxilio Mecánico', 'Salta Capital', 'Lausof']) {
+    assert.ok(titulo.includes(palabra), `el título de la grúa no dice "${palabra}": ${titulo}`);
+  }
+  for (const palabra of ['Servicio de grúa', 'remolques', 'auxilio mecánico', '24 hs, todos los días', 'Salta capital', '387 526-9009']) {
+    assert.ok(desc.includes(palabra), `la descripción de la grúa no dice "${palabra}": ${desc}`);
+  }
+  assert.strictEqual(html.match(/<meta property="og:title" content="([^"]+)">/)[1], titulo);
+  assert.strictEqual(html.match(/<meta property="og:description" content="([^"]+)">/)[1], desc);
+});
+
+test('grúa: las preguntas frecuentes son las mismas en los dos idiomas', () => {
+  const preguntas = (html) => [...sinComentarios(html).matchAll(/<summary>([^<]+)<\/summary>/g)].map((m) => m[1]);
+  const es = preguntas(paginas[ES]);
+  const en = preguntas(paginas[EN]);
+  assert.strictEqual(es.length, en.length, `ES ${es.length} preguntas, EN ${en.length}`);
+  for (const [i, par] of [[/alquiler/, /rental/], [/aseguradoras/, /insurers/]].entries()) {
+    const a = es.findIndex((q) => par[0].test(q));
+    const b = en.findIndex((q) => par[1].test(q));
+    assert.ok(a > -1 && a === b, `pregunta ${i}: no está en el mismo lugar en los dos idiomas`);
+  }
 });
 
 test('portada: la tarjeta de auxilio enlaza la página de grúa, en los dos idiomas', () => {
