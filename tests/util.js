@@ -88,6 +88,8 @@ const pares = {
   // Aeropuerto y combi con chofer por día (sweep 03/11/2026).
   'traslado-aeropuerto-salta.html':       'en/salta-airport-transfer.html',
   'alquiler-combi-con-chofer-salta.html': 'en/minibus-with-driver-salta.html',
+  // Grúa y auxilio 24 hs (03/11/2026, tests/grua.test.js).
+  'grua-salta.html': 'en/tow-truck-salta.html',
 };
 
 // Página de /en/ que existe sin ser gemela de nadie (no se indexa).
