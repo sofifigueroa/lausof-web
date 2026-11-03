@@ -88,6 +88,9 @@ const pares = {
   // Aeropuerto y combi con chofer por día (sweep 03/11/2026).
   'traslado-aeropuerto-salta.html':       'en/salta-airport-transfer.html',
   'alquiler-combi-con-chofer-salta.html': 'en/minibus-with-driver-salta.html',
+  // Páginas B2B (auditoría SEO 03/11/2026, B-segments-expansion.md §2.2 y §2.4).
+  'agencias-y-hoteles.html':                    'en/ground-transport-for-tour-operators.html',
+  'transporte-de-personal-obras-de-litio.html': 'en/crew-transport-lithium-projects.html',
 };
 
 // Página de /en/ que existe sin ser gemela de nadie (no se indexa).
