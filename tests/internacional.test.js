@@ -195,14 +195,16 @@ test('las páginas internacionales están enlazadas entre sí y desde el sitio',
     'en/international-trips.html': ['/en/salta-to-san-pedro-de-atacama.html', '/en/salta-to-uyuni.html'],
     'en/salta-to-san-pedro-de-atacama.html': ['/en/international-trips.html', '/en/salta-to-uyuni.html'],
     'en/salta-to-uyuni.html': ['/en/international-trips.html', '/en/salta-to-san-pedro-de-atacama.html'],
-    'index.html': ['viajes-internacionales.html'],
-    'turismo.html': ['viajes-internacionales.html'],
+    'index.html': ['/viajes-internacionales.html'],
+    'turismo.html': ['/viajes-internacionales.html'],
     'en/index.html': ['/en/international-trips.html'],
     'en/tours-and-transfers.html': ['/en/international-trips.html'],
   };
   for (const [nombre, destinos] of Object.entries(enlaces)) {
     for (const destino of destinos) {
-      assert.ok(sinComentarios(paginas[nombre]).includes(`href="${destino}"`),
+      // Desde el 03/11 todo enlace entre páginas va desde la raíz.
+      const href = destino.startsWith('/') ? destino : `/${destino}`;
+      assert.ok(sinComentarios(paginas[nombre]).includes(`href="${href}"`),
         `${nombre} no enlaza ${destino}`);
     }
   }

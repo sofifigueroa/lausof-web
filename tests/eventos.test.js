@@ -181,20 +181,20 @@ for (const nombre of eventos) {
 // página de evento vuelve al hub (blueprint §3.3 y §7.9 punto 25). Las páginas
 // madre (turismo, recitales) enlazan las nuevas.
 test('la portada enlaza el hub de feriados', () => {
-  assert.ok(index.includes('href="feriados-fines-de-semana-largos.html"'), 'la portada no enlaza el hub');
+  assert.ok(index.includes('href="/feriados-fines-de-semana-largos.html"'), 'la portada no enlaza el hub');
 });
 
 test('el hub enlaza cada página de evento y cada una vuelve al hub', () => {
   for (const nombre of [CARNAVAL, SERENATA]) {
-    assert.ok(paginas[HUB].includes(`href="${nombre}"`), `el hub no enlaza ${nombre}`);
-    assert.ok(paginas[nombre].includes(`href="${HUB}"`), `${nombre} no vuelve al hub`);
+    assert.ok(paginas[HUB].includes(`href="/${nombre}"`), `el hub no enlaza ${nombre}`);
+    assert.ok(paginas[nombre].includes(`href="/${HUB}"`), `${nombre} no vuelve al hub`);
   }
 });
 
 test('turismo y recitales enlazan el hub y las dos páginas de evento', () => {
   for (const madre of ['turismo.html', 'charter-recitales.html']) {
     for (const nombre of [HUB, CARNAVAL, SERENATA]) {
-      assert.ok(paginas[madre].includes(`href="${nombre}"`), `${madre} no enlaza ${nombre}`);
+      assert.ok(paginas[madre].includes(`href="/${nombre}"`), `${madre} no enlaza ${nombre}`);
     }
   }
   assert.ok(paginas['en/tours-and-transfers.html'].includes(`href="/${CARNAVAL_EN}"`),

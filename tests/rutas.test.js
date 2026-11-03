@@ -140,11 +140,11 @@ for (const nombre of paginasRuta) {
   });
 
   test(`${nombre}: enlaza al hub de turismo y a la otra página de ruta`, () => {
-    const hub = en ? '/en/tours-and-transfers.html' : 'turismo.html';
+    const hub = en ? '/en/tours-and-transfers.html' : '/turismo.html';
     assert.ok(html.includes(`href="${hub}"`), `${nombre} no enlaza al hub ${hub}`);
     const otras = paginasRuta.filter((n) => n !== nombre && n.startsWith('en/') === en);
     for (const otra of otras) {
-      const href = en ? `/${otra}` : otra;
+      const href = `/${otra}`;
       assert.ok(html.includes(`href="${href}"`), `${nombre} no enlaza a ${href}`);
     }
   });
@@ -164,7 +164,7 @@ for (const nombre of [...Object.keys(rutas), 'turismo.html']) {
 // Los hubs y las portadas llevan a las páginas de ruta.
 test('turismo y su gemela inglesa enlazan las dos páginas de ruta de su idioma', () => {
   for (const es of Object.keys(rutas)) {
-    assert.ok(paginas['turismo.html'].includes(`href="${es}"`), `turismo.html no enlaza ${es}`);
+    assert.ok(paginas['turismo.html'].includes(`href="/${es}"`), `turismo.html no enlaza ${es}`);
     assert.ok(paginas['en/tours-and-transfers.html'].includes(`href="/${rutas[es]}"`),
       `en/tours-and-transfers.html no enlaza /${rutas[es]}`);
   }
@@ -172,7 +172,7 @@ test('turismo y su gemela inglesa enlazan las dos páginas de ruta de su idioma'
 
 test('las dos portadas enlazan las páginas de ruta de su idioma', () => {
   for (const es of Object.keys(rutas)) {
-    assert.ok(index.includes(`href="${es}"`), `index.html no enlaza ${es}`);
+    assert.ok(index.includes(`href="/${es}"`), `index.html no enlaza ${es}`);
     assert.ok(paginas['en/index.html'].includes(`href="/${rutas[es]}"`), `en/index.html no enlaza /${rutas[es]}`);
   }
 });
