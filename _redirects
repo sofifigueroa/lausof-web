@@ -55,6 +55,69 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /tests/*                       /404.html                      404!
 /scripts/*                     /404.html                      404!
 
+# Variantes sin .html de cada página (auditoría técnica 03/11/2026, M3).
+# Netlify sirve /turismo y /turismo/ con 200 como copia de /turismo.html; con
+# estas reglas van con 301 a la URL canónica, igual que /golf-torneos más
+# arriba. Una sola regla cubre las dos formas, con y sin barra final: el CDN
+# normaliza la barra antes de mirar las reglas (docs.netlify.com/manage/
+# routing/redirects/redirect-options/, "Trailing slash", leído 03/11/2026).
+# Por lo mismo /turismo.html/ NO se puede redirigir (sería un bucle sobre
+# /turismo.html); esa variante queda bien porque las páginas piden todo con
+# ruta desde la raíz (scripts/rutas-raiz.mjs) y la canónica la consolida.
+# Llevan ! porque las URLs lindas hacen que la ruta "exista". Van antes del
+# comodín /en/*. Una página nueva necesita su renglón (tests/rutas-raiz.test.js).
+/alquiler-4x4                                 /alquiler-4x4.html                                301!
+/alquiler-autoelevadores                      /alquiler-autoelevadores.html                     301!
+/cargas-refrigeradas                          /cargas-refrigeradas.html                         301!
+/charter-recitales                            /charter-recitales.html                           301!
+/clubes-deportivos                            /clubes-deportivos.html                           301!
+/deposito-galpon                              /deposito-galpon.html                             301!
+/feriados-fines-de-semana-largos              /feriados-fines-de-semana-largos.html             301!
+/flota-en-venta                               /flota-en-venta.html                              301!
+/galeria                                      /galeria.html                                     301!
+/logistica-minera                             /logistica-minera.html                            301!
+/peregrinaciones-eventos                      /peregrinaciones-eventos.html                     301!
+/producciones                                 /producciones.html                                301!
+/salinas-grandes-desde-salta                  /salinas-grandes-desde-salta.html                 301!
+/semana-santa-salta-jujuy                     /semana-santa-salta-jujuy.html                    301!
+/transporte-de-personal                       /transporte-de-personal.html                      301!
+/traslado-carnaval-quebrada-de-humahuaca      /traslado-carnaval-quebrada-de-humahuaca.html     301!
+/traslado-salta-cachi                         /traslado-salta-cachi.html                        301!
+/traslado-salta-cafayate                      /traslado-salta-cafayate.html                     301!
+/traslado-salta-purmamarca-tilcara-humahuaca  /traslado-salta-purmamarca-tilcara-humahuaca.html 301!
+/traslado-salta-san-antonio-de-los-cobres     /traslado-salta-san-antonio-de-los-cobres.html    301!
+/traslado-salta-san-pedro-de-atacama          /traslado-salta-san-pedro-de-atacama.html         301!
+/traslado-salta-uyuni                         /traslado-salta-uyuni.html                        301!
+/traslado-serenata-a-cafayate                 /traslado-serenata-a-cafayate.html                301!
+/traslado-tren-a-las-nubes                    /traslado-tren-a-las-nubes.html                   301!
+/traslados-casamientos                        /traslados-casamientos.html                       301!
+/traslados-empresas                           /traslados-empresas.html                          301!
+/traslados-fiesta-del-milagro                 /traslados-fiesta-del-milagro.html                301!
+/traslados-trail-jujuy-utmb                   /traslados-trail-jujuy-utmb.html                  301!
+/turismo                                      /turismo.html                                     301!
+/viajes-de-estudio                            /viajes-de-estudio.html                           301!
+/viajes-internacionales                       /viajes-internacionales.html                      301!
+/en/4x4-rental                                /en/4x4-rental.html                               301!
+/en/film-production-logistics                 /en/film-production-logistics.html                301!
+/en/holy-week-salta-jujuy                     /en/holy-week-salta-jujuy.html                    301!
+/en/international-trips                       /en/international-trips.html                      301!
+/en/jujuy-utmb-trail-race-transfers           /en/jujuy-utmb-trail-race-transfers.html          301!
+/en/mining-logistics                          /en/mining-logistics.html                         301!
+/en/personnel-transport                       /en/personnel-transport.html                      301!
+/en/refrigerated-freight                      /en/refrigerated-freight.html                     301!
+/en/salinas-grandes-from-salta                /en/salinas-grandes-from-salta.html               301!
+/en/salta-to-cachi-transfer                   /en/salta-to-cachi-transfer.html                  301!
+/en/salta-to-cafayate-transfer                /en/salta-to-cafayate-transfer.html               301!
+/en/salta-to-purmamarca-tilcara-humahuaca     /en/salta-to-purmamarca-tilcara-humahuaca.html    301!
+/en/salta-to-san-antonio-de-los-cobres        /en/salta-to-san-antonio-de-los-cobres.html       301!
+/en/salta-to-san-pedro-de-atacama             /en/salta-to-san-pedro-de-atacama.html            301!
+/en/salta-to-uyuni                            /en/salta-to-uyuni.html                           301!
+/en/tours-and-transfers                       /en/tours-and-transfers.html                      301!
+/en/train-to-the-clouds-transfer              /en/train-to-the-clouds-transfer.html             301!
+/en/transfer-carnival-quebrada-de-humahuaca   /en/transfer-carnival-quebrada-de-humahuaca.html  301!
+/en/warehouse                                 /en/warehouse.html                                301!
+/en/wedding-transportation                    /en/wedding-transportation.html                   301!
+
 # Versión en inglés bajo /en/. Las dos reglas van en este orden y no al revés:
 # Netlify aplica la PRIMERA que matchea, y /en/* también matchearía
 # /en/index.html. La específica primero, el comodín después.

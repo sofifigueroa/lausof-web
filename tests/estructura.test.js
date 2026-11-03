@@ -39,7 +39,7 @@ test('el JSON-LD de las páginas en inglés es JSON válido', () => {
 });
 
 test('la hoja de estilos está en la versión 23 o posterior', () => {
-  const m = index.match(/href="css\/styles\.css\?v=(\d+)"/);
+  const m = index.match(/href="\/css\/styles\.css\?v=(\d+)"/);
   assert.ok(m, 'index.html no versiona styles.css con ?v=');
   assert.ok(Number(m[1]) >= 23, `?v=${m[1]} — quedó una versión vieja de la hoja`);
 });
@@ -47,8 +47,8 @@ test('la hoja de estilos está en la versión 23 o posterior', () => {
 // Con /css/* cacheado como inmutable, si las dos páginas no piden la MISMA
 // versión de styles.css, una de ellas puede quedarse un año con la hoja vieja.
 test('las dos páginas piden la misma versión de styles.css', () => {
-  const enIndex = index.match(/href="css\/styles\.css\?v=(\d+)"/);
-  const enFlota = flota.match(/href="css\/styles\.css\?v=(\d+)"/);
+  const enIndex = index.match(/href="\/css\/styles\.css\?v=(\d+)"/);
+  const enFlota = flota.match(/href="\/css\/styles\.css\?v=(\d+)"/);
   assert.ok(enFlota, 'flota-en-venta.html no versiona styles.css con ?v=');
   assert.strictEqual(enFlota[1], enIndex[1],
     `versiones desincronizadas: index ?v=${enIndex[1]}, flota ?v=${enFlota[1]}`);
@@ -59,9 +59,9 @@ test('las dos páginas piden la misma versión de styles.css', () => {
 // un apple-touch-icon de 180px sobre fondo blanco.
 test('las dos páginas enlazan el favicon liviano y el apple-touch-icon', () => {
   for (const [nombre, contenido] of [['index.html', index], ['flota-en-venta.html', flota]]) {
-    assert.ok(contenido.includes('<link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">'),
+    assert.ok(contenido.includes('<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">'),
       `falta el favicon de 96px en ${nombre}`);
-    assert.ok(contenido.includes('<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">'),
+    assert.ok(contenido.includes('<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">'),
       `falta el apple-touch-icon en ${nombre}`);
   }
 });
@@ -127,7 +127,7 @@ test('#nosotros conserva su foto de flota y la columna que la sostiene', () => {
   const seccion = index.match(/<section class="block" id="nosotros">([\s\S]*?)<\/section>/);
   assert.ok(seccion, 'no está la sección #nosotros');
   assert.match(seccion[1], /class="nosotros-grid"/, '#nosotros perdió la grilla de texto + foto');
-  const img = seccion[1].match(/<img src="(assets\/[^"]+)"[^>]*alt="([^"]+)"/);
+  const img = seccion[1].match(/<img src="\/(assets\/[^"]+)"[^>]*alt="([^"]+)"/);
   assert.ok(img, '#nosotros se quedó sin foto');
   assert.ok(fs.existsSync(path.join(__dirname, '..', img[1])),
     `#nosotros apunta a ${img[1]}, que no existe en assets/`);
