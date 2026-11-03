@@ -41,11 +41,12 @@ for (const nombre of conEnlace) {
   });
 }
 
-// Fuera de la portada (que tiene su sección de clientes desde antes), ninguna
-// página habla de reseñas fuera de ese renglón: así no se cuela una reseña
-// citada o un puntaje que no sea el de Google.
+// Fuera de las portadas (es, en y pt tienen su sección de clientes desde
+// antes), ninguna página habla de reseñas fuera de ese renglón: así no se
+// cuela una reseña citada o un puntaje que no sea el de Google.
+const PORTADAS = ['index.html', 'en/index.html', 'pt/index.html'];
 for (const [nombre, html] of Object.entries(paginas)) {
-  if (nombre === 'index.html' || nombre === 'en/index.html') continue;
+  if (PORTADAS.includes(nombre)) continue;
   test(`${nombre}: no habla de reseñas fuera del enlace al perfil de Google`, () => {
     const texto = visible(sinEnlaceResenas(html));
     const m = texto.match(/\b(rese[ñn]as?|reviews?|opiniones|testimonios?|calificaci[oó]n|rating|stars?|estrellas)\b|★/i);
