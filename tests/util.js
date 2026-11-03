@@ -96,6 +96,8 @@ const pares = {
   // Páginas B2B (auditoría SEO 03/11/2026, B-segments-expansion.md §2.2 y §2.4).
   'agencias-y-hoteles.html':                    'en/ground-transport-for-tour-operators.html',
   'transporte-de-personal-obras-de-litio.html': 'en/crew-transport-lithium-projects.html',
+  // Salta – Jujuy, ciudad y aeropuerto (plan SEO 03/11/2026, §3 #3).
+  'traslado-salta-jujuy.html': 'en/salta-to-jujuy-transfer.html',
 };
 
 // Página de /en/ que existe sin ser gemela de nadie (no se indexa).
@@ -115,7 +117,21 @@ const urlDe = (archivo) => {
 // La ruta con la que se enlaza un archivo dentro del sitio (root-absoluta).
 const rutaDe = (archivo) => urlDe(archivo).slice(DOMINIO.length);
 
+
+// Reseñas de Google (03/11/2026): el único texto sobre reseñas permitido fuera
+// de la portada es un enlace simple al perfil real, con el puntaje y la
+// cantidad que muestra Google en público y la fecha en que se leyeron. Sin
+// marcado de reseñas, sin citas, sin puntajes inventados (BUILD-BRIEF).
+// `sinEnlaceResenas` saca ese renglón exacto para que las guardias que vedan
+// hablar de reseñas sigan cortando cualquier otro texto.
+const RESENAS = 'https://www.google.com/maps?cid=13700114490953273065';
+const RENGLON_RESENAS = /<span><a href="https:\/\/www\.google\.com\/maps\?cid=13700114490953273065" target="_blank" rel="noopener"><b>(?:Reseñas en Google|Google reviews)<\/b><\/a>: (?:4,9 de 5, con 9 reseñas \(03\/11\/2026\)|4\.9 out of 5 from 9 reviews \(November 3, 2026\))<\/span>/g;
+const sinEnlaceResenas = (html) => html.replace(RENGLON_RESENAS, '');
+
 module.exports = {
+  RESENAS,
+  RENGLON_RESENAS,
+  sinEnlaceResenas,
   paginas,
   paginasEs,
   paginasEn,

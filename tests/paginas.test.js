@@ -35,7 +35,7 @@ const dedicadas = {
   // Ola de eventos del 10/10/2026: el hub de feriados y dos eventos
   // recurrentes (URL sin año; el año vive en el título y se actualiza ahí).
   'feriados-fines-de-semana-largos.html': 'Feriados y Fines de Semana Largos 2026-2027 — Viajes en Combi desde Salta | Lausof SRL',
-  'traslado-carnaval-quebrada-de-humahuaca.html': 'Traslado al Carnaval de la Quebrada 2027 desde Salta — Combi con Chofer a Humahuaca, Tilcara y Purmamarca | Lausof SRL',
+  'traslado-carnaval-quebrada-de-humahuaca.html': 'Carnaval 2027 en la Quebrada y en Salta — Fechas y Combi con Chofer desde Salta a Humahuaca, Tilcara y Purmamarca | Lausof SRL',
   'traslado-serenata-a-cafayate.html': 'Traslado a la Serenata a Cafayate 2027 desde Salta — Combi con Chofer y Vuelta en la Noche | Lausof SRL',
   // Viajes internacionales (10/10/2026): la página que los agrupa y las dos
   // rutas con página propia. Sus gemelas inglesas van en tests/util.js.
@@ -58,6 +58,8 @@ const dedicadas = {
   // Páginas B2B del 03/11/2026 (tests/b2b.test.js).
   'agencias-y-hoteles.html': 'Transporte para Agencias de Viajes, Hoteles y Operadores en Salta y Jujuy — Combis con Chofer | Lausof SRL',
   'transporte-de-personal-obras-de-litio.html': 'Transporte de Personal para Obras de Litio en la Puna — Cambios de Turno y Campamentos, 24 h | Lausof SRL',
+  // Salta – Jujuy (plan SEO 03/11/2026, §3 #3; tests/como-llegar.test.js).
+  'traslado-salta-jujuy.html': 'Traslado de Salta a Jujuy — Combi con chofer a San Salvador de Jujuy y al aeropuerto de Jujuy | Lausof SRL',
 };
 
 for (const [nombre, titulo] of Object.entries(dedicadas)) {

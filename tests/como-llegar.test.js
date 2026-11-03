@@ -31,6 +31,7 @@ const RUTAS = {
   'traslado-salta-uyuni.html': 'en/salta-to-uyuni.html',
   'traslado-san-pedro-de-atacama-salta.html': 'en/san-pedro-de-atacama-to-salta.html',
   'traslado-uyuni-salta.html': 'en/uyuni-to-salta.html',
+  'traslado-salta-jujuy.html': 'en/salta-to-jujuy-transfer.html',
 };
 // Ida → vuelta.
 const INVERSAS = {

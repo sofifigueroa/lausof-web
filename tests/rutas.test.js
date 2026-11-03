@@ -11,7 +11,7 @@ const test = require('node:test');
 const assert = require('node:assert');
 const fs = require('node:fs');
 const path = require('node:path');
-const { paginas, pares, urlDe, sitemap, index, sinComentarios, DOMINIO } = require('./util.js');
+const { paginas, pares, urlDe, sitemap, index, sinComentarios, sinEnlaceResenas, DOMINIO } = require('./util.js');
 
 const raiz = path.join(__dirname, '..');
 
@@ -111,8 +111,12 @@ for (const nombre of paginasRuta) {
 
   test(`${nombre}: sin precios, reseñas ni números de expediente`, () => {
     assert.ok(!/(US\$|USD|ARS|\$\s?\d|€)/.test(visible), `${nombre} publica un precio`);
-    assert.ok(!/\b(reviews?|rating|stars?|rese[ñn]as?|opiniones|calificaci[oó]n)\b|★/i.test(visible),
-      `${nombre} habla de reseñas o puntajes`);
+    // Lo que se veda son reseñas inventadas, citadas o marcadas. El enlace
+    // simple al perfil real de Google, con el puntaje que Google muestra en
+    // público (tests/resenas.test.js), es el único renglón permitido.
+    const sinEnlace = textoVisible(sinEnlaceResenas(html));
+    assert.ok(!/\b(reviews?|rating|stars?|rese[ñn]as?|opiniones|calificaci[oó]n|testimonios?)\b|★/i.test(sinEnlace),
+      `${nombre} habla de reseñas o puntajes fuera del enlace al perfil de Google`);
     assert.ok(!/\b(AMT|agencia|agency|legajo|expediente|license|licencia|permit)\b[^.]{0,20}(N\.?[º°o]\.?|No\.|#)\s*\d/i.test(visible.replace(/CNRT (license )?N?\.?[º°o]?\.? ?(No\. )?60284/g, '')),
       `${nombre} publica un número de expediente o licencia que no es el CNRT 60284`);
   });
