@@ -50,6 +50,8 @@ const dedicadas = {
   // Sweep del 03/11/2026: aeropuerto y combi con chofer por día (tests/servicios-turismo.test.js).
   'traslado-aeropuerto-salta.html': 'Traslado del aeropuerto de Salta al centro y a los hoteles — Combi con chofer para grupos | Lausof SRL',
   'alquiler-combi-con-chofer-salta.html': 'Alquiler de Combi con Chofer por Día en Salta — Para Grupos, Agencias y Viajes de Varios Días | Lausof SRL',
+  // Grúa y auxilio 24 hs (03/11/2026, tests/grua.test.js).
+  'grua-salta.html': 'Grúa en Salta las 24 hs — Servicio de grúa de plancha y auxilio mecánico en la capital y en la ruta | Lausof SRL',
 };
 
 for (const [nombre, titulo] of Object.entries(dedicadas)) {
