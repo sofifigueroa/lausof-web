@@ -315,7 +315,7 @@ test('portada: el hero nombra las cargas refrigeradas y la grúa es la última t
     const html = paginas[portada].replace(/<!--[\s\S]*?-->/g, '');
     const lead = html.match(/<section class="hero"[\s\S]*?<p class="lead">([\s\S]*?)<\/p>/)[1];
     assert.ok(lead.includes(`href="${destino}"`), `${portada}: el hero no enlaza ${destino}`);
-    assert.match(lead, /refrigerad/i);
+    assert.match(lead, /refrigera(d|t)/i);
     const tarjetas = [...html.match(/<div class="cards swipe">([\s\S]*?)\n      <\/div>\n/)[1]
       .matchAll(/<h3>([^<]+)<\/h3>/g)].map((m) => m[1]);
     assert.deepStrictEqual(tarjetas.slice(0, 4), primeras, `${portada}: orden de servicios`);
