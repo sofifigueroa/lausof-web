@@ -107,7 +107,10 @@ for (const [es, pt] of Object.entries(paresPt)) {
       .filter((id) => id !== `${DOMINIO}/#empresa` && id.startsWith(`${urlDe(es)}#`));
     assert.deepStrictEqual(idsEs, [], `${pt} reutiliza los @id de la página en español`);
     for (const [, json] of html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) {
-      assert.doesNotMatch(json, /"@type":\s*"(Offer|FAQPage|Review|AggregateRating)"/, `${pt} lleva marcado vedado`);
+      // El catálogo de servicios de la portada usa Offer sin precio, igual
+      // que /  y /en/; un precio, una FAQ o reseñas no van en ninguna.
+      assert.doesNotMatch(json, /"@type":\s*"(FAQPage|Review|AggregateRating)"|"price"/, `${pt} lleva marcado vedado`);
+      if (es !== 'index.html') assert.doesNotMatch(json, /"@type":\s*"Offer"/, `${pt} lleva Offer`);
     }
   });
 
