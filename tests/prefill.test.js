@@ -37,6 +37,7 @@ const REQUISITOS = {
   mineria: [/^(Servicio|Service)/, /^(Mina o campamento|Mine or camp)$/, /^(Fecha|Date)$/],
   produccion: [/^(Fechas del rodaje|Shoot dates)$/, /^(Locaciones|Locations)$/],
   agencia: [/^(Agencia|Agency)$/],
+  'agencia-hotel': [/^(Agencia u hotel|Tour operator or hotel)$/],
   general: [/^(Servicio|Service)$/, /^(Fecha|Date)$/, /^(Origen y destino|From and to)$/],
   flota: [/^(Unidad|Vehicle)$/],
 };

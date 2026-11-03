@@ -28,7 +28,7 @@ const NUEVAS = {
 const esIngles = (n) => n.startsWith('en/');
 const esDe = (n) => (esIngles(n) ? Object.keys(NUEVAS).find((k) => NUEVAS[k] === n) : n);
 const todas = [...Object.keys(NUEVAS), ...Object.values(NUEVAS)];
-const enlace = (desde, hacia) => (esIngles(desde) ? `/${hacia}` : hacia);
+const enlace = (desde, hacia) => `/${hacia}`;
 
 const visible = (html) => sinComentarios(html)
   .replace(/<script[\s\S]*?<\/script>/gi, ' ')
@@ -210,10 +210,10 @@ test('cada página B2B la reciben su página madre, la portada de su idioma y la
 });
 
 test('las páginas de litio enlazan de vuelta a minería y a personal (ida y vuelta)', () => {
-  assert.ok(sinComentarios(paginas[LITIO]).includes('href="logistica-minera.html"'));
-  assert.ok(sinComentarios(paginas[LITIO]).includes('href="transporte-de-personal.html"'));
+  assert.ok(sinComentarios(paginas[LITIO]).includes('href="/logistica-minera.html"'));
+  assert.ok(sinComentarios(paginas[LITIO]).includes('href="/transporte-de-personal.html"'));
   assert.ok(sinComentarios(paginas[NUEVAS[LITIO]]).includes('href="/en/mining-logistics.html"'));
   assert.ok(sinComentarios(paginas[NUEVAS[LITIO]]).includes('href="/en/personnel-transport.html"'));
-  assert.ok(sinComentarios(paginas[AGENCIAS]).includes('href="turismo.html"'));
+  assert.ok(sinComentarios(paginas[AGENCIAS]).includes('href="/turismo.html"'));
   assert.ok(sinComentarios(paginas[NUEVAS[AGENCIAS]]).includes('href="/en/tours-and-transfers.html"'));
 });
