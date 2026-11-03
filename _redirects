@@ -1,9 +1,32 @@
+# ===== BEGIN wix-301 (mapa del sitio Wix viejo; lane web-wix-301-1103) =====
 # Redirecciones 301 de las URLs del sitio Wix viejo (indexadas por Google
 # hasta el corte de agosto 2026) hacia su lugar en el sitio nuevo: a su
 # página dedicada cuando existe, o a la sección de la portada (el fragmento
 # #seccion viaja en el Location y el navegador lo resuelve al llegar). Sin
 # comodín general: cualquier ruta nueva del sitio sigue sirviéndose normal
-# y las inexistentes dan su 404 honesto.
+# y las inexistentes dan su 404 honesto. Mapa completo, fuentes y lo que
+# queda en 404 a propósito: web/seo-deep-2026-11-03/wix-301-map.md.
+#
+# Inventario (03/11/2026): Common Crawl 2022-2026, Search Console (páginas y
+# URL Inspection con sus URLs de referencia), Bing Webmaster y Brave dan las
+# mismas 6 páginas de contenido + la portada. Wayback (CDX del 24/08) también.
+#
+# Nada va a la portada en bloque: Google trata muchas URLs viejas mandadas a
+# la home como soft 404 ("Avoid irrelevant redirects", Search Central, Site
+# moves with URL changes, actualizado 20/08/2026). Por eso se sacaron las
+# reglas /blank y /copia-de-* → / (nunca existieron en ningún índice) y las
+# únicas que van a / son /principal-old (era la página de grúas, y la grúa
+# vive en la portada) y los sinónimos /home e /inicio.
+
+# Versión ?lang=en de las páginas que tienen gemela en inglés. Van ANTES de la
+# regla general de la misma ruta: Netlify aplica la primera que matchea, y la
+# general pasa el ?lang=en a la portada en español. La regla con lang=en sólo
+# matchea si la URL trae exactamente ese parámetro (docs.netlify.com/manage/
+# routing/redirects/redirect-options/, "Query parameters", leído 03/11/2026).
+/principal-old      lang=en   /en/                                301!
+/nuestra-empresa    lang=en   /en/#about                          301!
+/contactenos        lang=en   /en/#contact                        301!
+/conozca-salta      lang=en   /en/tours-and-transfers.html        301!
 
 /nuestra-empresa    /#nosotros    301
 /galeria-imagenes   https://www.lausof.com/galeria.html       301
@@ -15,11 +38,15 @@
 /golf-torneos       https://www.lausof.com/golf-torneos.html  301!
 /principal-old      /             301
 
-# Rutas residuales típicas de plantillas Wix que pudieron quedar enlazadas.
-/blank              /             301
-/copia-de-*         /             301
+# Visor de fotos de Wix (lightbox de la galería de la portada vieja). Search
+# Console lo lista como URL de referencia de /nuestra-empresa. Su contenido
+# eran fotos de la flota: la galería nueva es el destino que corresponde.
+/fullscreen-page/*  /galeria.html                             301!
+
+# Sinónimos de la portada típicos de plantillas Wix.
 /home               /             301
 /inicio             /             301
+# ===== END wix-301 =====
 
 # Direcciones en inglés que la gente escribe o que quedaron en enlaces viejos
 # (daban 404 hasta octubre 2026). Van a la portada en inglés, a la sección que
