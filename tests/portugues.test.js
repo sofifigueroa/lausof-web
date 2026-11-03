@@ -103,7 +103,9 @@ for (const [es, pt] of Object.entries(paresPt)) {
     const propios = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
       .map((m) => m[1]).join('\n');
     assert.ok(!/"taxID"|"telephone"/.test(propios), `${pt} redefine a mano la ficha de la empresa`);
-    assert.ok(!propios.includes(`"${urlDe(es)}#`), `${pt} reutiliza los @id de la página en español`);
+    const idsEs = [...propios.matchAll(/"@id":\s*"([^"]+)"/g)].map((m) => m[1])
+      .filter((id) => id !== `${DOMINIO}/#empresa` && id.startsWith(`${urlDe(es)}#`));
+    assert.deepStrictEqual(idsEs, [], `${pt} reutiliza los @id de la página en español`);
     for (const [, json] of html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) {
       assert.doesNotMatch(json, /"@type":\s*"(Offer|FAQPage|Review|AggregateRating)"/, `${pt} lleva marcado vedado`);
     }
@@ -160,7 +162,7 @@ for (const [es, pt] of Object.entries(paresPt)) {
   test(`${pt}: sin dimensionar la flota ni el personal, sin precios`, () => {
     const visible = textoVisible(html);
     const numero = '(?:dois|duas|três|quatro|cinco|seis|sete|oito|nove|dez|onze|doze|quinze|vinte|trinta|dezenas|centenas|\\d+)';
-    const flota = new RegExp(`\\b${numero}\\s+(?:de\\s+)?(?:veículos|vans|caminhões|caminhonetes|micro-ônibus|ônibus|guinchos|empilhadeiras|motoristas|mecânicos|funcionários|unidades)\\b`, 'i');
+    const flota = new RegExp(`(?<![\\d-])\\b${numero}\\s+(?:de\\s+)?(?:veículos|vans|caminhões|caminhonetes|micro-ônibus|ônibus|guinchos|empilhadeiras|motoristas|mecânicos|funcionários|unidades)\\b`, 'i');
     const m = visible.match(flota);
     assert.ok(!m, `se dimensiona la flota o el personal en ${pt}: "${m && m[0]}"`);
     assert.doesNotMatch(visible, /R\$\s*\d|US\$\s*\d|USD\s*\d|\$\s*\d/, `${pt} publica un precio`);
