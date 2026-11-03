@@ -43,8 +43,12 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 export const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 // Anchos intermedios. Se generan los menores al 85 % del ancho real (más
-// cerca no ahorran nada) y además siempre el ancho real.
-export const ANCHOS = [400, 640, 960, 1280, 1600];
+// cerca no ahorran nada) y además siempre el ancho real. El 560 se sumó el
+// 03/11/2026 (auditoría técnica, L9): las fotos de las tarjetas de la portada
+// miden 310 px en un teléfono de 412 px (Lighthouse, pantalla 1,75x = 543 px
+// de foto) y entre 400 y 640 el navegador tenía que bajar la de 640 (o la
+// original, en las de 722 px): Lighthouse estimaba 365 KiB de más.
+export const ANCHOS = [400, 560, 640, 960, 1280, 1600];
 // Corte de la dirección de arte del hero: el mismo de los ajustes de mobile
 // de css/styles.css.
 export const MEDIA_MOVIL = '(max-width: 720px)';

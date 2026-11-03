@@ -71,7 +71,7 @@ function tarjeta(unidad) {
 
   if (unidad.foto) {
     const { ancho, alto } = medidasWebp(join(raiz, 'assets', 'unidades', unidad.foto));
-    const img = `<img src="assets/unidades/${escaparAtributo(unidad.foto)}" alt="${escaparAtributo(unidad.titulo)}" width="${ancho}" height="${alto}" sizes="${SIZES_TARJETA}" loading="lazy" decoding="async">`;
+    const img = `<img src="/assets/unidades/${escaparAtributo(unidad.foto)}" alt="${escaparAtributo(unidad.titulo)}" width="${ancho}" height="${alto}" sizes="${SIZES_TARJETA}" loading="lazy" decoding="async">`;
     filas.push(`        <div class="card-photo">${pictureDe(img, 'flota-en-venta.html')}</div>`);
   } else {
     filas.push(`        <div class="card-photo"><span>Fotos en preparación</span></div>`);

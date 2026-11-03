@@ -14,3 +14,34 @@
 
 /js/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Cabeceras de seguridad para todo el sitio (auditoría técnica 03/11/2026, M1).
+# Netlify aplica todas las reglas que coinciden: una foto lleva estas y
+# además su Cache-Control de arriba. HSTS ya lo manda Netlify solo; no se repite acá.
+#
+# - nosniff: el navegador no adivina tipos (un .txt nunca corre como script).
+# - Referrer-Policy: a otros sitios sólo viaja el dominio, no la página.
+# - Permissions-Policy: el sitio no usa cámara, micrófono, ubicación, pagos
+#   ni sensores; se niegan para la página y para cualquier cosa que cargue.
+# - frame-ancestors 'self' (SE APLICA): nadie puede meter el sitio en un
+#   iframe ajeno (clickjacking). Es lo que reemplaza a X-Frame-Options.
+# - La política completa va en Report-Only (NO bloquea nada, sólo avisa en la
+#   consola del navegador). Por qué no se aplica todavía: Google pide, para
+#   GA4 con funciones de anuncios, listar cada dominio google.<TLD> por país
+#   (developers.google.com/tag-platform/security/guides/csp, leído
+#   03/11/2026), y un dominio que falte cortaría la medición en silencio.
+#   MDN: Report-Only "allows you to test or repair violations before a
+#   specific Content-Security-Policy is applied" (página del 22/03/2026);
+#   web.dev/articles/strict-csp, paso 5, recomienda lo mismo. Para aplicarla:
+#   revisar la consola de varias páginas sin avisos "[Report Only]" y mover
+#   la línea a Content-Security-Policy. 'unsafe-inline' hace falta porque
+#   cada página lleva sus scripts y estilos en línea (gtag, barra de WhatsApp).
+#   Lo que el sitio carga de afuera es sólo gtag.js y sus envíos a Analytics;
+#   tests/cabeceras.test.js corta si una página pide otro dominio.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), browsing-topics=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), hid=(), magnetometer=(), microphone=(), midi=(), payment=(), serial=(), usb=()
+  Content-Security-Policy: frame-ancestors 'self'
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.google.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'

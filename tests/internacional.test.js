@@ -127,8 +127,7 @@ for (const [nombre, { paises, foto }] of Object.entries(internacionales)) {
         assert.strictEqual(item.item, undefined, 'el último paso no lleva enlace');
         assert.strictEqual(items[i].href, null, 'el último paso visible no lleva enlace');
       } else {
-        // La portada se enlaza como index.html y su URL canónica es /.
-        const href = items[i].href === 'index.html' ? '/' : items[i].href;
+        const href = items[i].href;
         const destino = href.startsWith('/') ? `${DOMINIO}${href}` : `${DOMINIO}/${href}`;
         assert.strictEqual(destino, item.item, `el enlace del paso ${i + 1} no coincide`);
       }

@@ -60,7 +60,7 @@ node scripts/imagenes.mjs --comprobar  # no escribe nada; sale con 1 si falta al
 ```
 
 El script (necesita ImageMagick 7 con AVIF: `brew install imagemagick`) genera
-al lado de cada `foto.webp` las variantes `foto-400w.webp`, `-640w`, `-960w`…
+al lado de cada `foto.webp` las variantes `foto-400w.webp`, `-560w`, `-640w`, `-960w`…
 (sólo anchos menores al original) y `foto.avif`, `foto-400w.avif`…, todas a
 partir del mismo `.webp` publicado (mismo recorte, mismos colores), y envuelve
 el `<img>` en `<picture>` con la fuente AVIF y el `srcset`. El `.webp`
@@ -105,7 +105,15 @@ Lo que el script no decide y va escrito a mano en el `<img>`:
 
 Dos cosas que hay que recordar al tocar el código:
 
-- **La hoja de estilos tiene cache-busting a mano** (`css/styles.css?v=21`). Cada
+- **Todo se pide con ruta desde la raíz** (`/css/styles.css?v=26`, `/assets/…`,
+  `/js/…`, y la portada como `/`, nunca `index.html`), en español igual que en
+  inglés. Netlify sirve cada página también como `/turismo/` o `/turismo.html/`,
+  y desde ahí una ruta relativa (`css/…`) da 404 y la página sale sin diseño
+  (auditoría 03/11/2026). `node scripts/rutas-raiz.mjs` corrige las páginas
+  solo; `tests/rutas-raiz.test.js` corta si vuelve una ruta relativa. Cada
+  página lleva además en `_redirects` su 301 desde la variante sin `.html`
+  (`/turismo` → `/turismo.html`); una página nueva necesita su renglón (hay test).
+- **La hoja de estilos tiene cache-busting a mano** (`/css/styles.css?v=26`). Cada
   vez que se cambia el CSS hay que subir ese número en los dos HTML, o quien ya
   entró sigue viendo la hoja vieja.
 - **Las fotos de cada tarjeta rotan con una animación por cantidad de fotos**
@@ -295,9 +303,28 @@ y registrar las dimensiones personalizadas `contact_channel`, `page_language`,
   `_email`) en el pedido. En GA4 aparece a los pocos minutos en el informe de
   tiempo real.
 
+## Cabeceras de seguridad
+
+El bloque `/*` de `_headers` manda en todas las páginas `X-Content-Type-Options:
+nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, un
+`Permissions-Policy` que niega cámara, micrófono, ubicación, pagos y sensores, y
+`Content-Security-Policy: frame-ancestors 'self'` (nadie enmarca el sitio). HSTS
+lo pone Netlify solo.
+
+La política de contenido completa va como `Content-Security-Policy-Report-Only`:
+no bloquea nada, sólo avisa en la consola con "[Report Only]". No se aplica
+todavía porque GA4 con funciones de anuncios pide un dominio `google.<TLD>`
+por país y uno que falte cortaría la medición sin que nadie lo vea. Para
+aplicarla: revisar en producción la consola de varias páginas (y un clic en
+WhatsApp) sin avisos, y mover la línea a `Content-Security-Policy`. Si una
+página empieza a cargar algo de otro dominio (una fuente, un mapa, un video),
+`tests/cabeceras.test.js` corta hasta que se lo sume a la política. Después de
+cada deploy que toque `_headers`: `curl -sI https://www.lausof.com/turismo.html`.
+
 ## Cómo verlo en local
 
-Abrir `index.html` en el navegador (doble click), o servirlo:
+Servirlo (abrirlo con doble click ya no sirve: las rutas son desde la raíz y
+`file://` no tiene raíz):
 
 ```bash
 python3 -m http.server 8000
