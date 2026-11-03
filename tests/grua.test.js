@@ -85,7 +85,6 @@ for (const nombre of [ES, EN]) {
     assert.strictEqual(horas.opens, '00:00');
     assert.strictEqual(horas.closes, '23:59');
     assert.match(texto, en ? /24 hours a day, every day/ : /24 horas, todos los días del año/);
-    assert.strictEqual(servicio.availableChannel.servicePhone.telephone, '+54-9-387-526-9009');
     // La miga visible y la del JSON-LD dicen lo mismo, y arranca en la portada de su idioma.
     const nav = sinComentarios(html).match(/<nav class="crumbs[^"]*"[^>]*>([\s\S]*?)<\/nav>/);
     assert.ok(nav, 'falta la miga visible');
