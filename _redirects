@@ -93,6 +93,7 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 # ruta desde la raíz (scripts/rutas-raiz.mjs) y la canónica la consolida.
 # Llevan ! porque las URLs lindas hacen que la ruta "exista". Van antes del
 # comodín /en/*. Una página nueva necesita su renglón (tests/rutas-raiz.test.js).
+/agencias-y-hoteles                           /agencias-y-hoteles.html                          301!
 /alquiler-4x4                                 /alquiler-4x4.html                                301!
 /alquiler-autoelevadores                      /alquiler-autoelevadores.html                     301!
 /alquiler-combi-con-chofer-salta              /alquiler-combi-con-chofer-salta.html             301!
@@ -110,6 +111,7 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /salinas-grandes-desde-salta                  /salinas-grandes-desde-salta.html                 301!
 /semana-santa-salta-jujuy                     /semana-santa-salta-jujuy.html                    301!
 /transporte-de-personal                       /transporte-de-personal.html                      301!
+/transporte-de-personal-obras-de-litio        /transporte-de-personal-obras-de-litio.html       301!
 /traslado-aeropuerto-salta                    /traslado-aeropuerto-salta.html                   301!
 /traslado-carnaval-quebrada-de-humahuaca      /traslado-carnaval-quebrada-de-humahuaca.html     301!
 /traslado-salta-cachi                         /traslado-salta-cachi.html                        301!
@@ -128,7 +130,9 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /viajes-de-estudio                            /viajes-de-estudio.html                           301!
 /viajes-internacionales                       /viajes-internacionales.html                      301!
 /en/4x4-rental                                /en/4x4-rental.html                               301!
+/en/crew-transport-lithium-projects           /en/crew-transport-lithium-projects.html          301!
 /en/film-production-logistics                 /en/film-production-logistics.html                301!
+/en/ground-transport-for-tour-operators       /en/ground-transport-for-tour-operators.html      301!
 /en/holy-week-salta-jujuy                     /en/holy-week-salta-jujuy.html                    301!
 /en/international-trips                       /en/international-trips.html                      301!
 /en/jujuy-utmb-trail-race-transfers           /en/jujuy-utmb-trail-race-transfers.html          301!

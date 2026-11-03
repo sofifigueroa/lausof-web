@@ -52,6 +52,9 @@ const dedicadas = {
   'alquiler-combi-con-chofer-salta.html': 'Alquiler de Combi con Chofer por Día en Salta — Para Grupos, Agencias y Viajes de Varios Días | Lausof SRL',
   // Grúa y auxilio 24 hs (03/11/2026, tests/grua.test.js).
   'grua-salta.html': 'Grúa en Salta las 24 hs — Servicio de grúa de plancha y auxilio mecánico en la capital y en la ruta | Lausof SRL',
+  // Páginas B2B del 03/11/2026 (tests/b2b.test.js).
+  'agencias-y-hoteles.html': 'Transporte para Agencias de Viajes, Hoteles y Operadores en Salta y Jujuy — Combis con Chofer | Lausof SRL',
+  'transporte-de-personal-obras-de-litio.html': 'Transporte de Personal para Obras de Litio en la Puna — Cambios de Turno y Campamentos, 24 h | Lausof SRL',
 };
 
 for (const [nombre, titulo] of Object.entries(dedicadas)) {

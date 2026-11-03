@@ -105,6 +105,11 @@ export const TIPOS = {
     es: ['Agencia', 'Servicios que necesitan', 'Temporada o fechas'],
     en: ['Agency', 'Services you need', 'Season or dates'],
   },
+  // Agencias y hoteles (la página B2B nombra a los dos).
+  'agencia-hotel': {
+    es: ['Agencia u hotel', 'Servicios que necesitan', 'Temporada o fechas'],
+    en: ['Tour operator or hotel', 'Services you need', 'Season or dates'],
+  },
   general: {
     es: ['Servicio', 'Fecha', 'Origen y destino', 'Pasajeros o carga'],
     en: ['Service', 'Date', 'From and to', 'Passengers or cargo'],
@@ -117,6 +122,7 @@ export const TIPOS = {
    Toda página con un wa.me o un mailto tiene que estar acá. */
 export const PAGINAS = {
   '404.html': 'general',
+  'agencias-y-hoteles.html': 'agencia-hotel',
   'alquiler-4x4.html': 'camioneta',
   'alquiler-autoelevadores.html': 'autoelevador',
   'alquiler-combi-con-chofer-salta.html': 'combi-dia',
@@ -136,6 +142,7 @@ export const PAGINAS = {
   'salinas-grandes-desde-salta.html': 'pasajeros',
   'semana-santa-salta-jujuy.html': 'pasajeros',
   'transporte-de-personal.html': 'personal',
+  'transporte-de-personal-obras-de-litio.html': 'personal',
   'traslado-aeropuerto-salta.html': 'aeropuerto',
   'traslado-carnaval-quebrada-de-humahuaca.html': 'pasajeros',
   'traslado-salta-cachi.html': 'pasajeros',
@@ -155,7 +162,9 @@ export const PAGINAS = {
   'viajes-internacionales.html': 'internacional',
   'en/404.html': 'general',
   'en/4x4-rental.html': 'camioneta',
+  'en/crew-transport-lithium-projects.html': 'personal',
   'en/film-production-logistics.html': 'produccion',
+  'en/ground-transport-for-tour-operators.html': 'agencia-hotel',
   'en/holy-week-salta-jujuy.html': 'pasajeros',
   'en/index.html': 'general',
   'en/international-trips.html': 'internacional',

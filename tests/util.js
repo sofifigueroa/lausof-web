@@ -90,6 +90,9 @@ const pares = {
   'alquiler-combi-con-chofer-salta.html': 'en/minibus-with-driver-salta.html',
   // Grúa y auxilio 24 hs (03/11/2026, tests/grua.test.js).
   'grua-salta.html': 'en/tow-truck-salta.html',
+  // Páginas B2B (auditoría SEO 03/11/2026, B-segments-expansion.md §2.2 y §2.4).
+  'agencias-y-hoteles.html':                    'en/ground-transport-for-tour-operators.html',
+  'transporte-de-personal-obras-de-litio.html': 'en/crew-transport-lithium-projects.html',
 };
 
 // Página de /en/ que existe sin ser gemela de nadie (no se indexa).
