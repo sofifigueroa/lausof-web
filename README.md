@@ -303,6 +303,34 @@ y registrar las dimensiones personalizadas `contact_channel`, `page_language`,
   `_email`) en el pedido. En GA4 aparece a los pocos minutos en el informe de
   tiempo real.
 
+## Mensajes pre-armados de WhatsApp y correo
+
+Cada `wa.me` y cada `mailto:` lleva, debajo de su primera línea, los datos
+para cotizar como renglones para completar (fecha, pasajeros, lugar de
+salida, solo ida o ida y vuelta, y lo propio del servicio: vuelo en el
+aeropuerto, ubicación y vehículo en el auxilio, días y chofer en la 4x4).
+Los arma `scripts/prefill.mjs`; no se escriben a mano.
+
+```bash
+node scripts/prefill.mjs              # reescribe los enlaces de todas las páginas
+node scripts/prefill.mjs --comprobar  # no escribe nada; sale con 1 si algo no está al día
+```
+
+- **La primera línea** (la que nombra el servicio, la ruta o la fecha del
+  evento) se escribe en el HTML y el script no la cambia.
+- **Los renglones** salen del tipo de la página (`PAGINAS` en el script) o del
+  atributo `data-prefill="tipo"` de un enlace que cotiza otra cosa (el
+  auxilio y el taller en la portada, las tareas de minería y rodajes).
+- **El wa.me del pie**, sin texto, toma la primera línea más usada en la página.
+- **El correo** conserva destinatario, copia a transporte@ y asunto, y suma el
+  `body=` con los mismos renglones.
+- **Página nueva:** agregar su renglón en `PAGINAS` (tipos en `TIPOS`), correr
+  el script y commitear el HTML. `tests/prefill.test.js` falla si una página con
+  contacto no tiene tipo o quedó sin regenerar.
+- Las zonas `<!-- GENERADO:... -->` (tarjetas de la flota) son de otro script y
+  no se tocan.
+- `js/contacto.js` no cambia: mide el clic por el `href` y nunca manda el texto.
+
 ## Cabeceras de seguridad
 
 El bloque `/*` de `_headers` manda en todas las páginas `X-Content-Type-Options:

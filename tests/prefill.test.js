@@ -1,0 +1,171 @@
+// Mensajes pre-armados de WhatsApp y de correo (auditoría D del 03/11/2026,
+// §3.2): cada wa.me y cada mailto lleva los datos para cotizar como renglones
+// para completar. Los arma scripts/prefill.mjs a partir de la primera línea
+// escrita en el HTML y del tipo de la página; este test vigila que todas las
+// páginas estén al día y que cada tipo pida lo que hace falta para cotizar.
+// Página nueva: agregarla en PAGINAS de scripts/prefill.mjs y correr
+// `node scripts/prefill.mjs`.
+'use strict';
+
+const test = require('node:test');
+const assert = require('node:assert');
+const fs = require('node:fs');
+const path = require('node:path');
+const vm = require('node:vm');
+const { paginas } = require('./util.js');
+
+const guion = import('../scripts/prefill.mjs');
+
+// Lo que cada tipo tiene que pedir, escrito acá aparte del script: si alguien
+// recorta los renglones de un tipo, este cuadro lo frena. Cada entrada es un
+// patrón que tiene que aparecer en algún renglón, en castellano | inglés.
+const PASAJEROS = [/^(Fecha|Date)$/, /^(Pasajeros|Passengers)$/, /^(Lugar de salida|Pickup place)$/, /^(Solo ida o ida y vuelta|One way or return)$/];
+const REQUISITOS = {
+  pasajeros: PASAJEROS,
+  turismo: [/^(Destino|Destination)/, ...PASAJEROS],
+  internacional: [/^(Destino|Destination)$/, ...PASAJEROS],
+  aeropuerto: [/vuelo$|^Flight number$/i, /^(Fecha|Flight date)/, /^(Pasajeros|Passengers)/, /^(Hotel)/, /^(Solo ida o ida y vuelta|One way or return)$/],
+  'combi-dia': [/^(Fecha|Date)$/, /días|days/, /^(Pasajeros|Passengers)$/, /^(Lugar de salida|Pickup place)$/],
+  camioneta: [/^(Fecha de retiro|Pickup date)$/, /días|days/, /chofer|driver/, /^(Pasajeros|Passengers)$/, /^(Lugar de retiro|Pickup place)$/],
+  personal: [/^(Fecha|Date)/, /^(Personas|People)$/, /^(Origen|From)$/, /^(Destino|To)$/, /^(Solo ida o ida y vuelta|One way or return)$/],
+  auxilio: [/^(Ubicación|Location)$/, /^(Vehículo|Vehicle)$/, /^(Qué pasó|What happened)$/],
+  taller: [/^(Vehículo|Vehicle)$/],
+  carga: [/^(Carga|Cargo)$/, /^(Origen|From)$/, /^(Destino|To)$/, /^(Fecha|Date)$/],
+  refrigerado: [/^(Carga|Tipo de carga|Cargo|Cargo type)$/, /^Temperat/, /^(Origen|From|Origin)$/, /^(Destino|To|Destination)$/, /^(Fechas|Dates|Fechas de carga y entrega|Pickup and delivery dates)$/],
+  deposito: [/^(Mercadería|Goods)$/, /^(Espacio|Space)/],
+  autoelevador: [/^(Fecha|Date)$/, /días|days/, /^(Lugar|Location)$/],
+  mineria: [/^(Servicio|Service)/, /^(Mina o campamento|Mine or camp)$/, /^(Fecha|Date)$/],
+  produccion: [/^(Fechas del rodaje|Shoot dates)$/, /^(Locaciones|Locations)$/],
+  agencia: [/^(Agencia|Agency)$/],
+  general: [/^(Servicio|Service)$/, /^(Fecha|Date)$/, /^(Origen y destino|From and to)$/],
+  flota: [/^(Unidad|Vehicle)$/],
+};
+
+const etiquetas = (texto, separador) => texto.split(separador).slice(1)
+  .map((r) => r.replace(/:\s*$/, '').trim()).filter(Boolean);
+
+test('el cuadro de requisitos cubre todos los tipos del script', async () => {
+  const { TIPOS } = await guion;
+  assert.deepStrictEqual(Object.keys(TIPOS).sort(), Object.keys(REQUISITOS).sort());
+});
+
+test('toda página con WhatsApp o correo tiene tipo y está al día (correr node scripts/prefill.mjs)', async () => {
+  const { problemasDe, prefillHtml } = await guion;
+  for (const [nombre, html] of Object.entries(paginas)) {
+    assert.deepStrictEqual(problemasDe(html, nombre), [], nombre);
+    assert.ok(prefillHtml(html, nombre) === html, `${nombre}: los mensajes no están al día`);
+  }
+});
+
+test('cada wa.me lleva texto: primera línea con el servicio y los renglones de su tipo', async () => {
+  const { enlacesDe, leerWa } = await guion;
+  let total = 0;
+  for (const [nombre, html] of Object.entries(paginas)) {
+    for (const { tipo, url } of enlacesDe(html, nombre).filter((e) => e.url.startsWith('https://wa.me/'))) {
+      total++;
+      const wa = leerWa(url);
+      assert.ok(wa, `${nombre}: wa.me con otro formato: ${url}`);
+      const [apertura] = wa.texto.split('\n');
+      assert.match(apertura, /^(Hola|Hello) Lausof, .{10,}/, `${nombre}: primera línea vacía o genérica: "${apertura}"`);
+      const renglones = etiquetas(wa.texto, '\n');
+      for (const patron of REQUISITOS[tipo]) {
+        assert.ok(renglones.some((r) => patron.test(r)), `${nombre} (${tipo}): falta ${patron} en "${wa.texto}"`);
+      }
+      assert.ok(wa.texto.length <= 300, `${nombre}: mensaje demasiado largo (${wa.texto.length})`);
+      // Codificado entero: nada que corte el atributo ni la URL.
+      assert.doesNotMatch(url.split('?text=')[1], /[\s"<>&#\n]/, `${nombre}: texto mal codificado`);
+    }
+  }
+  assert.ok(total > 300, `se esperaban los ~380 wa.me del sitio, hay ${total}`);
+});
+
+test('el wa.me del pie de cada página lleva texto', () => {
+  for (const [nombre, html] of Object.entries(paginas)) {
+    const sinTexto = [...html.matchAll(/(?:href|data-enlace)="https:\/\/wa\.me\/\d+"/g)];
+    assert.strictEqual(sinTexto.length, 0, `${nombre}: ${sinTexto.length} wa.me sin texto`);
+  }
+});
+
+test('cada mailto va a transporte@ (directo o en copia), con asunto y con los renglones de su tipo', async () => {
+  const { enlacesDe, leerMailto } = await guion;
+  for (const [nombre, html] of Object.entries(paginas)) {
+    for (const { tipo, url } of enlacesDe(html, nombre).filter((e) => e.url.startsWith('mailto:'))) {
+      const { destino, params } = leerMailto(url);
+      const p = Object.fromEntries(params);
+      assert.match(destino, /^(contacto|transporte)@lausof\.com$/, `${nombre}: ${url}`);
+      if (destino === 'contacto@lausof.com') assert.strictEqual(p.cc, 'transporte@lausof.com', `${nombre}: sin copia a transporte@: ${url}`);
+      assert.ok(p.subject, `${nombre}: mailto sin asunto: ${url}`);
+      assert.ok(p.body, `${nombre}: mailto sin cuerpo: ${url}`);
+      const cuerpo = decodeURIComponent(p.body);
+      const renglones = cuerpo.split('\r\n').map((r) => r.replace(/:\s*$/, '').trim()).filter(Boolean);
+      for (const patron of REQUISITOS[tipo]) {
+        assert.ok(renglones.some((r) => patron.test(r)), `${nombre} (${tipo}): el cuerpo no pide ${patron}`);
+      }
+    }
+  }
+});
+
+test('el tipo de un enlace se puede pisar con data-prefill y el texto de la primera línea no se toca', async () => {
+  const { prefillHtml } = await guion;
+  const html = '<a href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20cotizar%20un%20servicio">a</a>'
+    + '<a data-prefill="auxilio" href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20necesito%20auxilio.">b</a>'
+    + '<li>WhatsApp <a href="https://wa.me/5493875269009">387 526-9009</a></li>'
+    + '<a href="mailto:contacto@lausof.com?cc=transporte@lausof.com">c</a>'
+    + '<a href="mailto:transporte@lausof.com?subject=Pedido%20de%20cotizaci%C3%B3n">d</a>';
+  const listo = prefillHtml(html, 'index.html');
+  const textos = [...listo.matchAll(/text=([^"]*)"/g)].map((m) => decodeURIComponent(m[1]));
+  assert.deepStrictEqual(textos, [
+    'Hola Lausof, quiero cotizar un servicio\nServicio: \nFecha: \nOrigen y destino: \nPasajeros o carga: ',
+    'Hola Lausof, necesito auxilio.\nUbicación: \nVehículo: \nQué pasó: ',
+    'Hola Lausof, quiero cotizar un servicio\nServicio: \nFecha: \nOrigen y destino: \nPasajeros o carga: ',
+  ]);
+  // El correo sin asunto toma el de la página; cc y asunto quedan como estaban.
+  assert.match(listo, /href="mailto:contacto@lausof\.com\?cc=transporte@lausof\.com&amp;subject=Pedido%20de%20cotizaci%C3%B3n&amp;body=Servicio%3A%0D%0A/);
+  assert.match(listo, /href="mailto:transporte@lausof\.com\?subject=Pedido%20de%20cotizaci%C3%B3n&amp;body=Servicio%3A/);
+  assert.strictEqual(prefillHtml(listo, 'index.html'), listo, 'correrlo dos veces cambia el resultado');
+});
+
+test('una página nueva sin tipo se avisa y no se toca', async () => {
+  const { problemasDe, prefillHtml } = await guion;
+  const html = '<a href="https://wa.me/5493875269009?text=Hola%20Lausof%2C%20quiero%20cotizar%20una%20gr%C3%BAa">a</a>';
+  assert.match(problemasDe(html, 'pagina-nueva.html').join(), /sin tipo en PAGINAS/);
+  assert.strictEqual(prefillHtml(html, 'pagina-nueva.html'), html);
+  assert.match(problemasDe(html.replace('<a ', '<a data-prefill="inventado" '), 'index.html').join(), /tipo desconocido/);
+});
+
+test('las zonas GENERADO de otro script (tarjetas de la flota) no se tocan', async () => {
+  const { prefillHtml } = await guion;
+  const zona = '<!-- GENERADO:UNIDADES — x -->\n<a href="https://wa.me/5493875092489?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20la%20unidad%20X">a</a>\n<!-- /GENERADO:UNIDADES -->';
+  const html = '<a href="https://wa.me/5493875092489?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20una%20unidad">b</a>' + zona;
+  assert.ok(prefillHtml(html, 'flota-en-venta.html').endsWith(zona));
+});
+
+// GA4: los enlaces reales, ya con renglones, siguen mandando su evento por
+// canal y sin el mensaje (js/contacto.js mide por el href).
+test('los enlaces pre-armados reales mandan contact_whatsapp y contact_email sin el texto', () => {
+  const codigo = fs.readFileSync(path.join(__dirname, '..', 'js', 'contacto.js'), 'utf8');
+  const html = paginas['traslado-salta-cafayate.html'];
+  const wa = html.match(/href="(https:\/\/wa\.me\/[^"]+)"/)[1];
+  const mail = html.match(/href="(mailto:contacto@[^"]+)"/)[1].replace(/&amp;/g, '&');
+  const eventos = [];
+  let escucha;
+  const window = { location: { pathname: '/traslado-salta-cafayate.html' }, gtag: (...a) => eventos.push(a) };
+  const document = { documentElement: { lang: 'es-AR' }, addEventListener: (t, fn) => { escucha = fn; } };
+  vm.runInNewContext(codigo, { window, document });
+  for (const href of [wa, mail]) {
+    const a = { textContent: 'Cotizar', getAttribute: (n) => (n === 'href' ? href : null), closest: (s) => (s === 'a[href]' ? a : s === '.wa-bar' ? {} : null) };
+    escucha({ target: a });
+  }
+  assert.deepStrictEqual(eventos.map((e) => e[1]), ['contact_whatsapp', 'contact_email']);
+  for (const [, , params] of eventos) {
+    assert.deepStrictEqual(Object.keys(params).sort(), ['contact_channel', 'contact_page_path', 'link_position', 'link_text', 'page_language']);
+    assert.doesNotMatch(JSON.stringify(params), /Fecha|Pasajeros|Cafayate|@/);
+  }
+});
+
+test('todas las páginas con WhatsApp o correo cargan js/contacto.js', () => {
+  for (const [nombre, html] of Object.entries(paginas)) {
+    if (!/href="(https:\/\/wa\.me\/|mailto:)/.test(html)) continue;
+    assert.match(html, /<script defer src="\/js\/contacto\.js\?v=\d+"><\/script>/, `${nombre} no mide los contactos`);
+  }
+});
