@@ -27,9 +27,9 @@ const dedicadas = {
   'deposito-galpon.html': 'Depósito y Galpón en Salta — Cámara de Frío y Playa de Maniobras | Lausof SRL',
   'producciones.html': 'Apoyo Logístico para Producciones y Rodajes — Salta y la Puna | Lausof SRL',
   'traslado-salta-purmamarca-tilcara-humahuaca.html': 'Traslado de Salta a Purmamarca, Tilcara y Humahuaca — Combi con chofer para grupos | Lausof SRL',
-  'salinas-grandes-desde-salta.html': 'Salinas Grandes desde Salta por Purmamarca — Excursión en combi con chofer para grupos | Lausof SRL',
+  'salinas-grandes-desde-salta.html': 'Salinas Grandes desde Salta: unos 255 km y 4 h por Purmamarca — Excursión en combi con chofer para grupos | Lausof SRL',
   'traslado-salta-cafayate.html': 'Traslado de Salta a Cafayate — Combi con chofer, solo ida o día completo | Lausof SRL',
-  'traslado-salta-cachi.html': 'Traslado de Salta a Cachi por la Cuesta del Obispo — y la vuelta por la Ruta 40 | Lausof SRL',
+  'traslado-salta-cachi.html': 'Traslado de Salta a Cachi: unos 157 km y 2 h 30 por la Cuesta del Obispo — y la vuelta por la Ruta 40 | Lausof SRL',
   'traslado-salta-san-antonio-de-los-cobres.html': 'Traslado de Salta a San Antonio de los Cobres — Ruta 51, La Polvorilla y la Puna | Lausof SRL',
   'traslados-casamientos.html': 'Traslados para Casamientos en Salta — Combis para Invitados, Fincas y Bodegas | Lausof SRL',
   // Ola de eventos del 10/10/2026: el hub de feriados y dos eventos
@@ -47,6 +47,9 @@ const dedicadas = {
   'traslado-tren-a-las-nubes.html': 'Traslado al Tren a las Nubes desde Salta — Combi o 4x4 a San Antonio de los Cobres | Lausof SRL',
   'semana-santa-salta-jujuy.html': 'Semana Santa 2027 en Salta y Jujuy — Traslados y Excursiones con Chofer | Lausof SRL',
   'traslados-fiesta-del-milagro.html': 'Traslados para la Fiesta del Milagro 2027 en Salta — Combis para Peregrinos y Parroquias | Lausof SRL',
+  // Sweep del 03/11/2026: aeropuerto y combi con chofer por día (tests/servicios-turismo.test.js).
+  'traslado-aeropuerto-salta.html': 'Traslado del aeropuerto de Salta al centro y a los hoteles — Combi con chofer para grupos | Lausof SRL',
+  'alquiler-combi-con-chofer-salta.html': 'Alquiler de Combi con Chofer por Día en Salta — Para Grupos, Agencias y Viajes de Varios Días | Lausof SRL',
 };
 
 for (const [nombre, titulo] of Object.entries(dedicadas)) {

@@ -85,6 +85,9 @@ const pares = {
   'traslados-trail-jujuy-utmb.html': 'en/jujuy-utmb-trail-race-transfers.html',
   'traslado-tren-a-las-nubes.html':  'en/train-to-the-clouds-transfer.html',
   'semana-santa-salta-jujuy.html':   'en/holy-week-salta-jujuy.html',
+  // Aeropuerto y combi con chofer por día (sweep 03/11/2026).
+  'traslado-aeropuerto-salta.html':       'en/salta-airport-transfer.html',
+  'alquiler-combi-con-chofer-salta.html': 'en/minibus-with-driver-salta.html',
 };
 
 // Página de /en/ que existe sin ser gemela de nadie (no se indexa).
