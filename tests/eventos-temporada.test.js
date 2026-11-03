@@ -47,7 +47,8 @@ const grafo = (html) => {
 
 // Cómo se enlaza un archivo desde otro: las páginas en español usan rutas
 // relativas a la raíz; las de /en/, rutas absolutas.
-const enlaceA = (desde, hacia) => (desde.startsWith('en/') ? `/${hacia}` : hacia);
+// Desde el 03/11 todas las páginas enlazan desde la raíz (scripts/rutas-raiz.mjs).
+const enlaceA = (desde, hacia) => `/${hacia}`;
 
 const DIAS_ES = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
 const DIAS_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

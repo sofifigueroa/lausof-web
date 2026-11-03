@@ -90,7 +90,7 @@ test('IndexNow: cambiadasEnGit traduce archivos cambiados a URLs del sitemap', a
 // (la portada). Desde el 13/10 la enlazan en contexto tres páginas de servicio.
 test('producciones.html recibe enlaces de contexto desde al menos tres páginas en español, además de la portada', () => {
   const desde = Object.entries(paginasEs)
-    .filter(([nombre, html]) => nombre !== 'producciones.html' && nombre !== 'index.html' && /<main[\s\S]*href="producciones\.html"[\s\S]*<\/main>/.test(html))
+    .filter(([nombre, html]) => nombre !== 'producciones.html' && nombre !== 'index.html' && /<main[\s\S]*href="\/producciones\.html"[\s\S]*<\/main>/.test(html))
     .map(([nombre]) => nombre);
   assert.ok(desde.length >= 3, `sólo la enlazan: ${desde.join(', ')}`);
   for (const nombre of ['logistica-minera.html', 'alquiler-4x4.html', 'transporte-de-personal.html']) {

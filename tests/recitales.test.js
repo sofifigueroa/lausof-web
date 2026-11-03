@@ -58,7 +58,9 @@ test('próximos recitales: cada fila cotiza por WhatsApp con un mensaje que nomb
   for (const { hasta, cuerpo } of filasHtml) {
     const wa = cuerpo.match(/href="https:\/\/wa\.me\/5493875269009\?text=([^"]+)"/);
     assert.ok(wa, `la fila ${hasta} no tiene el enlace de WhatsApp a la línea del sitio`);
-    const texto = decodeURIComponent(wa[1]);
+    // La primera línea nombra el recital; abajo van los renglones para
+    // completar (scripts/prefill.mjs).
+    const texto = decodeURIComponent(wa[1]).split('\n')[0];
     assert.match(texto, /^Hola Lausof, quiero cotizar una combi al recital de .+ \(\d{1,2}\/\d{1,2}\)$/,
       `mensaje pre-armado inesperado en la fila ${hasta}: "${texto}"`);
     const [, m, d] = hasta.split('-').map(Number);

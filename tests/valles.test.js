@@ -152,7 +152,8 @@ test('San Antonio de los Cobres: aviso de independencia del Tren a las Nubes', (
 // (turismo y su gemela para las rutas; peregrinaciones y las portadas para
 // casamientos), y las rutas se enlazan entre sí.
 test('las páginas de ruta y casamientos se enlazan desde su página madre', () => {
-  const enlaza = (origen, destino) => sinComentarios(paginas[origen]).includes(`href="${destino}"`);
+  // Desde el 03/11 todo enlace entre páginas va desde la raíz.
+  const enlaza = (origen, destino) => sinComentarios(paginas[origen]).includes(`href="${destino.startsWith('/') ? destino : '/' + destino}"`);
   for (const es of ['traslado-salta-cafayate.html', 'traslado-salta-cachi.html',
     'traslado-salta-san-antonio-de-los-cobres.html']) {
     assert.ok(enlaza('turismo.html', es), `turismo.html no enlaza a ${es}`);

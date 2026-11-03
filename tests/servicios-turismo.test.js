@@ -24,7 +24,8 @@ const NUEVAS = {
 };
 const todas = [...Object.keys(NUEVAS), ...Object.values(NUEVAS)];
 const esIngles = (n) => n.startsWith('en/');
-const enlace = (desde, hacia) => (esIngles(desde) ? `/${hacia}` : hacia);
+// Desde el 03/11 todas las páginas enlazan desde la raíz (scripts/rutas-raiz.mjs).
+const enlace = (desde, hacia) => `/${hacia}`;
 const HUB = 'feriados-fines-de-semana-largos.html';
 const RESENAS = 'https://www.google.com/maps?cid=13700114490953273065';
 
@@ -187,14 +188,14 @@ test('alquiler-4x4.html: promete la respuesta en el día, como su gemela inglesa
 test('cada página de ruta en español enlaza el hub de feriados', () => {
   assert.ok(rutasEs.length > 0);
   for (const ruta of rutasEs) {
-    assert.ok(sinComentarios(paginas[ruta]).includes(`href="${HUB}"`), `${ruta} no enlaza el hub`);
+    assert.ok(sinComentarios(paginas[ruta]).includes(`href="/${HUB}"`), `${ruta} no enlaza el hub`);
   }
 });
 
 test('el hub de feriados enlaza la página de UTMB y la combi por día', () => {
   const html = sinComentarios(paginas[HUB]);
-  assert.ok(html.includes('href="traslados-trail-jujuy-utmb.html"'));
-  assert.ok(html.includes('href="alquiler-combi-con-chofer-salta.html"'));
+  assert.ok(html.includes('href="/traslados-trail-jujuy-utmb.html"'));
+  assert.ok(html.includes('href="/alquiler-combi-con-chofer-salta.html"'));
 });
 
 // Fiestas del hub: con fecha sólo si hay fuente; si no, "a confirmar". Nunca

@@ -26,6 +26,27 @@ test('ninguna página pide hojas, fotos o scripts con ruta relativa', () => {
   }
 });
 
+// Pendiente del 03/11: el menú de las páginas en castellano enlazaba
+// `turismo.html` a secas; desde /turismo/ eso es /turismo/turismo.html.
+test('ningún enlace entre páginas usa ruta relativa', () => {
+  for (const [nombre, html] of Object.entries(paginas)) {
+    const relativas = [...sinComentarios(html).matchAll(/\bhref="([^"]*)"/g)].map((m) => m[1])
+      .filter((u) => /^(\.\.?\/)*[a-z0-9][a-z0-9-]*(\/[a-z0-9-]+)*\.html([?#]|$)/i.test(u));
+    assert.deepStrictEqual(relativas.slice(0, 5), [],
+      `${nombre}: ${relativas.length} enlaces relativos a páginas (correr node scripts/rutas-raiz.mjs)`);
+  }
+});
+
+test('el arreglo de enlaces respeta la carpeta de la página', async () => {
+  const { arreglarHtml } = await import('../scripts/rutas-raiz.mjs');
+  assert.strictEqual(arreglarHtml('<a href="turismo.html#a">'), '<a href="/turismo.html#a">');
+  assert.strictEqual(arreglarHtml('<a href="./x.html">', 'en/'), '<a href="/en/x.html">');
+  assert.strictEqual(arreglarHtml('<a href="index.html">', 'en/'), '<a href="/en/">');
+  for (const fijo of ['https://x.com/a.html', 'mailto:a@b.c', '#a', '/turismo.html']) {
+    assert.strictEqual(arreglarHtml(`<a href="${fijo}">`), `<a href="${fijo}">`);
+  }
+});
+
 test('ninguna página enlaza index.html: la portada es /', () => {
   for (const [nombre, html] of Object.entries(paginas)) {
     const malas = urlsDe(html).filter((u) => /(^|\/)index\.html(#|$|\?)/.test(u));

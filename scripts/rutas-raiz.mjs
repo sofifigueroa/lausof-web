@@ -17,6 +17,11 @@
    `/` (`/#seccion`), porque /index.html responde con un 301 a / y cada enlace
    así le cuesta un salto a la visita.
 
+   Y para los enlaces entre páginas: `turismo.html` pasa a `/turismo.html`
+   (desde /en/, `x.html` pasa a `/en/x.html`). Con la ruta relativa, desde la
+   variante /turismo/ el menú llevaba a /turismo/turismo.html (pendiente del
+   03/11).
+
    El script reescribe los atributos href, src, srcset y data-movil de todas
    las páginas. Es idempotente. `--comprobar` no escribe nada y sale con 1 si
    alguna página tiene rutas relativas (lo mismo vigila tests/rutas-raiz.test.js).
@@ -32,18 +37,24 @@ export const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CARPETAS = /^(?:\.\/)?((?:assets|css|js)\/)/;
 const ATRIBUTO = /\b(href|src|srcset|data-movil)="([^"]*)"/g;
 
-function arreglarUrl(url) {
+// Un enlace relativo a otra página del sitio: `turismo.html`, `./x.html#a`.
+export const PAGINA_RELATIVA = /^(?:\.\/)?([a-z0-9][a-z0-9-]*\.html)([?#].*)?$/i;
+
+function arreglarUrl(url, carpeta = '') {
   if (CARPETAS.test(url)) return url.replace(CARPETAS, '/$1');
   const portada = url.match(/^(?:\.\/)?index\.html(#.*)?$/);
-  if (portada) return `/${portada[1] || ''}`;
+  if (portada) return `/${carpeta}${portada[1] || ''}`;
+  const pagina = url.match(PAGINA_RELATIVA);
+  if (pagina) return `/${carpeta}${pagina[1]}${pagina[2] || ''}`;
   return url;
 }
 
-export function arreglarHtml(html) {
+// `carpeta` es la de la página que se reescribe ('' en la raíz, 'en/' en inglés).
+export function arreglarHtml(html, carpeta = '') {
   return html.replace(ATRIBUTO, (todo, nombre, valor) => {
     const nuevo = nombre === 'srcset'
-      ? valor.split(',').map((parte) => parte.replace(/^(\s*)(\S+)/, (m, esp, url) => esp + arreglarUrl(url))).join(',')
-      : arreglarUrl(valor);
+      ? valor.split(',').map((parte) => parte.replace(/^(\s*)(\S+)/, (m, esp, url) => esp + arreglarUrl(url, carpeta))).join(',')
+      : nombre === 'href' ? arreglarUrl(valor, carpeta) : arreglarUrl(valor);
     return `${nombre}="${nuevo}"`;
   });
 }
@@ -63,7 +74,7 @@ function principal() {
   for (const pagina of paginas()) {
     const ruta = join(raiz, pagina);
     const actual = readFileSync(ruta, 'utf8');
-    const nuevo = arreglarHtml(actual);
+    const nuevo = arreglarHtml(actual, pagina.startsWith('en/') ? 'en/' : '');
     if (nuevo !== actual) {
       cambiadas.push(pagina);
       if (!comprobar) writeFileSync(ruta, nuevo);
