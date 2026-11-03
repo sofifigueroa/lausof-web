@@ -311,6 +311,9 @@ test('portada: el hero nombra las cargas refrigeradas y la grúa es la última t
     ['en/index.html', '/en/refrigerated-freight.html',
       ['Tours and private transfers', 'Personnel transport', 'Mining logistics and high-altitude operations', 'Refrigerated freight and warehousing'],
       'Towing and roadside assistance'],
+    ['pt/index.html', '/cargas-refrigeradas.html',
+      ['Passeios e traslados especiais', 'Transporte de pessoal', 'Logística de mineração e operações em altitude', 'Cargas refrigeradas e depósito'],
+      'Socorro mecânico e reboque'],
   ]) {
     const html = paginas[portada].replace(/<!--[\s\S]*?-->/g, '');
     const lead = html.match(/<section class="hero"[\s\S]*?<p class="lead">([\s\S]*?)<\/p>/)[1];
@@ -323,4 +326,26 @@ test('portada: el hero nombra las cargas refrigeradas y la grúa es la última t
   }
   assert.match(index.match(/<meta name="description" content="([^"]+)">/)[1], /cargas refrigeradas/);
   assert.match(paginas['en/index.html'].match(/<meta name="description" content="([^"]+)">/)[1], /refrigerated freight/);
+  assert.match(paginas['pt/index.html'].match(/<meta name="description" content="([^"]+)">/)[1], /cargas refrigeradas/);
+});
+
+// La portada en portugués sigue la misma decisión (03/11/2026): abre con
+// pasajeros, la grúa no aparece en el título, la descripción ni el hero, y la
+// llamada 24 h vive en la tarjeta de socorro. El enlace del hero a la página
+// de frío, que está en español, lo avisa con hreflang y «(em espanhol)».
+test('la portada en portugués abre con pasajeros y la llamada de socorro va en su tarjeta', () => {
+  const pt = paginas['pt/index.html'].replace(/<!--[\s\S]*?-->/g, '');
+  const titulo = pt.match(/<title>([^<]+)<\/title>/)[1];
+  const desc = pt.match(/<meta name="description" content="([^"]+)">/)[1];
+  assert.match(titulo, /^Transporte de passageiros em Salta/, titulo);
+  for (const palabra of ['Passeios', 'mineração', 'aeroporto', 'charter']) assert.ok(titulo.includes(palabra), `falta "${palabra}": ${titulo}`);
+  assert.strictEqual(pt.match(/<meta property="og:title" content="([^"]+)">/)[1], titulo, 'og:title distinto del <title>');
+  const hero = pt.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
+  assert.doesNotMatch(`${titulo} ${desc} ${hero}`, /guincho|reboque|socorro/i, 'la portada en portugués todavía vende la grúa arriba');
+  assert.ok(!hero.includes('tel:'), 'el hero en portugués todavía tiene el botón de llamada');
+  assert.match(hero, /<a href="\/cargas-refrigeradas\.html" hreflang="es">[^<]+<\/a> \(em espanhol\)/);
+  const tarjetas = pt.match(/<div class="cards swipe">([\s\S]*?)\n      <\/div>\n/)[1].split('<article').slice(1);
+  const socorro = tarjetas[tarjetas.length - 1];
+  assert.ok(socorro.includes('href="tel:+5493875269009"'), 'la llamada 24 h no está en la tarjeta de socorro');
+  for (const t of tarjetas.slice(0, -1)) assert.ok(!t.includes('tel:'), 'otra tarjeta lleva la llamada de socorro');
 });
