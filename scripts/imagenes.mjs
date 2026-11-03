@@ -35,10 +35,11 @@
    variantes faltantes o páginas desactualizadas.
    ============================================================================= */
 
-import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { paginas } from './rutas-raiz.mjs';
 
 export const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -183,14 +184,8 @@ export function procesarHtml(html, pagina) {
 
 /* ---- páginas y variantes -------------------------------------------------- */
 
-export function paginas() {
-  const lista = readdirSync(raiz).filter((f) => f.endsWith('.html') && !f.startsWith('google')).sort();
-  const dirEn = join(raiz, 'en');
-  if (existsSync(dirEn)) {
-    lista.push(...readdirSync(dirEn).filter((f) => f.endsWith('.html')).sort().map((f) => `en/${f}`));
-  }
-  return lista;
-}
+// Las mismas páginas que recorre scripts/rutas-raiz.mjs (raíz, /en/ y /pt/).
+export { paginas };
 
 // Variantes que piden las páginas: [{archivo, origen, ancho, formato, natural}]
 export function variantesPedidas() {

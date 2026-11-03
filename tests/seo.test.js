@@ -244,7 +244,7 @@ const claveIndexNow = fs.readFileSync(path.join(__dirname, '..', 'scripts', 'ind
 
 const esDelSitio = (nombre, esDir) => {
   if (nombre.startsWith('.')) return true; // el CLI no los sube
-  if (esDir) return ['assets', 'css', 'js', 'en'].includes(nombre);
+  if (esDir) return ['assets', 'css', 'js', 'en', 'pt'].includes(nombre);
   return nombre.endsWith('.html') ||
     ['sitemap.xml', 'robots.txt', '_redirects', '_headers', `${claveIndexNow}.txt`].includes(nombre);
 };

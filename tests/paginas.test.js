@@ -6,7 +6,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert');
-const { paginas, index, sitemap, redirects, pares, urlDe } = require('./util.js');
+const { paginas, index, sitemap, redirects, pares, paresPt, urlDe } = require('./util.js');
 
 // Título y canónica van juntos: si una página se renombra o se reescribe,
 // acá se decide a conciencia (los títulos llevan keywords ganadas).
@@ -102,7 +102,7 @@ test('el sitemap lista exactamente las URLs indexables y ninguna más', () => {
   for (const url of esperadas) {
     assert.ok(urls.includes(url), `falta ${url} en el sitemap`);
   }
-  const indexables = new Set([...esperadas, ...Object.values(pares).map(urlDe)]);
+  const indexables = new Set([...esperadas, ...Object.values(pares).map(urlDe), ...Object.values(paresPt).map(urlDe)]);
   for (const url of urls) {
     assert.ok(indexables.has(url), `${url} está en el sitemap y no es una página indexable conocida`);
   }
@@ -181,7 +181,7 @@ test('el pie de la portada enlaza turismo, galería y depósito', () => {
 test('cada página recibe al menos un enlace interno de su mismo idioma', () => {
   const path = require('node:path');
   const { sinComentarios } = require('./util.js');
-  const idioma = (archivo) => (archivo.startsWith('en/') ? 'en' : 'es');
+  const idioma = (archivo) => (/^(en|pt)\//.test(archivo) ? archivo.slice(0, 2) : 'es');
   const resolver = (desde, href) => {
     let ruta = href.replace(/^https:\/\/www\.lausof\.com/, '');
     if (/^[a-z]+:|^\/\//i.test(ruta)) return null; // externo, mailto, tel, wa.me
@@ -191,7 +191,7 @@ test('cada página recibe al menos un enlace interno de su mismo idioma', () => 
       ? ruta.slice(1)
       : path.posix.normalize(path.posix.join(path.posix.dirname(desde), ruta));
     if (archivo === '' || archivo.endsWith('/')) archivo += 'index.html';
-    if (archivo === 'en') archivo = 'en/index.html';
+    if (archivo === 'en' || archivo === 'pt') archivo += '/index.html';
     return archivo;
   };
   const entrantes = Object.fromEntries(Object.keys(paginas).map((p) => [p, new Set()]));
@@ -221,7 +221,7 @@ test('las páginas de eventos y golf se enlazan desde turismo y desde otra pági
   for (const evento of eventos) {
     assert.ok(enlazan('turismo.html', evento), `turismo.html no enlaza a ${evento}`);
     assert.ok(enlazan('index.html', evento), `la portada no enlaza a ${evento}`);
-    const otras = Object.keys(paginas).filter((p) => !p.startsWith('en/') &&
+    const otras = Object.keys(paginas).filter((p) => !/^(en|pt)\//.test(p) &&
       !['index.html', 'turismo.html', evento].includes(p) && enlazan(p, evento));
     assert.ok(otras.length > 0, `${evento} sólo se enlaza desde la portada y turismo`);
   }

@@ -18,28 +18,32 @@ const guion = import('../scripts/prefill.mjs');
 
 // Lo que cada tipo tiene que pedir, escrito acá aparte del script: si alguien
 // recorta los renglones de un tipo, este cuadro lo frena. Cada entrada es un
-// patrón que tiene que aparecer en algún renglón, en castellano | inglés.
-const PASAJEROS = [/^(Fecha|Date)$/, /^(Pasajeros|Passengers)$/, /^(Lugar de salida|Pickup place)$/, /^(Solo ida o ida y vuelta|One way or return)$/];
+// patrón que tiene que aparecer en algún renglón, en castellano | inglés |
+// portugués (páginas de /pt/, 03/11/2026).
+const PASAJEROS = [/^(Fecha|Date|Data)$/, /^(Pasajeros|Passengers|Passageiros)$/,
+  /^(Lugar de salida|Pickup place|Local de saída)$/, /^(Solo ida o ida y vuelta|One way or return|Só ida ou ida e volta)$/];
+const IDA = /^(Solo ida o ida y vuelta|One way or return|Só ida ou ida e volta)$/;
 const REQUISITOS = {
   pasajeros: PASAJEROS,
   turismo: [/^(Destino|Destination)/, ...PASAJEROS],
   internacional: [/^(Destino|Destination)$/, ...PASAJEROS],
-  aeropuerto: [/vuelo$|^Flight number$/i, /^(Fecha|Flight date)/, /^(Pasajeros|Passengers)/, /^(Hotel)/, /^(Solo ida o ida y vuelta|One way or return)$/],
-  'combi-dia': [/^(Fecha|Date)$/, /días|days/, /^(Pasajeros|Passengers)$/, /^(Lugar de salida|Pickup place)$/],
-  camioneta: [/^(Fecha de retiro|Pickup date)$/, /días|days/, /chofer|driver/, /^(Pasajeros|Passengers)$/, /^(Lugar de retiro|Pickup place)$/],
-  personal: [/^(Fecha|Date)/, /^(Personas|People)$/, /^(Origen|From)$/, /^(Destino|To)$/, /^(Solo ida o ida y vuelta|One way or return)$/],
-  auxilio: [/^(Ubicación|Location)$/, /^(Vehículo|Vehicle)$/, /^(Qué pasó|What happened)$/],
-  taller: [/^(Vehículo|Vehicle)$/],
-  carga: [/^(Carga|Cargo)$/, /^(Origen|From)$/, /^(Destino|To)$/, /^(Fecha|Date)$/],
-  refrigerado: [/^(Carga|Tipo de carga|Cargo|Cargo type)$/, /^Temperat/, /^(Origen|From|Origin)$/, /^(Destino|To|Destination)$/, /^(Fechas|Dates|Fechas de carga y entrega|Pickup and delivery dates)$/],
-  deposito: [/^(Mercadería|Goods)$/, /^(Espacio|Space)/],
-  autoelevador: [/^(Fecha|Date)$/, /días|days/, /^(Lugar|Location)$/],
-  mineria: [/^(Servicio|Service)/, /^(Mina o campamento|Mine or camp)$/, /^(Fecha|Date)$/],
-  produccion: [/^(Fechas del rodaje|Shoot dates)$/, /^(Locaciones|Locations)$/],
-  agencia: [/^(Agencia|Agency)$/],
-  'agencia-hotel': [/^(Agencia u hotel|Tour operator or hotel)$/],
-  general: [/^(Servicio|Service)$/, /^(Fecha|Date)$/, /^(Origen y destino|From and to)$/],
-  flota: [/^(Unidad|Vehicle)$/],
+  aeropuerto: [/vuelo$|^Flight number$|^Número do voo$/i, /^(Fecha|Flight date|Data e horário do voo)/, /^(Pasajeros|Passengers|Passageiros)/, /^(Hotel)/, IDA],
+  'combi-dia': [/^(Fecha|Date|Data)$/, /días|days|dias/, /^(Pasajeros|Passengers|Passageiros)$/, /^(Lugar de salida|Pickup place|Local de saída)$/],
+  camioneta: [/^(Fecha de retiro|Pickup date|Data de retirada)$/, /días|days|dias/, /chofer|driver|motorista/, /^(Pasajeros|Passengers|Passageiros)$/, /^(Lugar de retiro|Pickup place|Local de retirada)$/],
+  personal: [/^(Fecha|Date|Data)/, /^(Personas|People|Pessoas)$/, /^(Origen|From|Origem)$/, /^(Destino|To)$/, IDA],
+  auxilio: [/^(Ubicación|Location|Localização)$/, /^(Vehículo|Vehicle|Veículo)$/, /^(Qué pasó|What happened|O que aconteceu)$/],
+  taller: [/^(Vehículo|Vehicle|Veículo)$/],
+  carga: [/^(Carga|Cargo)$/, /^(Origen|From|Origem)$/, /^(Destino|To)$/, /^(Fecha|Date|Data)$/],
+  refrigerado: [/^(Carga|Tipo de carga|Cargo|Cargo type)$/, /^Temperat/, /^(Origen|From|Origin|Origem)$/, /^(Destino|To|Destination)$/,
+    /^(Fechas|Dates|Fechas de carga y entrega|Pickup and delivery dates|Datas|Datas de coleta e entrega)$/],
+  deposito: [/^(Mercadería|Goods|Mercadoria)$/, /^(Espacio|Space|Espaço)/],
+  autoelevador: [/^(Fecha|Date|Data)$/, /días|days|dias/, /^(Lugar|Location|Local)$/],
+  mineria: [/^(Servicio|Service|Serviço)/, /^(Mina o campamento|Mine or camp|Mina ou acampamento)$/, /^(Fecha|Date|Data)$/],
+  produccion: [/^(Fechas del rodaje|Shoot dates|Datas da filmagem)$/, /^(Locaciones|Locations|Locações)$/],
+  agencia: [/^(Agencia|Agency|Agência)$/],
+  'agencia-hotel': [/^(Agencia u hotel|Tour operator or hotel|Agência ou hotel)$/],
+  general: [/^(Servicio|Service|Serviço)$/, /^(Fecha|Date|Data)$/, /^(Origen y destino|From and to|Origem e destino)$/],
+  flota: [/^(Unidad|Vehicle|Veículo)$/],
 };
 
 const etiquetas = (texto, separador) => texto.split(separador).slice(1)
@@ -67,7 +71,7 @@ test('cada wa.me lleva texto: primera línea con el servicio y los renglones de 
       const wa = leerWa(url);
       assert.ok(wa, `${nombre}: wa.me con otro formato: ${url}`);
       const [apertura] = wa.texto.split('\n');
-      assert.match(apertura, /^(Hola|Hello) Lausof, .{10,}/, `${nombre}: primera línea vacía o genérica: "${apertura}"`);
+      assert.match(apertura, /^(Hola|Hello|Olá) Lausof, .{10,}/, `${nombre}: primera línea vacía o genérica: "${apertura}"`);
       const renglones = etiquetas(wa.texto, '\n');
       for (const patron of REQUISITOS[tipo]) {
         assert.ok(renglones.some((r) => patron.test(r)), `${nombre} (${tipo}): falta ${patron} en "${wa.texto}"`);
