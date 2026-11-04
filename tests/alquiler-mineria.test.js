@@ -102,6 +102,18 @@ test('alquiler 4x4: los mensajes pre-armados no ofrecen manejar', () => {
   }
 });
 
+// Las páginas para viajeros, agencias y operadores enlazan la 4x4 "con chofer",
+// nunca "con o sin chofer": quien llega desde ahí vende o compra un viaje
+// turístico (la de inglés para operadores se escapó en el primer pase).
+test('alquiler 4x4: las páginas de turismo y agencias la enlazan con chofer', () => {
+  for (const nombre of ['agencias-y-hoteles.html', 'en/ground-transport-for-tour-operators.html', 'turismo.html', 'pt/passeios-e-traslados.html', 'viajes-internacionales.html', 'en/international-trips.html']) {
+    const enlaces = [...sinComentarios(paginas[nombre]).matchAll(/<a [^>]*href="\/(?:en\/4x4-rental|alquiler-4x4)\.html"[^>]*>([\s\S]*?)<\/a>/g)].map((m) => m[1]);
+    for (const e of enlaces) {
+      assert.doesNotMatch(e, /o sin chofer|or without a driver|ou sem motorista|self-drive/i, `${nombre}: «${e}»`);
+    }
+  }
+});
+
 test('alquiler 4x4: la ficha Service incluye Chile y Bolivia en el área servida', () => {
   for (const nombre of Object.values(alquiler)) {
     const areas = servicio(paginas[nombre]).areaServed.map((a) => a.name);
