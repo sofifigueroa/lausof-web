@@ -29,7 +29,7 @@ const REQUISITOS = {
   internacional: [/^(Destino|Destination)$/, ...PASAJEROS],
   aeropuerto: [/vuelo$|^Flight number$|^Número do voo$/i, /^(Fecha|Flight date|Data e horário do voo)/, /^(Pasajeros|Passengers|Passageiros)/, /^(Hotel)/, IDA],
   'combi-dia': [/^(Fecha|Date|Data)$/, /días|days|dias/, /^(Pasajeros|Passengers|Passageiros)$/, /^(Lugar de salida|Pickup place|Local de saída)$/],
-  camioneta: [/^(Fecha de retiro|Pickup date|Data de retirada)$/, /días|days|dias/, /chofer|driver|motorista/, /^(Pasajeros|Passengers|Passageiros)$/, /^(Lugar de retiro|Pickup place|Local de retirada)$/],
+  camioneta: [/^(Fecha|Date|Data)$/, /días|days|dias/, /^(Pasajeros|Passengers|Passageiros)$/, /^(Recorrido|Route|Roteiro)$/, /^(Viajero o empresa|Traveler or company|Viajante ou empresa)$/],
   personal: [/^(Fecha|Date|Data)/, /^(Personas|People|Pessoas)$/, /^(Origen|From|Origem)$/, /^(Destino|To)$/, IDA],
   auxilio: [/^(Ubicación|Location|Localização)$/, /^(Vehículo|Vehicle|Veículo)$/, /^(Qué pasó|What happened|O que aconteceu)$/],
   taller: [/^(Vehículo|Vehicle|Veículo)$/],

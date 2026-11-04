@@ -563,7 +563,6 @@ const requeridasEn = [
   ['habilitación CNRT', /CNRT/],
   ['número de CNRT', /60284/],
   ['habilitación AMT', /AMT/],
-  ['capacidad de carga de 7,5 toneladas', /7\.5[- ]ton/i],
   ['registro de temperatura', /temperature log/i],
   ['agencia de turismo habilitada', /licensed (travel agency|tour operator)/i],
   ['más de una década en la Puna', /more than a decade[^.]{0,30}Puna/i],
@@ -572,7 +571,7 @@ const requeridasEn = [
   ['teléfono satelital en altura', /satellite phone/i],
   ['CUIT', /30-71146774-9/],
   ['empezamos en 2010', /2010/],
-  ['grúa y cargas desde 2017', /2017/],
+  ['cargas desde 2017', /in 2017 added general freight/],
 ];
 
 if (paginasEn['en/index.html']) {
@@ -592,8 +591,8 @@ if (paginasEn['en/index.html']) {
       'hay una mención de GPS sin el alcance "on the units in service"');
   });
 
-  test('en/index.html: las 7,5 toneladas nunca se reescriben como izaje', () => {
+  test('en/index.html: no habla de izaje', () => {
     assert.ok(!/lifting capacity|hoist/i.test(portadaEn),
-      'las 7,5 t son la carga del camión plancha, no su capacidad de izaje');
+      'la grúa se vendió (04/11/2026): no vuelve ninguna capacidad de izaje');
   });
 }

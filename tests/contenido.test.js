@@ -33,7 +33,7 @@ for (const [nombre, contenido] of Object.entries(paginas)) {
   // Datos internos que no se publican: cuántos teléfonos satelitales hay
   // ni ningún número que dimensione la flota o el personal. Los patrones
   // van atados a los sustantivos vedados para no pisar especificaciones
-  // legítimas como "19+1 plazas" o "7,5 toneladas".
+  // legítimas como "19+1 plazas".
   test(`${nombre}: sin cantidades de teléfonos satelitales ni de flota o personal`, () => {
     assert.ok(
       !/\b(un|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|\d+)\s+tel[eé]fonos?\s+satelitales?/i.test(contenido),
@@ -87,7 +87,6 @@ test('toda imagen lleva alt descriptivo salvo los logos decorativos', () => {
 const requeridas = [
   ['habilitación CNRT', /CNRT/],
   ['habilitación AMT', /AMT/],
-  ['capacidad de carga de 7,5 toneladas', /capacidad de carga de 7,5 toneladas/],
   ['registro de temperatura', /registro de temperatura/i],
   ['agencia de turismo habilitada', /agencia de turismo habilitada/i],
   ['más de una década en la Puna', /Más de una década trabajando en la Puna/],
@@ -100,9 +99,10 @@ const requeridas = [
   // sitio viejo lo explotaba; la mención vive en la tarjeta de personal.
   ['alquiler de combis con chofer', /alquiler de combis con chofer/i],
   // Línea de tiempo confirmada por el dueño (25/08): pasajeros desde 2010,
-  // remolques/auxilio/cargas desde 2017.
+  // cargas desde 2017 (los remolques de ese año salieron con la grúa,
+  // vendida en noviembre de 2026).
   ['empezamos en 2010', /Empezamos en 2010 con el transporte de pasajeros/],
-  ['grúa y cargas desde 2017', /en 2017 sumamos remolques, auxilio mecánico y cargas generales/],
+  ['cargas desde 2017', /en 2017 sumamos las cargas generales/],
 ];
 
 // La habilitación AMT se publica como afirmación general ("Habilitación AMT",
@@ -128,17 +128,18 @@ test('las páginas que nombran la habilitación citan la CNRT 60284', () => {
 });
 
 // Afirmaciones que la familia confirmó el 10/10/2026 (BUILD-BRIEF) y que el
-// cliente busca para reservar: guardia de auxilio las 24 hs, agencia de
+// cliente busca para reservar: atención las 24 hs (era la guardia de auxilio;
+// la grúa se vendió el 04/11/2026 y queda la atención de la empresa), agencia de
 // turismo habilitada y viajes al exterior. Antes se sacaban "por no estar en
 // los papeles"; la política ahora es que se quedan. Se miran en el texto
 // visible (sin etiquetas) de cada página donde viven, en los dos idiomas.
 const confirmadas = {
-  'index.html': [/Auxilio en ruta 24 hs/, /Urgencias 24 hs/, /las 24 hs, todos los días/,
+  'index.html': [/Atendemos las 24 hs, todos los días/,
     /Agencia de turismo habilitada/, /Viajes al exterior[^.]{0,40}Chile[^.]{0,40}Bolivia/],
   'turismo.html': [/Agencia de turismo habilitada/, /Somos agencia de turismo habilitada/,
     /Viajes al exterior[^.]{0,60}Chile[^.]{0,40}Bolivia/],
   'viajes-de-estudio.html': [/Agencia de turismo habilitada/],
-  'en/index.html': [/24-hour roadside assistance/, /24-hour on-call/, /On call 24 hours a day/,
+  'en/index.html': [/We answer 24 hours a day, every day/,
     /Licensed travel agency/, /Trips abroad[^.]{0,40}Chile[^.]{0,40}Bolivia/],
   'en/tours-and-transfers.html': [/Licensed travel agency/, /We are a licensed travel agency/,
     /Trips abroad[^.]{0,60}Chile[^.]{0,40}Bolivia/, /Do you go to Chile or Bolivia\?/],
@@ -159,9 +160,9 @@ test('index.html: las afirmaciones verificadas siguen presentes', () => {
   }
 });
 
-// Las 7,5 toneladas son la carga del camión plancha, no la capacidad de
-// izaje de la plancha. Está comentado en el HTML y acá queda vigilado.
-test('index.html: las 7,5 toneladas nunca se reescriben como izaje', () => {
+// La portada no habla de izaje: la grúa se vendió (04/11/2026) y ninguna
+// capacidad de carga o de izaje de remolque puede volver.
+test('index.html: no habla de izaje', () => {
   assert.ok(!/izaje/i.test(paginas['index.html']), 'apareció "izaje" en index.html');
 });
 

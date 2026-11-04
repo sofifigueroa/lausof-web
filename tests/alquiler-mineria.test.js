@@ -1,11 +1,17 @@
-// Alquiler 4x4 y logística minera, después de las respuestas de la familia
-// del 10/10/2026 (vía Lautaro, `~/lausof/web/growth-2026-10/BUILD-BRIEF.md`):
-//   5. el alquiler 4x4 es para turistas y empresas, con o sin chofer;
-//   6. en minería, Lausof atiende todas las áreas y rutas de la Puna.
-// Estas guardias sostienen esas dos afirmaciones en los dos idiomas, el
-// camino de reserva, los requisitos para quien maneja desde el exterior (con
-// su fuente oficial a la vista) y los vetos que siguen vigentes: sin precios,
-// sin aseguradoras, sin clientes.
+// Alquiler 4x4 y logística minera:
+//   - 4x4 (04/11/2026, decisión de Lautaro, opción D): Lausof no alquila sin
+//     chofer a turistas (en Salta eso es "rent a car" y pide habilitación
+//     provincial: Decreto 2461/00, modificado por los 2112/10 y 636/14;
+//     web/tarifario/informes/alquiler.md). A los viajeros, 4x4 con chofer,
+//     también a Chile y Bolivia; a empresas y contratistas mineros, alquiler
+//     mensual con o sin chofer. Reemplaza la respuesta de la familia del
+//     10/10/2026 (punto 5 del BUILD-BRIEF: turistas y empresas, con o sin
+//     chofer).
+//   - Minería (familia, 10/10/2026, punto 6): Lausof atiende todas las áreas y
+//     rutas de la Puna.
+// Estas guardias sostienen las dos cosas en los dos idiomas, el camino de
+// reserva y los vetos que siguen vigentes: sin precios, sin aseguradoras, sin
+// clientes.
 'use strict';
 
 const test = require('node:test');
@@ -30,33 +36,69 @@ const mineria = { es: 'logistica-minera.html', en: 'en/mining-logistics.html' };
 // ---------------------------------------------------------------------------
 // Alquiler 4x4
 // ---------------------------------------------------------------------------
-test('alquiler 4x4: abierto a viajeros y empresas, con o sin chofer (ES)', () => {
+test('alquiler 4x4: a viajeros con chofer, a empresas por mes con o sin chofer (ES)', () => {
   const t = visible(paginas[alquiler.es]);
-  assert.match(t, /con o sin chofer/i);
-  assert.match(t, /viajeros/i);
-  assert.match(t, /empresas/i);
-  assert.match(t, /¿Alquilan a turistas extranjeros\?/);
-  assert.doesNotMatch(t, /es un servicio para empresas/i,
-    'volvió la frase que limitaba el alquiler a empresas');
+  assert.match(t, /Camionetas 4x4 con chofer para viajeros/);
+  assert.match(t, /Alquiler mensual de camionetas 4x4, con o sin chofer/);
+  assert.match(t, /servicio por contrato para empresas/);
+  assert.match(t, /No alquilamos camionetas sin chofer a turistas/);
+  assert.match(t, /¿Alquilan camionetas sin chofer a turistas\? No\./);
+  assert.match(t, /empresas de alquiler habilitadas en Salta/);
 });
 
-test('alquiler 4x4: abierto a viajeros y empresas, con o sin chofer (EN)', () => {
+test('alquiler 4x4: a viajeros con chofer, a empresas por mes con o sin chofer (EN)', () => {
   const t = visible(paginas[alquiler.en]);
-  assert.match(t, /self-drive or with a driver/i);
-  assert.match(t, /travelers/i);
-  assert.match(t, /companies/i);
-  assert.match(t, /Do you rent to foreign travelers\?/);
-  assert.doesNotMatch(t, /is a service for companies/i,
-    'volvió la frase que limitaba el alquiler a empresas');
+  assert.match(t, /4x4 pickups with a driver for travelers/);
+  assert.match(t, /Monthly 4x4 pickup rental, with or without a driver/);
+  assert.match(t, /contract service for companies/);
+  assert.match(t, /We do not rent self-drive pickups to tourists/);
+  assert.match(t, /Do you rent self-drive pickups to tourists\? No\./);
+  assert.match(t, /licensed rental companies in Salta/);
 });
 
-test('alquiler 4x4: el título y la descripción ya no lo venden sólo a empresas', () => {
+// Lo que no puede volver: el "Sí" a turistas que manejan, la oferta de 4x4
+// sin chofer para viajeros, los requisitos para conducir desde el exterior y
+// la promesa de dejar la camioneta en otra ciudad.
+test('alquiler 4x4: ningún sí al alquiler sin chofer para turistas', () => {
   for (const nombre of Object.values(alquiler)) {
-    const titulo = paginas[nombre].match(/<title>([^<]+)<\/title>/)[1];
-    assert.match(titulo, /chofer|driver/i, `${nombre}: el título no dice con o sin chofer`);
-    assert.match(titulo, /Viajeros|Travelers/, `${nombre}: el título no nombra a los viajeros`);
-    assert.doesNotMatch(servicio(paginas[nombre]).description, /^(Alquiler mensual|Monthly)/,
-      `${nombre}: la ficha Service sigue diciendo que el alquiler es sólo mensual`);
+    const t = visible(paginas[nombre]);
+    for (const vedado of [
+      /¿Alquilan a turistas extranjeros\?/, /Do you rent to foreign travelers\?/,
+      /Viajeros que manejan/, /Travelers who drive/, /4x4 sin chofer para recorrer/, /self-drive 4x4 to explore/i,
+      /Alquilamos a viajeros/, /We rent to travelers/,
+      /licencia del país de origen/, /home license is enough/i, /permiso internacional para conducir/i, /International Driving Permit/i,
+      /\(ACM\)/, /self-drive or with (a )?driver/i, /con o sin chofer, para viajeros/i,
+    ]) {
+      assert.doesNotMatch(t, vedado, `${nombre}: volvió ${vedado}`);
+    }
+  }
+});
+
+test('alquiler 4x4: el título, la descripción y la ficha Service no venden sin chofer a viajeros', () => {
+  for (const nombre of Object.values(alquiler)) {
+    const html = paginas[nombre];
+    const titulo = html.match(/<title>([^<]+)<\/title>/)[1];
+    const desc = html.match(/<meta name="description" content="([^"]+)">/)[1];
+    const h1 = html.match(/<h1>([^<]+)<\/h1>/)[1];
+    assert.match(titulo, /Con Chofer para Viajeros|With a Driver for Travelers/, `${nombre}: título ${titulo}`);
+    assert.match(titulo, /Empresas|Companies/, `${nombre}: el título no nombra a las empresas`);
+    for (const texto of [titulo, desc, h1, servicio(html).description]) {
+      assert.doesNotMatch(texto, /self-drive|sin chofer para viajeros|o sin chofer, para viajeros/i, `${nombre}: ${texto}`);
+    }
+    assert.match(servicio(html).description, /^(Camionetas 4x4 con chofer para viajeros|4x4 pickups with a driver for travelers)/,
+      `${nombre}: la ficha Service no abre con la 4x4 con chofer`);
+  }
+});
+
+// El mensaje pre-armado de la 4x4 ya no pregunta "con o sin chofer": separa
+// viajero de empresa desde el primer mensaje.
+test('alquiler 4x4: los mensajes pre-armados no ofrecen manejar', () => {
+  for (const nombre of Object.values(alquiler)) {
+    const enlaces = [...paginas[nombre].matchAll(/href="((?:https:\/\/wa\.me\/|mailto:)[^"]+)"/g)].map((m) => decodeURIComponent(m[1].replace(/&amp;/g, '&')));
+    assert.ok(enlaces.length > 0);
+    for (const e of enlaces) {
+      assert.doesNotMatch(e, /sin chofer|self-drive|sem motorista|Lugar de retiro|Pickup place/i, `${nombre}: ${e.slice(0, 120)}`);
+    }
   }
 });
 
@@ -83,29 +125,19 @@ test('alquiler 4x4: tiene sección de reserva con WhatsApp y correo', () => {
   }
 });
 
-// Requisitos para quien maneja desde el exterior: cada dato normativo va con
-// su fuente oficial enlazada (leídas el 10/10/2026).
-const fuentesOficiales = [
-  'https://www.argentina.gob.ar/transporte/mundial-sub-20-argentina-2023/informacion-sobre-licencias-de-conducir-internacionales',
-  'https://www.afip.gob.ar/viajeros/ayuda/viajes-a-chile.asp',
-  'https://www.aduana.cl/viajes-en-auto/aduana/2018-12-28/084645.html',
-  'https://www.afip.gob.ar/viajeros/ayuda/desde-y-hacia-bolivia.asp',
-];
-
-test('alquiler 4x4: requisitos para extranjeros con fuente oficial enlazada', () => {
-  for (const [nombre, id] of [[alquiler.es, 'viajeros'], [alquiler.en, 'foreign-drivers']]) {
+// Viajeros: la sección propia lleva el cruce con chofer y manda a las páginas
+// de ruta, donde viven los documentos de frontera con sus fuentes oficiales.
+test('alquiler 4x4: la sección de viajeros es con chofer y enlaza las rutas a Chile y Bolivia', () => {
+  for (const [nombre, id, rutas] of [
+    [alquiler.es, 'viajeros', ['/traslado-salta-san-pedro-de-atacama.html', '/traslado-salta-uyuni.html']],
+    [alquiler.en, 'travelers', ['/en/salta-to-san-pedro-de-atacama.html', '/en/salta-to-uyuni.html']],
+  ]) {
     const html = sinComentarios(paginas[nombre]);
     const desde = html.indexOf(`id="${id}"`);
     assert.ok(desde > -1, `${nombre}: falta la sección #${id}`);
     const seccion = html.slice(desde, html.indexOf('</section>', desde));
-    for (const url of fuentesOficiales) {
-      assert.ok(seccion.includes(`href="${url}"`), `${nombre}: falta la fuente ${url}`);
-    }
-    const t = visible(seccion);
-    assert.match(t, /Ginebra|Geneva/, `${nombre}: falta la convención de Ginebra`);
-    assert.match(t, /Viena|Vienna/, `${nombre}: falta la convención de Viena`);
-    assert.match(t, /\(ACM\)/, `${nombre}: falta la autorización ACM para salir con un vehículo alquilado`);
-    assert.match(t, /90 d[ií]as|90 days/, `${nombre}: falta el plazo de 90 días de Chile`);
+    for (const ruta of rutas) assert.ok(seccion.includes(`href="${ruta}"`), `${nombre}: falta el enlace a ${ruta}`);
+    assert.match(visible(seccion), /siempre con uno de nuestros choferes|always comes with one of our drivers/);
   }
 });
 

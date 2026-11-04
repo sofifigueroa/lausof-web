@@ -174,7 +174,7 @@ test('la portada: el título abre con el transporte de pasajeros y la descripci�
   const html = paginas['index.html'];
   const titulo = html.match(/<title>([^<]+)<\/title>/)[1];
   const desc = html.match(/<meta name="description" content="([^"]+)">/)[1];
-  // 03/11/2026, decisión de Lautaro: pasajeros, no grúa (tests/seo.test.js).
+  // 03/11/2026, decisión de Lautaro: pasajeros; la grúa se vendió el 04/11/2026 (tests/servicios-retirados.test.js).
   assert.match(titulo, /^Transporte de Pasajeros en Salta/);
   assert.doesNotMatch(titulo, /^Gr[uú]a/i);
   assert.doesNotMatch(desc, /gr[uú]a|remolque/i, 'la descripción de la portada vende la grúa');

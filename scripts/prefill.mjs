@@ -16,7 +16,7 @@
    respuesta era siempre una lista de preguntas (auditoría D del 03/11/2026,
    §3). WhatsApp pone el `text` en la caja de escribir y el cliente lo completa
    antes de mandar (faq.whatsapp.com/5913398998672934). Es el mismo formato que
-   ya usaban el auxilio de la portada y las cargas refrigeradas en inglés.
+   ya usaban la asistencia mecánica y las cargas refrigeradas en inglés.
 
    Cómo se arma cada mensaje:
    - La PRIMERA LÍNEA es la que está escrita en el HTML (nombra el servicio, la
@@ -24,7 +24,7 @@
      edita el HTML y se vuelve a correr el script.
    - Los RENGLONES salen del tipo de página (PAGINAS, abajo) o, si un enlace
      cotiza otra cosa que el resto de la página, de su atributo
-     `data-prefill="tipo"` (p. ej. el auxilio en la portada).
+     `data-prefill="tipo"` (p. ej. la asistencia mecánica en minería).
    - Un wa.me sin texto (el del pie) toma la primera línea más usada en la
      página. Un mailto sin asunto toma el asunto más usado en la página (o
      "Pedido de cotización" / "Quote request" / "Pedido de orçamento" si
@@ -86,10 +86,13 @@ export const TIPOS = {
     en: ['Date', 'Number of days', 'Passengers', 'Pickup place', 'Itinerary'],
     pt: ['Data', 'Quantidade de dias', 'Passageiros', 'Local de saída', 'Roteiro'],
   },
+  // 4x4: con chofer para viajeros, por mes para empresas (04/11/2026: Lausof
+  // no alquila sin chofer a turistas). El último renglón separa las dos
+  // consultas desde el primer mensaje.
   camioneta: {
-    es: ['Fecha de retiro', 'Cantidad de días', 'Con o sin chofer', 'Pasajeros', 'Lugar de retiro'],
-    en: ['Pickup date', 'Number of days', 'Self-drive or with driver', 'Passengers', 'Pickup place'],
-    pt: ['Data de retirada', 'Quantidade de dias', 'Com ou sem motorista', 'Passageiros', 'Local de retirada'],
+    es: ['Fecha', 'Cantidad de días', 'Pasajeros', 'Recorrido', 'Viajero o empresa'],
+    en: ['Date', 'Number of days', 'Passengers', 'Route', 'Traveler or company'],
+    pt: ['Data', 'Quantidade de dias', 'Passageiros', 'Roteiro', 'Viajante ou empresa'],
   },
   personal: {
     es: ['Fecha o frecuencia', 'Personas', 'Origen', 'Destino', 'Solo ida o ida y vuelta'],
@@ -171,7 +174,6 @@ export const PAGINAS = {
   'flota-en-venta.html': 'flota',
   'galeria.html': 'general',
   'golf-torneos.html': 'pasajeros',
-  'grua-salta.html': 'auxilio',
   'index.html': 'general',
   'logistica-minera.html': 'mineria',
   'peregrinaciones-eventos.html': 'pasajeros',
@@ -224,7 +226,6 @@ export const PAGINAS = {
   'en/salta-to-uyuni.html': 'pasajeros',
   'en/san-pedro-de-atacama-to-salta.html': 'pasajeros',
   'en/tours-and-transfers.html': 'turismo',
-  'en/tow-truck-salta.html': 'auxilio',
   'en/train-to-the-clouds-transfer.html': 'pasajeros',
   'en/transfer-carnival-quebrada-de-humahuaca.html': 'pasajeros',
   'en/uyuni-to-salta.html': 'pasajeros',

@@ -61,8 +61,8 @@ test('cada URL indexada del sitio Wix viejo tiene su 301', () => {
 // El título de la portada va servicio-primero (patrón del sitio viejo y de
 // todo competidor que rankea). Desde el 03/11/2026 (decisión de Lautaro) el
 // servicio es el transporte de pasajeros: turismo, personal para minería y
-// empresas, aeropuerto y charter. No abre con la grúa: esas búsquedas las
-// toma grua-salta.html (tests/grua.test.js).
+// empresas, aeropuerto y charter. La grúa se vendió el 04/11/2026 y el
+// remolque salió del sitio (tests/servicios-retirados.test.js).
 test('el título de la portada es servicio-primero, abre con pasajeros y no con la grúa', () => {
   const titulo = index.match(/<title>([^<]+)<\/title>/)[1];
   assert.match(titulo, /^Transporte de Pasajeros en Salta/, `el título no abre con pasajeros: ${titulo}`);
@@ -301,19 +301,20 @@ test('/en/contact y /en/about redirigen con 301 a su sección en inglés', () =>
 });
 
 // Cargas refrigeradas a las minas: servicio principal junto con turismo y
-// personal (Lautaro, 03/11/2026). El hero lo nombra y enlaza su página, la
-// tarjeta va entre las primeras y la grúa queda última, en los dos idiomas.
-test('portada: el hero nombra las cargas refrigeradas y la grúa es la última tarjeta', () => {
-  for (const [portada, destino, primeras, ultima] of [
+// personal (Lautaro, 03/11/2026). El hero lo nombra y enlaza su página y la
+// tarjeta va entre las primeras. Desde el 04/11/2026 son cinco tarjetas: la de
+// grúa y auxilio salió con la venta de la grúa, en los tres idiomas.
+test('portada: el hero nombra las cargas refrigeradas y quedan cinco tarjetas, sin la de grúa', () => {
+  for (const [portada, destino, primeras, aviso] of [
     ['index.html', '/cargas-refrigeradas.html',
       ['Turismo y traslados especiales', 'Transporte de personal', 'Logística minera y operaciones en altura', 'Cargas refrigeradas y depósito'],
-      'Auxilio mecánico y remolques'],
+      'Deslizá para ver los 5 servicios'],
     ['en/index.html', '/en/refrigerated-freight.html',
       ['Tours and private transfers', 'Personnel transport', 'Mining logistics and high-altitude operations', 'Refrigerated freight and warehousing'],
-      'Towing and roadside assistance'],
+      'Swipe to see all 5 services'],
     ['pt/index.html', '/cargas-refrigeradas.html',
       ['Passeios e traslados especiais', 'Transporte de pessoal', 'Logística de mineração e operações em altitude', 'Cargas refrigeradas e depósito'],
-      'Socorro mecânico e reboque'],
+      'Deslize para ver os 5 serviços'],
   ]) {
     const html = paginas[portada].replace(/<!--[\s\S]*?-->/g, '');
     const lead = html.match(/<section class="hero"[\s\S]*?<p class="lead">([\s\S]*?)<\/p>/)[1];
@@ -322,7 +323,8 @@ test('portada: el hero nombra las cargas refrigeradas y la grúa es la última t
     const tarjetas = [...html.match(/<div class="cards swipe">([\s\S]*?)\n      <\/div>\n/)[1]
       .matchAll(/<h3>([^<]+)<\/h3>/g)].map((m) => m[1]);
     assert.deepStrictEqual(tarjetas.slice(0, 4), primeras, `${portada}: orden de servicios`);
-    assert.strictEqual(tarjetas[tarjetas.length - 1], ultima, `${portada}: la grúa no va última`);
+    assert.strictEqual(tarjetas.length, 5, `${portada}: se esperaban 5 tarjetas y hay ${tarjetas.length}`);
+    assert.ok(html.includes(aviso), `${portada}: el aviso del swipe no dice 5 servicios`);
   }
   assert.match(index.match(/<meta name="description" content="([^"]+)">/)[1], /cargas refrigeradas/);
   assert.match(paginas['en/index.html'].match(/<meta name="description" content="([^"]+)">/)[1], /refrigerated freight/);
@@ -330,10 +332,11 @@ test('portada: el hero nombra las cargas refrigeradas y la grúa es la última t
 });
 
 // La portada en portugués sigue la misma decisión (03/11/2026): abre con
-// pasajeros, la grúa no aparece en el título, la descripción ni el hero, y la
-// llamada 24 h vive en la tarjeta de socorro. El enlace del hero a la página
-// de frío, que está en español, lo avisa con hreflang y «(em espanhol)».
-test('la portada en portugués abre con pasajeros y la llamada de socorro va en su tarjeta', () => {
+// pasajeros y la grúa no aparece en el título, la descripción ni el hero. Desde
+// el 04/11/2026 no hay tarjeta de socorro ni llamada en las tarjetas. El
+// enlace del hero a la página de frío, que está en español, lo avisa con
+// hreflang y «(em espanhol)».
+test('la portada en portugués abre con pasajeros y ninguna tarjeta ofrece socorro', () => {
   const pt = paginas['pt/index.html'].replace(/<!--[\s\S]*?-->/g, '');
   const titulo = pt.match(/<title>([^<]+)<\/title>/)[1];
   const desc = pt.match(/<meta name="description" content="([^"]+)">/)[1];
@@ -345,7 +348,9 @@ test('la portada en portugués abre con pasajeros y la llamada de socorro va en 
   assert.ok(!hero.includes('tel:'), 'el hero en portugués todavía tiene el botón de llamada');
   assert.match(hero, /<a href="\/cargas-refrigeradas\.html" hreflang="es">[^<]+<\/a> \(em espanhol\)/);
   const tarjetas = pt.match(/<div class="cards swipe">([\s\S]*?)\n      <\/div>\n/)[1].split('<article').slice(1);
-  const socorro = tarjetas[tarjetas.length - 1];
-  assert.ok(socorro.includes('href="tel:+5493875269009"'), 'la llamada 24 h no está en la tarjeta de socorro');
-  for (const t of tarjetas.slice(0, -1)) assert.ok(!t.includes('tel:'), 'otra tarjeta lleva la llamada de socorro');
+  assert.strictEqual(tarjetas.length, 5);
+  for (const t of tarjetas) {
+    assert.ok(!t.includes('tel:'), 'una tarjeta lleva una llamada de socorro');
+    assert.doesNotMatch(t.replace(/<[^>]+>/g, ' '), /guincho|reboque|socorro mec/i, 'volvió una tarjeta de socorro');
+  }
 });

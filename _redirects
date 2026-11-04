@@ -15,8 +15,9 @@
 # la home como soft 404 ("Avoid irrelevant redirects", Search Central, Site
 # moves with URL changes, actualizado 20/08/2026). Por eso se sacaron las
 # reglas /blank y /copia-de-* → / (nunca existieron en ningún índice) y las
-# únicas que van a / son /principal-old (era la página de grúas, y la grúa
-# vive en la portada) y los sinónimos /home e /inicio.
+# únicas que van a / son /principal-old (era la página de grúas; la grúa se
+# vendió en noviembre de 2026 y no hay otra página de ese servicio) y los
+# sinónimos /home e /inicio.
 
 # Versión ?lang=en de las páginas que tienen gemela en inglés. Van ANTES de la
 # regla general de la misma ruta: Netlify aplica la primera que matchea, y la
@@ -104,7 +105,6 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /feriados-fines-de-semana-largos              /feriados-fines-de-semana-largos.html             301!
 /flota-en-venta                               /flota-en-venta.html                              301!
 /galeria                                      /galeria.html                                     301!
-/grua-salta                                   /grua-salta.html                                  301!
 /logistica-minera                             /logistica-minera.html                            301!
 /peregrinaciones-eventos                      /peregrinaciones-eventos.html                     301!
 /producciones                                 /producciones.html                                301!
@@ -155,7 +155,6 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /en/san-pedro-de-atacama-to-salta             /en/san-pedro-de-atacama-to-salta.html            301!
 /en/uyuni-to-salta                            /en/uyuni-to-salta.html                           301!
 /en/tours-and-transfers                       /en/tours-and-transfers.html                      301!
-/en/tow-truck-salta                           /en/tow-truck-salta.html                          301!
 /en/train-to-the-clouds-transfer              /en/train-to-the-clouds-transfer.html             301!
 /en/transfer-carnival-quebrada-de-humahuaca   /en/transfer-carnival-quebrada-de-humahuaca.html  301!
 /en/warehouse                                 /en/warehouse.html                                301!
@@ -167,6 +166,16 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /pt/traslado-salta-purmamarca-tilcara-humahuaca  /pt/traslado-salta-purmamarca-tilcara-humahuaca.html  301!
 /pt/traslado-salta-san-pedro-de-atacama       /pt/traslado-salta-san-pedro-de-atacama.html      301!
 /pt/traslado-salta-uyuni                      /pt/traslado-salta-uyuni.html                     301!
+
+# Páginas de grúa retiradas (04/11/2026, decisión de Lautaro: la grúa de
+# plancha se vendió y el remolque para particulares dejó de ofrecerse). No
+# hay otra página del mismo servicio, así que van a la portada de su idioma,
+# en un solo salto, con y sin .html. Las de /en/ van antes del comodín /en/*,
+# que si no se las come con su 404.
+/grua-salta.html                              /                                                 301!
+/grua-salta                                   /                                                 301!
+/en/tow-truck-salta.html                      /en/                                              301!
+/en/tow-truck-salta                           /en/                                              301!
 
 # Versión en inglés bajo /en/. Las dos reglas van en este orden y no al revés:
 # Netlify aplica la PRIMERA que matchea, y /en/* también matchearía

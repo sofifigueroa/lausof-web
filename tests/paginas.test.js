@@ -22,7 +22,7 @@ const dedicadas = {
   'viajes-de-estudio.html': 'Viajes de Estudio y Salidas Educativas — Colegios y Universidades | Lausof SRL',
   'traslados-empresas.html': 'Traslados Corporativos y Congresos — Salta, Jujuy y Tucumán | Lausof SRL',
   'peregrinaciones-eventos.html': 'Peregrinaciones, Casamientos y Eventos — Traslados en Combi | Lausof SRL',
-  'alquiler-4x4.html': 'Alquiler de Camionetas 4x4 en Salta — Con o sin Chofer, para Viajeros y Empresas | Lausof SRL',
+  'alquiler-4x4.html': 'Alquiler de Camionetas 4x4 en Salta — Con Chofer para Viajeros, por Mes para Empresas | Lausof SRL',
   'alquiler-autoelevadores.html': 'Alquiler de Autoelevadores en Salta — 3 y 4 Toneladas, con o sin Operador | Lausof SRL',
   'deposito-galpon.html': 'Depósito y Galpón en Salta — Cámara de Frío y Playa de Maniobras | Lausof SRL',
   'producciones.html': 'Apoyo Logístico para Producciones y Rodajes — Salta y la Puna | Lausof SRL',
@@ -53,8 +53,6 @@ const dedicadas = {
   // Sweep del 03/11/2026: aeropuerto y combi con chofer por día (tests/servicios-turismo.test.js).
   'traslado-aeropuerto-salta.html': 'Traslado del aeropuerto de Salta al centro y a los hoteles — Combi con chofer para grupos | Lausof SRL',
   'alquiler-combi-con-chofer-salta.html': 'Alquiler de Combi con Chofer por Día en Salta — Para Grupos, Agencias y Viajes de Varios Días | Lausof SRL',
-  // Grúa y auxilio 24 hs (03/11/2026, tests/grua.test.js).
-  'grua-salta.html': 'Grúa en Salta 24 hs — Grúas, Remolques y Auxilio Mecánico en Salta Capital y en Ruta | Lausof SRL',
   // Páginas B2B del 03/11/2026 (tests/b2b.test.js).
   'agencias-y-hoteles.html': 'Transporte para Agencias de Viajes, Hoteles y Operadores en Salta y Jujuy — Combis con Chofer | Lausof SRL',
   'transporte-de-personal-obras-de-litio.html': 'Transporte de Personal para Obras de Litio en la Puna — Cambios de Turno y Campamentos, 24 h | Lausof SRL',

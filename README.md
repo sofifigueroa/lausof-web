@@ -1,6 +1,6 @@
 # Lausof SRL — Sitio web
 
-Rediseño del sitio de [Lausof SRL](https://www.lausof.com), empresa de transporte y logística de Salta, Argentina (pasajeros, cargas generales y refrigeradas, 4x4, auxilio y remolques).
+Rediseño del sitio de [Lausof SRL](https://www.lausof.com), empresa de transporte y logística de Salta, Argentina (pasajeros, cargas generales y refrigeradas, 4x4 y taller).
 
 ## Objetivo del rediseño
 
@@ -330,12 +330,40 @@ y registrar las dimensiones personalizadas `contact_channel`, `page_language`,
   `_email`) en el pedido. En GA4 aparece a los pocos minutos en el informe de
   tiempo real.
 
+## Servicios retirados (04/11/2026)
+
+Decisiones de Lautaro del 04/11/2026; las vigila `tests/servicios-retirados.test.js`
+y la parte 4x4 de `tests/alquiler-mineria.test.js`.
+
+- **Grúa y remolque.** La grúa de plancha (Accelo 1016) se vendió y el
+  remolque para particulares ya no se ofrece. `grua-salta.html` y
+  `en/tow-truck-salta.html` redirigen con `301!` a `/` y `/en/`. No vuelven:
+  "plancha", "grúa"/"tow truck", aseguradoras, los 7,5 t ni la tarjeta de
+  auxilio 24 hs. Lo que sí se ofrece, en minería, cargas y empresas: el
+  **traslado de vehículos para empresas y mineras**, cotizado a pedido y
+  coordinado por Lausof (el camión lo pone un tercero que no se nombra), sin
+  prometer 24 hs ni unidad propia. Los mecánicos propios pueden ir hasta el
+  vehículo (asistencia mecánica en el lugar).
+- **4x4 sin chofer para turistas.** No se ofrece: en Salta el alquiler a
+  turistas es "rent a car" y pide habilitación provincial (Decreto 2461/00,
+  modificado por los 2112/10 y 636/14; `web/tarifario/informes/alquiler.md`).
+  `alquiler-4x4.html` y `en/4x4-rental.html` conservan su URL: a viajeros, 4x4
+  con chofer (también a Chile y Bolivia); a empresas y contratistas, alquiler
+  mensual con o sin chofer. A quien quiere manejar o dejar la camioneta en
+  otra ciudad, una línea honesta: no, pero se le pueden recomendar empresas de
+  alquiler habilitadas (sin nombrarlas) o hacer el viaje con chofer.
+- **Pendiente fuera del código:** el logo (`logo-horizontal*`) todavía dice
+  "Pasajeros | Cargas | Remolques" en la imagen (el `alt` ya es "Transportes
+  Lausof"), y `og-portada.jpg` muestra camiones pintados con "Auxilio
+  mecánico". Hacen falta versiones nuevas de esas dos imágenes.
+
 ## Mensajes pre-armados de WhatsApp y correo
 
 Cada `wa.me` y cada `mailto:` lleva, debajo de su primera línea, los datos
 para cotizar como renglones para completar (fecha, pasajeros, lugar de
 salida, solo ida o ida y vuelta, y lo propio del servicio: vuelo en el
-aeropuerto, ubicación y vehículo en el auxilio, días y chofer en la 4x4).
+aeropuerto, ubicación y vehículo en la asistencia mecánica, días y si es
+viajero o empresa en la 4x4).
 Los arma `scripts/prefill.mjs`; no se escriben a mano.
 
 ```bash
@@ -347,7 +375,7 @@ node scripts/prefill.mjs --comprobar  # no escribe nada; sale con 1 si algo no e
   evento) se escribe en el HTML y el script no la cambia.
 - **Los renglones** salen del tipo de la página (`PAGINAS` en el script) o del
   atributo `data-prefill="tipo"` de un enlace que cotiza otra cosa (el
-  auxilio y el taller en la portada, las tareas de minería y rodajes).
+  taller en la portada, las tareas de minería y rodajes).
 - **El wa.me del pie**, sin texto, toma la primera línea más usada en la página.
 - **El correo** conserva destinatario, copia a transporte@ y asunto, y suma el
   `body=` con los mismos renglones.
@@ -399,14 +427,15 @@ El **16/08** Lautaro confirmó una tanda de datos y esas afirmaciones ya están
 publicadas: habilitaciones CNRT y AMT vigentes, seguro de carga y pasajeros
 vigente, agencia de turismo habilitada, registro de temperatura durante el
 viaje, psicofísicos y ART de los choferes al día, GPS en las unidades en
-servicio, capacidad de carga de 7,5 toneladas del camión plancha, más de una
-década de trabajo en la Puna y los 120.000 km de la ML350. De todo eso siguen
+servicio, más de una década de trabajo en la Puna y los 120.000 km de la
+ML350. (La capacidad de carga de 7,5 toneladas era del camión plancha, el
+Accelo 1016, vendido: salió del sitio el 04/11/2026.) De todo eso siguen
 faltando los números (CNRT, AMT, legajo de la agencia) y el nombre de la
 aseguradora, que son lo único que se publica cuando lleguen.
 
 **10/10/2026 (BUILD-BRIEF de Lautaro):** se quedan en el sitio las
 afirmaciones que el cliente busca para reservar, aunque el papel esté en
-trámite: guardia de auxilio las 24 hs, agencia de turismo habilitada,
+trámite: atención las 24 hs, agencia de turismo habilitada,
 habilitación AMT como afirmación general (nunca su número de permiso ni de
 expediente) y viajes al exterior (Chile, Bolivia y otros destinos). Las
 vigila `tests/contenido.test.js`.
@@ -428,8 +457,9 @@ Papeles y habilitaciones:
 
 Contacto:
 
-- [x] **Guardia de auxilio las 24 hs**: confirmada por la familia el 10/10/2026
-      (BUILD-BRIEF); figura en la portada (ES y EN) y en el JSON-LD
+- [x] **Atención las 24 hs**: era la guardia de auxilio, confirmada por la familia
+      el 10/10/2026 (BUILD-BRIEF); desde el 04/11/2026, sin grúa, figura como
+      atención de la empresa en el pie de las portadas y en el JSON-LD
 - [ ] **Horarios de atención** de oficina, si se quieren publicar aparte
 - [ ] **Dirección**: Junín 1334 y Siria 1333 son dos. ¿Cuál puede visitar un
       cliente? Y en las facturas figura una tercera (Los Perales 22): hay que
@@ -457,14 +487,12 @@ Fotos que faltan (para Sofi):
 - [ ] **Galpón y cámara frigorífica** — no hay ninguna, y es un servicio que
       queremos vender
 - [ ] **Taller** — hay una sola foto para una tarjeta entera
-- [ ] **Grúa levantando un vehículo**, de día y bien encuadrada, para la primera
-      tarjeta del sitio
 
 Del lado técnico:
 
 - [ ] DNS: apuntar `lausof.com` acá (ver más abajo — ojo con el mail)
-- [ ] Reclamar y completar el **perfil de Google de la empresa**. Para "grúa
-      Salta" y las búsquedas locales rinde más que cualquier cambio del sitio
+- [ ] Reclamar y completar el **perfil de Google de la empresa**. Para las
+      búsquedas locales rinde más que cualquier cambio del sitio
 
 ## Publicación
 

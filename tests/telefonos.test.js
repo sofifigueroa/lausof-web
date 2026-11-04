@@ -95,27 +95,6 @@ for (const [nombre, contenido] of Object.entries(paginas)) {
   });
 }
 
-// La tarjeta de auxilio atiende al que está varado: el WhatsApp va con la
-// plantilla de despacho (ubicación / vehículo / qué pasó) y el teléfono para
-// llamar está adentro de la tarjeta, no solo en el pie.
-test('index.html: la tarjeta de auxilio lleva plantilla de WhatsApp y tel: visible', () => {
-  const index = paginas['index.html'];
-  const desde = index.indexOf('<h3>Auxilio mecánico y remolques</h3>');
-  assert.ok(desde > -1, 'no está la tarjeta de auxilio');
-  const tarjeta = index.slice(desde, index.indexOf('</article>', desde));
-  const wa = tarjeta.match(/href="(https:\/\/wa\.me\/[^"]+)"/);
-  assert.ok(wa, 'la tarjeta de auxilio perdió su enlace de WhatsApp');
-  for (const campo of ['Ubicaci%C3%B3n%3A', 'Veh%C3%ADculo%3A', 'Qu%C3%A9%20pas%C3%B3%3A']) {
-    assert.ok(wa[1].includes(campo), `la plantilla de auxilio perdió el campo ${campo}`);
-  }
-  // El WhatsApp de la tarjeta va a la línea que atiende; el tel: al mismo
-  // número. Las dos cosas tienen que estar: el que quedó varado elige.
-  assert.ok(wa[1].includes('/5493875269009?'),
-    'la plantilla de auxilio no va al WhatsApp que atiende');
-  assert.ok(tarjeta.includes('href="tel:+5493875269009"'),
-    'la tarjeta de auxilio no tiene enlace tel: para llamar directo');
-});
-
 // Guardia dura: las líneas dadas de baja no pueden reaparecer en ninguna
 // página de la raíz. Se lee del disco (no de `paginas`) para que entre también
 // el archivo de verificación de Google y cualquier .html nuevo, y se mira el
