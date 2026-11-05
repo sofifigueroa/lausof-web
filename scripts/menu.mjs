@@ -161,7 +161,7 @@ export const MENU = {
     turismo: {
       titulo: 'Passeios e traslados', chip: 'Passeios', hub: '/pt/passeios-e-traslados.html',
       items: [
-        ['Passeios e traslados', '/pt/passeios-e-traslados.html#circuitos'],
+        ['Roteiros', '/pt/passeios-e-traslados.html#circuitos'],
         ['Chile e Bolívia', '/viajes-internacionales.html', true],
         ['Datas e eventos', '/feriados-fines-de-semana-largos.html', true],
         ['Grupos e ocasiões', '/pt/passeios-e-traslados.html#eventos'],

@@ -113,6 +113,34 @@ test('las portadas ya no ofrecen auxilio ni remolque en su catálogo de servicio
   }
 });
 
+// Las fotos de la grúa rotulada «AUXILIO» no vuelven a ninguna página. El
+// encabezado de logística minera (ES y EN) la usó hasta el 05/11/2026
+// (7-auditoria-build.md, nota 8); ahora lleva el minibús de personal.
+test('ninguna página muestra las fotos de la grúa', () => {
+  for (const [nombre, html] of Object.entries(paginas)) {
+    assert.doesNotMatch(sinComentarios(html), /\/assets\/(?:mineria-tractor|auxilio-\d)/,
+      `${nombre}: muestra una foto de la grúa`);
+  }
+});
+
+// El cierre de las portadas habla de pasajeros (5d85b85) y no ofrece llevar
+// un vehículo: al turista con el auto roto eso le suena a remolque. El PT se
+// quedó con el título viejo hasta el 05/11/2026 (7b-revision-pt.md, B1).
+test('el cierre de las tres portadas no ofrece transportar un vehículo', () => {
+  const cierres = {
+    'index.html': '¿Tenés un viaje, un grupo o un equipo para trasladar?',
+    'en/index.html': 'A trip, a group or a crew to move?',
+    'pt/index.html': 'Tem uma viagem, um grupo ou uma equipe para transportar?',
+  };
+  for (const [portada, titulo] of Object.entries(cierres)) {
+    const cierre = sinComentarios(paginas[portada]).match(/<section class="block cta-final">([\s\S]*?)<\/section>/);
+    assert.ok(cierre, `${portada}: falta el cierre`);
+    const h2 = visible(cierre[1].match(/<h2>([\s\S]*?)<\/h2>/)[1]).trim();
+    assert.strictEqual(h2, titulo, `${portada}: título del cierre`);
+    assert.doesNotMatch(visible(cierre[1]), /veh[ií]cul|vehicle/i, `${portada}: el cierre ofrece llevar un vehículo`);
+  }
+});
+
 // Lo que queda: el traslado de vehículos para empresas y mineras, cotizado a
 // pedido y coordinado por Lausof, en las páginas de minería, cargas y empresas.
 const TRASLADO = {
