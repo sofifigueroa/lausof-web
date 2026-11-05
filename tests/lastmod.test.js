@@ -88,12 +88,14 @@ test('IndexNow: cambiadasEnGit traduce archivos cambiados a URLs del sitemap', a
 
 // producciones.html estaba "rastreada, sin indexar" con un solo enlace interno
 // (la portada). Desde el 13/10 la enlazan en contexto tres páginas de servicio.
+// Desde el 05/11/2026 la de 4x4 es de turismo y ya no la enlaza (regla T2 de
+// 3a §3.4, tests/cruces.test.js); la enlazan el hub de empresas y el menú.
 test('producciones.html recibe enlaces de contexto desde al menos tres páginas en español, además de la portada', () => {
   const desde = Object.entries(paginasEs)
     .filter(([nombre, html]) => nombre !== 'producciones.html' && nombre !== 'index.html' && /<main[\s\S]*href="\/producciones\.html"[\s\S]*<\/main>/.test(html))
     .map(([nombre]) => nombre);
   assert.ok(desde.length >= 3, `sólo la enlazan: ${desde.join(', ')}`);
-  for (const nombre of ['logistica-minera.html', 'alquiler-4x4.html', 'transporte-de-personal.html']) {
+  for (const nombre of ['logistica-minera.html', 'transporte-de-personal.html', 'empresas-y-mineria.html']) {
     assert.ok(desde.includes(nombre), `${nombre} dejó de enlazar producciones.html`);
   }
 });
