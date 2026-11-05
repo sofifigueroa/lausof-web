@@ -105,7 +105,7 @@ for (const nombre of todas) {
     assert.strictEqual(servicio.audience['@type'], 'BusinessAudience');
     const nav = sinComentarios(html).match(/<nav class="crumbs[^"]*"[^>]*>([\s\S]*?)<\/nav>/);
     assert.ok(nav, 'falta la miga visible');
-    const vistos = [...nav[1].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)].map((m) => m[1].replace(/<[^>]+>/g, '').trim());
+    const vistos = [...nav[1].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)].map((m) => m[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').trim());
     assert.deepStrictEqual(vistos, miga.map((i) => i.name));
     // Desde el 05/11/2026 la página de litio cuelga del hub «Empresas y
     // minería» (Inicio › Empresas y minería › Personal para minería › página).

@@ -158,17 +158,22 @@ export const TIPOS = {
   flota: { es: ['Unidad'], en: ['Vehicle'], pt: ['Veículo'] },
   // Hub «Empresas y minería» (05/11/2026, web/estructura-sitio-2026-11-05/
   // 4-textos.md §4): la primera línea ya dice que es una consulta de empresa.
-  // Sin `pt`: el hub no tiene versión en portugués (la portada pt enlaza el
-  // hub en español).
+  // El hub no tiene versión en portugués (la portada pt enlaza el hub en
+  // español), así que hoy ninguna página usa los renglones `pt` de estos dos
+  // tipos; están porque todo tipo los lleva (tests/portugues.test.js) y salen
+  // del vocabulario pt que ya usan los otros tipos. Revisión nativa si algún
+  // día una página pt los usa.
   empresa: {
     es: ['Empresa', 'Servicio (personal, carga o depósito)', 'Mina, origen o destino', 'Fecha o frecuencia', 'Personas o carga'],
     en: ['Company', 'Service (crew, freight or warehouse)', 'Mine, origin or destination', 'Date or frequency', 'People or cargo'],
+    pt: ['Empresa', 'Serviço (pessoal, carga ou depósito)', 'Mina, origem ou destino', 'Data ou frequência', 'Pessoas ou carga'],
   },
   // Pedido de documentación de proveedor (sólo correo, con data-prefill en
   // el enlace): asunto «Solicitud de documentación de proveedor».
   proveedor: {
     es: ['Empresa', 'Portal o registro de proveedores', 'Documentación que necesitan'],
     en: ['Company', 'Supplier portal or registry', 'Documents you need'],
+    pt: ['Empresa', 'Portal ou cadastro de fornecedores', 'Documentos de que precisam'],
   },
 };
 
