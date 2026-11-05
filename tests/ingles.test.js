@@ -203,8 +203,13 @@ const pieDe = (html) => {
   return pie ? pie[0] : '';
 };
 
+// Un enlace de idioma lleva hreflang Y lang: su texto está en el otro idioma
+// ("Español", "English"). Desde el 05/11/2026 el pie de las portadas tiene
+// además enlaces a páginas que sólo existen en español («Forklifts (in
+// Spanish)»): llevan hreflang="es" pero su texto es del idioma de la página,
+// así que no llevan lang y no son el enlace de idioma.
 const idiomaEnPie = (html) =>
-  [...pieDe(html).matchAll(/<a\b[^>]*\bhreflang="[^"]*"[^>]*>/g)].map((m) => m[0]);
+  [...pieDe(html).matchAll(/<a\b(?=[^>]*\bhreflang=")(?=[^>]*\slang=")[^>]*>/g)].map((m) => m[0]);
 
 const hrefDe = (etiqueta) => (etiqueta.match(/\bhref="([^"]+)"/) || [])[1];
 
@@ -563,9 +568,7 @@ const requeridasEn = [
   ['habilitación CNRT', /CNRT/],
   ['número de CNRT', /60284/],
   ['habilitación AMT', /AMT/],
-  ['registro de temperatura', /temperature log/i],
   ['agencia de turismo habilitada', /licensed (travel agency|tour operator)/i],
-  ['más de una década en la Puna', /more than a decade[^.]{0,30}Puna/i],
   ['psicofísico al día', /medical fitness/i],
   ['ART al día', /\bART\b/],
   ['teléfono satelital en altura', /satellite phone/i],
@@ -580,6 +583,17 @@ if (paginasEn['en/index.html']) {
   test('en/index.html: las afirmaciones verificadas siguen presentes', () => {
     for (const [etiqueta, patron] of requeridasEn) {
       assert.ok(patron.test(portadaEn), `falta "${etiqueta}" en en/index.html`);
+    }
+  });
+
+  // Desde el 05/11/2026 las tarjetas de la portada son tres puertas: estas dos
+  // afirmaciones siguen en la página de su servicio (como en español).
+  test('las afirmaciones que salieron de la portada inglesa siguen en la página de su servicio', () => {
+    for (const [etiqueta, pagina, patron] of [
+      ['registro de temperatura', 'en/refrigerated-freight.html', /temperature log/i],
+      ['más de una década en la Puna', 'en/mining-logistics.html', /more than a decade[^.]{0,30}Puna/i],
+    ]) {
+      assert.ok(patron.test(textoVisible(paginasEn[pagina])), `falta "${etiqueta}" en ${pagina}`);
     }
   });
 

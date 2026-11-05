@@ -301,30 +301,24 @@ test('/en/contact y /en/about redirigen con 301 a su sección en inglés', () =>
 });
 
 // Cargas refrigeradas a las minas: servicio principal junto con turismo y
-// personal (Lautaro, 03/11/2026). El hero lo nombra y enlaza su página y la
-// tarjeta va entre las primeras. Desde el 04/11/2026 son cinco tarjetas: la de
-// grúa y auxilio salió con la venta de la grúa, en los tres idiomas.
-test('portada: el hero nombra las cargas refrigeradas y quedan cinco tarjetas, sin la de grúa', () => {
-  for (const [portada, destino, primeras, aviso] of [
-    ['index.html', '/cargas-refrigeradas.html',
-      ['Turismo y traslados especiales', 'Transporte de personal', 'Logística minera y operaciones en altura', 'Cargas refrigeradas y depósito'],
-      'Deslizá para ver los 5 servicios'],
-    ['en/index.html', '/en/refrigerated-freight.html',
-      ['Tours and private transfers', 'Personnel transport', 'Mining logistics and high-altitude operations', 'Refrigerated freight and warehousing'],
-      'Swipe to see all 5 services'],
-    ['pt/index.html', '/cargas-refrigeradas.html',
-      ['Passeios e traslados especiais', 'Transporte de pessoal', 'Logística de mineração e operações em altitude', 'Cargas refrigeradas e depósito'],
-      'Deslize para ver os 5 serviços'],
+// personal (Lautaro, 03/11/2026). Desde el 05/11/2026 (estructura aprobada,
+// decisión c) las cargas salen del H1 y del hero y son la tercera puerta de la
+// primera pantalla, «Cargas», cuya línea nombra las refrigeradas; la
+// descripción de la página las sigue nombrando. Sin grúa en ningún idioma.
+test('portada: las cargas refrigeradas son la tercera puerta, sin grúa', () => {
+  for (const [portada, titulo, destino] of [
+    ['index.html', 'Cargas', '/empresas-y-mineria.html#cargas'],
+    ['en/index.html', 'Freight', '/en/business-and-mining.html#freight'],
+    ['pt/index.html', 'Cargas', '/empresas-y-mineria.html#cargas'],
   ]) {
     const html = paginas[portada].replace(/<!--[\s\S]*?-->/g, '');
-    const lead = html.match(/<section class="hero"[\s\S]*?<p class="lead">([\s\S]*?)<\/p>/)[1];
-    assert.ok(lead.includes(`href="${destino}"`), `${portada}: el hero no enlaza ${destino}`);
-    assert.match(lead, /refrigera(d|t)/i);
-    const tarjetas = [...html.match(/<div class="cards swipe">([\s\S]*?)\n      <\/div>\n/)[1]
-      .matchAll(/<h3>([^<]+)<\/h3>/g)].map((m) => m[1]);
-    assert.deepStrictEqual(tarjetas.slice(0, 4), primeras, `${portada}: orden de servicios`);
-    assert.strictEqual(tarjetas.length, 5, `${portada}: se esperaban 5 tarjetas y hay ${tarjetas.length}`);
-    assert.ok(html.includes(aviso), `${portada}: el aviso del swipe no dice 5 servicios`);
+    const puertas = [...html.match(/<section class="puertas"[\s\S]*?<\/section>/)[0]
+      .matchAll(/<article class="puerta">([\s\S]*?)<\/article>/g)].map((m) => m[1]);
+    assert.strictEqual(puertas.length, 3, `${portada}: se esperaban 3 puertas`);
+    assert.ok(puertas[2].includes(`href="${destino}"`), `${portada}: la tercera puerta no va a ${destino}`);
+    assert.match(puertas[2], new RegExp(`<h2><a [^>]*>${titulo}</a></h2>`), `${portada}: la tercera puerta no se llama ${titulo}`);
+    assert.match(puertas[2], /refrigera(d|t)/i, `${portada}: la tercera puerta no nombra las refrigeradas`);
+    assert.doesNotMatch(html.replace(/<[^>]+>/g, ' '), /\bgr[uú]a\b|tow truck|guincho/i, `${portada}: volvió la grúa`);
   }
   assert.match(index.match(/<meta name="description" content="([^"]+)">/)[1], /cargas refrigeradas/);
   assert.match(paginas['en/index.html'].match(/<meta name="description" content="([^"]+)">/)[1], /refrigerated freight/);
@@ -332,10 +326,11 @@ test('portada: el hero nombra las cargas refrigeradas y quedan cinco tarjetas, s
 });
 
 // La portada en portugués sigue la misma decisión (03/11/2026): abre con
-// pasajeros y la grúa no aparece en el título, la descripción ni el hero. Desde
-// el 04/11/2026 no hay tarjeta de socorro ni llamada en las tarjetas. El
-// enlace del hero a la página de frío, que está en español, lo avisa con
-// hreflang y «(em espanhol)».
+// pasajeros y la grúa no aparece en el título, la descripción ni el hero.
+// Desde el 05/11/2026 (estructura aprobada) el hero lleva «Ligar para 387
+// 526-9009» como segundo botón (4-textos.md §1.1: la línea de la empresa, no
+// un socorro) y las puertas de empresas van al hub en español con hreflang.
+// Ninguna puerta ofrece socorro.
 test('la portada en portugués abre con pasajeros y ninguna tarjeta ofrece socorro', () => {
   const pt = paginas['pt/index.html'].replace(/<!--[\s\S]*?-->/g, '');
   const titulo = pt.match(/<title>([^<]+)<\/title>/)[1];
@@ -345,12 +340,13 @@ test('la portada en portugués abre con pasajeros y ninguna tarjeta ofrece socor
   assert.strictEqual(pt.match(/<meta property="og:title" content="([^"]+)">/)[1], titulo, 'og:title distinto del <title>');
   const hero = pt.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
   assert.doesNotMatch(`${titulo} ${desc} ${hero}`, /guincho|reboque|socorro/i, 'la portada en portugués todavía vende la grúa arriba');
-  assert.ok(!hero.includes('tel:'), 'el hero en portugués todavía tiene el botón de llamada');
-  assert.match(hero, /<a href="\/cargas-refrigeradas\.html" hreflang="es">[^<]+<\/a> \(em espanhol\)/);
-  const tarjetas = pt.match(/<div class="cards swipe">([\s\S]*?)\n      <\/div>\n/)[1].split('<article').slice(1);
-  assert.strictEqual(tarjetas.length, 5);
-  for (const t of tarjetas) {
-    assert.ok(!t.includes('tel:'), 'una tarjeta lleva una llamada de socorro');
-    assert.doesNotMatch(t.replace(/<[^>]+>/g, ' '), /guincho|reboque|socorro mec/i, 'volvió una tarjeta de socorro');
+  const llamadas = [...hero.matchAll(/href="tel:([^"]+)"/g)].map((m) => m[1]);
+  assert.ok(llamadas.every((t) => t === '+5493875269009'), `el hero llama a otra línea: ${llamadas}`);
+  const puertas = pt.match(/<section class="puertas"[\s\S]*?<\/section>/)[0].split('<article').slice(1);
+  assert.strictEqual(puertas.length, 3);
+  for (const t of puertas) {
+    assert.ok(!t.includes('tel:'), 'una puerta lleva una llamada de socorro');
+    assert.doesNotMatch(t.replace(/<[^>]+>/g, ' '), /guincho|reboque|socorro/i, 'volvió una puerta de socorro');
   }
+  for (const t of puertas.slice(1)) assert.match(t, /href="\/empresas-y-mineria\.html#[a-z]+" hreflang="es"/);
 });

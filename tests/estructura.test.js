@@ -91,12 +91,19 @@ test('la CSS trae las reglas de mobile de la revisión de agosto', () => {
     'falta mostrar la barra de acción en mobile');
 });
 
-test('el aviso de deslizar está antes de la primera tarjeta', () => {
-  const hint = index.indexOf('class="swipe-hint"');
-  const tarjeta = index.indexOf('class="card"');
-  assert.ok(hint > -1, 'no está el aviso de deslizar');
-  assert.ok(tarjeta > -1, 'no hay tarjetas de servicio');
-  assert.ok(hint < tarjeta, 'el aviso de deslizar quedó después de las tarjetas');
+// Hasta el 05/11/2026 la portada mostraba en el teléfono un carrusel de
+// tarjetas con un aviso de deslizar antes de la primera. Desde la estructura
+// aprobada (opción A) son tres puertas apiladas que entran en la primera
+// pantalla, y toda la puerta es un enlace a su hub: sin carrusel no hay nada
+// que deslizar, y el aviso no puede volver solo.
+test('en el teléfono las puertas de la portada se apilan y toda la puerta es un enlace', () => {
+  const mobile = css.slice(css.indexOf('@media(max-width:720px){\n  .hero-grid'));
+  const bloque = mobile.slice(0, mobile.indexOf('\n}\n'));
+  assert.match(bloque, /\.puertas-grid\{grid-template-columns:1fr;/, 'las puertas no se apilan en una columna');
+  assert.match(bloque, /\.puerta h2 a::after\{content:"";position:absolute;inset:0\}/,
+    'la puerta entera dejó de ser un enlace en el teléfono');
+  assert.ok(index.indexOf('<section class="puertas"') > -1, 'no están las puertas');
+  assert.ok(!index.includes('class="swipe-hint"'), 'volvió el aviso de deslizar sin carrusel');
 });
 
 test('todo botón verde de WhatsApp lleva el logo inline', () => {

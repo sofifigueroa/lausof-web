@@ -161,8 +161,11 @@ test('las páginas de ruta y casamientos se enlazan desde su página madre', () 
       `en/tours-and-transfers.html no enlaza a ${rutas[es]}`);
   }
   assert.ok(enlaza('peregrinaciones-eventos.html', 'traslados-casamientos.html'));
-  assert.ok(enlaza('index.html', 'traslados-casamientos.html'));
-  assert.ok(enlaza('en/index.html', '/en/wedding-transportation.html'));
+  // Desde el 05/11/2026 las portadas ya no tienen la fila de servicios
+  // especiales (estructura aprobada): casamientos la reciben peregrinaciones
+  // y las páginas de agencias; la inglesa, la de operadores.
+  assert.ok(enlaza('agencias-y-hoteles.html', 'traslados-casamientos.html'));
+  assert.ok(enlaza('en/ground-transport-for-tour-operators.html', '/en/wedding-transportation.html'));
   assert.ok(enlaza('traslado-salta-cafayate.html', 'traslado-salta-cachi.html'));
   assert.ok(enlaza('traslado-salta-cachi.html', 'traslado-salta-cafayate.html'));
   assert.ok(enlaza('traslados-casamientos.html', 'peregrinaciones-eventos.html'));

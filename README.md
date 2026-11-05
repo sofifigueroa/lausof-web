@@ -82,9 +82,10 @@ Lo que el script no decide y va escrito a mano en el `<img>`:
   encuadre que antes daba `background-position` ahora es
   `.page-head-photo img{object-position:…}` en la hoja de cada página. No se
   precarga: ya está en el HTML, y una precarga no sabe qué formato ni ancho
-  va a elegir el `<picture>` (bajaría la foto dos veces). En la portada,
-  `data-movil="assets/pasajeros-1-quebrada.webp"` hace la dirección de arte
-  de mobile (≤720px).
+  va a elegir el `<picture>` (bajaría la foto dos veces). En las portadas es
+  desde el 05/11/2026 la misma foto en todos los anchos (el minibús en la
+  quebrada, una unidad de pasajeros): en desktop va a la derecha del texto y
+  en el teléfono queda de fondo, detrás del título.
 - **Recorte de teléfono** (`data-movil-media`): el encabezado de `turismo.html`
   y `en/tours-and-transfers.html` lleva
   `data-movil="…/ruta-68-cafayate-salta-lausof-movil.webp" data-movil-media="(max-width: 480px)"`.
@@ -415,6 +416,46 @@ node scripts/prefill.mjs --comprobar  # no escribe nada; sale con 1 si algo no e
 - Las zonas `<!-- GENERADO:... -->` (tarjetas de la flota) son de otro script y
   no se tocan.
 - `js/contacto.js` no cambia: mide el clic por el `href` y nunca manda el texto.
+
+## Menú, secciones y portadas (estructura del 05/11/2026)
+
+Estructura aprobada por Lautaro el 05/11/2026 (opción A, sin mover ninguna
+URL): `~/lausof/web/estructura-sitio-2026-11-05/` (diseño `3a-diseno-estructura.md`
+y `3a-wireframes/`, textos `4-textos.md`, decisiones `DECISION-2026-11-05.md`).
+
+- **Dos secciones**: «Turismo y traslados» (hub `/turismo.html`) y «Empresas y
+  minería» (hub `/empresas-y-mineria.html`, en inglés
+  `/en/business-and-mining.html`), con dos líneas: Personal para minería y
+  Cargas. El orden de las líneas en todo el sitio es Turismo y traslados ·
+  Personal para minería · Cargas.
+- **El menú sale de un solo lugar**, `scripts/menu.mjs`, como el prefill:
+
+  ```bash
+  node scripts/menu.mjs              # reescribe el menú y los atributos de <body>
+  node scripts/menu.mjs --comprobar  # no escribe nada; sale con 1 si algo quedó viejo
+  ```
+
+  Escribe en cada página la zona `<!-- GENERADO:MENU -->` (los dos
+  desplegables de escritorio, la etiqueta de sección y el botón «Menú» con su
+  hoja en el teléfono), la zona `<!-- GENERADO:PIE -->` de las portadas (las
+  dos columnas de sección del pie) y, en `<body>`, `data-seccion`
+  (`turismo`/`empresas`/`inicio`/`institucional`), `data-linea`
+  (`personal`/`cargas`, sólo empresas) y `data-tipo` (el tipo de `PAGINAS` de
+  `prefill.mjs`). Esos atributos hoy no los lee nada: son el enganche del
+  asistente del sitio, que se instala más adelante.
+- **Página nueva**: si es de empresas, va en `EMPRESAS` (con su línea); si es
+  institucional, en `INSTITUCIONAL`; si no, queda en turismo. Correr el
+  script y commitear el HTML. Lo vigila `tests/menu.test.js` (menú al día e
+  igual en todas las páginas de un idioma, enlaces que existen, ninguna URL
+  movida, el sitemap no achica).
+- **Desplegables con `<details>`**: abren y cierran sin JavaScript;
+  `/js/menu.js` sólo cierra lo abierto al tocar afuera, con Escape o al elegir
+  un enlace. En el teléfono (≤880 px) el idioma se ve como código (ES, EN, PT)
+  para que entre el botón «Menú».
+- **Portadas**: un H1 sólo de transporte de pasajeros y las tres líneas como
+  tres puertas en la primera pantalla (1440×900 y 390 px), con la barra de
+  afirmaciones debajo. El texto nuevo va en registro impersonal (las páginas
+  viejas siguen en voseo, decisión d). Lo vigila `tests/portadas.test.js`.
 
 ## Cabeceras de seguridad
 

@@ -128,38 +128,54 @@ test('las URLs del sitio viejo con página dedicada redirigen a ella', () => {
   }
 });
 
-// Las tarjetas de servicios de la portada enlazan a su página dedicada
-// (además del WhatsApp): es el camino de lectura antes de cotizar. Las de
-// la ola del 26/08 suman un cruce por tarjeta: personal → traslados
-// puntuales, turismo → recitales, minería → alquiler 4x4.
-test('las tarjetas de la portada enlazan a su página dedicada', () => {
+// La portada enlaza a las páginas dedicadas (además del WhatsApp): es el
+// camino de lectura antes de cotizar. Hasta el 05/11/2026 lo hacían las cinco
+// tarjetas; desde la estructura aprobada (opción A) lo hacen las tres puertas
+// y el menú generado (scripts/menu.mjs). Las que salieron de las puertas
+// (logística minera, recitales) siguen a un toque: logística en el menú,
+// recitales en «Grupos y ocasiones» → turismo.html#eventos. El orden y el
+// texto de las puertas los vigila tests/portadas.test.js.
+const tramoDe = (html, desde, hasta) => {
+  const i = html.indexOf(desde);
+  assert.ok(i > -1, `no está ${desde}`);
+  return html.slice(i, html.indexOf(hasta, i));
+};
+test('las puertas de la portada enlazan a sus páginas dedicadas', () => {
+  const puertas = tramoDe(index, '<section class="puertas"', '</section>');
   const enlaces = [
-    'href="/cargas-refrigeradas.html"',
-    'href="/transporte-de-personal.html"',
     'href="/turismo.html"',
-    'href="/logistica-minera.html"',
+    'href="/transporte-de-personal.html"',
+    'href="/transporte-de-personal-obras-de-litio.html"',
     'href="/traslados-empresas.html"',
-    'href="/charter-recitales.html"',
-    'href="/alquiler-4x4.html"',
+    'href="/alquiler-4x4.html#empresas"',
+    'href="/cargas-refrigeradas.html"',
+    'href="/deposito-galpon.html"',
+    'href="/alquiler-autoelevadores.html"',
   ];
   for (const enlace of enlaces) {
-    assert.ok(index.includes(`<a class="walink" ${enlace}`),
-      `la portada perdió el enlace interno ${enlace}`);
+    assert.ok(puertas.includes(`<a ${enlace}`), `las puertas perdieron el enlace interno ${enlace}`);
   }
+  const menu = tramoDe(index, '<!-- GENERADO:MENU', '<!-- /GENERADO:MENU -->');
+  assert.ok(menu.includes('href="/logistica-minera.html"'), 'el menú de la portada perdió logística minera');
+  assert.ok(menu.includes('href="/turismo.html#eventos"'), 'el menú de la portada perdió «Grupos y ocasiones»');
 });
 
-// El índice de traslados y servicios especiales al pie de #servicios enlaza
-// las 8 páginas de la ola del 26/08: es el único lugar de la portada donde
-// aparecen todas juntas.
-test('la portada enlaza las 8 páginas de servicios especiales', () => {
-  const paginasOla = ['charter-recitales.html', 'clubes-deportivos.html',
-    'viajes-de-estudio.html', 'traslados-empresas.html',
-    'peregrinaciones-eventos.html', 'alquiler-4x4.html',
-    'deposito-galpon.html', 'producciones.html'];
-  const seccion = index.slice(index.indexOf('id="servicios"'), index.indexOf('id="porque"'));
-  for (const pagina of paginasOla) {
-    assert.ok(seccion.includes(`href="/${pagina}"`),
-      `el índice de servicios especiales perdió el enlace a ${pagina}`);
+// Las 8 páginas de servicios especiales de la ola del 26/08 vivían juntas en
+// un índice al pie de #servicios de la portada. Desde el 05/11/2026 viven en
+// el hub de su sección: las de grupos y ocasiones en turismo.html#eventos y
+// las de empresas en empresas-y-mineria.html (el menú lleva a los dos).
+test('las 8 páginas de servicios especiales se enlazan desde el hub de su sección', () => {
+  const eventos = tramoDe(paginas['turismo.html'], 'id="eventos"', '</section>');
+  const hubEmpresas = paginas['empresas-y-mineria.html'];
+  const porHub = {
+    'charter-recitales.html': eventos, 'clubes-deportivos.html': eventos,
+    'viajes-de-estudio.html': eventos, 'peregrinaciones-eventos.html': eventos,
+    'traslados-empresas.html': hubEmpresas, 'alquiler-4x4.html': hubEmpresas,
+    'deposito-galpon.html': hubEmpresas, 'producciones.html': hubEmpresas,
+  };
+  for (const [pagina, hub] of Object.entries(porHub)) {
+    assert.ok(new RegExp(`href="/${pagina.replace('.', '\\.')}[#"]`).test(hub),
+      `el hub de su sección no enlaza a ${pagina}`);
   }
 });
 
@@ -210,8 +226,10 @@ test('cada página recibe al menos un enlace interno de su mismo idioma', () => 
 });
 
 // Las páginas de eventos y la de golf reciben enlaces desde turismo y desde
-// al menos una página de servicio además de la portada: la portada sola es
-// un solo camino, y es el que se pierde primero en un rediseño.
+// al menos una página de servicio: un solo camino es el que se pierde primero
+// en un rediseño. Desde el 05/11/2026 la portada ya no las enlaza (la fila de
+// servicios especiales salió con la estructura aprobada; sus enlaces viven en
+// los hubs y en el menú «Grupos y ocasiones» → turismo.html#eventos).
 test('las páginas de eventos y golf se enlazan desde turismo y desde otra página de servicio', () => {
   const eventos = ['charter-recitales.html', 'clubes-deportivos.html', 'viajes-de-estudio.html',
     'traslados-empresas.html', 'peregrinaciones-eventos.html', 'golf-torneos.html'];
@@ -220,7 +238,6 @@ test('las páginas de eventos y golf se enlazan desde turismo y desde otra pági
     .test(sinComentarios(paginas[origen]));
   for (const evento of eventos) {
     assert.ok(enlazan('turismo.html', evento), `turismo.html no enlaza a ${evento}`);
-    assert.ok(enlazan('index.html', evento), `la portada no enlaza a ${evento}`);
     const otras = Object.keys(paginas).filter((p) => !/^(en|pt)\//.test(p) &&
       !['index.html', 'turismo.html', evento].includes(p) && enlazan(p, evento));
     assert.ok(otras.length > 0, `${evento} sólo se enlaza desde la portada y turismo`);
