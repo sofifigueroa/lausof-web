@@ -178,8 +178,10 @@ test('cada página recibe al menos un enlace interno de su mismo idioma', () => 
 });
 
 // Las páginas de eventos y la de golf reciben enlaces desde turismo y desde
-// al menos una página de servicio además de la portada: la portada sola es
-// un solo camino, y es el que se pierde primero en un rediseño.
+// al menos una página de servicio: un solo camino es el que se pierde primero
+// en un rediseño. Desde el 05/11/2026 la portada ya no las enlaza (la fila de
+// servicios especiales salió con la estructura aprobada; sus enlaces viven en
+// los hubs y en el menú «Grupos y ocasiones» → turismo.html#eventos).
 test('las páginas de eventos y golf se enlazan desde turismo y desde otra página de servicio', () => {
   const eventos = ['charter-recitales.html', 'clubes-deportivos.html', 'viajes-de-estudio.html',
     'traslados-empresas.html', 'peregrinaciones-eventos.html', 'golf-torneos.html'];
@@ -188,7 +190,6 @@ test('las páginas de eventos y golf se enlazan desde turismo y desde otra pági
     .test(sinComentarios(paginas[origen]));
   for (const evento of eventos) {
     assert.ok(enlazan('turismo.html', evento), `turismo.html no enlaza a ${evento}`);
-    assert.ok(enlazan('index.html', evento), `la portada no enlaza a ${evento}`);
     const otras = Object.keys(paginas).filter((p) => !/^(en|pt)\//.test(p) &&
       !['index.html', 'turismo.html', evento].includes(p) && enlazan(p, evento));
     assert.ok(otras.length > 0, `${evento} sólo se enlaza desde la portada y turismo`);

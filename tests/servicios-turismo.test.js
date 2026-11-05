@@ -129,11 +129,12 @@ for (const nombre of todas) {
     assert.ok(html.includes(`href="${RESENAS}" target="_blank" rel="noopener"`), 'falta el enlace a las reseñas de Google');
   });
 
-  test(`${nombre}: la reciben turismo (o tours), la portada de su idioma y las páginas de ruta`, () => {
+  // Desde el 05/11/2026 las portadas tienen tres puertas en vez de las cinco
+  // tarjetas: la combi por día la reciben el hub de turismo y las rutas.
+  test(`${nombre}: la reciben turismo (o tours) y las páginas de ruta`, () => {
     const origenes = en
-      ? ['en/tours-and-transfers.html', 'en/index.html', ...rutasEs.map((r) => pares[r])]
-      : ['turismo.html', 'index.html', ...rutasEs];
-    // La portada en español enlaza las dos; la inglesa, al menos desde su índice de páginas.
+      ? ['en/tours-and-transfers.html', ...rutasEs.map((r) => pares[r])]
+      : ['turismo.html', ...rutasEs];
     for (const origen of origenes) {
       assert.ok(sinComentarios(paginas[origen]).includes(`href="${enlace(origen, nombre)}"`), `${origen} no enlaza ${nombre}`);
     }

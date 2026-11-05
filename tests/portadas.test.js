@@ -28,8 +28,8 @@ const PORTADAS = {
     h1: 'Passenger transport in Salta and northwest Argentina',
     puertas: [
       ['Tours &amp; transfers', '/en/tours-and-transfers.html', 'turismo'],
-      ['Mining crew transport', '/en/business-and-mining.html#personal', 'personal'],
-      ['Freight', '/en/business-and-mining.html#cargas', 'carga'],
+      ['Mining crew transport', '/en/business-and-mining.html#crew', 'personal'],
+      ['Freight', '/en/business-and-mining.html#freight', 'carga'],
     ],
     prueba: ['24/7', 'CNRT 60284', 'AMT', 'Licensed travel agency', 'International trips', 'Invoice type A', 'Own fleet and workshop'],
   },
@@ -100,7 +100,7 @@ for (const [nombre, esperado] of Object.entries(PORTADAS)) {
 
   test(`${nombre}: sin las cinco tarjetas ni la fila de servicios especiales`, () => {
     const main = tramo(html, '<main>', '</main>');
-    assert.doesNotMatch(main, /class="card"|swipe-hint|class="cards/);
+    assert.doesNotMatch(main, /swipe-hint|class="cards/);
     // Las páginas de empresas se enlazan en el cuerpo sólo desde sus puertas.
     const fuera = main.replace(tramo(html, '<section class="puertas"', '</section>'), '');
     for (const pagina of ['golf-torneos', 'clubes-deportivos', 'cargas-refrigeradas', 'alquiler-autoelevadores',

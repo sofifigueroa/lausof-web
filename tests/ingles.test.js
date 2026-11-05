@@ -203,8 +203,13 @@ const pieDe = (html) => {
   return pie ? pie[0] : '';
 };
 
+// Un enlace de idioma lleva hreflang Y lang: su texto está en el otro idioma
+// ("Español", "English"). Desde el 05/11/2026 el pie de las portadas tiene
+// además enlaces a páginas que sólo existen en español («Forklifts (in
+// Spanish)»): llevan hreflang="es" pero su texto es del idioma de la página,
+// así que no llevan lang y no son el enlace de idioma.
 const idiomaEnPie = (html) =>
-  [...pieDe(html).matchAll(/<a\b[^>]*\bhreflang="[^"]*"[^>]*>/g)].map((m) => m[0]);
+  [...pieDe(html).matchAll(/<a\b(?=[^>]*\bhreflang=")(?=[^>]*\slang=")[^>]*>/g)].map((m) => m[0]);
 
 const hrefDe = (etiqueta) => (etiqueta.match(/\bhref="([^"]+)"/) || [])[1];
 
