@@ -24,6 +24,10 @@
         enganche que va a usar el asistente del sitio cuando se instale
         (fase W5 de la propuesta). No se agrega ningún script de terceros.
      3. carga /js/menu.js en el <head>, al lado de /js/contacto.js.
+     4. en las páginas de turismo y de empresas, escribe en la primera columna
+        del pie la zona <!-- GENERADO:CRUCE -->: un solo enlace al hub de la
+        otra sección (3a §3.4, reglas T2 y B1). Es, junto con el menú, el
+        único camino de turismo a empresas; tests/cruces.test.js lo vigila.
 
    Los textos salen de 4-textos.md §0.1 y §1.4 (misma carpeta), al pie de la
    letra. Una página a la que el menú apunta y que no existe en un idioma va
@@ -261,6 +265,22 @@ export function zonaPie(pagina) {
   ].map((l) => `  ${l}`).join('\n');
 }
 
+/** El enlace del pie al hub de la otra sección (3a §3.4, T2 y B1), o null
+    si la página no es de turismo ni de empresas. Pura. */
+export function zonaCruce(pagina) {
+  const seccion = seccionDe(pagina);
+  if (seccion !== 'turismo' && seccion !== 'empresas') return null;
+  const t = MENU[idiomaDe(pagina)];
+  const otra = t[seccion === 'turismo' ? 'empresas' : 'turismo'];
+  // El hub de empresas no existe en portugués: su título ya dice «(em espanhol)».
+  const enlaceOtra = enlace([`${otra.titulo} →`, otra.hub, otra.es], { enEspanol: '' });
+  return [
+    '<!-- GENERADO:CRUCE — no editar a mano: editar scripts/menu.mjs y correr `node scripts/menu.mjs` -->',
+    `<p>${enlaceOtra}</p>`,
+    '<!-- /GENERADO:CRUCE -->',
+  ].map((l) => `      ${l}`).join('\n');
+}
+
 /** Los atributos de contexto de <body> para una página. */
 export function atributosBody(pagina) {
   const seccion = seccionDe(pagina);
@@ -272,6 +292,9 @@ export function atributosBody(pagina) {
 
 const ZONA = /[ \t]*<!-- GENERADO:MENU[\s\S]*?<!-- \/GENERADO:MENU -->/;
 const ZONA_PIE = /[ \t]*<!-- GENERADO:PIE[\s\S]*?<!-- \/GENERADO:PIE -->/;
+const ZONA_CRUCE = /\n[ \t]*<!-- GENERADO:CRUCE[\s\S]*?<!-- \/GENERADO:CRUCE -->/;
+// Fin de la primera columna del pie: ahí va el enlace de cruce.
+const PRIMERA_COLUMNA_PIE = /(<footer class="site"[^>]*>\s*<div class="wrap foot-grid">\s*<div>[\s\S]*?)(\n[ \t]*<\/div>\s*<div>\s*<b>)/;
 const NAV_VIEJO = /[ \t]*<nav class="main"[\s\S]*?<\/nav>/;
 const SCRIPT_MENU = '<script defer src="/js/menu.js?v=1"></script>';
 const SCRIPT_CONTACTO = /^([ \t]*)<script defer src="\/js\/contacto\.js\?v=\d+"><\/script>$/m;
@@ -280,6 +303,12 @@ const SCRIPT_CONTACTO = /^([ \t]*)<script defer src="\/js\/contacto\.js\?v=\d+">
 export function conMenu(html, pagina) {
   let nuevo = html.replace(/<body\b[^>]*>/, `<body ${atributosBody(pagina).map(([k, v]) => `${k}="${v}"`).join(' ')}>`);
   if (PORTADAS.includes(pagina)) nuevo = nuevo.replace(ZONA_PIE, () => zonaPie(pagina));
+  const cruce = zonaCruce(pagina);
+  nuevo = nuevo.replace(ZONA_CRUCE, '');
+  if (cruce) {
+    if (!PRIMERA_COLUMNA_PIE.test(nuevo)) throw new Error(`${pagina}: no encuentro la primera columna del pie para el enlace a la otra sección`);
+    nuevo = nuevo.replace(PRIMERA_COLUMNA_PIE, (_, columna, cierre) => `${columna.replace(/[ \t]+$/, '')}\n${cruce}${cierre}`);
+  }
   const tieneMenu = ZONA.test(nuevo) || NAV_VIEJO.test(nuevo);
   if (!tieneMenu) return nuevo;
   nuevo = ZONA.test(nuevo) ? nuevo.replace(ZONA, () => zonaMenu(pagina)) : nuevo.replace(NAV_VIEJO, () => zonaMenu(pagina));

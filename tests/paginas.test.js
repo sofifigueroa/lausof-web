@@ -230,9 +230,12 @@ test('cada página recibe al menos un enlace interno de su mismo idioma', () => 
 // en un rediseño. Desde el 05/11/2026 la portada ya no las enlaza (la fila de
 // servicios especiales salió con la estructura aprobada; sus enlaces viven en
 // los hubs y en el menú «Grupos y ocasiones» → turismo.html#eventos).
+// Traslados corporativos y transporte de personal son de empresas: turismo ya
+// no los enlaza en el cuerpo (regla T2 de 3a §3.4, tests/cruces.test.js); los
+// enlazan el menú y el hub de empresas.
 test('las páginas de eventos y golf se enlazan desde turismo y desde otra página de servicio', () => {
   const eventos = ['charter-recitales.html', 'clubes-deportivos.html', 'viajes-de-estudio.html',
-    'traslados-empresas.html', 'peregrinaciones-eventos.html', 'golf-torneos.html'];
+    'peregrinaciones-eventos.html', 'golf-torneos.html'];
   const { sinComentarios } = require('./util.js');
   const enlazan = (origen, destino) => new RegExp(`<a\\b[^>]*\\bhref="/${destino.replace('.', '\\.')}"`)
     .test(sinComentarios(paginas[origen]));
@@ -242,7 +245,7 @@ test('las páginas de eventos y golf se enlazan desde turismo y desde otra pági
       !['index.html', 'turismo.html', evento].includes(p) && enlazan(p, evento));
     assert.ok(otras.length > 0, `${evento} sólo se enlaza desde la portada y turismo`);
   }
-  for (const servicio of ['transporte-de-personal.html', 'alquiler-4x4.html']) {
+  for (const servicio of ['alquiler-4x4.html']) {
     assert.ok(enlazan('turismo.html', servicio), `turismo.html no enlaza a ${servicio}`);
   }
 });

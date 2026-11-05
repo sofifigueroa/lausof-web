@@ -455,6 +455,15 @@ y `3a-wireframes/`, textos `4-textos.md`, decisiones `DECISION-2026-11-05.md`).
   script y commitear el HTML. Lo vigila `tests/menu.test.js` (menú al día e
   igual en todas las páginas de un idioma, enlaces que existen, ninguna URL
   movida, el sitemap no achica).
+- **Enlaces entre secciones** (3a §3.4, `tests/cruces.test.js`): una página
+  de turismo llega a las de empresas sólo por el menú y por la zona
+  `<!-- GENERADO:CRUCE -->` del pie (un enlace al hub de empresas; en las de
+  empresas, al hub de turismo), que también escribe `scripts/menu.mjs`. En el
+  cuerpo no lleva enlaces a empresas salvo las excepciones de `PERMITIDOS`
+  en el test (San Antonio de los Cobres → logística minera, agencias →
+  traslados corporativos), y nunca enlaces, fotos ni prefill de cargas. Minería
+  y cargas sí se enlazan entre sí. El test lee la sección de cada página de su
+  `data-seccion`, así que una página nueva queda cubierta sola.
 - **Desplegables con `<details>`**: abren y cierran sin JavaScript;
   `/js/menu.js` sólo cierra lo abierto al tocar afuera, con Escape o al elegir
   un enlace. En el teléfono (≤880 px) el idioma se ve como código (ES, EN, PT)
