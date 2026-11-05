@@ -1,0 +1,203 @@
+// Menú del sitio y sección de cada página (estructura aprobada el 05/11/2026,
+// opción A: web/estructura-sitio-2026-11-05/3a-diseno-estructura.md §3.2,
+// §3.3 y §3.8). El menú lo arma scripts/menu.mjs; estas guardias miran que
+// esté al día en todas las páginas, que sea el MISMO en todas las páginas de
+// un idioma, que sus enlaces lleven a páginas que existen y que la
+// reestructura no mueva ni pierda ninguna URL.
+'use strict';
+
+const test = require('node:test');
+const assert = require('node:assert');
+const fs = require('node:fs');
+const path = require('node:path');
+const { pathToFileURL } = require('node:url');
+const { paginas, sitemap, sinComentarios } = require('./util.js');
+
+const raiz = path.join(__dirname, '..');
+const cargar = () => import(pathToFileURL(path.join(raiz, 'scripts', 'menu.mjs')).href);
+
+const zonaMenu = (html) => (html.match(/<!-- GENERADO:MENU[\s\S]*?<!-- \/GENERADO:MENU -->/) || [null])[0];
+const idiomaDe = (nombre) => (nombre.startsWith('en/') ? 'en' : nombre.startsWith('pt/') ? 'pt' : 'es');
+
+// Lo que cambia legítimamente de una página a otra dentro del menú: la marca
+// de la sección actual, la sección abierta en la hoja del teléfono y la
+// etiqueta de sección. El resto tiene que ser idéntico.
+const normalizar = (zona) => zona
+  .replace(/ menu-actual/g, '')
+  .replace(/<details class="hoja-seccion" open>/g, '<details class="hoja-seccion">')
+  .replace(/\n\s*<a class="menu-chip"[^>]*>[^<]*<\/a>/, '');
+
+// en/404.html lleva a propósito una barra mínima (marca e idioma), sin menú.
+const SIN_MENU = ['en/404.html'];
+const conMenu = Object.entries(paginas)
+  .filter(([nombre, html]) => /<header class="topbar"/.test(html) && !SIN_MENU.includes(nombre));
+
+test('cada página con barra superior tiene el menú generado y ningún menú viejo', () => {
+  assert.ok(conMenu.length >= 75, `sólo ${conMenu.length} páginas con barra superior`);
+  for (const [nombre, html] of conMenu) {
+    assert.ok(zonaMenu(html), `${nombre}: sin la zona GENERADO:MENU (correr node scripts/menu.mjs)`);
+    assert.strictEqual((html.match(/<nav class="main"/g) || []).length, 1, `${nombre}: más de un nav.main`);
+    const barra = sinComentarios(html).match(/<header class="topbar">[\s\S]*?<\/header>/)[0];
+    assert.doesNotMatch(barra, /href="\/(?:en\/|pt\/)?#(?:servicios|services|servicos|seguridad|safety|seguranca|flota|fleet|frota)"/,
+      `${nombre}: quedó en la barra un enlace del menú viejo de anclas`);
+    assert.match(html, /<script defer src="\/js\/menu\.js\?v=\d+"><\/script>/, `${nombre}: no carga /js/menu.js`);
+  }
+});
+
+test('el menú es el mismo en todas las páginas de un idioma', () => {
+  const porIdioma = {};
+  for (const [nombre, html] of conMenu) {
+    const idioma = idiomaDe(nombre);
+    const zona = normalizar(zonaMenu(html));
+    if (!porIdioma[idioma]) porIdioma[idioma] = { nombre, zona };
+    else assert.strictEqual(zona, porIdioma[idioma].zona, `${nombre}: el menú difiere del de ${porIdioma[idioma].nombre}`);
+  }
+  assert.deepStrictEqual(Object.keys(porIdioma).sort(), ['en', 'es', 'pt']);
+});
+
+test('las dos secciones, en el orden del diseño, con los nombres de 4-textos §0.1', () => {
+  const esperado = {
+    es: ['Turismo y traslados', 'Empresas y minería', 'Nosotros', 'Contacto'],
+    en: ['Tours &amp; transfers', 'Business &amp; mining', 'About', 'Contact'],
+    pt: ['Passeios e traslados', 'Empresas e mineração (em espanhol)', 'Sobre nós', 'Contato'],
+  };
+  for (const [nombre, idioma] of [['index.html', 'es'], ['en/index.html', 'en'], ['pt/index.html', 'pt']]) {
+    const nav = zonaMenu(paginas[nombre]).match(/<nav class="main"[^>]*>([\s\S]*?)<\/nav>/)[1];
+    // Primer nivel: el <summary> de cada desplegable o el enlace directo.
+    const primerNivel = [...nav.matchAll(/<details class="menu-grupo[^"]*"><summary>([^<]+)<\/summary>[\s\S]*?<\/details>|<a(?: class="menu-directo")? href="[^"]*"(?: hreflang="es")?>([^<]+)<\/a>/g)]
+      .map((m) => m[1] || m[2]);
+    assert.deepStrictEqual(primerNivel, esperado[idioma], `${nombre}: el primer nivel del menú`);
+  }
+  // Las columnas del desplegable de empresas: Personal para minería, después Cargas.
+  const es = zonaMenu(paginas['index.html']);
+  assert.ok(es.indexOf('Personal para minería') < es.indexOf('>Cargas<'), 'Cargas tiene que ir después de Personal para minería');
+});
+
+test('la etiqueta de sección del teléfono sólo va en páginas de turismo y empresas', async () => {
+  const { seccionDe } = await cargar();
+  for (const [nombre, html] of conMenu) {
+    const chip = (zonaMenu(html).match(/<a class="menu-chip" href="([^"]*)">([^<]*)<\/a>/) || []);
+    const seccion = seccionDe(nombre);
+    if (seccion === 'turismo') assert.match(chip[2] || '', /^(Turismo|Tours|Passeios)$/, `${nombre}: etiqueta de turismo`);
+    else if (seccion === 'empresas') assert.match(chip[2] || '', /^(Empresas|Business)$/, `${nombre}: etiqueta de empresas`);
+    else assert.strictEqual(chip.length, 0, `${nombre} (${seccion}) no lleva etiqueta de sección`);
+  }
+});
+
+test('los enlaces del menú llevan a páginas y anclas que existen', () => {
+  // Los dos hubs de empresas los construye otra rama (web-hub-empresas-0511):
+  // mientras no estén en el árbol, sus enlaces se saltean; cuando llegan, se
+  // controlan como cualquier otro (archivo y ancla).
+  const HUBS = ['empresas-y-mineria.html', 'en/business-and-mining.html'];
+  const vistos = new Set();
+  for (const [nombre, html] of conMenu) {
+    for (const [, href] of zonaMenu(html).matchAll(/href="(\/[^"]*)"/g)) {
+      if (vistos.has(href)) continue;
+      vistos.add(href);
+      const [ruta, ancla] = href.split('#');
+      let archivo = ruta.slice(1) || 'index.html';
+      if (archivo.endsWith('/')) archivo += 'index.html';
+      if (HUBS.includes(archivo) && !fs.existsSync(path.join(raiz, archivo))) continue;
+      assert.ok(paginas[archivo], `${nombre}: el menú enlaza ${href} y ${archivo} no existe`);
+      if (ancla) assert.match(paginas[archivo], new RegExp(`\\bid="${ancla}"`), `${href}: no existe el ancla #${ancla}`);
+    }
+  }
+  assert.ok(vistos.size > 30, 'el menú tiene menos enlaces de los esperados');
+});
+
+test('los enlaces a páginas que sólo existen en español lo dicen, en inglés y en portugués', () => {
+  for (const [nombre, html] of conMenu) {
+    const idioma = idiomaDe(nombre);
+    if (idioma === 'es') continue;
+    const carpeta = `/${idioma}/`;
+    for (const [etiqueta, href, texto] of zonaMenu(html).matchAll(/<a[^>]*href="(\/[^"]*)"[^>]*>([^<]*)<\/a>/g)) {
+      if (href.startsWith(carpeta) || href.startsWith('#') || href.startsWith('/en/') || href.startsWith('/pt/')) continue;
+      assert.match(etiqueta, /hreflang="es"/, `${nombre}: ${href} va al español sin hreflang="es"`);
+      assert.match(texto, idioma === 'en' ? /\(in Spanish\)$/ : /\(em espanhol\)$/, `${nombre}: ${href} no avisa que está en español`);
+    }
+  }
+});
+
+test('el menú está al día con scripts/menu.mjs en todas las páginas', async () => {
+  const { conMenu: regenerar } = await cargar();
+  for (const [nombre, html] of Object.entries(paginas)) {
+    assert.strictEqual(regenerar(html, nombre), html, `${nombre}: sin regenerar (node scripts/menu.mjs)`);
+  }
+});
+
+// 3a §3.8: cada <body> dice su sección, su línea si es de empresas y su tipo.
+// Son enganches inertes: nada del sitio los lee todavía y no hay script del
+// asistente.
+test('cada página declara su sección, su línea y su tipo en <body>', async () => {
+  const { seccionDe, EMPRESAS } = await cargar();
+  const { PAGINAS } = await import(pathToFileURL(path.join(raiz, 'scripts', 'prefill.mjs')).href);
+  const cuenta = { turismo: 0, empresas: 0, inicio: 0, institucional: 0 };
+  for (const [nombre, html] of Object.entries(paginas)) {
+    const body = html.match(/<body([^>]*)>/)[1];
+    const attr = (k) => (body.match(new RegExp(`\\b${k}="([^"]*)"`)) || [])[1];
+    const seccion = attr('data-seccion');
+    assert.strictEqual(seccion, seccionDe(nombre), `${nombre}: data-seccion`);
+    cuenta[seccion] += 1;
+    assert.strictEqual(attr('data-tipo'), PAGINAS[nombre], `${nombre}: data-tipo`);
+    if (seccion === 'empresas' && EMPRESAS[nombre]) assert.match(attr('data-linea') || '', /^(personal|cargas)$/, `${nombre}: data-linea`);
+    else assert.strictEqual(attr('data-linea'), undefined, `${nombre}: data-linea fuera de empresas`);
+  }
+  // 3a §3.3: 14 páginas de empresas (9 personal, 5 cargas) sin contar los hubs.
+  const lineas = Object.values(EMPRESAS).filter(Boolean);
+  assert.strictEqual(lineas.filter((l) => l === 'personal').length, 9);
+  assert.strictEqual(lineas.filter((l) => l === 'cargas').length, 5);
+  assert.strictEqual(cuenta.inicio, 3);
+  // Ningún script lee los enganches todavía: el asistente se instala en W5.
+  for (const archivo of fs.readdirSync(path.join(raiz, 'js'))) {
+    const js = fs.readFileSync(path.join(raiz, 'js', archivo), 'utf8');
+    assert.doesNotMatch(js, /data-seccion|data-linea|data-tipo|dataset\.(seccion|linea|tipo)/, `js/${archivo} lee los enganches`);
+  }
+});
+
+// Ninguna URL se mueve con la reestructura (3a §3.3: «0 of 75 URLs move, no
+// redirects»): las 75 del sitemap del 05/11/2026 siguen ahí, con su archivo,
+// y el sitemap sólo puede crecer.
+const URLS_0511 = [
+  '', 'flota-en-venta.html', 'turismo.html', 'logistica-minera.html', 'transporte-de-personal.html',
+  'cargas-refrigeradas.html', 'galeria.html', 'golf-torneos.html', 'charter-recitales.html',
+  'clubes-deportivos.html', 'viajes-de-estudio.html', 'traslados-empresas.html', 'peregrinaciones-eventos.html',
+  'alquiler-4x4.html', 'deposito-galpon.html', 'producciones.html', 'alquiler-autoelevadores.html',
+  'en/', 'en/mining-logistics.html', 'en/personnel-transport.html', 'en/tours-and-transfers.html',
+  'en/4x4-rental.html', 'en/refrigerated-freight.html', 'en/warehouse.html', 'en/film-production-logistics.html',
+  'traslado-salta-purmamarca-tilcara-humahuaca.html', 'salinas-grandes-desde-salta.html',
+  'en/salta-to-purmamarca-tilcara-humahuaca.html', 'en/salinas-grandes-from-salta.html',
+  'traslado-salta-cafayate.html', 'traslado-salta-cachi.html', 'traslado-salta-san-antonio-de-los-cobres.html',
+  'traslados-casamientos.html', 'en/salta-to-cafayate-transfer.html', 'en/salta-to-cachi-transfer.html',
+  'en/salta-to-san-antonio-de-los-cobres.html', 'en/wedding-transportation.html',
+  'feriados-fines-de-semana-largos.html', 'traslado-carnaval-quebrada-de-humahuaca.html',
+  'traslado-serenata-a-cafayate.html', 'en/transfer-carnival-quebrada-de-humahuaca.html',
+  'viajes-internacionales.html', 'traslado-salta-san-pedro-de-atacama.html', 'traslado-salta-uyuni.html',
+  'traslado-san-pedro-de-atacama-salta.html', 'traslado-uyuni-salta.html', 'en/international-trips.html',
+  'en/salta-to-san-pedro-de-atacama.html', 'en/salta-to-uyuni.html', 'en/san-pedro-de-atacama-to-salta.html',
+  'en/uyuni-to-salta.html', 'traslados-trail-jujuy-utmb.html', 'traslado-tren-a-las-nubes.html',
+  'semana-santa-salta-jujuy.html', 'traslados-fiesta-del-milagro.html', 'en/jujuy-utmb-trail-race-transfers.html',
+  'en/train-to-the-clouds-transfer.html', 'en/holy-week-salta-jujuy.html', 'traslado-aeropuerto-salta.html',
+  'traslado-salta-jujuy.html', 'alquiler-combi-con-chofer-salta.html', 'en/salta-airport-transfer.html',
+  'en/salta-to-jujuy-transfer.html', 'en/minibus-with-driver-salta.html', 'agencias-y-hoteles.html',
+  'en/ground-transport-for-tour-operators.html', 'transporte-de-personal-obras-de-litio.html',
+  'en/crew-transport-lithium-projects.html', 'pt/', 'pt/passeios-e-traslados.html',
+  'pt/traslado-salta-san-pedro-de-atacama.html', 'pt/traslado-salta-uyuni.html',
+  'pt/salinas-grandes-saindo-de-salta.html', 'pt/traslado-salta-cafayate.html',
+  'pt/traslado-salta-purmamarca-tilcara-humahuaca.html',
+];
+
+test('ninguna URL del 05/11/2026 se movió y el sitemap no achica', () => {
+  assert.strictEqual(URLS_0511.length, 75);
+  const enSitemap = new Set([...sitemap.matchAll(/<loc>https:\/\/www\.lausof\.com\/([^<]*)<\/loc>/g)].map((m) => m[1]));
+  assert.ok(enSitemap.size >= 75, `el sitemap tiene ${enSitemap.size} URLs, menos que las 75 del 05/11/2026`);
+  for (const url of URLS_0511) {
+    assert.ok(enSitemap.has(url), `/${url} salió del sitemap`);
+    const archivo = url === '' || url.endsWith('/') ? `${url}index.html` : url;
+    assert.ok(fs.existsSync(path.join(raiz, archivo)), `/${url}: falta ${archivo}`);
+  }
+  // Sin redirecciones nuevas desde ninguna de esas URLs.
+  const redirects = fs.readFileSync(path.join(raiz, '_redirects'), 'utf8');
+  for (const url of URLS_0511.filter((u) => u.endsWith('.html'))) {
+    assert.doesNotMatch(redirects, new RegExp(`^/${url.replace(/[.]/g, '\\.')}\\s`, 'm'), `/${url} redirige`);
+  }
+});

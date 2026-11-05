@@ -82,15 +82,85 @@ header.topbar{
 }
 .topbar-row{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:10px 0}
 .brand img{display:block;height:46px;width:auto}
-nav.main{display:flex;gap:24px;font-size:.94rem;font-weight:600}
-nav.main a{color:#4d5871;text-decoration:none}
+/* ---- menú del sitio (lo arma scripts/menu.mjs) ----
+   Dos secciones con desplegable (Turismo y traslados, Empresas y minería),
+   Nosotros y Contacto. Son <details>: abren con clic o teclado sin
+   JavaScript; /js/menu.js cierra lo abierto al tocar afuera o con Escape.
+   En el teléfono el menú de escritorio se esconde y aparece el botón «Menú»
+   con su hoja, más la etiqueta de la sección en las páginas internas. */
+nav.main{display:flex;align-items:center;gap:22px;font-size:.94rem;font-weight:600}
+nav.main a{color:#4d5871;text-decoration:none;white-space:nowrap}
 nav.main a:focus-visible{color:var(--gold-ink)}
-/* Sin menú en mobile, la barra queda solo para la marca: logo centrado y
-   más presente (el CTA vive en la barra fija de abajo, nunca acá). */
+nav.main details>summary,.menu-movil>summary,.hoja-seccion>summary{list-style:none;cursor:pointer}
+nav.main details>summary::-webkit-details-marker,.menu-movil>summary::-webkit-details-marker,.hoja-seccion>summary::-webkit-details-marker{display:none}
+.menu-grupo{position:relative}
+.menu-grupo>summary{color:#4d5871;padding:6px 0;white-space:nowrap}
+.menu-grupo>summary::after{content:"";display:inline-block;margin-left:7px;vertical-align:.18em;border:5px solid transparent;border-top-color:currentColor;border-bottom-width:0}
+.menu-grupo[open]>summary::after{transform:rotate(180deg)}
+.menu-actual>summary{color:var(--ink);box-shadow:inset 0 -2px 0 var(--gold)}
+.menu-panel{
+  position:absolute;top:calc(100% + 14px);left:-18px;z-index:60;
+  min-width:260px;padding:12px 20px 14px;
+  background:#fff;border:1px solid var(--border);border-top:3px solid var(--gold);
+  border-radius:var(--radius);box-shadow:0 10px 28px rgba(29,41,71,.16);
+}
+.menu-panel-doble{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;min-width:520px}
+.menu-panel-doble .menu-todo{grid-column:1/-1}
+.menu-panel ul,.menu-hoja ul{list-style:none;margin:0;padding:0}
+nav.main .menu-panel li a{display:block;padding:6px 0;font-weight:500;color:var(--ink-mid);white-space:nowrap}
+nav.main a.menu-todo{display:block;padding:4px 0 9px;margin-bottom:4px;border-bottom:1px solid var(--border);color:var(--gold-ink);font-weight:700}
+.menu-col-titulo{margin:8px 0 2px;font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-ink)}
+.menu-chip,.menu-movil{display:none}
+
+/* Entre 881 y 1080 px el menú de escritorio no entra con el botón de
+   WhatsApp entero: el botón queda sólo con su ícono (el texto sigue ahí
+   para lectores de pantalla y para la medición). */
+@media(min-width:881px) and (max-width:1239px){
+  .topbar-row .nav-cta{font-size:0;gap:0;padding:9px 11px}
+}
+@media(min-width:881px) and (max-width:1080px){
+  nav.main{gap:16px;font-size:.9rem}
+  .brand img{height:40px}
+}
+/* En portugués la sección de empresas es un enlace largo («… (em
+   espanhol)»): el botón de WhatsApp va siempre sólo con su ícono. */
+.topbar-row:has(.menu-directo) a.nav-cta{font-size:0;gap:0;padding:9px 11px}
+
 @media(max-width:880px){
   nav.main{display:none}
-  .topbar-row{justify-content:center}
-  .brand img{height:44px}
+  .topbar-row{justify-content:flex-start;gap:10px;min-height:56px}
+  .brand img{height:36px}
+  .menu-chip{
+    display:inline-block;white-space:nowrap;text-decoration:none;
+    font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--gold-ink);border-left:1px solid var(--border);padding:4px 0 4px 10px;
+  }
+  .menu-movil{display:block;order:1}
+  .menu-movil>summary{
+    border:2px solid var(--ink);border-radius:var(--radius);
+    padding:7px 11px;font-weight:700;font-size:.88rem;line-height:1;white-space:nowrap;
+  }
+  .menu-cerrar,.menu-movil[open] .menu-abrir{display:none}
+  .menu-movil[open] .menu-cerrar{display:inline}
+  .menu-hoja{
+    position:fixed;left:0;right:0;top:57px;bottom:0;z-index:55;
+    overflow-y:auto;overscroll-behavior:contain;
+    background:#fff;border-top:1px solid var(--border);
+    padding:8px 20px 120px;
+  }
+  .hoja-seccion{border-bottom:1px solid var(--border)}
+  .hoja-seccion>summary{display:flex;justify-content:space-between;align-items:center;padding:14px 0;font-weight:700;font-size:1.02rem}
+  .hoja-seccion>summary::after{content:"›";font-size:1.3rem;line-height:1;color:var(--gold-ink);transition:transform .15s}
+  .hoja-seccion[open]>summary::after{transform:rotate(90deg)}
+  .menu-hoja a{text-decoration:none;color:var(--ink)}
+  .menu-hoja a.menu-todo{
+    display:block;margin:0 0 6px;padding:11px 12px;font-weight:700;
+    border:1px solid var(--border);border-radius:var(--radius);
+  }
+  .menu-hoja li a{display:block;padding:10px 0;color:var(--ink-mid)}
+  .menu-hoja .menu-col{padding-bottom:6px}
+  .hoja-enlace{margin:0;padding:14px 0;border-bottom:1px solid var(--border);font-weight:700}
+  html.menu-abierto{overflow:hidden}
 }
 
 /* ---- selector de idioma ----
@@ -115,9 +185,14 @@ nav.main a:focus-visible{color:var(--gold-ink)}
    queden pegados a él y no repartidos por la barra. Vive arriba, en la barra
    pegajosa: nunca pisa la barra fija de acción, que está abajo. */
 @media(max-width:880px){
-  .lang-switch{margin-left:auto;padding:7px 10px}
+  .lang-switch{margin-left:auto;padding:7px 8px}
   .lang-switch ~ .lang-switch{margin-left:0}
 }
+/* Con las dos secciones en el menú, el nombre entero de cada idioma no
+   entra en la barra: se ve el código (ES, EN, PT, como en el diseño del
+   05/11/2026) y el nombre sigue en el enlace para lectores de pantalla. */
+.lang-switch{font-size:0;padding:7px 9px}
+.lang-switch::after{content:attr(hreflang);font-size:.82rem;text-transform:uppercase;letter-spacing:.04em}
 
 /* El CTA del header sólo aparece cuando el del hero ya salió de pantalla,
    para que nunca haya dos botones de WhatsApp visibles a la vez. */
@@ -136,42 +211,98 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 .btn-ghost{border-color:#48587e;color:#fff}
 .btn-sm{padding:9px 16px;font-size:.9rem}
 
-/* ---- hero ---- */
+/* ---- portada: hero ----
+   Desde el 05/11/2026 (estructura aprobada, opción A): texto a la izquierda
+   y una unidad de pasajeros a la derecha, en una franja corta para que las
+   tres puertas entren en la primera pantalla (1440×900 y 390 px). En el
+   teléfono la foto queda de fondo, detrás del título, con velo. */
 .hero{position:relative;color:var(--on-navy);overflow:hidden;background:var(--navy-deep)}
-.hero-photo{
-  position:absolute;inset:0;
-  background:#151e36;
-}
+.hero-grid{display:grid;grid-template-columns:1fr minmax(0,420px);gap:44px;align-items:center;padding-top:32px;padding-bottom:30px}
+.hero-inner{position:relative;z-index:1}
+.hero-photo{position:relative;height:250px;border-radius:var(--radius);overflow:hidden;background:#151e36}
 /* La foto del hero y de los encabezados de cada página es un <img> del HTML
    (antes era un fondo de la CSS): el navegador la descubre al leer el HTML,
    elige ancho y formato, y la pide con fetchpriority="high" porque es la
-   LCP. object-fit/object-position encuadran exactamente igual que el
-   background cover de antes; el encuadre propio de cada página vive en su
-   hoja (.page-head-photo img{object-position:…}). */
+   LCP. object-fit/object-position encuadran; el encuadre propio de cada
+   página interna vive en su hoja (.page-head-photo img{object-position:…}). */
 .hero-photo img,.page-head-photo img{
   position:absolute;inset:0;
   width:100%;height:100%;object-fit:cover;
 }
-.hero-photo img{object-position:center 68%}
-/* velo: garantiza contraste del texto sin tapar del todo la foto de la flota */
-.hero-photo::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(16,23,42,.78),rgba(16,23,42,.6));
-}
-.hero-inner{position:relative;padding:78px 24px 84px;max-width:1120px}
-.hero h1{font-size:clamp(2.1rem,5.2vw,3.4rem);letter-spacing:-.015em;max-width:15ch}
-.hero .lead{max-width:44ch;font-size:1.12rem;color:var(--on-navy-soft);margin:18px 0 28px}
+.hero-photo img{object-position:center 60%}
+.hero h1{font-size:clamp(1.9rem,3vw,2.45rem);letter-spacing:-.015em}
+.hero .lead{max-width:48ch;font-size:1.08rem;color:var(--on-navy-soft);margin:14px 0 22px}
 .hero .ctas{display:flex;flex-wrap:wrap;gap:12px}
+@media(max-width:960px){.hero-grid{grid-template-columns:1fr minmax(0,340px);gap:32px}}
 
-/* Atributos del hero: texto plano con tilde, nada de borde ni fondo.
-   Si parecen botones (como "Ver servicios") prometen un clic que no existe. */
-.hero-chips{
-  display:flex;flex-wrap:wrap;gap:8px 22px;margin:30px 0 0;padding:0;list-style:none;
+/* ---- portada: las tres puertas ----
+   Turismo y traslados · Personal para minería · Cargas, en ese orden
+   (decisión b del 05/11/2026). Cada una con su foto, su línea, 3-4 enlaces
+   y su WhatsApp. En el teléfono son tres renglones apilados que entran en la
+   primera pantalla: toda la puerta es un enlace a su hub. */
+.puertas{padding:24px 0 22px}
+.puertas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.puerta{
+  position:relative;display:flex;flex-direction:column;
+  background:var(--card);border:1px solid var(--border);border-top:3px solid var(--gold);
+  border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;
 }
-.chip{
-  font-size:.88rem;font-weight:600;color:var(--on-navy-soft);
+.puerta-foto{position:relative;height:104px;background:#22304f}
+.puerta-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.puerta-cuerpo{display:flex;flex-direction:column;gap:8px;padding:14px 18px 16px;flex:1}
+.puerta h2{font-size:1.2rem}
+.puerta h2 a{text-decoration:none;color:var(--ink)}
+.puerta p{margin:0;color:var(--ink-mid);font-size:.9rem;line-height:1.45}
+.puerta-sub{list-style:none;margin:0;padding:0;font-size:.88rem;line-height:1.35}
+.puerta-sub a{display:inline-block;padding:3px 0;color:var(--ink-soft)}
+.puerta-sub li::before{content:"›";color:var(--gold-ink);font-weight:700;margin-right:7px}
+.puerta-pie{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:6px}
+.btn-puerta{background:var(--navy);color:#fff}
+.puerta-wa{font-size:.88rem;font-weight:700;color:var(--wa-ink);padding:8px 0}
+
+/* ---- portada: barra de afirmaciones (debajo de las puertas) ---- */
+.certs.prueba{padding:14px 0}
+.certs.prueba .certs-row{gap:8px 30px;font-weight:600;color:var(--ink)}
+.certs.prueba .certs-row span::before{content:"✓";color:var(--gold-ink);margin-right:7px}
+
+@media(max-width:880px){
+  /* las acciones viven en la barra fija de abajo (Llamar / WhatsApp) */
+  .hero .ctas{display:none}
 }
-.chip::before{content:"✓";color:var(--gold-bright);font-weight:700;margin-right:7px}
+@media(max-width:720px){
+  .hero-grid{display:block;padding-top:22px;padding-bottom:20px}
+  .hero-photo{position:absolute;inset:0;height:auto;border-radius:0}
+  .hero-photo img{object-position:32% center}
+  .hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,23,42,.82),rgba(16,23,42,.62))}
+  .hero .kicker{display:none}
+  .hero h1{font-size:1.72rem;max-width:none}
+  .hero .lead{font-size:.95rem;color:#fff;margin:10px 0 0;text-shadow:0 1px 8px rgba(16,23,42,.5)}
+  .puertas{padding:12px 0 10px}
+  .puertas-grid{grid-template-columns:1fr;gap:10px}
+  .puerta{flex-direction:row;align-items:center;border-top-width:1px;border-left:3px solid var(--gold);min-height:76px}
+  .puerta-foto{flex:0 0 64px;height:64px;margin:6px 0 6px 6px;border-radius:3px;overflow:hidden}
+  .puerta-cuerpo{padding:8px 34px 8px 12px;gap:2px}
+  .puerta h2{font-size:1.02rem}
+  .puerta h2 a::after{content:"";position:absolute;inset:0}
+  .puerta::after{content:"›";position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:1.5rem;color:var(--gold-ink)}
+  .puerta p{font-size:.8rem;line-height:1.35}
+  .puerta-sub,.puerta-pie{display:none}
+  .certs.prueba{padding:10px 0 12px}
+  .certs.prueba .certs-row{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.78rem}
+}
+@media(max-width:960px) and (min-width:721px){
+  .puertas-grid{grid-template-columns:repeat(3,1fr);gap:12px}
+}
+
+/* ---- portada: columnas de sección en el pie (scripts/menu.mjs) ---- */
+.pie-secciones{display:grid;grid-template-columns:1fr 2fr;gap:36px;margin-top:36px;padding-top:24px;border-top:1px solid #2a3557;font-size:.9rem}
+.pie-secciones>div:last-child{display:grid;grid-template-columns:1fr 1fr;gap:0 36px;align-content:start}
+.pie-secciones>div:last-child>b,.pie-secciones>div:last-child>ul{grid-column:1/-1}
+.pie-secciones .pie-sub{margin:10px 0 6px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-bright)}
+footer.site .pie-secciones ul{gap:2px}
+@media(max-width:780px){
+  .pie-secciones{grid-template-columns:1fr;gap:20px}
+}
 
 /* ---- franja de habilitaciones ---- */
 .certs{background:var(--ice);border-block:1px solid var(--border);padding:18px 0}
@@ -428,30 +559,10 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 .quote footer{font-size:.85rem;color:var(--ink-soft)}
 .quote .stars{color:var(--gold-ink);letter-spacing:.12em;font-size:.9rem}
 
-/* ---- carrusel horizontal en mobile ----
-   Evita la columna interminable de tarjetas: se deslizan de a una.
-   El aviso de deslizar va ANTES de las tarjetas: cada tarjeta mide más de
-   una pantalla, y si el aviso queda abajo nadie se entera de que hay seis
-   servicios hasta después de scrollear la primera entera. */
-.swipe-hint{display:none}
+/* En pantalla angosta las fotos de las tarjetas (flota en venta y páginas
+   internas) van más altas. Hasta el 05/11/2026 esto vivía con el carrusel de
+   las cinco tarjetas de la portada, que reemplazaron las tres puertas. */
 @media(max-width:720px){
-  .swipe{
-    display:flex;grid-template-columns:none;
-    overflow-x:auto;overscroll-behavior-x:contain;
-    scroll-snap-type:x mandatory;
-    /* sangrado a los bordes: debe coincidir con el padding de .wrap en mobile.
-       scroll-padding hace que las tarjetas frenen a 20px del borde también
-       después de deslizar, no solo en la posición inicial. */
-    gap:14px;margin:16px -20px 0;padding:2px 20px 12px;
-    scroll-padding:0 20px;
-    scrollbar-width:none;
-  }
-  .swipe::-webkit-scrollbar{display:none}
-  .swipe>*{flex:0 0 84%;scroll-snap-align:start}
-  .swipe-hint{
-    display:block;margin:14px 0 0;font-size:.95rem;font-weight:600;
-    color:var(--ink-soft);
-  }
   .card-photo{aspect-ratio:4/3}
 }
 
@@ -526,21 +637,6 @@ footer.site .proveedores ul{flex-direction:row;flex-wrap:wrap;gap:6px 28px}
   body{font-size:16px}
   section.block{padding:52px 0}
   .wrap{padding:0 20px}
-  .hero-inner{padding:56px 20px 60px}
-  /* art direction: en pantalla angosta la foto de la flota queda tapada por
-     los botones; va el minibús en la quebrada, más vertical y con aire.
-     La foto la cambia el <picture> (data-movil, mismo corte de 720px); acá
-     sólo el encuadre. */
-  .hero-photo img{object-position:32% center}
-  /* velo más liviano que en desktop: fuerte arriba (contraste del título),
-     suelto abajo para que el minibús se aprecie */
-  .hero-photo::after{
-    background:linear-gradient(180deg,rgba(16,23,42,.68),rgba(16,23,42,.34));
-  }
-  /* con menos velo, el subtítulo necesita blanco pleno y una sombra sutil */
-  .hero .lead{color:#fff;text-shadow:0 1px 10px rgba(16,23,42,.55)}
-  /* botones apilados pero más livianos que el default */
-  .hero .ctas .btn{flex:1 0 100%;padding:11px 16px;font-size:.94rem}
   /* las seis habilitaciones en dos columnas compactas: se leen de un vistazo
      y no empujan los servicios una pantalla entera hacia abajo */
   .certs-row{

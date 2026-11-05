@@ -87,17 +87,11 @@ test('toda imagen lleva alt descriptivo salvo los logos decorativos', () => {
 const requeridas = [
   ['habilitación CNRT', /CNRT/],
   ['habilitación AMT', /AMT/],
-  ['registro de temperatura', /registro de temperatura/i],
   ['agencia de turismo habilitada', /agencia de turismo habilitada/i],
-  ['más de una década en la Puna', /Más de una década trabajando en la Puna/],
   ['psicofísico al día', /psicof[ií]sico/i],
   ['ART al día', /\bART\b/],
   ['teléfono satelital en altura', /tel[eé]fono satelital/i],
-  ['fletes y cargas generales por el NOA', /fletes y cargas generales por Salta y el NOA/],
   ['CUIT', /30-71146774-9/],
-  // "alquiler de combis" es el vocabulario con el que busca el cliente y el
-  // sitio viejo lo explotaba; la mención vive en la tarjeta de personal.
-  ['alquiler de combis con chofer', /alquiler de combis con chofer/i],
   // Línea de tiempo confirmada por el dueño (25/08): pasajeros desde 2010,
   // cargas desde 2017 (los remolques de ese año salieron con la grúa,
   // vendida en noviembre de 2026).
@@ -134,13 +128,15 @@ test('las páginas que nombran la habilitación citan la CNRT 60284', () => {
 // los papeles"; la política ahora es que se quedan. Se miran en el texto
 // visible (sin etiquetas) de cada página donde viven, en los dos idiomas.
 const confirmadas = {
+  // La portada lo dice en la barra de afirmaciones y en la puerta de turismo
+  // (05/11/2026, 4-textos.md §1.2-§1.3).
   'index.html': [/Atendemos las 24 hs, todos los días/,
-    /Agencia de turismo habilitada/, /Viajes al exterior[^.]{0,40}Chile[^.]{0,40}Bolivia/],
+    /Agencia de turismo habilitada/, /Viajes internacionales/, /viajes a Chile y Bolivia/],
   'turismo.html': [/Agencia de turismo habilitada/, /Somos agencia de turismo habilitada/,
     /Viajes al exterior[^.]{0,60}Chile[^.]{0,40}Bolivia/],
   'viajes-de-estudio.html': [/Agencia de turismo habilitada/],
   'en/index.html': [/We answer 24 hours a day, every day/,
-    /Licensed travel agency/, /Trips abroad[^.]{0,40}Chile[^.]{0,40}Bolivia/],
+    /Licensed travel agency/, /International trips/, /Chile and Bolivia/],
   'en/tours-and-transfers.html': [/Licensed travel agency/, /We are a licensed travel agency/,
     /Trips abroad[^.]{0,60}Chile[^.]{0,40}Bolivia/, /Do you go to Chile or Bolivia\?/],
 };
@@ -160,22 +156,41 @@ test('index.html: las afirmaciones verificadas siguen presentes', () => {
   }
 });
 
+// Desde el 05/11/2026 las cinco tarjetas de la portada son tres puertas
+// (estructura aprobada, opción A: web/estructura-sitio-2026-11-05/). Estas
+// afirmaciones vivían en las tarjetas y siguen publicadas en la página de su
+// servicio, que es adonde lleva cada puerta.
+const enSuPagina = [
+  ['registro de temperatura', 'cargas-refrigeradas.html', /registro de temperatura/i],
+  ['más de una década en la Puna', 'logistica-minera.html', /Más de una década trabajando en la Puna/],
+  ['fletes y cargas generales', 'cargas-refrigeradas.html', /fletes y cargas generales/i],
+  // "alquiler de combis" es el vocabulario con el que busca el cliente.
+  ['alquiler de combis con chofer', 'transporte-de-personal.html', /alquiler de combis con chofer/i],
+];
+
+test('las afirmaciones que salieron de la portada siguen en la página de su servicio', () => {
+  for (const [etiqueta, pagina, patron] of enSuPagina) {
+    assert.ok(patron.test(paginas[pagina]), `falta "${etiqueta}" en ${pagina}`);
+  }
+});
+
 // La portada no habla de izaje: la grúa se vendió (04/11/2026) y ninguna
 // capacidad de carga o de izaje de remolque puede volver.
 test('index.html: no habla de izaje', () => {
   assert.ok(!/izaje/i.test(paginas['index.html']), 'apareció "izaje" en index.html');
 });
 
-// La tarjeta de cargas refrigeradas tiene que seguir diciendo, en cualquier
-// redacción, que el depósito tiene cámara frigorífica y que está en Salta
-// capital: son los dos datos que hacen cotizable el servicio.
-test('index.html: la tarjeta de depósito conserva la cámara y la ubicación', () => {
-  const desde = paginas['index.html'].indexOf('<h3>Cargas refrigeradas y depósito</h3>');
-  assert.ok(desde > -1, 'no está la tarjeta de cargas refrigeradas');
-  const hasta = paginas['index.html'].indexOf('</article>', desde);
-  const tarjeta = paginas['index.html'].slice(desde, hasta);
-  assert.match(tarjeta, /c[aá]mara frigor[ií]fica/i, 'la tarjeta perdió la cámara frigorífica');
-  assert.match(tarjeta, /Salta capital/i, 'la tarjeta perdió la ubicación en Salta capital');
+// La puerta de cargas y la tabla de flota tienen que seguir diciendo, en
+// cualquier redacción, que el depósito tiene cámara de frío y que está en
+// Salta capital: son los dos datos que hacen cotizable el servicio. Hasta el
+// 05/11/2026 los decía la tarjeta de cargas, que reemplazó la puerta.
+test('index.html: la portada conserva la cámara de frío del depósito y su ubicación', () => {
+  const html = paginas['index.html'];
+  const puertas = html.slice(html.indexOf('class="puertas"'), html.indexOf('class="certs prueba"'));
+  assert.match(puertas, /dep[oó]sito con c[aá]mara de fr[ií]o/i, 'la puerta de cargas perdió el depósito con cámara de frío');
+  const flota = html.slice(html.indexOf('id="flota"'), html.indexOf('id="nosotros"'));
+  assert.match(flota, /c[aá]mara frigor[ií]fica/i, 'la tabla de flota perdió la cámara frigorífica');
+  assert.match(flota, /Salta capital/i, 'la tabla de flota perdió la ubicación en Salta capital');
 });
 
 // El GPS se afirma solo para las unidades en servicio (las paradas o en

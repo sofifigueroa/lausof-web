@@ -126,40 +126,10 @@ test('las URLs del sitio viejo con página dedicada redirigen a ella', () => {
   }
 });
 
-// Las tarjetas de servicios de la portada enlazan a su página dedicada
-// (además del WhatsApp): es el camino de lectura antes de cotizar. Las de
-// la ola del 26/08 suman un cruce por tarjeta: personal → traslados
-// puntuales, turismo → recitales, minería → alquiler 4x4.
-test('las tarjetas de la portada enlazan a su página dedicada', () => {
-  const enlaces = [
-    'href="/cargas-refrigeradas.html"',
-    'href="/transporte-de-personal.html"',
-    'href="/turismo.html"',
-    'href="/logistica-minera.html"',
-    'href="/traslados-empresas.html"',
-    'href="/charter-recitales.html"',
-    'href="/alquiler-4x4.html"',
-  ];
-  for (const enlace of enlaces) {
-    assert.ok(index.includes(`<a class="walink" ${enlace}`),
-      `la portada perdió el enlace interno ${enlace}`);
-  }
-});
+// Las tarjetas y el índice de servicios especiales de la portada se
+// reemplazaron el 05/11/2026 por tres puertas (estructura aprobada, opción A):
+// las vigila tests/portadas.test.js.
 
-// El índice de traslados y servicios especiales al pie de #servicios enlaza
-// las 8 páginas de la ola del 26/08: es el único lugar de la portada donde
-// aparecen todas juntas.
-test('la portada enlaza las 8 páginas de servicios especiales', () => {
-  const paginasOla = ['charter-recitales.html', 'clubes-deportivos.html',
-    'viajes-de-estudio.html', 'traslados-empresas.html',
-    'peregrinaciones-eventos.html', 'alquiler-4x4.html',
-    'deposito-galpon.html', 'producciones.html'];
-  const seccion = index.slice(index.indexOf('id="servicios"'), index.indexOf('id="porque"'));
-  for (const pagina of paginasOla) {
-    assert.ok(seccion.includes(`href="/${pagina}"`),
-      `el índice de servicios especiales perdió el enlace a ${pagina}`);
-  }
-});
 
 // El pie de la portada enlaza las páginas que no tienen tarjeta propia.
 test('el pie de la portada enlaza turismo, galería y depósito', () => {

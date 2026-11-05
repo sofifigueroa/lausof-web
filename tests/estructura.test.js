@@ -91,13 +91,6 @@ test('la CSS trae las reglas de mobile de la revisión de agosto', () => {
     'falta mostrar la barra de acción en mobile');
 });
 
-test('el aviso de deslizar está antes de la primera tarjeta', () => {
-  const hint = index.indexOf('class="swipe-hint"');
-  const tarjeta = index.indexOf('class="card"');
-  assert.ok(hint > -1, 'no está el aviso de deslizar');
-  assert.ok(tarjeta > -1, 'no hay tarjetas de servicio');
-  assert.ok(hint < tarjeta, 'el aviso de deslizar quedó después de las tarjetas');
-});
 
 test('todo botón verde de WhatsApp lleva el logo inline', () => {
   const botones = [...index.matchAll(/<a class="[^"]*\bbtn-wa\b[^"]*"[^>]*>([\s\S]*?)<\/a>/g)];
