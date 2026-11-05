@@ -167,8 +167,3 @@ a.ficha-linea::after{
 /* ---- cierre ---- */
 .cta-final .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 
-/* ---- barra fija de teléfono: tres caminos ----
-   Las páginas de empresas suman el mail (3 de 4 toques en minería fueron
-   correo, 1c §5): Llamar · Mail · WhatsApp, en partes iguales. */
-.wa-bar.tres{gap:8px}
-.wa-bar.tres .btn,.wa-bar.tres .btn-ghost{flex:1 1 0;padding:12px 6px;font-size:.88rem;gap:6px}

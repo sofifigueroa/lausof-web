@@ -295,12 +295,19 @@ Los tres llevan los mismos parámetros:
 | `contact_channel` | `whatsapp`, `phone` o `email` |
 | `page_language` | `es` o `en` (sale del `lang` de la página) |
 | `contact_page_path` | la ruta de la página (`/turismo.html`, `/en/`) |
-| `link_position` | `header`, `hero`, `cta_final`, `quick_bar` (la barra fija de abajo), `footer`, o el `id` de la sección que contiene el enlace (`servicios`, `services`…) |
+| `link_position` | `header`, `hero`, `puerta` (las tres puertas de las portadas), `cta_final`, `quick_bar` (la barra fija de abajo), `footer`, o el `id` de la sección que contiene el enlace (`servicios`, `services`…) |
 | `link_text` | el texto visible del enlace ("Cotizar por WhatsApp"). Si el texto es un número o una casilla, va el nombre del canal |
+| `seccion` | el `data-seccion` del `<body>`: `turismo`, `empresas`, `inicio` o `institucional` |
+| `tipo` | el `data-tipo` del `<body>`: el tipo de la página en `PAGINAS` (`scripts/prefill.mjs`), p. ej. `pasajeros`, `refrigerado`, `empresa` |
+
+`seccion` y `tipo` los escribe `scripts/menu.mjs` en cada página y sirven
+para leer los contactos por sección del sitio (estructura del 05/11/2026,
+`web/estructura-sitio-2026-11-05/3a-diseno-estructura.md` §7). Si una página
+no los tiene, el parámetro no va.
 
 **Dónde vive:** `js/contacto.js`, un solo listener delegado sobre el documento.
 Cada página lo carga en el `<head>` con
-`<script defer src="/js/contacto.js?v=1"></script>`, siempre con ruta absoluta
+`<script defer src="/js/contacto.js?v=2"></script>`, siempre con ruta absoluta
 (las páginas de `/en/` y las 404 se sirven desde otras rutas). Un enlace de
 contacto nuevo queda medido solo; una página nueva tiene que llevar esa línea
 (hay un test). `/js/*` se cachea un año: **si se cambia el archivo hay que
@@ -330,7 +337,7 @@ personal: ni el número, ni la casilla, ni el mensaje pre-armado de WhatsApp.
   nombre de evento y de parámetro hasta 40 caracteres, valor hasta 100, 25
   parámetros por evento. El script recorta los valores a 100.
 - `link_text` es un parámetro que GA4 ya conoce (dimensión "Link text"). Los
-  otros cuatro son propios: para verlos en los informes hay que registrarlos
+  otros seis son propios: para verlos en los informes hay que registrarlos
   como dimensiones personalizadas de evento en el administrador de GA4
   ([Custom events](https://support.google.com/analytics/answer/12229021)). La
   página y el país ya vienen solos en todos los eventos.
@@ -348,7 +355,7 @@ Events; si todavía no aparecen, "Create event" con el mismo nombre y "Mark as
 key event":
 [Mark events as key events](https://support.google.com/analytics/answer/13128484)),
 y registrar las dimensiones personalizadas `contact_channel`, `page_language`,
-`contact_page_path` y `link_position`.
+`contact_page_path`, `link_position`, `seccion` y `tipo`.
 
 **Cómo probarlo:**
 

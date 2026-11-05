@@ -147,11 +147,95 @@ test('cada página declara su sección, su línea y su tipo en <body>', async ()
   assert.strictEqual(lineas.filter((l) => l === 'personal').length, 9);
   assert.strictEqual(lineas.filter((l) => l === 'cargas').length, 5);
   assert.strictEqual(cuenta.inicio, 3);
-  // Ningún script lee los enganches todavía: el asistente se instala en W5.
+  // Los enganches siguen inertes para todo lo demás: sólo js/contacto.js lee
+  // data-seccion y data-tipo, para los parámetros de GA4 (3a §7, 3b §2.3).
+  // Nada lee data-linea; el asistente se instala recién en W5.
   for (const archivo of fs.readdirSync(path.join(raiz, 'js'))) {
     const js = fs.readFileSync(path.join(raiz, 'js', archivo), 'utf8');
+    if (archivo === 'contacto.js') {
+      assert.doesNotMatch(js, /data-linea|dataset\./, 'js/contacto.js lee otro enganche');
+      assert.match(js, /'data-seccion'/);
+      assert.match(js, /'data-tipo'/);
+      continue;
+    }
     assert.doesNotMatch(js, /data-seccion|data-linea|data-tipo|dataset\.(seccion|linea|tipo)/, `js/${archivo} lee los enganches`);
   }
+});
+
+// 3b §2.2–§2.3: el asistente sabe qué se cotiza en una página por el
+// serviceType de su JSON-LD. Cada página de servicio (turismo y empresas)
+// declara exactamente uno; los hubs de empresas, las portadas y las páginas
+// institucionales no declaran ninguno (van por ruta). Sin Event ni Review en
+// ninguna página (BRIEF-COMUN-BUILD, reglas fijas).
+const nodosLd = (html) => {
+  const nodos = [];
+  const recorrer = (n) => {
+    if (Array.isArray(n)) return n.forEach(recorrer);
+    if (!n || typeof n !== 'object') return;
+    nodos.push(n);
+    Object.values(n).forEach(recorrer);
+  };
+  for (const [, json] of html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) recorrer(JSON.parse(json));
+  return nodos;
+};
+
+test('cada página de servicio declara un solo serviceType; hubs, portadas e institucionales, ninguno', async () => {
+  const { seccionDe, EMPRESAS } = await cargar();
+  let conServicio = 0;
+  for (const [nombre, html] of Object.entries(paginas)) {
+    const nodos = nodosLd(html);
+    const tipos = nodos.filter((n) => 'serviceType' in n).map((n) => n.serviceType);
+    const seccion = seccionDe(nombre);
+    const esServicio = seccion === 'turismo' || (seccion === 'empresas' && EMPRESAS[nombre]);
+    if (esServicio) {
+      assert.strictEqual(tipos.length, 1, `${nombre}: ${tipos.length} serviceType (tiene que ser uno)`);
+      assert.ok(typeof tipos[0] === 'string' && tipos[0].trim(), `${nombre}: serviceType vacío`);
+      conServicio += 1;
+    } else {
+      assert.strictEqual(tipos.length, 0, `${nombre}: no es página de servicio y declara serviceType`);
+    }
+    for (const n of nodos) {
+      const tipo = [].concat(n['@type'] || []);
+      assert.ok(!tipo.some((t) => /Event$|^Review$|^AggregateRating$/.test(t)), `${nombre}: marcado ${tipo} vedado`);
+    }
+  }
+  // 56 de turismo + 14 de empresas (3a §3.3).
+  assert.strictEqual(conServicio, 70);
+});
+
+// 3a §3.5: en las 14 páginas de empresas y en sus dos hubs la barra fija del
+// teléfono es Llamar · Mail · WhatsApp (3 de 4 toques en minería fueron
+// correo, 1c §5): el 526-9009, transporte@ con asunto y renglones, y el
+// WhatsApp pre-armado. Turismo, portadas e institucionales quedan como hoy.
+test('la barra del teléfono de empresas es Llamar · Mail · WhatsApp; el resto queda como estaba', async () => {
+  const { seccionDe } = await cargar();
+  const ROTULOS = { es: ['Llamar', 'Mail', 'WhatsApp'], en: ['Call', 'Email', 'WhatsApp'] };
+  let empresas = 0;
+  for (const [nombre, html] of Object.entries(paginas)) {
+    const barras = sinComentarios(html).match(/<div class="wa-bar[^"]*"[^>]*>[\s\S]*?<\/div>/g) || [];
+    if (seccionDe(nombre) !== 'empresas') {
+      assert.ok(barras.every((b) => !b.startsWith('<div class="wa-bar tres"')), `${nombre}: barra de empresas fuera de empresas`);
+      continue;
+    }
+    empresas += 1;
+    assert.strictEqual(barras.length, 1, `${nombre}: una sola barra`);
+    assert.ok(barras[0].startsWith('<div class="wa-bar tres"'), `${nombre}: la barra no es la de tres caminos`);
+    const anclas = [...barras[0].matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>[\s\S]*?<\/svg>([^<]*)<\/a>/g)];
+    assert.deepStrictEqual(anclas.map((a) => a[2]), ROTULOS[idiomaDe(nombre)], `${nombre}: rótulos`);
+    const [tel, mail, wa] = anclas.map((a) => a[1].replace(/&amp;/g, '&'));
+    assert.strictEqual(tel, 'tel:+5493875269009', `${nombre}: el botón de llamar no es el 526-9009`);
+    const correo = new URL(mail);
+    assert.strictEqual(correo.pathname, 'transporte@lausof.com', `${nombre}: el mail no va a transporte@`);
+    assert.ok(correo.searchParams.get('subject'), `${nombre}: el mail no tiene asunto`);
+    assert.match(correo.searchParams.get('body') || '', /^[^\n]+:\r\n/, `${nombre}: el mail no trae los renglones`);
+    assert.strictEqual(correo.searchParams.get('cc'), null, `${nombre}: el mail lleva copia`);
+    assert.match(wa, /^https:\/\/wa\.me\/5493875269009\?text=[^\n]+%0A/, `${nombre}: el WhatsApp no está pre-armado`);
+  }
+  assert.strictEqual(empresas, 16, '14 páginas de empresas y los dos hubs');
+  // Las páginas de empresas sólo cargan styles.css y su hoja propia: la regla
+  // de los tres botones vive en la hoja común.
+  const css = fs.readFileSync(path.join(raiz, 'css', 'styles.css'), 'utf8');
+  assert.match(css, /\.wa-bar\.tres \.btn,\.wa-bar\.tres \.btn-ghost\{flex:1 1 0/);
 });
 
 // Ninguna URL se mueve con la reestructura (3a §3.3: «0 of 75 URLs move, no

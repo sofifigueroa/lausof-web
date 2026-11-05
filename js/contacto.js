@@ -18,6 +18,11 @@
      pre-armado. Si el texto visible del enlace es un teléfono o un mail, se
      manda el nombre del canal en su lugar.
 
+   Cada evento lleva además la sección y el tipo de la página (`seccion`,
+   `tipo`), que salen de los atributos data-seccion / data-tipo del <body>
+   (los escribe scripts/menu.mjs). Son valores fijos del sitio, nunca datos
+   del visitante; si la página no los tiene, el parámetro no va.
+
    Nombres, parámetros y cómo probarlo: README, sección "Medición de contactos". */
 (function () {
   'use strict';
@@ -30,9 +35,12 @@
 
   // Zonas del sitio, de la más específica a la más general. Los nombres son
   // los mismos en español y en inglés para que los informes no se partan.
+  // Las tres puertas de las portadas (estructura del 05/11/2026) van como
+  // `puerta`, para leerlas aparte del resto de la portada.
   var ZONAS = [
     ['.wa-bar', 'quick_bar'],
     ['header, nav', 'header'],
+    ['.puertas', 'puerta'],
     ['footer.site', 'footer'],
     ['.hero, .page-head', 'hero'],
     ['.cta-final', 'cta_final']
@@ -69,6 +77,20 @@
     return String(lang).slice(0, 2).toLowerCase() || 'es';
   }
 
+  // Los parámetros de contexto de la página: data-seccion y data-tipo del
+  // <body>. Sólo van los que la página tiene.
+  var CONTEXTO = [['seccion', 'data-seccion'], ['tipo', 'data-tipo']];
+
+  function conContexto(params) {
+    var cuerpo = document.body;
+    if (!cuerpo || typeof cuerpo.getAttribute !== 'function') return params;
+    for (var i = 0; i < CONTEXTO.length; i++) {
+      var valor = cuerpo.getAttribute(CONTEXTO[i][1]);
+      if (valor) params[CONTEXTO[i][0]] = String(valor).slice(0, MAXIMO);
+    }
+    return params;
+  }
+
   function alClic(evento) {
     try {
       var origen = evento && evento.target;
@@ -78,13 +100,13 @@
       var canal = canalDe(String(enlace.getAttribute('href') || '').trim());
       if (!canal) return;
       if (typeof window.gtag !== 'function') return;
-      window.gtag('event', 'contact_' + canal, {
+      window.gtag('event', 'contact_' + canal, conContexto({
         contact_channel: canal,
         page_language: idiomaDe(),
         contact_page_path: String(window.location.pathname || '/').slice(0, MAXIMO),
         link_position: posicionDe(enlace),
         link_text: textoDe(enlace, canal)
-      });
+      }));
     } catch (error) {
       // La medición nunca rompe el clic.
     }

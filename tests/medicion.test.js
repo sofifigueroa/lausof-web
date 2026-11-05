@@ -19,8 +19,10 @@ const RUTA = path.join(__dirname, '..', 'js', 'contacto.js');
 const codigo = fs.readFileSync(RUTA, 'utf8');
 
 // Carga el script en una página de utilería y devuelve cómo dispararle clics.
-// `gtag: false` simula el bloqueador: la función no existe.
-const cargar = ({ lang = 'es-AR', pathname = '/', gtag = true } = {}) => {
+// `gtag: false` simula el bloqueador: la función no existe. `body` son los
+// atributos del <body> ({ 'data-seccion': 'turismo' }); sin `body`, la página
+// de utilería no tiene <body>.
+const cargar = ({ lang = 'es-AR', pathname = '/', gtag = true, body } = {}) => {
   const eventos = [];
   const escuchas = [];
   const window = { location: { pathname } };
@@ -30,6 +32,7 @@ const cargar = ({ lang = 'es-AR', pathname = '/', gtag = true } = {}) => {
     documentElement: { lang },
     addEventListener: (tipo, fn, captura) => escuchas.push({ tipo, fn, captura }),
   };
+  if (body) document.body = { getAttribute: (nombre) => (nombre in body ? body[nombre] : null) };
   vm.runInNewContext(codigo, { window, document });
   assert.strictEqual(escuchas.length, 1, 'el script registra un solo listener');
   return { eventos, escuchas, clic: (target) => escuchas[0].fn({ target }) };
@@ -129,6 +132,70 @@ test('ningún parámetro lleva teléfonos, mails ni el mensaje pre-armado', () =
   const todo = JSON.stringify(eventos);
   assert.doesNotMatch(todo, /\d{6,}/, 'se coló un número en los parámetros');
   assert.doesNotMatch(todo, /@|Hola|wa\.me|mailto|tel:/, 'se coló un dato del enlace en los parámetros');
+});
+
+// Estructura del 05/11/2026 (3a §7): cada contacto lleva la sección y el tipo
+// de la página, leídos de los atributos del <body> que escribe menu.mjs.
+test('los tres eventos llevan seccion y tipo del <body>', () => {
+  const body = { 'data-seccion': 'empresas', 'data-linea': 'cargas', 'data-tipo': 'refrigerado' };
+  const { eventos, clic } = cargar({ pathname: '/cargas-refrigeradas.html', body });
+  clic(enlace(WA, 'WhatsApp', { '.wa-bar': true }));
+  clic(enlace('tel:+5493875269009', 'Llamar', { '.wa-bar': true }));
+  clic(enlace('mailto:transporte@lausof.com?subject=Pedido&body=Carga%3A', 'Mail', { '.wa-bar': true }));
+  assert.deepStrictEqual(eventos.map((e) => e[1]), ['contact_whatsapp', 'contact_phone', 'contact_email']);
+  for (const [, , params] of eventos) {
+    assert.strictEqual(params.seccion, 'empresas');
+    assert.strictEqual(params.tipo, 'refrigerado');
+    assert.ok(!('linea' in params) && !('data-linea' in params), 'sólo van seccion y tipo');
+  }
+});
+
+test('sin atributos en el <body>, o sin <body>, seccion y tipo no van y el clic se mide igual', () => {
+  for (const body of [undefined, {}, { 'data-seccion': '' }]) {
+    const { eventos, clic } = cargar({ body });
+    clic(enlace(WA, 'WhatsApp'));
+    assert.strictEqual(eventos.length, 1);
+    assert.deepStrictEqual(Object.keys(eventos[0][2]).sort(),
+      ['contact_channel', 'contact_page_path', 'link_position', 'link_text', 'page_language']);
+  }
+  const { eventos, clic } = cargar({ body: { 'data-seccion': 'turismo' } });
+  clic(enlace(WA, 'WhatsApp'));
+  assert.strictEqual(eventos[0][2].seccion, 'turismo');
+  assert.ok(!('tipo' in eventos[0][2]));
+});
+
+test('con seccion y tipo tampoco viaja el mensaje, el número ni la casilla', () => {
+  const body = { 'data-seccion': 'inicio', 'data-tipo': 'general' };
+  const { eventos, clic } = cargar({ body });
+  clic(enlace(WA, ''));
+  clic(enlace('mailto:transporte@lausof.com?subject=Pedido%20de%20cotizaci%C3%B3n&body=Empresa%3A', 'transporte@lausof.com'));
+  clic(enlace('tel:+5493875269009', '387 526-9009'));
+  const todo = JSON.stringify(eventos);
+  assert.doesNotMatch(todo, /\d{6,}/);
+  assert.doesNotMatch(todo, /@|Hola|cotizaci|Empresa|wa\.me|mailto|tel:/);
+});
+
+test('un contacto en las puertas de la portada va como link_position puerta', () => {
+  const { eventos, clic } = cargar({ body: { 'data-seccion': 'inicio', 'data-tipo': 'general' } });
+  clic(enlace(WA, 'WhatsApp', { '.puertas': true, '[id]': { id: 'servicios' } }));
+  assert.strictEqual(eventos[0][2].link_position, 'puerta');
+  assert.strictEqual(eventos[0][2].seccion, 'inicio');
+  // La barra de abajo y el encabezado ganan si un día quedan adentro.
+  const otro = cargar();
+  otro.clic(enlace(WA, 'WhatsApp', { '.puertas': true, '.wa-bar': true }));
+  assert.strictEqual(otro.eventos[0][2].link_position, 'quick_bar');
+});
+
+// Lo de arriba sólo sirve si las portadas reales tienen sus puertas dentro de
+// .puertas, con el WhatsApp de cada una.
+test('las tres portadas tienen las tres puertas, cada una con su WhatsApp, dentro de .puertas', () => {
+  for (const nombre of ['index.html', 'en/index.html', 'pt/index.html']) {
+    const html = paginas[nombre];
+    const zonas = html.match(/<section class="puertas"[\s\S]*?<\/section>/g) || [];
+    assert.strictEqual(zonas.length, 1, `${nombre}: no tiene una sola sección .puertas`);
+    assert.strictEqual((zonas[0].match(/<article class="puerta">/g) || []).length, 3, `${nombre}: no son tres puertas`);
+    assert.strictEqual((zonas[0].match(/href="https:\/\/wa\.me\//g) || []).length, 3, `${nombre}: falta el WhatsApp de una puerta`);
+  }
 });
 
 test('los valores respetan el límite de 100 caracteres de GA4', () => {

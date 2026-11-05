@@ -621,6 +621,11 @@ footer.site .proveedores ul{flex-direction:row;flex-wrap:wrap;gap:6px 28px}
 }
 .wa-bar .btn{flex:1;padding:12px 12px;font-size:.92rem}
 .wa-bar .btn-ghost{flex:0 0 34%}
+/* Tres caminos en partes iguales: las páginas de empresas y sus hubs suman el
+   mail (3 de 4 toques en minería fueron correo; estructura del 05/11/2026,
+   3a §3.5): Llamar · Mail · WhatsApp. */
+.wa-bar.tres{gap:8px}
+.wa-bar.tres .btn,.wa-bar.tres .btn-ghost{flex:1 1 0;padding:12px 6px;font-size:.88rem;gap:6px}
 @media(max-width:880px){
   /* visible desde que carga la página: el que llega apurado por un auxilio
      tiene que poder llamar sin scrollear. El botón de WhatsApp del hero se

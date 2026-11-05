@@ -19,9 +19,10 @@
           data-seccion  turismo | empresas | inicio | institucional
           data-linea    personal | cargas   (sólo páginas de empresas)
           data-tipo     el tipo de PAGINAS de scripts/prefill.mjs
-        Hoy NADA los lee: son el enganche que va a usar el asistente del
-        sitio cuando se instale (fase W5 de la propuesta). No se agrega
-        ningún script de terceros.
+        Hoy sólo /js/contacto.js lee data-seccion y data-tipo, para los
+        parámetros `seccion` y `tipo` de GA4 (3a §7). Son además el
+        enganche que va a usar el asistente del sitio cuando se instale
+        (fase W5 de la propuesta). No se agrega ningún script de terceros.
      3. carga /js/menu.js en el <head>, al lado de /js/contacto.js.
 
    Los textos salen de 4-textos.md §0.1 y §1.4 (misma carpeta), al pie de la
