@@ -119,7 +119,8 @@ nav.main a.menu-todo{display:block;padding:4px 0 9px;margin-bottom:4px;border-bo
   .topbar-row .nav-cta{font-size:0;gap:0;padding:9px 11px}
 }
 @media(min-width:881px) and (max-width:1080px){
-  nav.main{gap:16px;font-size:.9rem}
+  .topbar-row{gap:10px}
+  nav.main{gap:14px;font-size:.9rem}
   .brand img{height:40px}
 }
 /* En portugués la sección de empresas es un enlace largo («… (em
