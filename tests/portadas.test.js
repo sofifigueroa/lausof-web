@@ -40,7 +40,7 @@ const PORTADAS = {
       ['Pessoal para mineração', '/empresas-y-mineria.html#personal', 'personal'],
       ['Cargas', '/empresas-y-mineria.html#cargas', 'carga'],
     ],
-    prueba: ['24 h', 'CNRT 60284', 'AMT', 'Agência de viagens habilitada', 'Viagens internacionais', 'Factura A', 'Frota e oficina próprias'],
+    prueba: ['24 h', 'CNRT 60284', 'AMT', 'Agência de turismo habilitada', 'Viagens internacionais', 'Factura A', 'Frota e oficina próprias'],
   },
 };
 
