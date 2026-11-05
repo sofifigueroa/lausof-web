@@ -1,0 +1,174 @@
+/* ==========================================================================
+   Lausof SRL — hub «Empresas y minería» (/empresas-y-mineria.html y
+   /en/business-and-mining.html)
+   Complemento de styles.css. Diseño: web/estructura-sitio-2026-11-05/
+   3a-diseno-estructura.md §3.6.1 y los wireframes hub-empresas-1440/390.
+   Orden de la página: migas, encabezado (H1, bajada, tres caminos de
+   contacto, foto), franja de pruebas en el orden de compras, los dos grupos
+   (Personal para minería · Cargas), Seguridad, Equipamiento, Cómo
+   trabajamos, Documentación para proveedores y el cierre.
+   A 1440×900 los doce servicios entran antes del pliegue; en un teléfono la
+   primera pantalla muestra las migas, el H1, la bajada y las pruebas 1 a 5.
+   ========================================================================== */
+
+/* ---- encabezado ----
+   Texto a la izquierda y la foto en una columna propia (wireframe 1440:
+   1fr + 480 px), en vez de la foto de fondo de las páginas de servicio: es
+   la página de proveedor y la lectura va primero. Con el .wrap de 1120 px
+   del sitio la foto queda en 320 px, para que los tres botones entren en
+   una fila y los doce servicios lleguen antes del pliegue de 900 px. */
+.hub-head{background:var(--navy-deep);color:var(--on-navy)}
+.hub-head-grid{
+  display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:center;
+  padding-top:24px;padding-bottom:26px;
+}
+.hub-head h1{font-size:clamp(1.7rem,2.9vw,2.2rem);letter-spacing:-.015em}
+.hub-head .lead{max-width:60ch;font-size:1.04rem;color:var(--on-navy-soft);margin:10px 0 18px}
+.hub-head .ctas{display:flex;flex-wrap:wrap;gap:8px}
+.hub-head .ctas .btn{padding:9px 13px;font-size:.88rem;gap:7px}
+/* Las migas van entre la barra y el encabezado (wireframe), más juntas. */
+.crumbs.hub-crumbs{padding:8px 24px 8px}
+/* La foto es la LCP (fetchpriority="high"); styles.css ya la estira con
+   object-fit sobre su caja. */
+.hub-foto{
+  position:relative;aspect-ratio:16/9;overflow:hidden;
+  border-radius:var(--radius);border:1px solid #2a3557;background:#151e36;
+}
+.hub-foto img{object-position:center 60%}
+@media(max-width:880px){
+  .hub-head-grid{grid-template-columns:1fr;padding-top:22px;padding-bottom:22px}
+  /* Teléfono (wireframe 390): sin foto y sin botones en la primera
+     pantalla; los tres caminos van en la barra fija de abajo. */
+  .hub-foto,.hub-head .ctas{display:none}
+  .hub-head .lead{margin-bottom:0;font-size:1rem}
+  .crumbs.hub-crumbs{padding:8px 20px}
+}
+
+/* ---- franja de pruebas ----
+   Ocho datos en el orden en que los pide un formulario de alta de
+   proveedor (3a §3.6.1): cuatro por fila en escritorio, dos en teléfono. */
+.prueba{background:var(--ice);border-block:1px solid var(--border);padding:14px 0}
+.prueba-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px 28px;
+  margin:0;padding:0;list-style:none;
+}
+.prueba-grid li{font-size:.84rem;line-height:1.4;color:var(--ink-soft)}
+.prueba-grid b{display:block;color:var(--ink);font-size:.9rem;margin-bottom:2px}
+.prueba-grid a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--gold)}
+/* En teléfono (wireframe 390) cada prueba es una ficha corta con su rótulo,
+   en el mismo orden, para que la primera pantalla muestre las licencias y
+   llegue a los servicios; la línea que explica cada una queda para pantallas
+   anchas. */
+@media(max-width:720px){
+  .prueba{padding:10px 0}
+  .prueba-grid{display:flex;flex-wrap:wrap;gap:6px}
+  .prueba-grid li{font-size:0;line-height:0}
+  .prueba-grid b{
+    display:inline-block;margin:0;font-size:.78rem;line-height:1.3;white-space:nowrap;
+    background:var(--card);border:1px solid var(--border);border-radius:14px;padding:3px 10px;
+  }
+  .prueba-grid li:nth-child(-n+3) b{border-color:var(--ink)}
+}
+
+/* ---- los dos grupos ----
+   Personal para minería · Cargas, lado a lado en escritorio y uno debajo del
+   otro en teléfono. Cada servicio es una ficha corta: nombre, una línea y la
+   flecha si tiene página propia. Los que se cotizan acá mismo (traslado de
+   vehículos, taller) no llevan flecha. */
+section.block.lineas{padding:24px 0 44px}
+.lineas-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.lineas h2{font-size:clamp(1.3rem,2.2vw,1.5rem);margin-bottom:12px}
+.lineas [id]{scroll-margin-top:78px}
+.fichas{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ficha-linea{
+  position:relative;display:flex;flex-direction:column;gap:4px;
+  background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);
+  border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:10px 32px 10px 14px;min-height:76px;text-decoration:none;color:var(--ink);
+}
+.ficha-linea b{font-size:1rem;line-height:1.25}
+.ficha-linea span{font-size:.86rem;line-height:1.4;color:var(--ink-soft)}
+a.ficha-linea::after{
+  content:"›";position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  font-size:1.5rem;line-height:1;color:var(--gold-ink);
+}
+@media (hover:hover){a.ficha-linea:hover{border-color:var(--gold)}a.ficha-linea:hover b{color:var(--gold-ink)}}
+@media(max-width:880px){
+  .lineas-grid{grid-template-columns:1fr;gap:28px}
+  .fichas{grid-template-columns:1fr;gap:8px}
+  .ficha-linea{min-height:52px;padding:10px 34px 10px 12px;gap:2px}
+  .ficha-linea b{font-size:.96rem}
+  .ficha-linea span{font-size:.82rem}
+}
+
+/* ---- seguridad ----
+   Las siete prácticas de la portada en su orden, 4 + 3, y en la octava
+   celda la línea del control de ingreso (logistica-minera.html). */
+.why-grid .why-nota{
+  border:1px dashed var(--gold);border-radius:var(--radius);padding:18px;
+  display:flex;align-items:center;
+}
+.why-nota p{margin:0;color:var(--ink-mid);font-size:.95rem;font-style:italic}
+
+/* ---- equipamiento ----
+   Tabla de dos columnas (tipo de unidad · para qué sirve), sin cantidades.
+   En teléfono pasa a pares nombre/línea apilados. */
+@media(max-width:560px){
+  .tabla-flota.apilada thead{display:none}
+  .tabla-flota.apilada,.tabla-flota.apilada tbody,.tabla-flota.apilada tr,
+  .tabla-flota.apilada th,.tabla-flota.apilada td{display:block;width:auto}
+  .tabla-flota.apilada tr{border-bottom:1px solid var(--border);padding:10px 12px}
+  .tabla-flota.apilada tbody tr:last-child{border-bottom:none}
+  .tabla-flota.apilada th,.tabla-flota.apilada td{border:none;padding:0}
+  .tabla-flota.apilada td{margin-top:3px}
+}
+
+/* ---- cómo trabajamos ---- */
+.pasos{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+  margin:28px 0 0;padding:0;list-style:none;counter-reset:paso;
+}
+.pasos li{
+  counter-increment:paso;position:relative;
+  background:var(--card);border:1px solid var(--border);border-top:3px solid var(--gold);
+  border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:16px 18px;color:var(--ink-mid);font-size:.94rem;
+}
+.pasos li::before{
+  content:counter(paso);display:block;margin-bottom:6px;
+  font-weight:700;font-size:1.3rem;line-height:1;color:var(--gold-ink);
+}
+@media(max-width:880px){.pasos{grid-template-columns:1fr;gap:10px}}
+
+/* ---- documentación para proveedores ---- */
+.docs{
+  display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;
+  background:var(--card);border:2px solid var(--navy);border-radius:var(--radius);
+  padding:24px 28px;
+}
+.docs h2{font-size:clamp(1.3rem,2.4vw,1.6rem)}
+.docs p{margin:8px 0 0;color:var(--ink-soft)}
+.docs ul{
+  margin:14px 0 0;padding:0;list-style:none;columns:2;column-gap:28px;
+  color:var(--ink-mid);font-size:.94rem;
+}
+.docs li{break-inside:avoid;padding:3px 0 3px 22px;position:relative}
+.docs li::before{
+  content:"";position:absolute;left:0;top:.62em;width:11px;height:11px;
+  border:2px solid var(--gold);border-radius:2px;
+}
+.btn-navy{background:var(--navy);color:#fff}
+@media (hover:hover){.btn-navy:hover{background:var(--navy-deep)}}
+@media(max-width:720px){
+  .docs{grid-template-columns:1fr;padding:20px}
+  .docs ul{columns:1}
+}
+
+/* ---- cierre ---- */
+.cta-final .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+
+/* ---- barra fija de teléfono: tres caminos ----
+   Las páginas de empresas suman el mail (3 de 4 toques en minería fueron
+   correo, 1c §5): Llamar · Mail · WhatsApp, en partes iguales. */
+.wa-bar.tres{gap:8px}
+.wa-bar.tres .btn,.wa-bar.tres .btn-ghost{flex:1 1 0;padding:12px 6px;font-size:.88rem;gap:6px}

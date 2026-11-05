@@ -110,6 +110,9 @@ const pares = {
   'transporte-de-personal-obras-de-litio.html': 'en/crew-transport-lithium-projects.html',
   // Salta – Jujuy, ciudad y aeropuerto (plan SEO 03/11/2026, §3 #3).
   'traslado-salta-jujuy.html': 'en/salta-to-jujuy-transfer.html',
+  // Hub «Empresas y minería» (estructura del sitio, 05/11/2026). Sin gemela
+  // pt: el sitio en portugués es sólo de turismo.
+  'empresas-y-mineria.html': 'en/business-and-mining.html',
 };
 
 // Mapa de gemelas ES ↔ PT, con la misma regla que `pares`: clave = archivo en

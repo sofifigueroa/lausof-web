@@ -156,6 +156,20 @@ export const TIPOS = {
   },
   // Venta de unidades (WhatsApp de ventas): no es una cotización.
   flota: { es: ['Unidad'], en: ['Vehicle'], pt: ['Veículo'] },
+  // Hub «Empresas y minería» (05/11/2026, web/estructura-sitio-2026-11-05/
+  // 4-textos.md §4): la primera línea ya dice que es una consulta de empresa.
+  // Sin `pt`: el hub no tiene versión en portugués (la portada pt enlaza el
+  // hub en español).
+  empresa: {
+    es: ['Empresa', 'Servicio (personal, carga o depósito)', 'Mina, origen o destino', 'Fecha o frecuencia', 'Personas o carga'],
+    en: ['Company', 'Service (crew, freight or warehouse)', 'Mine, origin or destination', 'Date or frequency', 'People or cargo'],
+  },
+  // Pedido de documentación de proveedor (sólo correo, con data-prefill en
+  // el enlace): asunto «Solicitud de documentación de proveedor».
+  proveedor: {
+    es: ['Empresa', 'Portal o registro de proveedores', 'Documentación que necesitan'],
+    en: ['Company', 'Supplier portal or registry', 'Documents you need'],
+  },
 };
 
 /* ---- tipo de cada página ---------------------------------------------------
@@ -170,6 +184,7 @@ export const PAGINAS = {
   'charter-recitales.html': 'pasajeros',
   'clubes-deportivos.html': 'pasajeros',
   'deposito-galpon.html': 'deposito',
+  'empresas-y-mineria.html': 'empresa',
   'feriados-fines-de-semana-largos.html': 'pasajeros',
   'flota-en-venta.html': 'flota',
   'galeria.html': 'general',
@@ -204,6 +219,7 @@ export const PAGINAS = {
   'viajes-internacionales.html': 'internacional',
   'en/404.html': 'general',
   'en/4x4-rental.html': 'camioneta',
+  'en/business-and-mining.html': 'empresa',
   'en/crew-transport-lithium-projects.html': 'personal',
   'en/film-production-logistics.html': 'produccion',
   'en/ground-transport-for-tour-operators.html': 'agencia-hotel',

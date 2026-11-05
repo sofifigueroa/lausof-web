@@ -102,6 +102,7 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /charter-recitales                            /charter-recitales.html                           301!
 /clubes-deportivos                            /clubes-deportivos.html                           301!
 /deposito-galpon                              /deposito-galpon.html                             301!
+/empresas-y-mineria                           /empresas-y-mineria.html                          301!
 /feriados-fines-de-semana-largos              /feriados-fines-de-semana-largos.html             301!
 /flota-en-venta                               /flota-en-venta.html                              301!
 /galeria                                      /galeria.html                                     301!
@@ -133,6 +134,7 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /viajes-de-estudio                            /viajes-de-estudio.html                           301!
 /viajes-internacionales                       /viajes-internacionales.html                      301!
 /en/4x4-rental                                /en/4x4-rental.html                               301!
+/en/business-and-mining                       /en/business-and-mining.html                      301!
 /en/crew-transport-lithium-projects           /en/crew-transport-lithium-projects.html          301!
 /en/film-production-logistics                 /en/film-production-logistics.html                301!
 /en/ground-transport-for-tour-operators       /en/ground-transport-for-tour-operators.html      301!

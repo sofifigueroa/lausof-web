@@ -58,6 +58,8 @@ const dedicadas = {
   'transporte-de-personal-obras-de-litio.html': 'Transporte de Personal para Obras de Litio en la Puna — Cambios de Turno y Campamentos, 24 h | Lausof SRL',
   // Salta – Jujuy (plan SEO 03/11/2026, §3 #3; tests/como-llegar.test.js).
   'traslado-salta-jujuy.html': 'Traslado de Salta a Jujuy — Combi con chofer a San Salvador de Jujuy y al aeropuerto de Jujuy | Lausof SRL',
+  // Hub «Empresas y minería» (05/11/2026, tests/hub-empresas.test.js).
+  'empresas-y-mineria.html': 'Transporte de Personal y Cargas para Minería y Empresas — Salta, Jujuy y la Puna | Lausof SRL',
 };
 
 for (const [nombre, titulo] of Object.entries(dedicadas)) {

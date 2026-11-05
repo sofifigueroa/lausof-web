@@ -60,8 +60,9 @@ a{color:inherit}
 
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
 
-/* el header es sticky: los anclajes tienen que frenar antes de quedar tapados */
-section[id],footer[id]{scroll-margin-top:78px}
+/* el header es sticky: los anclajes tienen que frenar antes de quedar tapados
+   (también las fichas con ancla propia, como la 4x4 mensual para empresas) */
+section[id],footer[id],.why-item[id]{scroll-margin-top:78px}
 
 .kicker{
   text-transform:uppercase;letter-spacing:.14em;font-size:.92rem;
@@ -71,6 +72,17 @@ section[id],footer[id]{scroll-margin-top:78px}
 section.block{padding:72px 0}
 .block h2{font-size:clamp(1.7rem,3.2vw,2.25rem);letter-spacing:-.01em}
 .block .sub{color:var(--ink-soft);max-width:56ch;margin:14px 0 0}
+
+/* ---- migas de pan ----
+   Las llevan las páginas de turismo y, desde el 05/11/2026, el hub
+   «Empresas y minería» y sus 14 páginas (Inicio › Empresas y minería ›
+   Personal para minería | Cargas › página). Viven acá y no en turismo.css
+   porque las páginas de empresas no cargan esa hoja. */
+.crumbs{padding-top:18px;font-size:.86rem;color:var(--ink-soft)}
+.crumbs ol{display:flex;flex-wrap:wrap;gap:4px 0;margin:0;padding:0;list-style:none}
+.crumbs li+li::before{content:"/";margin:0 8px;color:var(--border)}
+.crumbs a{color:var(--ink-mid);text-decoration:none;border-bottom:1px solid var(--border)}
+@media (hover:hover){.crumbs a:hover{color:var(--gold-ink);border-bottom-color:var(--gold)}}
 
 /* ---- barra superior ----
    Se mantiene clara en ambos temas: el logotipo es azul marino y necesita

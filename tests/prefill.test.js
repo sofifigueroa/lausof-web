@@ -44,6 +44,11 @@ const REQUISITOS = {
   'agencia-hotel': [/^(Agencia u hotel|Tour operator or hotel|Agência ou hotel)$/],
   general: [/^(Servicio|Service|Serviço)$/, /^(Fecha|Date|Data)$/, /^(Origen y destino|From and to|Origem e destino)$/],
   flota: [/^(Unidad|Vehicle|Veículo)$/],
+  // Hub «Empresas y minería» (4-textos.md §4, 05/11/2026).
+  empresa: [/^(Empresa|Company)$/, /^(Servicio|Service) \(/, /^(Mina, origen o destino|Mine, origin or destination)$/,
+    /^(Fecha o frecuencia|Date or frequency)$/, /^(Personas o carga|People or cargo)$/],
+  proveedor: [/^(Empresa|Company)$/, /^(Portal o registro de proveedores|Supplier portal or registry)$/,
+    /^(Documentación que necesitan|Documents you need)$/],
 };
 
 const etiquetas = (texto, separador) => texto.split(separador).slice(1)

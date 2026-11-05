@@ -16,6 +16,8 @@ const path = require('node:path');
 const vm = require('node:vm');
 const { paginasEs, sinComentarios } = require('./util.js');
 
+const ASUNTO_PROVEEDOR = 'Solicitud de documentación de proveedor';
+
 const mailtosDe = (html) => [...sinComentarios(html).matchAll(/href="mailto:([^"]+)"/g)]
   .map((m) => new URL(`mailto:${m[1].replace(/&amp;/g, '&')}`));
 
@@ -33,6 +35,10 @@ for (const [nombre, html] of Object.entries(paginasEs)) {
   test(`${nombre}: todos los mailto llevan el mismo asunto fijo, en castellano`, () => {
     const asuntos = new Set(mailtos.map((m) => m.searchParams.get('subject')));
     assert.ok(!asuntos.has(null), `${nombre}: hay un mailto sin asunto`);
+    // Además del asunto de cotización, una página de empresas puede ofrecer
+    // el pedido de documentación de proveedor, con su propio asunto fijo
+    // (estructura del sitio 05/11/2026, 3a §3.5).
+    asuntos.delete(ASUNTO_PROVEEDOR);
     assert.strictEqual(asuntos.size, 1, `${nombre}: más de un asunto: ${[...asuntos].join(' | ')}`);
     const [asunto] = asuntos;
     assert.match(asunto, /^(Pedido de cotización|Consulta|Alquiler)/, `${nombre}: asunto inesperado: ${asunto}`);

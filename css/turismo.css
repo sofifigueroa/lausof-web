@@ -85,14 +85,8 @@
 .page-head-photo.ph-quebrada img{object-position:center 55%}
 .page-head-photo.ph-salinas img{object-position:center 60%}
 
-/* ---- miga de pan visible ----
-   La misma jerarquía que declara el BreadcrumbList del JSON-LD (Google pide
-   que los datos estructurados describan lo que se ve). */
-.crumbs{padding-top:18px;font-size:.86rem;color:var(--ink-soft)}
-.crumbs ol{display:flex;flex-wrap:wrap;gap:4px 0;margin:0;padding:0;list-style:none}
-.crumbs li+li::before{content:"/";margin:0 8px;color:var(--border)}
-.crumbs a{color:var(--ink-mid);text-decoration:none;border-bottom:1px solid var(--border)}
-@media (hover:hover){.crumbs a:hover{color:var(--gold-ink);border-bottom-color:var(--gold)}}
+/* La miga de pan visible (.crumbs) vive en styles.css desde el 05/11/2026:
+   la comparten las páginas de empresas, que no cargan esta hoja. */
 
 /* ---- índice de la página ----
    Enlaces de texto en la medida del cuerpo, no una segunda barra de menú. */

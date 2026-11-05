@@ -105,7 +105,7 @@ Lo que el script no decide y va escrito a mano en el `<img>`:
 
 Dos cosas que hay que recordar al tocar el código:
 
-- **Todo se pide con ruta desde la raíz** (`/css/styles.css?v=26`, `/assets/…`,
+- **Todo se pide con ruta desde la raíz** (`/css/styles.css?v=27`, `/assets/…`,
   `/js/…`, y la portada como `/`, nunca `index.html`), en español igual que en
   inglés. Netlify sirve cada página también como `/turismo/` o `/turismo.html/`,
   y desde ahí una ruta relativa (`css/…`) da 404 y la página sale sin diseño
@@ -113,7 +113,7 @@ Dos cosas que hay que recordar al tocar el código:
   solo; `tests/rutas-raiz.test.js` corta si vuelve una ruta relativa. Cada
   página lleva además en `_redirects` su 301 desde la variante sin `.html`
   (`/turismo` → `/turismo.html`); una página nueva necesita su renglón (hay test).
-- **La hoja de estilos tiene cache-busting a mano** (`/css/styles.css?v=26`). Cada
+- **La hoja de estilos tiene cache-busting a mano** (`/css/styles.css?v=27`). Cada
   vez que se cambia el CSS hay que subir ese número en los dos HTML, o quien ya
   entró sigue viendo la hoja vieja.
 - **Las fotos de cada tarjeta rotan con una animación por cantidad de fotos**
@@ -222,6 +222,36 @@ Quebrada. El mapa es `paresPt` en `tests/util.js` (clave = página en español).
 - No hay 404 en portugués: una ruta inexistente bajo `/pt/` cae en la 404 en
   español. Los scripts recorren `/en/` y `/pt/` desde `CARPETAS_IDIOMA` en
   `scripts/rutas-raiz.mjs`.
+
+## Hub «Empresas y minería» (05/11/2026)
+
+Estructura del sitio aprobada el 05/11/2026 (`~/lausof/web/estructura-sitio-2026-11-05/`:
+diseño `3a-diseno-estructura.md` §3.3 y §3.6.1, wireframes `3a-wireframes/hub-empresas-*`,
+textos `4-textos.md` §2, decisiones `DECISION-2026-11-05.md`).
+
+- **Páginas:** `empresas-y-mineria.html` y `en/business-and-mining.html`, gemelas en
+  `pares`. No hay hub en portugués: el sitio pt es sólo de turismo.
+- **Orden:** migas, encabezado (H1, bajada, tres caminos: WhatsApp, mail y pedido de
+  documentación), las ocho pruebas en el orden de compras (CNRT, AMT, todas las zonas
+  mineras, 24 h, Factura A, flota y taller, desde 2010, viajes internacionales),
+  `#personal` y `#cargas` (EN `#crew`, `#freight`), `#seguridad`, `#equipamiento`,
+  `#como-trabajamos`, `#documentacion` y el cierre `#contacto`. Las fichas sin página
+  propia llevan ancla: `#traslado-de-vehiculos`, `#taller` (EN `#vehicle-transfers`,
+  `#workshop`, `#corporate-transfers`, `#forklifts`).
+- **Reglas:** todo el texto sale de lo ya publicado (seguridad de la portada,
+  equipamiento de minería); sin cantidades de flota, aseguradora, número de AMT,
+  clientes, portales de contratistas ni promesa de tiempo de respuesta. En español,
+  impersonal (sin vos ni tú).
+- **Contacto:** tipo `empresa` en `scripts/prefill.mjs`; el pedido de documentación es
+  un `mailto` con `data-prefill="proveedor"` y asunto «Solicitud de documentación de
+  proveedor» (EN «Supplier prequalification — documents»). En teléfono la barra fija
+  es Llamar · Mail · WhatsApp (`.wa-bar.tres`).
+- **Miga de la sección:** las 14 páginas de empresas llevan
+  `Inicio › Empresas y minería › Personal para minería | Cargas › página`, visible y
+  como `BreadcrumbList`. `.crumbs` vive en `styles.css` (antes en `turismo.css`).
+- **Anclas nuevas:** `alquiler-4x4.html#empresas` y `en/4x4-rental.html#companies`
+  (la 4x4 mensual para empresas, enlazada desde el hub).
+- Guardias: `tests/hub-empresas.test.js`.
 
 ## Ficha de la empresa en los datos estructurados
 

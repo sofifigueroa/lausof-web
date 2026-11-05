@@ -107,9 +107,11 @@ for (const nombre of todas) {
     assert.ok(nav, 'falta la miga visible');
     const vistos = [...nav[1].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)].map((m) => m[1].replace(/<[^>]+>/g, '').trim());
     assert.deepStrictEqual(vistos, miga.map((i) => i.name));
+    // Desde el 05/11/2026 la página de litio cuelga del hub «Empresas y
+    // minería» (Inicio › Empresas y minería › Personal para minería › página).
     const padre = es === AGENCIAS
       ? (en ? 'en/tours-and-transfers.html' : 'turismo.html')
-      : (en ? 'en/mining-logistics.html' : 'logistica-minera.html');
+      : (en ? 'en/business-and-mining.html' : 'empresas-y-mineria.html');
     assert.strictEqual(miga[1].item, urlDe(padre));
     // La página lleva además la ficha generada de la empresa, al día.
     assert.ok(html.includes('<script type="application/ld+json" id="empresa">'), 'falta el bloque GENERADO:EMPRESA');
