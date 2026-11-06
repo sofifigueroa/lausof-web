@@ -135,8 +135,8 @@ const confirmadas = {
   'turismo.html': [/Agencia de turismo habilitada/, /Somos agencia de turismo habilitada/,
     /Viajes al exterior[^.]{0,60}Chile[^.]{0,40}Bolivia/],
   'viajes-de-estudio.html': [/Agencia de turismo habilitada/],
-  'en/index.html': [/Licensed travel agency/, /International trips/, /Chile and Bolivia/],
-  'en/tours-and-transfers.html': [/Licensed travel agency/, /We are a licensed travel agency/,
+  'en/index.html': [/Licensed tourism agency/, /International trips/, /Chile and Bolivia/],
+  'en/tours-and-transfers.html': [/Licensed tourism agency/, /We are a licensed tourism agency/,
     /Trips abroad[^.]{0,60}Chile[^.]{0,40}Bolivia/, /Do you go to Chile or Bolivia\?/],
 };
 

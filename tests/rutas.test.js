@@ -96,7 +96,7 @@ for (const nombre of paginasRuta) {
   const en = nombre.startsWith('en/');
 
   test(`${nombre}: muestra la fecha de actualización`, () => {
-    assert.match(visible, en ? /Updated 10 October 2026/ : /Actualizado el 10 de octubre de 2026/);
+    assert.match(visible, en ? /Updated October 10, 2026/ : /Actualizado el 10 de octubre de 2026/);
   });
 
   test(`${nombre}: lleva los datos verificables de la ruta`, () => {

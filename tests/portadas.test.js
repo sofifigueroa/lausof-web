@@ -31,7 +31,7 @@ const PORTADAS = {
       ['Mining crew transport', '/en/business-and-mining.html#crew', 'personal'],
       ['Freight', '/en/business-and-mining.html#freight', 'carga'],
     ],
-    prueba: ['24/7', 'CNRT 60284', 'AMT', 'Licensed travel agency', 'International trips', 'Invoice type A', 'Own fleet and workshop'],
+    prueba: ['24/7', 'CNRT 60284', 'AMT', 'Licensed tourism agency', 'International trips', 'Factura A (tax invoice)', 'Own fleet and workshop'],
   },
   'pt/index.html': {
     h1: 'Transporte de passageiros em Salta e no norte da Argentina',
