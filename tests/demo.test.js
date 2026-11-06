@@ -151,8 +151,10 @@ test('O11: la respuesta del precio cambia sólo donde la vitrina existe', async 
   assert.deepStrictEqual(problemas, []);
   // Control en rojo 1: la vitrina sin tarjeta con precio (eventos «solo presupuesto») deja el texto de hoy.
   const sinPrecio = await armarDesde(conVitrina('data-servicios="x"'));
-  assert.match(fs.readFileSync(path.join(sinPrecio.salida, 'sitio', 'traslado-serenata-a-cafayate.html'), 'utf8'),
-    /<summary>¿Cuánto cuesta\?<\/summary>\s*<p>[^<]*la cotización se envía por escrito/);
+  const respuestaFaq = (h) => h.match(/<summary>¿Cuánto cuesta\?<\/summary>\s*<p>([\s\S]*?)<\/p>/)[1];
+  const serenata = 'traslado-serenata-a-cafayate.html';
+  assert.strictEqual(respuestaFaq(fs.readFileSync(path.join(sinPrecio.salida, 'sitio', serenata), 'utf8')),
+    respuestaFaq(fs.readFileSync(path.join(raiz, serenata), 'utf8')));
   // Control en rojo 2: #precios doble en la página.
   const doble = await armarDesde(conVitrina('data-tienda-con-precio', '<p id="precios"></p>'));
   assert.strictEqual(doble.problemas.length, paginasConVitrina.length);
