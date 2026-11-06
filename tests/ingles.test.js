@@ -566,6 +566,10 @@ for (const [nombre, html] of Object.entries(paginasEn)) {
   test(`${nombre}: «licensed tourism agency», nunca «licensed travel agency»`, () => {
     assert.doesNotMatch(textoVisible(html), /licensed travel agency/i);
   });
+  // «NOA» es una sigla argentina que un lector extranjero no conoce (F4).
+  test(`${nombre}: sin la sigla «NOA»`, () => {
+    assert.doesNotMatch(textoVisible(html), /\bNOA\b/);
+  });
 }
 
 // Fechas y horas al estilo de EE.UU.: «October 10, 2026», nunca «10 October
