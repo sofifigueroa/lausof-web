@@ -31,15 +31,26 @@ const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const iCapturas = process.argv.indexOf('--capturas');
 const dirCapturas = iCapturas > 0 ? process.argv[iCapturas + 1] : null;
 
-// Páginas que tocaron las fotos (fase 1 y lote 1 de la biblioteca, 06/11/2026):
+// Páginas que tocaron las fotos (fase 1 y lotes 1 y 2 de la biblioteca, 06/11/2026):
 // se miran sin scroll horizontal y, con --capturas, se fotografían.
-const PAGINAS = ['galeria.html', 'cargas-refrigeradas.html', 'en/refrigerated-freight.html',
-  'logistica-minera.html', 'en/mining-logistics.html', 'producciones.html', 'en/film-production-logistics.html',
-  'alquiler-4x4.html', 'en/4x4-rental.html', 'charter-recitales.html', 'clubes-deportivos.html', 'viajes-de-estudio.html',
+const PAGINAS = ['galeria.html', 'cargas-refrigeradas.html', 'en/refrigerated-freight.html', 'logistica-minera.html',
+  'en/mining-logistics.html', 'producciones.html', 'en/film-production-logistics.html', 'alquiler-4x4.html',
+  'en/4x4-rental.html', 'charter-recitales.html', 'clubes-deportivos.html', 'viajes-de-estudio.html',
   'alquiler-combi-con-chofer-salta.html', 'en/minibus-with-driver-salta.html', 'traslados-casamientos.html',
-  'en/wedding-transportation.html', 'viajes-internacionales.html', 'en/international-trips.html', 'traslados-empresas.html',
-  'salinas-grandes-desde-salta.html', 'en/salinas-grandes-from-salta.html', 'pt/salinas-grandes-saindo-de-salta.html',
-  'alquiler-autoelevadores.html', 'index.html'];
+  'en/wedding-transportation.html', 'viajes-internacionales.html', 'en/international-trips.html',
+  'traslados-empresas.html', 'salinas-grandes-desde-salta.html', 'en/salinas-grandes-from-salta.html',
+  'pt/salinas-grandes-saindo-de-salta.html', 'alquiler-autoelevadores.html', 'index.html',
+  'en/crew-transport-lithium-projects.html', 'en/index.html', 'en/jujuy-utmb-trail-race-transfers.html',
+  'en/salta-airport-transfer.html', 'en/salta-to-cachi-transfer.html',
+  'en/salta-to-purmamarca-tilcara-humahuaca.html', 'en/salta-to-san-pedro-de-atacama.html', 'en/salta-to-uyuni.html',
+  'en/san-pedro-de-atacama-to-salta.html', 'en/tours-and-transfers.html', 'en/train-to-the-clouds-transfer.html',
+  'en/uyuni-to-salta.html', 'pt/index.html', 'pt/passeios-e-traslados.html',
+  'pt/traslado-salta-purmamarca-tilcara-humahuaca.html', 'pt/traslado-salta-san-pedro-de-atacama.html',
+  'pt/traslado-salta-uyuni.html', 'transporte-de-personal-obras-de-litio.html', 'traslado-aeropuerto-salta.html',
+  'traslado-salta-cachi.html', 'traslado-salta-purmamarca-tilcara-humahuaca.html',
+  'traslado-salta-san-pedro-de-atacama.html', 'traslado-salta-uyuni.html',
+  'traslado-san-pedro-de-atacama-salta.html', 'traslado-tren-a-las-nubes.html', 'traslado-uyuni-salta.html',
+  'traslados-trail-jujuy-utmb.html', 'turismo.html'];
 
 /* ---- servidor estático ---- */
 const TIPOS = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript',
