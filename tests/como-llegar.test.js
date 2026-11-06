@@ -169,3 +169,29 @@ test('Uyuni → Salta cubre también Tupiza y Villazón', () => {
     assert.ok(paginas[nombre].includes('id="tupiza-villazon"'), `${nombre} no tiene la sección de Tupiza y Villazón`);
   }
 });
+
+// Decisión 14A de Lautaro (05/11/2026, web/revision-sitio-2026-11-05,
+// 3-decisiones-consolidadas.md ítem 14; su «It's us, why we mention other
+// companies»): el bloque compara colectivo, excursión y traslado privado sin
+// nombrar empresas de colectivos, agencias, buscadores ni marketplaces, y
+// termina en lo que hace Lausof. Vale también para las gemelas en portugués.
+const RUTAS_PT = ['pt/traslado-salta-cafayate.html', 'pt/traslado-salta-purmamarca-tilcara-humahuaca.html',
+  'pt/salinas-grandes-saindo-de-salta.html', 'pt/traslado-salta-san-pedro-de-atacama.html', 'pt/traslado-salta-uyuni.html'];
+const NOMBRES_AJENOS = /Rome2Rio|Omio|Civitatis|Google|Ruta0|OSRM|OpenStreetMap|Flecha Bus|El Indio|Balut|Andesmar|Pullman|Frontera del Norte|Ale Hnos|SAETA|Viator|GetYourGuide|Tripadvisor/;
+const AGENCIAS_Y_EMPRESAS = /agencias?|agências?|agency|agencies|empresas? (?:figuran?|estão|que lo cubren)|among the companies|one of the companies|varias empresas|several companies|várias empresas|entre otras empresas|entre outras empresas|cada empresa|each company|remis companies/i;
+for (const nombre of [...todas, ...RUTAS_PT]) {
+  test(`${nombre}: el bloque «cómo llegar» no nombra empresas ni agencias (14A)`, () => {
+    const m = sinComentarios(paginas[nombre]).match(/<section class="[^"]+" id="(?:como-llegar|getting-there)">([\s\S]*?)<\/section>/);
+    assert.ok(m, `${nombre} no tiene el bloque`);
+    // Fuera de la nota «Vindo do Brasil?», que cita el vuelo y sus fuentes.
+    const texto = visible(m[1].replace(/<p class="nota-fuente">Vindo do Brasil\?[\s\S]*?<\/p>/, ''));
+    assert.doesNotMatch(texto, NOMBRES_AJENOS, `${nombre}: el bloque nombra a otra empresa`);
+    assert.doesNotMatch(texto, AGENCIAS_Y_EMPRESAS, `${nombre}: el bloque manda a agencias o empresas`);
+  });
+}
+test('San Pedro de Atacama → Salta: la pregunta del colectivo no nombra empresas (14A)', () => {
+  const es = visible(paginas['traslado-san-pedro-de-atacama-salta.html']);
+  const en = visible(paginas['en/san-pedro-de-atacama-to-salta.html']);
+  assert.ok(es.includes('¿Hay colectivo de San Pedro de Atacama a Salta? Sí, hay colectivos de línea con horario fijo. Con un traslado privado, el grupo elige la hora de salida y puede parar en el camino.'));
+  assert.ok(en.includes('Is there a bus from San Pedro de Atacama to Salta? Yes, there are scheduled buses. With a private transfer, your group picks the departure time and can stop on the way.'));
+});
