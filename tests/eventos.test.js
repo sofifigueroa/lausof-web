@@ -163,7 +163,10 @@ for (const nombre of eventos) {
     assert.doesNotMatch(visible.replace(/<[^>]+>/g, ' '), ingles ? /\bofficial\b/i : /\boficial\b/i);
     for (const [img] of sinComentarios(html).matchAll(/<img [^>]*>/g)) {
       const src = img.match(/src="([^"]+)"/)[1];
-      assert.match(src, /\/?assets\/(galeria|charter|logo-)/, `imagen ajena al banco de fotos propio: ${src}`);
+      // Propias: la galería vieja, charter, el logo, las fotos de pasajeros de
+      // la flota (pasajeros-N, la gemela limpia de la galería desde el 06/11/2026)
+      // y las aprobadas de la biblioteca (assets/fotos/, tests/biblioteca.test.js).
+      assert.match(src, /\/?assets\/(galeria|charter|logo-|pasajeros-\d|fotos\/)/, `imagen ajena al banco de fotos propio: ${src}`);
       assert.ok(fs.existsSync(path.join(__dirname, '..', src.replace(/^\//, ''))), `no existe ${src}`);
     }
   });

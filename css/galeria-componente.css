@@ -114,3 +114,7 @@ html:not(.js) .galeria-pista img{cursor:auto}
   .galeria-dialogo{padding:12px}
   .galeria-dialogo .galeria-ant,.galeria-dialogo .galeria-sig{top:auto;bottom:16px;transform:none}
 }
+
+/* Galería dentro de una sección de texto (cargas refrigeradas, fotos lote 1,
+   06/11/2026): el cuadro no pasa de 686 px, como en la página de flota. */
+.texto .galeria{max-width:686px;margin-top:32px}

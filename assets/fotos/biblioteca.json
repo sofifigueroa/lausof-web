@@ -1,0 +1,583 @@
+{
+ "_nota": "Fotos aprobadas para el sitio (biblioteca «Fotos para mostrar», 3a-diseno-biblioteca.md §5). Solo campos públicos: sin patentes, sin GPS, sin consentimientos. Las patentes van difuminadas en el archivo. Un archivo nunca cambia de bytes: si la foto cambia, cambia de nombre (-v2). tests/biblioteca.test.js lo vigila.",
+ "fotos": [
+  {
+   "id": "F0002",
+   "archivo": "cargas-frio/camion-termico-ripio-puna-lausof-v1.webp",
+   "categoria": "cargas-frio",
+   "ancho": 1115,
+   "alto": 1600,
+   "alt_es": "Camión térmico de la flota visto desde atrás en un camino de ripio de la Puna",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "b55cb9901b977481f24a8955d12d62393d4df8e0e2440b115289ff292145c4b5",
+   "usos": []
+  },
+  {
+   "id": "F0006",
+   "archivo": "cargas-frio/camiones-termicos-cuesta-puna-lausof-v1.webp",
+   "categoria": "cargas-frio",
+   "ancho": 1280,
+   "alto": 720,
+   "alt_es": "Dos camiones de la flota subiendo una cuesta de la Puna, con cerros nevados",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "e8185ebdfbf9b8e8676443e06e1af58c25ece04b362f64f8d2554e8b0cda1aca",
+   "usos": []
+  },
+  {
+   "id": "F0011",
+   "archivo": "cargas-frio/camion-termico-cono-de-arita-lausof-v1.webp",
+   "categoria": "cargas-frio",
+   "ancho": 1280,
+   "alto": 576,
+   "alt_es": "Camión térmico de la flota de perfil frente al Cono de Arita",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "c1dfe673c1af2a23751eaae42b987a9298d59522ecab0681db61b7c614101299",
+   "usos": []
+  },
+  {
+   "id": "F0033",
+   "archivo": "4x4/camioneta-4x4-puna-volcan-lausof-v1.webp",
+   "categoria": "4x4",
+   "ancho": 1200,
+   "alto": 1600,
+   "alt_es": "Camioneta 4x4 de la flota en la Puna, con un volcán nevado al fondo",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "1530efecd095b3763bfe896c05bd7a0e78126db72b2447a9ba09a006058d3070",
+   "usos": []
+  },
+  {
+   "id": "F0040",
+   "archivo": "4x4/camioneta-4x4-cono-de-arita-lausof-v1.webp",
+   "categoria": "4x4",
+   "ancho": 1280,
+   "alto": 576,
+   "alt_es": "Camioneta 4x4 de la flota frente al Cono de Arita",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "ae1378b33fcdab255814eeb19b08dcaffb9bcca4fb57460ada73a2c27d713460",
+   "usos": [
+    "galeria.html"
+   ]
+  },
+  {
+   "id": "F0044",
+   "archivo": "pasajeros-combis/minibus-salinas-grandes-reflejo-lausof-v1.webp",
+   "categoria": "pasajeros-combis",
+   "ancho": 622,
+   "alto": 1280,
+   "alt_es": "Minibús de la flota sobre el salar con agua, reflejado en la superficie",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "e7c95a8b540517d3f2317744c7f700f7d4edd63a848bc454507e8b4f60dd0449",
+   "usos": []
+  },
+  {
+   "id": "F0045",
+   "archivo": "pasajeros-combis/minibus-portal-fiambala-lausof-v1.webp",
+   "categoria": "pasajeros-combis",
+   "ancho": 1600,
+   "alto": 900,
+   "alt_es": "Minibús de la flota frente al portal de bienvenida a Fiambalá",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "e221802fd9087e51373227f3138eb2b522c579d3efd380a618eea074fa10acdc",
+   "usos": [
+    "viajes-internacionales.html",
+    "en/international-trips.html"
+   ]
+  },
+  {
+   "id": "F0046",
+   "archivo": "pasajeros-combis/minibus-lago-cordillera-lausof-v1.webp",
+   "categoria": "pasajeros-combis",
+   "ancho": 1600,
+   "alto": 1200,
+   "alt_es": "Minibús de la flota estacionado junto a un lago, con la cordillera nevada al fondo",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "412de30cc83655601d04b13d5e7eb1421db1ce912ae6fe2d8ead00dfa7284831",
+   "usos": [
+    "viajes-de-estudio.html"
+   ]
+  },
+  {
+   "id": "F0047",
+   "archivo": "pasajeros-combis/minibus-ruta-monte-lausof-v1.webp",
+   "categoria": "pasajeros-combis",
+   "ancho": 960,
+   "alto": 1280,
+   "alt_es": "Minibús de la flota de frente en una ruta con monte bajo",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "c7343f5ad3f97faf6a2c1473c2335136b8e4d8b44aa3cd1c7cee6712bdfff6f1",
+   "usos": []
+  },
+  {
+   "id": "F0051",
+   "archivo": "pasajeros-combis/minibus-puente-la-caldera-lausof-v1.webp",
+   "categoria": "pasajeros-combis",
+   "ancho": 1600,
+   "alto": 1067,
+   "alt_es": "Minibús de la flota cruzando un puente en La Caldera",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "683ea1453fa929ffc172ed3433bac6c882958e8c951d553c4927d652d196ec02",
+   "usos": [
+    "clubes-deportivos.html"
+   ]
+  },
+  {
+   "id": "F0053",
+   "archivo": "pasajeros-combis/minibus-cartel-la-caldera-lausof-v1.webp",
+   "categoria": "pasajeros-combis",
+   "ancho": 1600,
+   "alto": 1067,
+   "alt_es": "Minibús de la flota bajo el cartel de entrada a La Caldera",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "737882a3b8795a4190f29d9e895fb986c1cc590c6759970fa9ef05b542238a77",
+   "usos": [
+    "traslados-empresas.html"
+   ]
+  },
+  {
+   "id": "F0058",
+   "archivo": "pasajeros-combis/combi-sprinter-dique-lausof-v1.webp",
+   "categoria": "pasajeros-combis",
+   "ancho": 1600,
+   "alto": 1067,
+   "alt_es": "Combi Mercedes-Benz Sprinter de la flota junto al dique, con cerros verdes",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "592c1df25451df366c29a2db1295f1d979eb9b988087f9dc188f9fd0418ec164",
+   "usos": [
+    "alquiler-combi-con-chofer-salta.html",
+    "galeria.html",
+    "traslados-casamientos.html",
+    "en/minibus-with-driver-salta.html",
+    "en/wedding-transportation.html"
+   ]
+  },
+  {
+   "id": "F0061",
+   "archivo": "turismo-destinos/vicunas-camino-de-ripio-puna-lausof-v1.webp",
+   "categoria": "turismo-destinos",
+   "ancho": 1600,
+   "alto": 1200,
+   "alt_es": "Vicuñas caminando por un camino de ripio en la Puna",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "c75ab5e57c315f031cec9232f766b3557ac757ec33d268df69ad5723d6a2f771",
+   "usos": []
+  },
+  {
+   "id": "F0064",
+   "archivo": "turismo-destinos/vias-del-tren-atardecer-lausof-v1.webp",
+   "categoria": "turismo-destinos",
+   "ancho": 1200,
+   "alto": 1600,
+   "alt_es": "Vías del tren entre rocas al atardecer",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "22eacee50a6d28dc54b5525628d9a5845d7edf53e775283fa38384b365cdb968",
+   "usos": []
+  },
+  {
+   "id": "F0068",
+   "archivo": "turismo-destinos/cono-de-arita-salar-de-arizaro-lausof-v1.webp",
+   "categoria": "turismo-destinos",
+   "ancho": 1280,
+   "alto": 960,
+   "alt_es": "Cono de Arita sobre el salar de Arizaro",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "2e3845731547f49498b8b5fb56a79b4b90c06902760e79da82d8aaf357a993b3",
+   "usos": []
+  },
+  {
+   "id": "F0071",
+   "archivo": "turismo-destinos/camino-de-tierra-cerros-nevados-lausof-v1.webp",
+   "categoria": "turismo-destinos",
+   "ancho": 1280,
+   "alto": 960,
+   "alt_es": "Camino de tierra entre cerros, con cumbres nevadas",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "26728d9c71c34baf4374186999aaf044c3cd57532c8352870d25727bc3d87dc2",
+   "usos": []
+  },
+  {
+   "id": "F0072",
+   "archivo": "turismo-destinos/tren-de-carga-puna-lausof-v1.webp",
+   "categoria": "turismo-destinos",
+   "ancho": 1280,
+   "alto": 960,
+   "alt_es": "Tren de carga entre cerros de la Puna, con cumbres nevadas",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "685bbd40b83255ec9ffef2fa89d1e318bbb1d2253d8e8bb90ac136213717b879",
+   "usos": []
+  },
+  {
+   "id": "F0075",
+   "archivo": "turismo-destinos/camino-de-cornisa-cerros-verdes-lausof-v1.webp",
+   "categoria": "turismo-destinos",
+   "ancho": 1600,
+   "alto": 900,
+   "alt_es": "Camino de cornisa entre cerros verdes y nubes",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "437048025f75aecc316719174afd7b1991018c3e8312d5e2818c0784073ad315",
+   "usos": []
+  },
+  {
+   "id": "F0077",
+   "archivo": "turismo-destinos/iglesia-de-cachi-noche-lausof-v1.webp",
+   "categoria": "turismo-destinos",
+   "ancho": 1280,
+   "alto": 720,
+   "alt_es": "Iglesia y galería de arcos de Cachi, de noche",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "9b3aecd343ee9781888dffcc566ec57e7c17aeaeff91432852abfbf6f44adbd3",
+   "usos": []
+  },
+  {
+   "id": "F0078",
+   "archivo": "turismo-destinos/vicunas-ladera-puna-lausof-v1.webp",
+   "categoria": "turismo-destinos",
+   "ancho": 725,
+   "alto": 1599,
+   "alt_es": "Vicuñas en una ladera de la Puna",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "3da97eaa6865cabfbb59ac840e3895d8eb96a300c60f5b8af3fbce438b8eebb6",
+   "usos": []
+  },
+  {
+   "id": "F0090",
+   "archivo": "turismo-destinos/valle-cultivos-pueblo-lausof-v1.webp",
+   "categoria": "turismo-destinos",
+   "ancho": 1600,
+   "alto": 1200,
+   "alt_es": "Valle con cultivos y un pueblo, visto desde lo alto",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "3bb9d52b5e31a3cdbb157df81e13306d9b69ca097ee1278819ad32ce684669bd",
+   "usos": []
+  },
+  {
+   "id": "F0096",
+   "archivo": "cargas-frio/camioneta-y-camion-termico-nieve-lausof-v1.webp",
+   "categoria": "cargas-frio",
+   "ancho": 899,
+   "alto": 1599,
+   "alt_es": "Camioneta y camión térmico de la flota en un camino con nieve",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "f6053788863fa81d2af05a5f4393542c44f5be36516d1fcb7c265b802a9f2532",
+   "usos": []
+  },
+  {
+   "id": "F0103",
+   "archivo": "4x4/caravana-flota-tolar-grande-lausof-v1.webp",
+   "categoria": "4x4",
+   "ancho": 1600,
+   "alto": 900,
+   "alt_es": "Camiones y camionetas de la flota en caravana a la entrada de Tolar Grande",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "5f6267e54ac7436354ad18ee9367d05781d60fa6c5b7379ec65225414beceaa6",
+   "usos": [
+    "producciones.html",
+    "en/film-production-logistics.html"
+   ]
+  },
+  {
+   "id": "F0108",
+   "archivo": "4x4/camionetas-4x4-barro-lausof-v1.webp",
+   "categoria": "4x4",
+   "ancho": 1600,
+   "alto": 1200,
+   "alt_es": "Dos camionetas 4x4 de la flota cubiertas de barro en la Puna",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "4d08b6b2c967166fff4b3e5eaf5ea301c0c811282ee87e919ab2fb7aa2f56df7",
+   "usos": [
+    "galeria.html"
+   ]
+  },
+  {
+   "id": "F0110",
+   "archivo": "4x4/camionetas-4x4-cerros-de-roca-lausof-v1.webp",
+   "categoria": "4x4",
+   "ancho": 1600,
+   "alto": 1200,
+   "alt_es": "Dos camionetas 4x4 de la flota entre cerros de roca",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "3f2af1543eee28cbd4c8f866b17412f66b3695cf3d9062253c463d54b2b14162",
+   "usos": [
+    "galeria.html"
+   ]
+  },
+  {
+   "id": "F0113",
+   "archivo": "4x4/camioneta-4x4-y-camion-termico-tierra-roja-lausof-v1.webp",
+   "categoria": "4x4",
+   "ancho": 590,
+   "alto": 1280,
+   "alt_es": "Camioneta 4x4 y camión térmico de la flota en un camino de tierra roja",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "b0e8bf1feabca464b143e40aff280cff07b3d63f2384ec2db29a00782c39e346",
+   "usos": []
+  },
+  {
+   "id": "F0132",
+   "archivo": "autoelevadores/autoelevador-lonking-lausof-v1.webp",
+   "categoria": "autoelevadores",
+   "ancho": 720,
+   "alto": 1280,
+   "alt_es": "Autoelevador Lonking de la flota en la calle",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "d9da7371a238611532fdfe995d7aa3ba16db2353e33647aad0c068d5b1acc10e",
+   "usos": []
+  },
+  {
+   "id": "F0144",
+   "archivo": "cargas-frio/camion-termico-iveco-puna-lausof-v1.webp",
+   "categoria": "cargas-frio",
+   "ancho": 1600,
+   "alto": 900,
+   "alt_es": "Camión térmico Iveco de la flota en la Puna, con cerros nevados al fondo",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "1fd6a62a180eec760c580970d8deb78b5e7dff127bd4f1ef5ca3a34a8e03353d",
+   "usos": [
+    "cargas-refrigeradas.html",
+    "galeria.html",
+    "en/refrigerated-freight.html"
+   ]
+  },
+  {
+   "id": "F0150",
+   "archivo": "cargas-frio/camion-termico-iveco-frente-volcan-lausof-v1.webp",
+   "categoria": "cargas-frio",
+   "ancho": 1600,
+   "alto": 900,
+   "alt_es": "Camión térmico Iveco de la flota de frente, con un volcán nevado al fondo",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "791622e1b4c8b6b716bd374c861f64bc8e16e2eb06d9d8dd532bed28a42e79ab",
+   "usos": [
+    "galeria.html"
+   ]
+  },
+  {
+   "id": "F0163",
+   "archivo": "cargas-frio/camion-termico-camino-nevado-lausof-v1.webp",
+   "categoria": "cargas-frio",
+   "ancho": 899,
+   "alto": 1599,
+   "alt_es": "Camión térmico de la flota avanzando por un camino nevado",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "b73ab9965fa4cd0070fe6492405eb9d10c75c429e0fc217fce479562147f309b",
+   "usos": []
+  },
+  {
+   "id": "F0184",
+   "archivo": "cargas-frio/camion-termico-furgon-abierto-rampa-lausof-v1.webp",
+   "categoria": "cargas-frio",
+   "ancho": 1280,
+   "alto": 960,
+   "alt_es": "Camión térmico de la flota con el furgón abierto y la rampa baja",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "6d4bf8a5fef7a43b034be0aaede4ffb1fe26bfd91b66ef68c625b9b9a3808eff",
+   "usos": [
+    "cargas-refrigeradas.html",
+    "galeria.html",
+    "en/refrigerated-freight.html"
+   ]
+  },
+  {
+   "id": "F0264",
+   "archivo": "4x4/camioneta-4x4-pueblo-puna-lausof-v1.webp",
+   "categoria": "4x4",
+   "ancho": 1599,
+   "alto": 899,
+   "alt_es": "Camioneta 4x4 de la flota de perfil en un pueblo de la Puna",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "8e0d9028d02c8e6923c8b1e050543081df8eb5acf7eca04a4f86baa0fd22cb76",
+   "usos": []
+  },
+  {
+   "id": "F0270",
+   "archivo": "4x4/camioneta-4x4-camino-de-montana-lausof-v1.webp",
+   "categoria": "4x4",
+   "ancho": 1600,
+   "alto": 1200,
+   "alt_es": "Camioneta 4x4 de la flota de perfil al costado de un camino de montaña",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "01bf63e5eb77c1b301ea96a668df940f2d373014ce2319fb0efa8d3dc2f4e947",
+   "usos": [
+    "alquiler-4x4.html",
+    "galeria.html",
+    "en/4x4-rental.html"
+   ]
+  },
+  {
+   "id": "F0284",
+   "archivo": "pasajeros-combis/combi-sprinter-salinas-grandes-lausof-v1.webp",
+   "categoria": "pasajeros-combis",
+   "ancho": 1280,
+   "alto": 960,
+   "alt_es": "Combi Mercedes-Benz Sprinter de la flota al costado de la ruta, frente al salar",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "7f7b8a79d4912ca4d042b5c68f2e8d8b9baa61f89f2ec94a6657c13cfaa25d6e",
+   "usos": [
+    "galeria.html",
+    "salinas-grandes-desde-salta.html",
+    "en/salinas-grandes-from-salta.html",
+    "pt/salinas-grandes-saindo-de-salta.html"
+   ]
+  },
+  {
+   "id": "F0317",
+   "archivo": "pasajeros-combis/minibus-formaciones-de-roca-lausof-v1.webp",
+   "categoria": "pasajeros-combis",
+   "ancho": 1200,
+   "alto": 1600,
+   "alt_es": "Minibús de la flota entre formaciones de roca clara",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "08c655700eb0680266a6e58bdde9498b277fa9a1be36a960f6b665fd0842053b",
+   "usos": []
+  },
+  {
+   "id": "F0321",
+   "archivo": "pasajeros-combis/minibus-entrada-la-caldera-lausof-v1.webp",
+   "categoria": "pasajeros-combis",
+   "ancho": 1600,
+   "alto": 1067,
+   "alt_es": "Minibús de la flota pasando bajo el cartel de La Caldera",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "30f90bbeaeadba4a52cc71dcc6db6241a48d17a1a3b78125728adc4ead720b06",
+   "usos": [
+    "charter-recitales.html"
+   ]
+  },
+  {
+   "id": "F0340",
+   "archivo": "cargas-frio/camioneta-y-camion-termico-altura-lausof-v1.webp",
+   "categoria": "cargas-frio",
+   "ancho": 1280,
+   "alto": 576,
+   "alt_es": "Camioneta y camión térmico de la flota en un camino de altura",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "0b798530ac550288f36819c6cef4e25c862a8dc49370f1313e21a0aed27a43d0",
+   "usos": []
+  },
+  {
+   "id": "F0424",
+   "archivo": "autoelevadores/autoelevadores-lonking-patio-lausof-v1.webp",
+   "categoria": "autoelevadores",
+   "ancho": 864,
+   "alto": 1152,
+   "alt_es": "Tres autoelevadores Lonking de la flota en el patio",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "0d72a56b8d867ec95df16c8ad38343a83c3cca70a5b659329da2b00af574d906",
+   "usos": [
+    "alquiler-autoelevadores.html"
+   ]
+  },
+  {
+   "id": "F0425",
+   "archivo": "autoelevadores/autoelevadores-lonking-patio-atras-lausof-v1.webp",
+   "categoria": "autoelevadores",
+   "ancho": 864,
+   "alto": 1152,
+   "alt_es": "Tres autoelevadores Lonking de la flota en el patio, de atrás",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "68a47959866fc414c8858a887a848c3d0c8a4004bf98c87fe9911151c94a629d",
+   "usos": []
+  },
+  {
+   "id": "F0440",
+   "archivo": "interior-unidades/furgon-termico-interior-equipo-frio-lausof-v1.webp",
+   "categoria": "interior-unidades",
+   "ancho": 960,
+   "alto": 1280,
+   "alt_es": "Interior vacío de un furgón térmico, con el equipo de frío en el techo",
+   "credito": "Lausof SRL",
+   "lote": "lote-1",
+   "aprobada": "2026-11-06",
+   "sha256": "04e7cffcd3bd744579f13998cf55e3e990ed835844ee98dfa7d3ae7f50aaf196",
+   "usos": [
+    "cargas-refrigeradas.html",
+    "galeria.html",
+    "en/refrigerated-freight.html"
+   ]
+  }
+ ],
+ "rechazadas": [
+  {
+   "id": "F0326",
+   "lote": "lote-1",
+   "motivo": "el minibús queda en el medio de la ruta (Lautaro, 06/11/2026)"
+  }
+ ]
+}

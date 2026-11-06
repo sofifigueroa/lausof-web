@@ -179,6 +179,36 @@ su nota del 05/11 sobre autoplay o manual por lugar; textos en 4-textos.md §2).
   (`foto-v2.webp`, `foto-v2-400w.avif`…) y se cambian todas las referencias;
   así se hizo con las 8 de arriba (antes sin `-v2`).
 
+## Fotos de la biblioteca (`assets/fotos/`, lote 1 del 06/11/2026)
+
+Las fotos que Lautaro aprueba de la biblioteca «Fotos para mostrar»
+(`web/imagenes-2026-11-05/3a-diseno-biblioteca.md`) entran en
+`assets/fotos/<categoría>/<servicio-lugar>-lausof-vN.webp`, con su `.jpg` al
+lado, 1600 px en el lado largo, sin metadatos (GPS incluido) y con **todas**
+las patentes difuminadas. Cada una se revisó a tamaño completo antes de entrar.
+
+- **`assets/fotos/biblioteca.json`** es la lista: id del registro (`F0044`…),
+  archivo, medidas, `alt_es`, crédito, lote, fecha de aprobación, `sha256` del
+  `.webp` y `usos` (las páginas que la muestran). Sólo campos públicos. Las
+  rechazadas van en `rechazadas` (F0326, lote 1).
+- **`tests/biblioteca.test.js`** corta: un archivo en `assets/fotos/` que no esté
+  en la lista; una página que use de ahí una foto que no esté; una foto rechazada;
+  bytes que cambian sin cambiar de nombre (el `sha256`); `usos` desactualizado;
+  y una foto de la biblioteca en un encabezado con menos de 1600 px de ancho o
+  vertical (3b §1.1).
+- **Para sumar una foto aprobada:** exportarla con el mismo difuminado, copiarla
+  a su categoría, agregarla a `biblioteca.json`, ponerla en la página, correr
+  `node scripts/imagenes.mjs` y actualizar `usos`.
+- **Lote 1:** 40 fotos aprobadas, 17 en uso. Encabezados que tenían la insignia
+  vieja (producciones, alquiler 4x4, charter, clubes, estudio, combi con chofer,
+  casamientos, internacionales, empresas; ES/EN donde existe) y el de cargas
+  refrigeradas; las galerías de la página de flota; la galería del furgón en
+  cargas refrigeradas ES/EN; la tira de Salinas Grandes ES/EN/PT; la foto de
+  autoelevadores. Además, dos fotos con insignia salieron por su gemela limpia
+  que ya estaba en el repo: `galeria/lausof-4x4-salinasgrandes` →
+  `4x4-1-salinas-v2` y `galeria/lausof-combi-ruta40-cachi-cafayate` →
+  `pasajeros-4-ruta-v2`.
+
 ## Flota en venta
 
 Los precios, los enlaces y las unidades salen de **un solo archivo**:

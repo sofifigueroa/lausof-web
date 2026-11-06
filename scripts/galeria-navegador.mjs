@@ -31,9 +31,15 @@ const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const iCapturas = process.argv.indexOf('--capturas');
 const dirCapturas = iCapturas > 0 ? process.argv[iCapturas + 1] : null;
 
-// Páginas que tocó la fase 1 de fotos: se miran sin scroll horizontal.
+// Páginas que tocaron las fotos (fase 1 y lote 1 de la biblioteca, 06/11/2026):
+// se miran sin scroll horizontal y, con --capturas, se fotografían.
 const PAGINAS = ['galeria.html', 'cargas-refrigeradas.html', 'en/refrigerated-freight.html',
-  'logistica-minera.html', 'en/mining-logistics.html', 'producciones.html', 'en/film-production-logistics.html'];
+  'logistica-minera.html', 'en/mining-logistics.html', 'producciones.html', 'en/film-production-logistics.html',
+  'alquiler-4x4.html', 'en/4x4-rental.html', 'charter-recitales.html', 'clubes-deportivos.html', 'viajes-de-estudio.html',
+  'alquiler-combi-con-chofer-salta.html', 'en/minibus-with-driver-salta.html', 'traslados-casamientos.html',
+  'en/wedding-transportation.html', 'viajes-internacionales.html', 'en/international-trips.html', 'traslados-empresas.html',
+  'salinas-grandes-desde-salta.html', 'en/salinas-grandes-from-salta.html', 'pt/salinas-grandes-saindo-de-salta.html',
+  'alquiler-autoelevadores.html', 'index.html'];
 
 /* ---- servidor estático ---- */
 const TIPOS = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript',
