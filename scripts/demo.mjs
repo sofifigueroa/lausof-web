@@ -187,24 +187,22 @@ export const MANIFIESTO = [
   },
   {
     id: 'O3', tipo: 'solo-demo',
-    que: 'la marca: franja después de <body>, /css/demo.css y «[Demo] » en el <title>',
+    que: 'la marca: franja después de <body>, su estilo en línea en <head> y «[Demo] » en el <title>',
     aplicar(c) {
-      const css = leer(c.fuentes, 'demo/marca.css');
-      escribir(c.sitio, 'css/demo.css', css);
-      c.agregado('css/demo.css');
-      // /css/* se cachea un año como inmutable (_headers): la versión es la huella.
-      const v = crypto.createHash('sha1').update(css).digest('hex').slice(0, 8);
+      // En línea y no como /css/demo.css: un pedido más que bloquea el render en
+      // cada página (pedido 5 del contrato; la vitrina hace lo mismo con su CSS).
+      const css = leer(c.fuentes, 'demo/marca.css').replace(/\/\*[\s\S]*?\*\//g, '').replace(/\n\s*/g, '').trim();
       for (const rel of paginasDe(c.sitio)) {
         c.editar(rel, (html) => html
           .replace(/<title>/, `<title>${c.textos.PREFIJO_TITULO}`)
-          .replace(/<\/head>/, `  <link rel="stylesheet" href="/css/demo.css?v=${v}">\n</head>`)
+          .replace(/<\/head>/, `  <style id="demo-marca">${css}</style>\n</head>`)
           .replace(/(<body\b[^>]*>\n?)/, `$1${franjaHtml(c.textos.FRANJA, idiomaDe(html))}`));
       }
     },
   },
   {
     id: 'O11', tipo: 'valor', condicional: true,
-    que: 'la respuesta de «¿Cuánto cuesta?» de 4-textos §5, en las páginas de FAQ_PRECIO cuya zona GENERADO:TIENDA tiene la vitrina',
+    que: 'la respuesta de «¿Cuánto cuesta?» de 4-textos §5, en las páginas de FAQ_PRECIO cuya vitrina tiene una tarjeta con precio (data-tienda-con-precio)',
     aplicar(c) {
       for (const [rel, tipo] of Object.entries(c.textos.FAQ_PRECIO)) {
         if (!existe(c.sitio, rel)) throw new Error(`O11: ${rel} no existe`);
@@ -214,7 +212,8 @@ export const MANIFIESTO = [
         if (/¿Cuánto cuesta\?|How much does it cost\?|Quanto custa\?/.test(jsonld)) {
           throw new Error(`O11: ${rel} repite la pregunta en su JSON-LD; O11 no sabe reemplazarla ahí`);
         }
-        if (!zonaTienda(html)) continue; // sin vitrina queda el texto de hoy
+        // Sólo si la vitrina tiene una tarjeta con precio (7-contrato-overlay.md, pedido 3).
+        if (!/\bdata-tienda-con-precio\b/.test(zonaTienda(html))) continue;
         const respuesta = c.textos.RESPUESTA_PRECIO[idiomaDe(html)]?.[tipo];
         if (!respuesta) throw new Error(`O11: falta el texto ${idiomaDe(html)}/${tipo}`);
         c.editar(rel, (h) => h.replace(PREGUNTA_PRECIO, (_, a, __, z) => `${a}${respuesta}${z}`));
@@ -322,7 +321,7 @@ export function verificarSalida({ salida, origen, perfil, manifiesto = MANIFIEST
     if ((html.match(/<meta name="robots"/g) || []).length !== 1) mal(`G6 ${rel}: más de un meta robots`);
     if (!html.includes(`class="${CLASE_FRANJA}"`)) mal(`G6 ${rel}: sin la franja de la demo`);
     if (!/<title>\[Demo\] /.test(html)) mal(`G6 ${rel}: el <title> no empieza con «[Demo] »`);
-    if (!/href="\/css\/demo\.css\?v=[0-9a-f]{8}"/.test(html)) mal(`G6 ${rel}: no carga /css/demo.css`);
+    if (!html.includes('<style id="demo-marca">.demo-franja{')) mal(`G6 ${rel}: sin el estilo de la franja`);
   }
   const headers = leer(sitio, '_headers');
   if (!/^\/\*\n(?:[ \t]+\S[^\n]*\n)*?[ \t]+X-Robots-Tag: noindex, nofollow\n/m.test(headers)) mal('G6 _headers: sin X-Robots-Tag: noindex, nofollow en /*');
@@ -377,12 +376,12 @@ export function verificarSalida({ salida, origen, perfil, manifiesto = MANIFIEST
   const conocidas = new Set([...manifiesto.map((e) => e.id), 'O10']);
   for (const r of version.manifiesto) if (!conocidas.has(r.id)) mal(`G8 ${r.id}: entrada que no está en el manifiesto`);
 
-  // O11 remite a «Precios y reserva» (#reservar): en esas páginas el ancla
+  // O11 remite a «Precios y reserva» (#precios): en esas páginas el ancla
   // tiene que ser única y estar dentro de la vitrina.
   for (const rel of version.manifiesto.find((r) => r.id === 'O11')?.cambiados || []) {
     const html = leer(sitio, rel);
-    if ((html.match(/\bid="reservar"/g) || []).length !== 1 || !/\bid="reservar"/.test(zonaTienda(html))) {
-      mal(`G8 ${rel}: O11 enlaza a #reservar y el ancla no es única o no está en la vitrina`);
+    if ((html.match(/\bid="precios"/g) || []).length !== 1 || !/\bid="precios"/.test(zonaTienda(html))) {
+      mal(`G8 ${rel}: O11 enlaza a #precios y el ancla no es única o no está en la vitrina`);
     }
   }
 
