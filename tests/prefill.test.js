@@ -47,8 +47,7 @@ const REQUISITOS = {
   // Hub «Empresas y minería» (4-textos.md §4, 05/11/2026).
   empresa: [/^(Empresa|Company)$/, /^(Servicio|Service|Serviço) \(/, /^(Mina, origen o destino|Mine, origin or destination|Mina, origem ou destino)$/,
     /^(Fecha o frecuencia|Date or frequency|Data ou frequência)$/, /^(Personas o carga|People or cargo|Pessoas ou carga)$/],
-  proveedor: [/^(Empresa|Company)$/, /^(Portal o registro de proveedores|Supplier portal or registry|Portal ou cadastro de fornecedores)$/,
-    /^(Documentación que necesitan|Documents you need|Documentos de que precisam)$/],
+  proveedor: [/^(Empresa|Company)$/, /^(Documentación que necesitan|Documents you need|Documentos de que precisam)$/],
 };
 
 const etiquetas = (texto, separador) => texto.split(separador).slice(1)

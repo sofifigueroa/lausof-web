@@ -168,12 +168,14 @@ export const TIPOS = {
     en: ['Company', 'Service (crew, freight or warehouse)', 'Mine, origin or destination', 'Date or frequency', 'People or cargo'],
     pt: ['Empresa', 'Serviço (pessoal, carga ou depósito)', 'Mina, origem ou destino', 'Data ou frequência', 'Pessoas ou carga'],
   },
-  // Pedido de documentación de proveedor (sólo correo, con data-prefill en
-  // el enlace): asunto «Solicitud de documentación de proveedor».
+  // Pedido de la documentación de Lausof para darla de alta como proveedor
+  // (sólo correo, con data-prefill en el enlace): asunto «Documentación para
+  // alta de proveedor». Sin renglón de «portal» desde el 05/11/2026 (noche):
+  // sugería que Lausof carga papeles en portales por otras empresas.
   proveedor: {
-    es: ['Empresa', 'Portal o registro de proveedores', 'Documentación que necesitan'],
-    en: ['Company', 'Supplier portal or registry', 'Documents you need'],
-    pt: ['Empresa', 'Portal ou cadastro de fornecedores', 'Documentos de que precisam'],
+    es: ['Empresa', 'Documentación que necesitan'],
+    en: ['Company', 'Documents you need'],
+    pt: ['Empresa', 'Documentos de que precisam'],
   },
 };
 
