@@ -36,8 +36,8 @@ html:not(.js) .galeria-pista > figure{flex-basis:88%}
 }
 html:not(.js) .galeria-pista img{cursor:auto}
 /* Con JavaScript, las fotos de la pista esperan a que la galería se acerque a
-   la pantalla o a que la página termine de cargar (js/galeria.js le pone
-   .galeria-cerca). Con `loading="lazy"` solo, Chrome las pide ni bien arma la
+   la pantalla (js/galeria.js le pone .galeria-cerca a 300 px; desde el lote 2
+   ya no se sueltan al terminar de cargar la página). Con `loading="lazy"` solo, Chrome las pide ni bien arma la
    página (su margen llega a 1250–2500 px) y le quitan ancho de banda a la foto
    del encabezado: en cargas refrigeradas la LCP pasaba de 1,95 s a 2,25 s
    (Lighthouse móvil, 06/11/2026). Una <img> con display:none y carga

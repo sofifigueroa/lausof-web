@@ -326,6 +326,26 @@ try {
     }
   }
 
+  /* 2b. Las fotos de abajo esperan a acercarse (lote 2, 06/11/2026): al cargar,
+     la última galería de la flota y la última tarjeta del hub de turismo no
+     pidieron su foto (no le compiten a la del encabezado); al llevarlas a la
+     pantalla, la piden y se ven. */
+  const esperaYCarga = async (pagina, selector) => {
+    await abrir(pagina, 390);
+    await esperar(300);
+    const alCargar = await evaluar(`(() => { const i = [...document.querySelectorAll(${JSON.stringify(selector)})].pop();
+      return i ? { pedida: !!i.currentSrc, ancho: i.naturalWidth } : null; })()`);
+    comprobar(alCargar && !alCargar.pedida, `${pagina} a 390px: la foto de abajo (${selector}) se pidió al cargar (${JSON.stringify(alCargar)})`);
+    const cerca = await evaluar(`(async () => { const i = [...document.querySelectorAll(${JSON.stringify(selector)})].pop();
+      i.closest('figure, .card-photo').scrollIntoView({ block: 'center' });
+      await new Promise((r) => setTimeout(r, 400));
+      await Promise.race([i.complete && i.naturalWidth ? 0 : new Promise((r) => { i.onload = i.onerror = r; }), new Promise((r) => setTimeout(r, 4000))]);
+      return { cargada: i.complete && i.naturalWidth > 0, ancho: i.getBoundingClientRect().width }; })()`);
+    comprobar(cerca.cargada && cerca.ancho > 0, `${pagina} a 390px: al acercarse, la foto de abajo no apareció (${JSON.stringify(cerca)})`);
+  };
+  await esperaYCarga('galeria.html', '.galeria-pista > figure:first-child img');
+  await esperaYCarga('turismo.html', '.circuito .card-photo img');
+
   /* 3. Sin JavaScript no queda ningún control muerto. */
   await cdp('Emulation.setScriptExecutionDisabled', { value: true });
   await abrir('galeria.html', 390);
