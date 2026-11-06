@@ -73,7 +73,23 @@ test('G6–G9: el armado real pasa todas las guardias de la salida', async () =>
   assert.deepStrictEqual(problemas, []);
   const version = JSON.parse(fs.readFileSync(path.join(salida, 'sitio', 'version-demo.json'), 'utf8'));
   assert.strictEqual(version.sha, SHA);
-  assert.deepStrictEqual(version.manifiesto.map((r) => r.id), ['O4', 'O12', 'O6', 'O1', 'O2', 'O3', 'O11', 'O5', 'O7', 'O10']);
+  assert.deepStrictEqual(version.manifiesto.map((r) => r.id), ['O4', 'O12', 'O6', 'O1', 'O2', 'O3', 'O11', 'O13', 'O5', 'O7', 'O10']);
+});
+
+test('O13 y G14: el aviso de privacidad de la demo nombra lo que la demo tiene; producción, no', async () => {
+  const { salida, origen } = await armadoBase();
+  const p = await importar('scripts/privacidad.mjs');
+  const version = JSON.parse(fs.readFileSync(path.join(salida, 'sitio', 'version-demo.json'), 'utf8'));
+  assert.deepStrictEqual(version.manifiesto.find((r) => r.id === 'O13').cambiados, Object.values(p.AVISOS));
+  for (const [idioma, rel] of Object.entries(p.AVISOS)) {
+    const demoHtml = fs.readFileSync(path.join(salida, 'sitio', rel), 'utf8');
+    for (const zona of p.ZONAS) assert.ok(demoHtml.includes(p.TEXTOS[idioma][zona].tienda), `${rel}: la demo sin ${zona}`);
+    assert.deepStrictEqual(p.problemasDeZonas(fs.readFileSync(path.join(origen, rel), 'utf8'), idioma, false), [], `${rel}: el origen es el de producción`);
+  }
+  // Control en rojo: el manifiesto sin O13 sirve en la demo el texto de producción.
+  const d = await demo;
+  const { problemas } = await armarDesde(base.origen, { manifiesto: d.MANIFIESTO.filter((e) => e.id !== 'O13') });
+  assert.strictEqual(problemas.filter((x) => x.startsWith('G14 ')).length, 9, problemas.join('\n'));
 });
 
 test('G6: cada página lleva noindex, la franja en su idioma y «[Demo]»; sin sitemap, IndexNow ni GA4 de producción', async () => {

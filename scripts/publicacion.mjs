@@ -20,6 +20,10 @@
        origin/rediseno-agosto-2026 (git fetch) y rehúsa un árbol sucio, un HEAD
        distinto del sha y un sha que no sea la punta de origin
        (motivosParaNoPublicar). Por eso el sha se empuja ANTES de publicar.
+       Rehúsa también si el aviso de privacidad exportado dice otra cosa que
+       el publicado en www.lausof.com y su «Vigente desde» no es hoy en Salta
+       (scripts/privacidad.mjs, revisarAviso; auditoría B2 de
+       web/privacidad-2026-11-05/7-auditoria-build.md).
        Borra la carpeta al terminar bien, salvo --conservar.
    comprobar
        Sólo lecturas: la lista de archivos del deploy publicado (API de
@@ -33,6 +37,7 @@ import os from 'node:os';
 import { execFileSync, spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { HOST_PRODUCCION, NETLIFY_PRODUCCION } from './entorno.mjs';
+import { revisarAviso } from './privacidad.mjs';
 
 export const RAIZ = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const RAMA = 'rediseno-agosto-2026';
@@ -385,6 +390,8 @@ async function publicar({ sha, salida, conservar = false, permitirAnterior = fal
   const problemas = problemasDeLaExportacion(x.salida, { clave: x.clave });
   for (const p of problemas) console.error(`ROJO ${p}`);
   if (problemas.length) throw new Error(`no se publica: ${problemas.length} problema(s) en la exportación (${x.salida})`);
+  const aviso = await revisarAviso({ dir: x.salida, host: HOST_PRODUCCION });
+  if (aviso.length) throw new Error(`no se publica (exportación en ${x.salida}):\n  - ${aviso.join('\n  - ')}`);
   console.log(`exportado ${x.publicos.length} archivos (${x.afuera.length} quedan afuera) en ${x.salida}`);
   const r = spawnSync('npx', ['--yes', 'netlify-cli', 'deploy', '--prod', '--no-build', '--dir', x.salida,
     '--site', NETLIFY_PRODUCCION.id, '--message', `${RAMA} ${sha}`], { cwd: os.tmpdir(), stdio: 'inherit' });

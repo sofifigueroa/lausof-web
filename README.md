@@ -763,7 +763,11 @@ Siempre en este orden, desde un worktree limpio con HEAD = el sha a publicar.
 así que el push va antes y no después:
 
 1. **Merge**: el trabajo entra a `rediseno-agosto-2026` (merge o avance
-   rápido) en el worktree del integrador; `<sha40>` es esa punta.
+   rápido) en el worktree del integrador; `<sha40>` es esa punta. Si el
+   deploy cambia lo que dice el aviso de privacidad (o lo publica por
+   primera vez), el último commit es `node scripts/privacidad.mjs vigencia`
+   (hoy en Salta en las tres páginas): `publicar` lo exige (sección «Aviso de
+   privacidad»).
 2. **Gate**: `~/.lausof-fleet/remote-gate.sh --tier integrator --require-clean --no-db <worktree> -- npm test`
    en verde sobre ese sha.
 3. **Push**: `git push origin rediseno-agosto-2026` (sólo avance rápido, nunca
@@ -868,13 +872,35 @@ art. 6, versión corta del 06/11/2026; diseño, textos y auditoría en
 `~/lausof/web/privacidad-2026-11-05/`). Cuatro apartados: responsable (con el
 domicilio legal, `DOMICILIO_LEGAL` de `scripts/empresa.mjs`), datos y para
 qué, quién los recibe (Google, Netlify, Apacheta por su marca y sin enlace,
-Mercado Pago con su aviso) y derechos con la leyenda de la Res. AAIP 14/2018.
+y derechos con la leyenda de la Res. AAIP 14/2018.
+- **Dice sólo lo que el sitio tiene** (auditoría B1 de
+  `7-auditoria-build.md`). Las frases del asistente, la reserva en línea y
+  Mercado Pago viven en `TEXTOS` de `scripts/privacidad.mjs` y se escriben en
+  las zonas `<!-- GENERADO:AVISO consultas|apacheta|pago -->` según
+  `PERFILES.produccion.tienda.activa` (hoy `false`: el texto P1, Apacheta
+  «recibe, por cuenta de Lausof, los correos» y sin Mercado Pago).
+  `node scripts/privacidad.mjs` las escribe, `--comprobar` sale con 1 si no
+  coinciden. El release que enciende la vitrina pone la llave en `true`,
+  corre el script y la fecha en el mismo commit; `tests/privacidad.test.js`
+  falla si las frases aparecen con la llave apagada o faltan con la llave
+  encendida. La demo las enciende con O13 (`scripts/demo.mjs`, guardia G14).
 - No se indexan: `noindex,follow`, fuera del sitemap y de IndexNow, sin
   hreflang, canónica ni Open Graph. Se llega desde el pie de todas las
   páginas. Para que producción las publique están en
   `PAGINAS_FUERA_DEL_SITEMAP`.
 - Los enlaces de idioma (barra y pie) van entre los tres avisos (`privadas`
   en `tests/util.js`).
-- «Vigente desde» es la fecha de publicación: si cambia lo que el aviso dice,
-  se cambia la fecha en el mismo commit. La forma del aviso (apartados,
-  leyenda, responsable, que no se indexe) la vigila `tests/privacidad.test.js`.
+- **«Vigente desde» es el día en que el texto se publica** (auditoría B2).
+  No se escribe a mano: `node scripts/privacidad.mjs vigencia` pone hoy en
+  Salta en las tres páginas, cada una en su formato (`--fecha AAAA-MM-DD`
+  para otro día), y va en el commit que se publica. `publicacion.mjs publicar`
+  lee los tres avisos en www.lausof.com y rehúsa si el texto (sin la línea de
+  la fecha) difiere del publicado, o la página todavía no está, y la fecha no
+  es hoy en Salta; también si la fecha cambia sin que cambie el texto o si
+  los tres idiomas no dicen el mismo día. Sin poder leer lo publicado (red,
+  un estado que no es 200 ni 404) no publica. Si `publicar` corre después de
+  la medianoche de Salta, se vuelve a correr `vigencia`, gate, push y
+  `publicar`.
+- La forma del aviso (apartados, leyenda, responsable, que no se indexe, el
+  acople con la vitrina y las tres fechas iguales) la vigila
+  `tests/privacidad.test.js`.

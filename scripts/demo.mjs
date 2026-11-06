@@ -46,6 +46,7 @@ import {
 import {
   esPublico, exportar, podar, problemasDeLaExportacion, problemasDeLaListaEnVivo, SONDAS,
 } from './publicacion.mjs';
+import { AVISOS, conZonas, problemasDeZonas } from './privacidad.mjs';
 
 export const RAIZ = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const RAMA = 'rediseno-agosto-2026';
@@ -98,7 +99,7 @@ const esTexto = (rel) => /\.(html|css|js|mjs|json|txt|xml|md|toml)$|^_headers$|^
 // El manifiesto: la lista cerrada de lo que la demo cambia (3b §1.3)
 // ---------------------------------------------------------------------------
 // Cada entrada aplica su cambio sobre <sitio> y anota qué rutas tocó. Las
-// condicionales (O4, O11, O12) pueden no tocar nada mientras la vitrina no
+// condicionales (O4, O11, O12, O13) pueden no tocar nada mientras la vitrina no
 // exista; las demás tienen que cambiar algo o la salida no pasa (G8).
 
 const LINEA_GTAG_SRC = /^[ \t]*<script async src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-[A-Z0-9]+"><\/script>\n/m;
@@ -223,6 +224,18 @@ export const MANIFIESTO = [
     },
   },
   {
+    id: 'O13', tipo: 'valor', condicional: true,
+    que: 'el aviso de privacidad dice lo que la demo tiene: las zonas GENERADO:AVISO con tienda.activa del perfil (asistente, reservas en línea, Mercado Pago)',
+    aplicar(c) {
+      // Condicional sólo porque un sha anterior al aviso no lo tiene; con el
+      // aviso, G14 exige que sus zonas sean las del perfil.
+      for (const [idioma, rel] of Object.entries(AVISOS)) {
+        if (!existe(c.sitio, rel)) { c.pendiente(`O13: ${rel} no existe en este sha`); continue; }
+        c.editar(rel, (html) => conZonas(html, idioma, c.perfil.tienda.activa));
+      }
+    },
+  },
+  {
     id: 'O5', tipo: 'valor',
     que: 'robots.txt: Allow: / sin la línea Sitemap (un Disallow escondería el noindex)',
     aplicar(c) { c.editar('robots.txt', () => 'User-agent: *\nAllow: /\n'); },
@@ -302,7 +315,7 @@ export async function aplicarManifiesto({ salida, perfil, sha, ahora = new Date(
 export const rutasDelRegistro = (registro) => new Set(registro.flatMap((r) => [...r.cambiados, ...r.agregados, ...r.quitados]));
 
 // ---------------------------------------------------------------------------
-// Guardias de la salida (G6–G9 de 3b §2). Devuelve la lista de problemas.
+// Guardias de la salida (G6–G9 de 3b §2, G13 y G14). Devuelve la lista de problemas.
 // ---------------------------------------------------------------------------
 export function verificarSalida({ salida, origen, perfil, manifiesto = MANIFIESTO, fuentes = RAIZ }) {
   const problemas = [];
@@ -388,6 +401,13 @@ export function verificarSalida({ salida, origen, perfil, manifiesto = MANIFIEST
     if ((html.match(/\bid="precios"/g) || []).length !== 1 || !/\bid="precios"/.test(zonaTienda(html))) {
       mal(`G8 ${rel}: O11 enlaza a #precios y el ancla no es única o no está en la vitrina`);
     }
+  }
+
+  // G14: el aviso de privacidad de la demo describe lo que la demo tiene
+  // (7-auditoria-build.md B1): sus zonas son las de tienda.activa del perfil.
+  for (const [idioma, rel] of Object.entries(AVISOS)) {
+    if (!existe(sitio, rel)) continue;
+    for (const x of problemasDeZonas(leer(sitio, rel), idioma, perfil.tienda.activa)) mal(`G14 ${x}`);
   }
 
   // G9: quien prueba no sale de la demo.
@@ -728,7 +748,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
       for (const r of version.manifiesto) console.log(`${r.id}: ${r.cambiados.length} cambiados, ${r.agregados.length} agregados, ${r.quitados.length} quitados`);
       for (const x of version.pendientes) console.log(`PENDIENTE ${x}`);
       for (const x of problemas) console.log(`ROJO ${x}`);
-      console.log(problemas.length ? `${problemas.length} guardia(s) en rojo` : `salida en ${o.salida}: guardias G6–G9 y G13 en verde`);
+      console.log(problemas.length ? `${problemas.length} guardia(s) en rojo` : `salida en ${o.salida}: guardias G6–G9, G13 y G14 en verde`);
       process.exitCode = problemas.length ? 1 : 0;
     } else if (orden === 'publicar') await publicar(o);
     else if (orden === 'comprobar') {
