@@ -7,8 +7,10 @@
 
    armar --sha <sha40> --salida <carpeta nueva> [--permitir-anterior]
        Escribe el árbol exacto de ese sha (git archive) en <salida>/sitio/, le
-       aplica el MANIFIESTO (la lista cerrada de lo que la demo cambia) y pone
-       al lado netlify.toml y la puerta de la llave. Nunca escribe en una
+       aplica el MANIFIESTO (la lista cerrada de lo que la demo cambia), poda
+       todo lo que no está en la lista de permitidos de producción
+       (scripts/publicacion.mjs; sólo suma version-demo.json) y pone al lado
+       netlify.toml y la puerta de la llave. Nunca escribe en una
        carpeta que ya existe ni borra nada fuera de lo que acaba de crear.
    publicar --sha <sha40> [--salida <carpeta nueva>] [--permitir-anterior]
        armar + las guardias de la salida + deploy al sitio de la DEMO con el
@@ -39,6 +41,9 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
   APACHETA, GA4_PRODUCCION, HOST_PRODUCCION, NETLIFY_PRODUCCION, perfil as perfilDe,
 } from './entorno.mjs';
+import {
+  esPublico, exportar, podar, problemasDeLaExportacion, problemasDeLaListaEnVivo, SONDAS,
+} from './publicacion.mjs';
 
 export const RAIZ = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const RAMA = 'rediseno-agosto-2026';
@@ -79,17 +84,11 @@ export const idiomaDe = (html) => {
   return lang.startsWith('en') ? 'en' : lang.startsWith('pt') ? 'pt' : 'es';
 };
 
-const claveIndexNow = (raiz) => (leer(raiz, 'scripts/indexnow.mjs').match(/export const CLAVE = '([0-9a-f]+)'/) || [])[1];
+const claveIndexNow = (raiz) => (existe(raiz, 'scripts/indexnow.mjs')
+  ? (leer(raiz, 'scripts/indexnow.mjs').match(/export const CLAVE = '([0-9a-f]+)'/) || [])[1] : null);
 
-// Rutas que _redirects esconde con 404! (README, tests/, scripts/, demo/…):
-// se suben con el deploy pero nadie las ve. Las guardias de «lo que se sirve»
-// las dejan afuera.
-export const internosDe = (redirects) => redirects.split('\n').map((l) => l.trim())
-  .filter((l) => l && !l.startsWith('#')).map((l) => l.split(/\s+/))
-  .filter((r) => r[2] === '404!' && r[1] === '/404.html').map((r) => r[0]);
-
-export const esInterno = (rel, internos) => internos.some((regla) => (regla.endsWith('/*')
-  ? `/${rel}`.startsWith(regla.slice(0, -1)) : `/${rel}` === regla));
+// Lo que la demo publica de más sobre la lista de permitidos de producción.
+export const EXTRAS_DEMO = ['version-demo.json'];
 
 const esTexto = (rel) => /\.(html|css|js|mjs|json|txt|xml|md|toml)$|^_headers$|^_redirects$/.test(rel);
 
@@ -263,6 +262,7 @@ const huellaArchivo = (raiz, rel) => crypto.createHash('sha1').update(fs.readFil
 // demo/sitio/**) sale siempre del árbol del sha.
 export async function aplicarManifiesto({ salida, perfil, sha, ahora = new Date(), manifiesto = MANIFIESTO, fuentes = RAIZ }) {
   const sitio = path.join(salida, 'sitio');
+  const clave = claveIndexNow(sitio);
   const textos = await import(pathToFileURL(path.join(fuentes, 'demo', 'textos.mjs')).href);
   const registro = [];
   const pendientes = [];
@@ -290,6 +290,10 @@ export async function aplicarManifiesto({ salida, perfil, sha, ahora = new Date(
   registro.push({ id: 'O10', cambiados: [], agregados: ['version-demo.json'], quitados: [] });
   const version = { sha, perfil: perfil.nombre, armado: ahora.toISOString(), manifiesto: registro, pendientes };
   escribir(sitio, 'version-demo.json', `${JSON.stringify(version, null, 2)}\n`);
+  // Lo que se sube es la lista de permitidos de producción (scripts/publicacion.mjs)
+  // más version-demo.json: README, CLAUDE.md, scripts/, tests/ y demo/ quedan
+  // afuera aunque el manifiesto los haya necesitado para armar.
+  podar(sitio, { clave, extras: EXTRAS_DEMO });
   return version;
 }
 
@@ -305,8 +309,11 @@ export function verificarSalida({ salida, origen, perfil, manifiesto = MANIFIEST
   const mal = (texto) => problemas.push(texto);
   if (!fs.existsSync(path.join(sitio, 'version-demo.json'))) return ['falta sitio/version-demo.json (O10)'];
   const version = JSON.parse(leer(sitio, 'version-demo.json'));
-  const internos = internosDe(leer(sitio, '_redirects'));
-  const servidos = archivosDe(sitio).filter((rel) => !esInterno(rel, internos) && esTexto(rel));
+  const clave = claveIndexNow(fuentes);
+  const servidos = archivosDe(sitio).filter(esTexto);
+
+  // G13: sitio/ tiene sólo lo permitido y cada enlace interno resuelve adentro.
+  for (const x of problemasDeLaExportacion(sitio, { clave, extras: EXTRAS_DEMO })) mal(`G13 ${x}`);
 
   // G6: la demo siempre se esconde.
   for (const rel of paginasDe(sitio)) {
@@ -319,7 +326,7 @@ export function verificarSalida({ salida, origen, perfil, manifiesto = MANIFIEST
   }
   const headers = leer(sitio, '_headers');
   if (!/^\/\*\n(?:[ \t]+\S[^\n]*\n)*?[ \t]+X-Robots-Tag: noindex, nofollow\n/m.test(headers)) mal('G6 _headers: sin X-Robots-Tag: noindex, nofollow en /*');
-  for (const rel of ['sitemap.xml', `${claveIndexNow(sitio)}.txt`]) if (existe(sitio, rel)) mal(`G6 ${rel}: la demo no lo lleva`);
+  for (const rel of ['sitemap.xml', `${clave}.txt`]) if (existe(sitio, rel)) mal(`G6 ${rel}: la demo no lo lleva`);
   for (const rel of archivosDe(sitio)) if (/^google[0-9a-f]+\.html$/.test(rel)) mal(`G6 ${rel}: la demo no lleva el archivo de Search Console`);
   const robots = leer(sitio, 'robots.txt');
   if (/^Sitemap:/mi.test(robots)) mal('G6 robots.txt: con Sitemap:');
@@ -354,7 +361,7 @@ export function verificarSalida({ salida, origen, perfil, manifiesto = MANIFIEST
   // G8: demo = producción + manifiesto, ni más ni menos.
   if (origen) {
     const declaradas = rutasDelRegistro(version.manifiesto);
-    const delOrigen = new Set(archivosDe(origen));
+    const delOrigen = new Set(archivosDe(origen).filter((rel) => esPublico(rel, { clave })));
     const deLaDemo = new Set(archivosDe(sitio));
     const distintas = new Set();
     for (const rel of delOrigen) if (!deLaDemo.has(rel) || huellaArchivo(origen, rel) !== huellaArchivo(sitio, rel)) distintas.add(rel);
@@ -467,11 +474,10 @@ export async function armar({ sha, salida, permitirAnterior = false, perfil = pe
   return aplicarManifiesto({ salida, perfil, sha });
 }
 
-// El árbol de referencia (producción) para G8: el mismo git archive, aparte.
+// El árbol de referencia (producción) para G8: la misma exportación permitida
+// que publica producción (scripts/publicacion.mjs), aparte.
 async function origenPara(sha, salida) {
-  const origen = path.join(salida, 'produccion');
-  await extraer(sha, origen);
-  return origen;
+  return (await exportar({ sha, salida: path.join(salida, 'produccion') })).salida;
 }
 
 // ---------------------------------------------------------------------------
@@ -593,7 +599,8 @@ export async function comprobar({ sha }) {
   const prod = await listar(NETLIFY_PRODUCCION.id);
   if (prod.error) rojo(`C1 producción: ${prod.error}`);
   else {
-    const esperado = huellasDelSha(objetivo);
+    const claveProd = claveIndexNow(RAIZ);
+    const esperado = new Map([...huellasDelSha(objetivo)].filter(([rel]) => esPublico(rel, { clave: claveProd })));
     const faltan = []; const sobran = []; const distintos = [];
     const esperadas = new Map([...esperado].map(([rel, h]) => [ruta(rel), h]));
     for (const [rel, h] of esperadas) {
@@ -616,10 +623,19 @@ export async function comprobar({ sha }) {
     verde('C3 www.lausof.com/: 200, sin X-Robots-Tag, sin la franja, con el GA4 de producción');
   } else rojo(`C3 www.lausof.com/: ${raizProd.status}, X-Robots-Tag=${raizProd.headers.get('x-robots-tag')}, franja=${htmlProd.includes(CLASE_FRANJA)}, GA4=${htmlProd.includes(GA4_PRODUCCION)}`);
 
-  // Los internos con mayúsculas se sirven en minúsculas (ver NO_LISTADOS).
-  const internosProd = await Promise.all(['/readme.md', '/claude.md'].map(async (r) => [r, (await pedir(`${HOST_PRODUCCION}${r}`)).status]));
-  if (internosProd.every(([, st]) => st === 404)) verde('C3 www.lausof.com: /readme.md y /claude.md dan 404');
-  else rojo(`C3 www.lausof.com: ${internosProd.map(([r, st]) => `${r} ${st}`).join(', ')} (internos a la vista; regla 404! en minúsculas)`);
+  // Lo publicado en producción es sólo la lista de permitidos: la lista de
+  // archivos del deploy (API) no tiene ni una ruta interna, y las internas
+  // conocidas dan 404 en varias grafías (Netlify sirve en minúsculas y las
+  // reglas 404! distinguen mayúsculas: por eso se mira la lista, no una regla).
+  if (!prod.error) {
+    const fuera = problemasDeLaListaEnVivo([...prod.archivos.keys()], { clave: claveIndexNow(RAIZ) });
+    if (fuera.length === 0) verde(`C3 www.lausof.com: los ${prod.archivos.size} archivos del deploy están en la lista de permitidos`);
+    else rojo(`C3 www.lausof.com: ${fuera.length} rutas no permitidas en el deploy (p. ej. ${fuera.slice(0, 4).join('; ')})`);
+  }
+  const sondas = await Promise.all(SONDAS.map(async (r) => [r, (await pedir(`${HOST_PRODUCCION}${r}`)).status]));
+  const abiertas = sondas.filter(([, st]) => st !== 404);
+  if (abiertas.length === 0) verde(`C3 www.lausof.com: ${SONDAS.length} rutas internas en varias grafías dan 404`);
+  else rojo(`C3 www.lausof.com: ${abiertas.map(([r, st]) => `${r} ${st}`).join(', ')} (internos a la vista)`);
 
   const sinLlave = await pedir(`${p.host}/`);
   if (sinLlave.status === 401 && /noindex/.test(sinLlave.headers.get('x-robots-tag') || '')) verde('C3 demo / sin llave: 401 con X-Robots-Tag');
@@ -708,7 +724,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
       for (const r of version.manifiesto) console.log(`${r.id}: ${r.cambiados.length} cambiados, ${r.agregados.length} agregados, ${r.quitados.length} quitados`);
       for (const x of version.pendientes) console.log(`PENDIENTE ${x}`);
       for (const x of problemas) console.log(`ROJO ${x}`);
-      console.log(problemas.length ? `${problemas.length} guardia(s) en rojo` : `salida en ${o.salida}: guardias G6–G9 en verde`);
+      console.log(problemas.length ? `${problemas.length} guardia(s) en rojo` : `salida en ${o.salida}: guardias G6–G9 y G13 en verde`);
       process.exitCode = problemas.length ? 1 : 0;
     } else if (orden === 'publicar') await publicar(o);
     else if (orden === 'comprobar') {

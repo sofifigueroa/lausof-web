@@ -698,24 +698,59 @@ Del lado técnico:
 
 ## Publicación
 
-El deploy publica la carpeta entera (`npx netlify-cli deploy --prod --dir .`,
-ver `WEB-LANE-HANDOFF.md`): el CLI sólo deja afuera lo que empieza con punto.
-Por eso `_redirects` tiene reglas `404!` para todo lo que está en la raíz y no
-es el sitio (`README.md`, `package.json`, `package-lock.json`, `tests/`,
-`scripts/`, `demo/`, `CLAUDE.md`, `e2e/`). Si se suma un archivo o carpeta
-interna a la raíz, necesita su regla en el mismo commit; `tests/seo.test.js` lo
-exige. La excepción es el archivo de la clave de IndexNow
-(`d1eb0835b80b7ebe76ad80c22dc86589.txt`), que sí es público: ver la sección
-siguiente.
+**Producción nunca se publica desde la raíz del repo.** Se publica una
+exportación armada con una lista de permitidos (`scripts/publicacion.mjs`):
+`git archive` del sha con sólo las páginas `.html` (raíz, `en/`, `pt/`),
+`css/*.css`, `js/*.js`, las fotos de `assets/`, `robots.txt`, `sitemap.xml`,
+`_headers`, `_redirects`, el archivo de la clave de IndexNow y `.well-known/`,
+en una carpeta nueva fuera del repo. Todo lo demás (`README.md`, `CLAUDE.md`,
+`package.json`, `scripts/`, `tests/`, `demo/`, `e2e/`, `assets/fotos/biblioteca.json`)
+no se sube, así que no se sirve en ninguna grafía.
+
+Por qué (06/11/2026, `~/lausof/web/demo-reservas-2026-11-06/8-auditoria-entorno.md`):
+con `--dir .` se subía todo. Netlify guarda y sirve los archivos en minúsculas,
+pero las reglas `404!` de `_redirects` distinguen mayúsculas (docs.netlify.com,
+«Paths are case-sensitive»), así que `/README.md` daba 404 y `/Readme.md`,
+`/Scripts/menu.mjs`, `/Tests/util.js` y `/Package.json` daban 200. Las reglas
+`404!` para los internos de la raíz siguen en `_redirects` (`tests/seo.test.js`)
+como segunda capa, pero lo que protege es la exportación.
+
+```bash
+node scripts/publicacion.mjs exportar --sha <sha40> --salida <carpeta nueva>   # sólo arma y revisa
+node scripts/publicacion.mjs publicar --sha <sha40>                            # arma, revisa y sube a producción
+node scripts/publicacion.mjs comprobar                                         # lista del deploy en vivo + sondas 404
+```
+
+- `exportar` y `publicar` revisan la carpeta antes de subir: ningún archivo
+  fuera de la lista, nada de `.md`, `scripts/`, `tests/`, `demo/`, `package*.json`
+  ni archivos con punto, y cada `href`/`src`/`srcset`/`url()` interno de las
+  páginas y hojas resuelve a un archivo exportado (o a una regla de
+  `_redirects` que no sea `404!`). Si un archivo nuevo que el sitio necesita
+  no está en la lista, la revisión lo dice: se suma a `PERMITIDOS` en el mismo
+  commit, nunca se vuelve a `--dir .`.
+- `publicar` exige árbol limpio, HEAD = sha y sha = punta de
+  `origin/rediseno-agosto-2026`; sube con
+  `netlify-cli deploy --prod --no-build --dir <exportación> --site 0abef4b8-…`
+  y borra la exportación al terminar (`--conservar` para dejarla).
+- `comprobar` lee la lista de archivos del deploy publicado por la API de
+  Netlify (en minúsculas) y pide varias grafías de rutas internas: todo tiene
+  que ser permitido y 404.
+- La demo usa la misma lista (`scripts/demo.mjs`, guardia G13): arma con el
+  árbol completo porque el manifiesto lo necesita, y antes de subir poda todo
+  lo que no está permitido, salvo `version-demo.json`.
+- Guardias: `tests/publicacion.test.js` (lista, exportación real con git,
+  enlaces de las 77 páginas, lista en vivo) y G5 de `tests/entorno.test.js`.
+- Los deploys viejos de Netlify (`<id>--lausof.netlify.app`) siguen sirviendo lo
+  que se subió con `--dir .` hasta el 06/11/2026; borrarlos es decisión de Lautaro.
 
 ### El orden de cada deploy a producción (y la demo detrás)
 
 Desde un worktree limpio en la punta de `origin/rediseno-agosto-2026`, con el
 gate verde:
 
-1. `npx netlify-cli deploy --prod --dir . --no-build --site 0abef4b8-2f02-4123-9f79-fcfd58750ac8 --message "rediseno-agosto-2026 <sha40>"`
-   (el título deja legible la historia de Netlify; la prueba de qué sha está
-   en vivo es `comprobar`).
+1. `node scripts/publicacion.mjs publicar --sha <sha40>` (exportación
+   permitida + deploy a producción con el título `rediseno-agosto-2026 <sha40>`)
+   y después `node scripts/publicacion.mjs comprobar`. Nunca `--dir .`.
 2. IndexNow, como dice la sección siguiente.
 3. `git push origin rediseno-agosto-2026` (sólo avance rápido).
 4. `node scripts/demo.mjs publicar --sha <sha40>`: la demo de la vitrina

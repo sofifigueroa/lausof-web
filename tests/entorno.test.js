@@ -136,39 +136,43 @@ test('G4: con tienda.activa = false ninguna página tiene la vitrina ni el chat'
 });
 
 // ---------------------------------------------------------------------------
-// G5: ninguna puerta puede llegar a producción.
+// G5: ninguna puerta ni ningún archivo interno puede llegar a producción.
 // ---------------------------------------------------------------------------
-const reglas404 = (r) => r.split('\n').map((l) => l.trim()).filter((l) => l && !l.startsWith('#'))
-  .map((l) => l.split(/\s+/)).filter((x) => x[1] === '/404.html' && x[2] === '404!').map((x) => x[0]);
-
-const problemasPuerta = (dir, r) => {
+// Producción publica la exportación permitida (scripts/publicacion.mjs), nunca
+// la raíz. Netlify sirve en minúsculas y las reglas 404! distinguen mayúsculas
+// (auditoría 06/11/2026: /Readme.md daba 200), así que la guardia mira qué
+// entra en la exportación, no qué reglas hay.
+const problemasPuerta = (dir, esPublico, rastreados) => {
   const mal = [];
-  // El deploy de producción corre desde la raíz con --dir . y el CLI empaqueta
-  // lo que haya en netlify/edge-functions aunque se use --no-build
-  // (netlify/cli #7933): una puerta ahí cerraría www.lausof.com.
+  // El CLI empaqueta lo que haya en netlify/edge-functions aunque se use
+  // --no-build (netlify/cli #7933): una puerta ahí cerraría www.lausof.com.
   for (const prohibido of ['netlify', 'netlify.toml']) if (fs.existsSync(path.join(dir, prohibido))) mal.push(`${prohibido} en la raíz del repo`);
-  const ocultos = reglas404(r);
-  for (const regla of ['/demo/*', '/CLAUDE.md', '/e2e/*']) if (!ocultos.includes(regla)) mal.push(`${regla} sin su regla 404!`);
-  // Netlify sirve cada ruta en minúsculas: /README.md se sirve como /readme.md.
-  for (const regla of ocultos) {
-    if (regla !== regla.toLowerCase() && !ocultos.includes(regla.toLowerCase())) mal.push(`${regla.toLowerCase()} sin su regla 404! (Netlify sirve en minúsculas)`);
+  for (const rel of rastreados) {
+    if (/^(?:demo|e2e|scripts|tests)\//i.test(rel) || /^(?:claude|readme)\.md$/i.test(rel) || /^package/i.test(rel)) {
+      if (esPublico(rel)) mal.push(`${rel} entra en la exportación`);
+    }
   }
   return mal;
 };
 
-test('G5: el repo no tiene netlify/ ni netlify.toml, y demo/, CLAUDE.md y e2e/ no se publican', () => {
-  assert.deepStrictEqual(problemasPuerta(raiz, redirects), []);
+test('G5: el repo no tiene netlify/ ni netlify.toml, y demo/, CLAUDE.md, README, scripts/, tests/ y e2e/ no entran en la exportación', async () => {
+  const { esPublico } = await importar('scripts/publicacion.mjs');
+  const { execFileSync } = require('node:child_process');
+  const rastreados = execFileSync('git', ['ls-files'], { cwd: raiz, encoding: 'utf8' }).split('\n').filter(Boolean);
+  assert.ok(rastreados.includes('CLAUDE.md') && rastreados.includes('demo/llave.mjs') && rastreados.includes('scripts/entorno.mjs'));
+  assert.deepStrictEqual(problemasPuerta(raiz, esPublico, rastreados), []);
   // Control en rojo: una edge function suelta en una copia de la raíz.
   const copia = fs.mkdtempSync(path.join(os.tmpdir(), 'g5-'));
   try {
     fs.mkdirSync(path.join(copia, 'netlify', 'edge-functions'), { recursive: true });
     fs.writeFileSync(path.join(copia, 'netlify', 'edge-functions', 'x.js'), 'export default () => {}\n');
-    assert.deepStrictEqual(problemasPuerta(copia, redirects), ['netlify en la raíz del repo']);
+    assert.deepStrictEqual(problemasPuerta(copia, esPublico, []), ['netlify en la raíz del repo']);
   } finally {
     fs.rmSync(copia, { recursive: true, force: true });
   }
-  assert.deepStrictEqual(problemasPuerta(raiz, redirects.replace(/^\/demo\/\*.*$/m, '')), ['/demo/* sin su regla 404!']);
-  assert.deepStrictEqual(problemasPuerta(raiz, redirects.replace(/^\/readme\.md .*$/m, '')), ['/readme.md sin su regla 404! (Netlify sirve en minúsculas)']);
+  // Control en rojo: una lista de permitidos que deja pasar todo.
+  assert.deepStrictEqual(problemasPuerta(raiz, () => true, ['CLAUDE.md', 'Demo/llave.mjs', 'scripts/entorno.mjs', 'index.html']),
+    ['CLAUDE.md entra en la exportación', 'Demo/llave.mjs entra en la exportación', 'scripts/entorno.mjs entra en la exportación']);
 });
 
 // ---------------------------------------------------------------------------

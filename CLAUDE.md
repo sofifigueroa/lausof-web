@@ -1,6 +1,6 @@
 # web-sofi: guía para agentes
 
-El sitio de Lausof SRL (www.lausof.com). Cómo se trabaja, se prueba y se publica: `README.md` («Publicación») y `~/lausof/WEB-LANE-HANDOFF.md`. Este archivo no se publica (`_redirects` lo devuelve con 404!).
+El sitio de Lausof SRL (www.lausof.com). Cómo se trabaja, se prueba y se publica: `README.md` («Publicación») y `~/lausof/WEB-LANE-HANDOFF.md`. Este archivo no se publica: producción sube sólo la exportación permitida de `scripts/publicacion.mjs`, nunca la raíz (`--dir .` está prohibido).
 
 ## Sin entornos de prueba, con una excepción: la demo de la vitrina
 
@@ -18,7 +18,7 @@ La regla global es que no hay staging, previews ni entornos de desarrollo: Lauta
 - Ningún otro preview, staging o deploy de rama. Una segunda demo o una demo permanente es otra excepción que sólo Lautaro da.
 
 **Reglas de la demo:**
-- Todo lo que difiere entre producción y la demo está en `scripts/entorno.mjs`. Ningún otro archivo rastreado nombra un host de la demo (guardia G2).
+- Todo lo que difiere entre producción y la demo está en `scripts/entorno.mjs`. Ninguna página, cabecera, robots, js ni css nombra un host de la demo (guardia G2); este archivo y los tests sí, y no se publican.
 - Nada de la demo vive en `netlify/` ni en un `netlify.toml` del repo: el CLI empaquetaría la edge function también en el deploy de producción (netlify/cli #7933). G5 lo impide.
 - Producción nunca espera a la demo. Después de cada deploy de producción, el mismo integrador, desde el mismo árbol limpio:
   1. `node scripts/demo.mjs publicar --sha <sha40>`
@@ -26,6 +26,6 @@ La regla global es que no hay staging, previews ni entornos de desarrollo: Lauta
 
   Si alguno sale en rojo, producción queda como está, se anota «demo atrasada en <sha>: <motivo>» en WEB-LANE-HANDOFF y una lane nueva lo arregla.
 - Orden de quién la ve: los agentes de QA primero (QA, no actuación), después Lautaro, después la familia y Natalia, que la recibe de él. Ningún agente le escribe a la familia.
-- Las guardias G1–G12 están en `tests/entorno.test.js` y `tests/demo.test.js`.
+- Las guardias G1–G13 están en `tests/entorno.test.js` y `tests/demo.test.js`; la lista de permitidos que comparten producción y la demo, en `tests/publicacion.test.js`.
 
 **Cierre:** el release que enciende la vitrina en producción (`PERFILES.produccion.tienda.activa = true`) cierra la demo en la misma lane: borra el sitio de Netlify por la API, la llave del Llavero, `demo/`, `scripts/demo.mjs`, el perfil demo y sus guardias (G1–G3, G5 y G9 quedan), y marca esta sección «cerrada <fecha>». Diseño completo: `~/lausof/web/demo-reservas-2026-11-06/3b-diseno-entorno.md` §7.

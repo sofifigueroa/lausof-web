@@ -226,8 +226,9 @@ test('las redirecciones no tienen un comodín que tape páginas reales', () => {
   }
 });
 
-// NET-PUB: el deploy publica la carpeta entera (`netlify deploy --dir .`) y
-// el CLI sólo deja afuera los archivos que empiezan con punto. Sin reglas,
+// NET-PUB (segunda capa): desde el 06/11/2026 producción sube sólo la
+// exportación permitida (scripts/publicacion.mjs, tests/publicacion.test.js),
+// que es lo que protege en cualquier grafía. Antes, con `--dir .`, sin reglas
 // /README.md y /package.json respondían 200 (curl 10/10/2026). Cada archivo
 // o carpeta de la raíz que no es parte del sitio tiene que tener su regla
 // forzada (con !, porque el archivo existe) que devuelve la 404 propia con

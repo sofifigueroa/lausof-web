@@ -26,7 +26,9 @@ test.after(() => fs.rmSync(temporal, { recursive: true, force: true }));
 // El árbol que el deploy publica (lo rastreado, más lo nuevo sin commitear
 // mientras se trabaja), sin assets/.
 const rastreados = execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard'], { cwd: raiz, encoding: 'utf8' })
-  .split('\n').filter((rel) => rel && !rel.startsWith('assets/') && fs.existsSync(path.join(raiz, rel)));
+  .split('\n').filter((rel) => rel && fs.existsSync(path.join(raiz, rel)));
+const fotos = rastreados.filter((rel) => rel.startsWith('assets/'));
+rastreados.splice(0, rastreados.length, ...rastreados.filter((rel) => !rel.startsWith('assets/')));
 
 let contador = 0;
 const copiarArbol = (cambiar) => {
@@ -34,6 +36,11 @@ const copiarArbol = (cambiar) => {
   for (const rel of rastreados) {
     fs.mkdirSync(path.dirname(path.join(dir, rel)), { recursive: true });
     fs.copyFileSync(path.join(raiz, rel), path.join(dir, rel));
+  }
+  // Las fotos van vacías: G13 sólo mira que cada enlace resuelva a un archivo.
+  for (const rel of fotos) {
+    fs.mkdirSync(path.dirname(path.join(dir, rel)), { recursive: true });
+    fs.writeFileSync(path.join(dir, rel), '');
   }
   if (cambiar) cambiar(dir);
   return dir;
@@ -170,6 +177,18 @@ test('O8 y O9: netlify.toml y la puerta van al lado de sitio/, nunca adentro', a
   assert.match(toml, /excludedPath = \["\/assets\/\*", "\/robots\.txt"\]/);
   assert.strictEqual(fs.readFileSync(path.join(salida, 'netlify', 'edge-functions', 'llave.js'), 'utf8'),
     fs.readFileSync(path.join(raiz, 'demo', 'llave.mjs'), 'utf8'));
+});
+
+test('G13: la demo sube sólo la lista de permitidos de producción más version-demo.json', async () => {
+  const { salida, problemas } = await armadoBase();
+  assert.deepStrictEqual(problemas.filter((x) => x.startsWith('G13')), []);
+  const sitio = path.join(salida, 'sitio');
+  for (const rel of ['README.md', 'CLAUDE.md', 'package.json', 'scripts', 'tests', 'demo']) assert.ok(!fs.existsSync(path.join(sitio, rel)), rel);
+  assert.ok(fs.existsSync(path.join(sitio, 'version-demo.json')) && fs.existsSync(path.join(sitio, 'css', 'demo.css')));
+  // Control en rojo: un archivo interno que aparece después del armado.
+  const suelto = await armarDesde(base.origen, { despues: (s) => fs.writeFileSync(path.join(s, 'Claude.md'), 'x') });
+  assert.deepStrictEqual(suelto.problemas.filter((x) => x.startsWith('G13')),
+    ['G13 Claude.md: un .md no se publica nunca', 'G13 Claude.md: CLAUDE.md / README no se publica nunca', 'G13 Claude.md: no está en la lista de permitidos']);
 });
 
 // ---------------------------------------------------------------------------
