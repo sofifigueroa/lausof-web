@@ -81,7 +81,8 @@ test('G6: cada página lleva noindex, la franja en su idioma y «[Demo]»; sin s
   assert.ok(html('pt/index.html').includes(FRANJA.pt.texto));
   assert.match(html('404.html'), /<meta name="robots" content="noindex, nofollow">/);
   assert.doesNotMatch(html('index.html'), /googletagmanager\.com\/gtag/);
-  assert.ok(fs.existsSync(path.join(sitio, 'css', 'demo.css')));
+  assert.match(html('index.html'), /<style id="demo-marca">\.demo-franja\{[^<]+<\/style>\n<\/head>/);
+  assert.ok(!fs.existsSync(path.join(sitio, 'css', 'demo.css')));
   assert.strictEqual(fs.readFileSync(path.join(sitio, 'robots.txt'), 'utf8'), 'User-agent: *\nAllow: /\n');
   for (const rel of ['sitemap.xml', 'd1eb0835b80b7ebe76ad80c22dc86589.txt', 'google40eac84837fa77f1.html']) {
     assert.ok(!fs.existsSync(path.join(sitio, rel)), `${rel} sigue en la demo`);
@@ -139,20 +140,23 @@ test('O11: la respuesta del precio cambia sólo donde la vitrina existe', async 
   const d = await demo;
   if (!d.zonaTienda(cafayate)) assert.match(cafayate, /<summary>¿Cuánto cuesta\?<\/summary>\s*<p>[^<]*la cotización se envía por escrito/);
   // Con la vitrina (simulada en el origen como la escribiría el generador), la
-  // respuesta pasa a la de 4-textos §5. El ancla #reservar es de la vitrina: la
-  // sección vieja «Cómo pedirlo» que hoy usa ese id lo deja.
+  // respuesta pasa a la de 4-textos §5. El ancla de la vitrina es #precios
+  // (#reservar sigue siendo «Cómo reservar» en producción).
   const paginasConVitrina = ['traslado-salta-cafayate.html', 'traslado-serenata-a-cafayate.html', 'en/salta-to-cafayate-transfer.html', 'pt/traslado-salta-cafayate.html'];
-  const conVitrina = (renombrar) => copiarArbol((dir) => {
-    for (const rel of paginasConVitrina) {
-      editar(dir, rel, (h) => (renombrar ? h.replace(/\bid="reservar"/g, 'id="como-pedirlo"') : h)
-        .replace('</main>', '<!-- GENERADO:TIENDA -->\n<section id="reservar" data-servicios="x"></section>\n<!-- /GENERADO:TIENDA -->\n</main>'));
-    }
+  const bloque = (atributos) => `<!-- GENERADO:TIENDA bloque -->\n<section class="block tienda" id="precios" ${atributos}></section>\n<!-- /GENERADO:TIENDA -->\n</main>`;
+  const conVitrina = (atributos, extra = '') => copiarArbol((dir) => {
+    for (const rel of paginasConVitrina) editar(dir, rel, (h) => h.replace('</main>', `${extra}${bloque(atributos)}`));
   });
-  const { salida: s2, problemas } = await armarDesde(conVitrina(true));
+  const { salida: s2, problemas } = await armarDesde(conVitrina('data-servicios="x" data-tienda-con-precio'));
   assert.deepStrictEqual(problemas, []);
-  // Control en rojo: el ancla vieja sigue en la página y #reservar queda doble.
-  const doble = await armarDesde(conVitrina(false));
-  assert.deepStrictEqual(doble.problemas, ['G8 traslado-serenata-a-cafayate.html: O11 enlaza a #reservar y el ancla no es única o no está en la vitrina']);
+  // Control en rojo 1: la vitrina sin tarjeta con precio (eventos «solo presupuesto») deja el texto de hoy.
+  const sinPrecio = await armarDesde(conVitrina('data-servicios="x"'));
+  assert.match(fs.readFileSync(path.join(sinPrecio.salida, 'sitio', 'traslado-serenata-a-cafayate.html'), 'utf8'),
+    /<summary>¿Cuánto cuesta\?<\/summary>\s*<p>[^<]*la cotización se envía por escrito/);
+  // Control en rojo 2: #precios doble en la página.
+  const doble = await armarDesde(conVitrina('data-tienda-con-precio', '<p id="precios"></p>'));
+  assert.strictEqual(doble.problemas.length, paginasConVitrina.length);
+  assert.ok(doble.problemas.every((p) => p.endsWith('O11 enlaza a #precios y el ancla no es única o no está en la vitrina')), doble.problemas.join('\n'));
   const html = (rel) => fs.readFileSync(path.join(s2, 'sitio', rel), 'utf8');
   assert.ok(html('traslado-salta-cafayate.html').includes(`<summary>¿Cuánto cuesta?</summary>\n          <p>${RESPUESTA_PRECIO.es.precio}</p>`));
   assert.ok(html('traslado-serenata-a-cafayate.html').includes(RESPUESTA_PRECIO.es.evento));

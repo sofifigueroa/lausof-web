@@ -1,6 +1,6 @@
 /* Marca de la demo (3a §8 capa 1; 4-textos §7.1). Sólo existe en la demo:
-   `node scripts/demo.mjs armar` la copia a /css/demo.css y agrega la franja
-   después de <body>. No es fija: se va con el scroll, así no le quita alto al
+   `node scripts/demo.mjs armar` la pone en línea en <head> (sin comentarios ni
+   saltos) y agrega la franja después de <body>. No es fija: se va con el scroll, así no le quita alto al
    encabezado en el teléfono ni tapa ningún control. */
 .demo-franja{
   background:var(--navy-deep,#131b30);
