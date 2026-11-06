@@ -179,13 +179,24 @@ for (const nombre of HUBS) {
     assert.doesNotMatch(html, /apacheta/i, 'el widget de Apacheta no va todavía');
   });
 
-  test(`${nombre}: tres caminos de contacto al 526-9009 y a transporte@, con el pedido de documentación`, () => {
+  // Revisión de Lautaro del 05/11/2026 (noche, filas 1–3): el héroe ya no
+  // lleva «Solicitar documentación de proveedor»; el pedido vive sólo en la
+  // sección de documentación, que dice en claro que Lausof manda SU
+  // documentación para el alta de proveedor. Nada de «tarifario del
+  // cliente» ni de portales de contratistas.
+  test(`${nombre}: dos caminos de contacto en el héroe, y el pedido de documentación sólo en su sección`, () => {
     const head = cuerpo.match(/<section class="page-head hub-head"[\s\S]*?<\/section>/)[0];
-    assert.strictEqual((head.match(/<a class="btn/g) || []).length, 3);
+    assert.strictEqual((head.match(/<a class="btn/g) || []).length, 2);
     assert.match(head, /href="https:\/\/wa\.me\/5493875269009\?text=/);
-    assert.strictEqual((head.match(/href="mailto:transporte@lausof\.com\?/g) || []).length, 2);
-    const asunto = nombre === ES ? 'Solicitud%20de%20documentaci%C3%B3n%20de%20proveedor' : 'Supplier%20prequalification%20%E2%80%94%20documents';
-    assert.ok(cuerpo.includes(`mailto:transporte@lausof.com?subject=${asunto}&amp;body=`), 'falta el pedido de documentación');
+    assert.strictEqual((head.match(/href="mailto:transporte@lausof\.com\?/g) || []).length, 1);
+    assert.doesNotMatch(head, /data-prefill="proveedor"/, 'el pedido de documentación volvió al héroe');
+    const asunto = nombre === ES ? 'Documentaci%C3%B3n%20para%20alta%20de%20proveedor' : 'Supplier%20registration%20%E2%80%94%20Lausof%20documents';
+    const docs = cuerpo.match(/<section class="block" id="(?:documentacion|documents)">([\s\S]*?)<\/section>/)[1];
+    assert.strictEqual((cuerpo.match(/data-prefill="proveedor"/g) || []).length, 1, 'un solo pedido de documentación');
+    assert.ok(docs.includes(`mailto:transporte@lausof.com?subject=${asunto}&amp;body=`), 'falta el pedido de documentación');
+    assert.match(visible(docs), nombre === ES ? /dar de alta a Lausof como proveedor/ : /register Lausof as a supplier/);
+    assert.doesNotMatch(texto, /tarifario|rate sheet|documentaci[oó]n de proveedor|supplier documents|portal del contratista|contractor's portal/i,
+      'frases que Lautaro no entendió (05/11 noche)');
     const barra = html.match(/<div class="wa-bar tres"[\s\S]*?<\/div>/)[0];
     assert.deepStrictEqual([...barra.matchAll(/href="(tel|mailto|https:\/\/wa)/g)].map((m) => m[1]), ['tel', 'mailto', 'https://wa']);
   });
