@@ -211,6 +211,9 @@ try {
     const vacias = await evaluar(`(async () => { const fuera = [];
       for (const [k, g] of [...document.querySelectorAll('.galeria')].entries()) {
         g.scrollIntoView({ block: 'center' });
+        // js/galeria.js les pone la foto desde un IntersectionObserver, que
+        // avisa en el cuadro siguiente: se le da tiempo antes de mirar.
+        await new Promise((r) => setTimeout(r, 400));
         const imgs = [...g.querySelectorAll('.galeria-miniaturas img')];
         await Promise.race([Promise.all(imgs.map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r; }))),
           new Promise((r) => setTimeout(r, 4000))]);
