@@ -19,7 +19,6 @@ const { paginasEs, sinComentarios } = require('./util.js');
 // Páginas anteriores a octubre de 2026 que siguen en "vos" (medido el 13/10).
 const EN_VOS = new Set([
   '404.html',
-  'alquiler-4x4.html',
   'alquiler-autoelevadores.html',
   'cargas-refrigeradas.html',
   'charter-recitales.html',
