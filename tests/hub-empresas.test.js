@@ -65,7 +65,7 @@ const DISENO = {
     grupos: [['crew', 'Mining crew transport'], ['freight', 'Freight']],
     secciones: ['services', 'safety', 'equipment', 'how-we-work', 'documents', 'contact'],
     pruebas: ['CNRT 60284 · interprovincial', 'AMT', 'Every mining area', '24/7',
-      'Tax ID · Factura A · 21 % VAT', 'Own fleet and workshop', 'Since 2010', 'International trips'],
+      'Tax ID · Factura A', 'Own fleet and workshop', 'Since 2010', 'International trips'],
     enlacesPrueba: { 'Every mining area': '/en/mining-logistics.html#areas', 'Own fleet and workshop': '#equipment' },
     practicas: ['Units fitted out for mine-site entry', 'On-board trip log per unit', 'Incident reports signed by the driver',
       'Zero tolerance', 'Documented preventive maintenance', 'Drivers with a professional license', 'Insurance in force'],

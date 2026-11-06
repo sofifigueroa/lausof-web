@@ -557,7 +557,30 @@ for (const [nombre, html] of Object.entries(paginasEn)) {
 // 18. Ortografía estadounidense (decisión de Lautaro, 31/08). Consistente en
 //     todas las páginas: mezclar registros delata la traducción.
 // ---------------------------------------------------------------------------
-const ortografiaBritanica = /\b(licence|licences|organisation|organisations|authorisation|authorised|kilometres|metres|tonnes|programme|centre|tyres?|specialise[ds]?|analyse[ds]?)\b/i;
+const ortografiaBritanica = /\b(licence|licences|organisation|organisations|authorisation|authorised|kilometres|metres|tonnes|programme|centre|tyres?|specialise[ds]?|analyse[ds]?|cancell(?:ed|ing))\b/i;
+
+// «Agencia de turismo habilitada» se dice «licensed tourism agency»: «travel
+// agency» suena a vender pasajes y hoteles (auditoría EN 05/11/2026, F3). «Your
+// travel agency» (la agencia del cliente) sigue valiendo.
+for (const [nombre, html] of Object.entries(paginasEn)) {
+  test(`${nombre}: «licensed tourism agency», nunca «licensed travel agency»`, () => {
+    assert.doesNotMatch(textoVisible(html), /licensed travel agency/i);
+  });
+  // «NOA» es una sigla argentina que un lector extranjero no conoce (F4).
+  test(`${nombre}: sin la sigla «NOA»`, () => {
+    assert.doesNotMatch(textoVisible(html), /\bNOA\b/);
+  });
+}
+
+// Fechas y horas al estilo de EE.UU.: «October 10, 2026», nunca «10 October
+// 2026»; «9:30 p.m.», nunca «9:30 pm» (auditoría EN 05/11/2026, F8).
+const fechaBritanica = /\b\d{1,2} (January|February|March|April|May|June|July|August|September|October|November|December) \d{4}\b|\b\d{1,2}(:\d{2})? ?(am|pm)\b/;
+for (const [nombre, html] of Object.entries(paginasEn)) {
+  test(`${nombre}: fechas y horas al estilo de EE.UU.`, () => {
+    const m = textoVisible(html).match(fechaBritanica);
+    assert.ok(!m, `fecha u hora con estilo británico en ${nombre}: "${m && m[0]}"`);
+  });
+}
 
 for (const [nombre, html] of Object.entries(paginasEn)) {
   test(`${nombre}: ortografía estadounidense`, () => {
@@ -576,7 +599,7 @@ const requeridasEn = [
   ['habilitación CNRT', /CNRT/],
   ['número de CNRT', /60284/],
   ['habilitación AMT', /AMT/],
-  ['agencia de turismo habilitada', /licensed (travel agency|tour operator)/i],
+  ['agencia de turismo habilitada', /licensed tourism agency/i],
   ['psicofísico al día', /medical fitness/i],
   ['ART al día', /\bART\b/],
   ['teléfono satelital en altura', /satellite phone/i],
