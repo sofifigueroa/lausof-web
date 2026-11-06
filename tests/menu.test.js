@@ -73,6 +73,27 @@ test('las dos secciones, en el orden del diseño, con los nombres de 4-textos §
   assert.ok(es.indexOf('Personal para minería') < es.indexOf('>Cargas<'), 'Cargas tiene que ir después de Personal para minería');
 });
 
+// En las columnas de sección del pie de las portadas, «Ver todo» va al final
+// de cada columna, después de los servicios (Lautaro, 05/11/2026).
+test('en el pie de las portadas, «Ver todo» es el último enlace de cada columna', async () => {
+  const { MENU, PORTADAS } = await cargar();
+  for (const portada of PORTADAS) {
+    const t = MENU[idiomaDe(portada)];
+    const zona = paginas[portada].match(/<!-- GENERADO:PIE[\s\S]*?<!-- \/GENERADO:PIE -->/)[0];
+    const columnas = zona.match(/<div class="wrap pie-secciones"><div>([\s\S]*?)<\/div><div>([\s\S]*)<\/div><\/div>/);
+    assert.ok(columnas, `${portada}: no encuentro las dos columnas del pie`);
+    const enlaces = (col) => [...col.matchAll(/<a href="([^"]*)"[^>]*>([^<]*)<\/a>/g)].map((m) => [m[2], m[1]]);
+    const turismo = enlaces(columnas[1]);
+    assert.deepStrictEqual(turismo.at(-1), [t.verTodo, t.turismo.hub], `${portada}: «${t.verTodo}» no cierra la columna de turismo`);
+    assert.strictEqual(turismo.filter(([texto]) => texto === t.verTodo).length, 1);
+    if (!t.empresas.es) {
+      const empresas = enlaces(columnas[2]);
+      assert.deepStrictEqual(empresas.at(-1), [t.verTodo, t.empresas.hub], `${portada}: «${t.verTodo}» no cierra la columna de empresas`);
+      assert.strictEqual(empresas.filter(([texto]) => texto === t.verTodo).length, 1);
+    }
+  }
+});
+
 test('la etiqueta de sección del teléfono sólo va en páginas de turismo y empresas', async () => {
   const { seccionDe } = await cargar();
   for (const [nombre, html] of conMenu) {

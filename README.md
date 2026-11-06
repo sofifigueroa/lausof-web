@@ -106,7 +106,7 @@ Lo que el script no decide y va escrito a mano en el `<img>`:
 
 Dos cosas que hay que recordar al tocar el código:
 
-- **Todo se pide con ruta desde la raíz** (`/css/styles.css?v=27`, `/assets/…`,
+- **Todo se pide con ruta desde la raíz** (`/css/styles.css?v=28`, `/assets/…`,
   `/js/…`, y la portada como `/`, nunca `index.html`), en español igual que en
   inglés. Netlify sirve cada página también como `/turismo/` o `/turismo.html/`,
   y desde ahí una ruta relativa (`css/…`) da 404 y la página sale sin diseño
@@ -114,7 +114,7 @@ Dos cosas que hay que recordar al tocar el código:
   solo; `tests/rutas-raiz.test.js` corta si vuelve una ruta relativa. Cada
   página lleva además en `_redirects` su 301 desde la variante sin `.html`
   (`/turismo` → `/turismo.html`); una página nueva necesita su renglón (hay test).
-- **La hoja de estilos tiene cache-busting a mano** (`/css/styles.css?v=27`). Cada
+- **La hoja de estilos tiene cache-busting a mano** (`/css/styles.css?v=28`). Cada
   vez que se cambia el CSS hay que subir ese número en los dos HTML, o quien ya
   entró sigue viendo la hoja vieja.
 - **Las fotos de cada tarjeta rotan con una animación por cantidad de fotos**

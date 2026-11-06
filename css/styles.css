@@ -252,16 +252,25 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
    Turismo y traslados · Personal para minería · Cargas, en ese orden
    (decisión b del 05/11/2026). Cada una con su foto, su línea, 3-4 enlaces
    y su WhatsApp. En el teléfono son tres renglones apilados que entran en la
-   primera pantalla: toda la puerta es un enlace a su hub. */
-.puertas{padding:24px 0 22px}
+   primera pantalla: toda la puerta es un enlace a su hub.
+   La foto va en 16:9 (05/11/2026, Lautaro: las fotos se veían apretadas):
+   con la franja anterior de 104 px el recorte cortaba el techo de la combi,
+   el minibús y la cabina del camión. En 16:9 cada unidad entra entera y el
+   encuadre propio de cada foto lo fija su clase (.puerta-foto-viaducto,
+   -minibus, -camion). En el teléfono la foto es una miniatura apaisada de
+   108×76 con el mismo criterio. */
+.puertas{padding:20px 0 18px}
 .puertas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .puerta{
   position:relative;display:flex;flex-direction:column;
   background:var(--card);border:1px solid var(--border);border-top:3px solid var(--gold);
   border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;
 }
-.puerta-foto{position:relative;height:104px;background:#22304f}
+.puerta-foto{position:relative;aspect-ratio:16/9;background:#22304f}
 .puerta-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.puerta-foto-viaducto img{object-position:50% 88%}
+.puerta-foto-minibus img{object-position:30% 50%}
+.puerta-foto-camion img{object-position:50% 52%}
 .puerta-cuerpo{display:flex;flex-direction:column;gap:8px;padding:14px 18px 16px;flex:1}
 .puerta h2{font-size:1.2rem}
 .puerta h2 a{text-decoration:none;color:var(--ink)}
@@ -293,7 +302,8 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
   .puertas{padding:12px 0 10px}
   .puertas-grid{grid-template-columns:1fr;gap:10px}
   .puerta{flex-direction:row;align-items:center;border-top-width:1px;border-left:3px solid var(--gold);min-height:76px}
-  .puerta-foto{flex:0 0 64px;height:64px;margin:6px 0 6px 6px;border-radius:3px;overflow:hidden}
+  .puerta-foto{flex:0 0 108px;height:76px;aspect-ratio:auto;margin:6px 0 6px 6px;border-radius:3px;overflow:hidden}
+  .puerta-foto-minibus img{object-position:12% 50%}
   .puerta-cuerpo{padding:8px 34px 8px 12px;gap:2px}
   .puerta h2{font-size:1.02rem}
   .puerta h2 a::after{content:"";position:absolute;inset:0}
