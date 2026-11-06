@@ -155,17 +155,29 @@ su nota del 05/11 sobre autoplay o manual por lugar; textos en 4-textos.md §2).
 - **Fotos retiradas**: una sola lista en `tests/servicios-retirados.test.js`
   (grúa, camión rotulado «AUXILIO», teléfono viejo), con las que quedan a
   propósito hasta la revisión del logo (~04/01/2027).
+- **Anuncio al lector de pantalla** (WCAG 4.1.3): la pista se desplaza sin
+  cambiar el DOM, así que no anuncia nada; anuncia el contador, una región
+  `aria-live="polite"` con la parte visible («2 de 3») oculta al lector y una
+  parte sólo para el lector («Foto 2 de 3: pie»). Arranca vacía y se llena
+  tras un gesto del visitante (la página no anuncia las galerías al cargar);
+  con la foto ampliada anuncia el contador del diálogo y el de atrás se calla.
 - **Control en navegador**: `node scripts/galeria-navegador.mjs` (teclado,
-  diálogo, foco, nada que se mueva, sin scroll horizontal a 390 y 1440 en las
+  diálogo, foco, anuncio, deslizar, nada que se mueva, sin scroll horizontal a 390 y 1440 en las
   páginas tocadas; `--capturas DIR` guarda PNG). Usa Chrome sin ventana y el
   protocolo de DevTools, sin dependencias. En la PC de pruebas va por el gate:
   `~/.lausof-fleet/remote-gate.sh --no-db --require-clean <worktree> -- node scripts/galeria-navegador.mjs`.
 - **Patentes de la fase 1**, difuminadas en `.jpg`, `.webp` y variantes:
-  `refrigerados-3-interior`, `refrigerados-4-trasera`, `pasajeros-4-ruta`,
-  `4x4-1-salinas`, `4x4-3-cerros`, `pasajeros-3-taller`, `pasajeros-5-flota`
-  y `galeria/lausof-salinasgrandes-combis`. Las variantes se rehicieron con
+  `refrigerados-3-interior-v2`, `refrigerados-4-trasera-v2`, `pasajeros-4-ruta-v2`,
+  `4x4-1-salinas-v2`, `4x4-3-cerros-v2`, `pasajeros-3-taller-v2`, `pasajeros-5-flota-v2`
+  y `galeria/lausof-salinasgrandes-combis-v2`. Las variantes se rehicieron con
   los mismos parámetros de `scripts/imagenes.mjs`, que no regenera lo que ya
   existe.
+- **Una foto que cambia, cambia de nombre.** `/assets/*` se sirve un año como
+  `immutable` (`_headers`): si se reescriben los bytes de un archivo con el
+  mismo nombre, quien ya lo vio sigue viendo el viejo. Al difuminar o
+  retocar una foto publicada se le suma `-v2`, `-v3`… a todas sus variantes
+  (`foto-v2.webp`, `foto-v2-400w.avif`…) y se cambian todas las referencias;
+  así se hizo con las 8 de arriba (antes sin `-v2`).
 
 ## Flota en venta
 

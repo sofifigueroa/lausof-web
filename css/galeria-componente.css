@@ -65,6 +65,8 @@ html:not(.js) .galeria-pista img{cursor:auto}
 .galeria-miniaturas button[aria-current="true"]{border-color:var(--gold)}
 .galeria-miniaturas button[aria-current="true"] img{opacity:1}
 .galeria-contador{font-size:.88rem;color:var(--ink-soft);white-space:nowrap;margin-left:auto}
+/* Lo que oye el lector de pantalla al cambiar de foto (js/galeria.js): fuera de la vista. */
+.galeria-anuncio{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
 .galeria-ampliar{
   background:none;border:1px solid var(--border);color:var(--ink);
   padding:8px 14px;font-size:.9rem;font-weight:700;min-height:40px;

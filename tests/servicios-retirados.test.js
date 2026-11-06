@@ -122,9 +122,13 @@ const FOTOS_FUERA = [
   [/\/assets\/(?:mineria-tractor|auxilio-\d)/, 'la grúa'],
   [/\/assets\/galeria\/(?:auxiliomecanico-grua-remolque-lausof-salta|camion-lausof-cargas-remolque-grua|lausof-grua-remolque-autos|lausof-grua-remolque-tractor|lausof-remolque-grua-auxiliomecanico-salta)\./, 'la grúa (galería vieja)'],
   // El camión de carga general de lona azul sigue en la flota pero lleva
-  // pintado «AUXILIO» / «Auxilio mecánico y cargas gral»: no se muestra hasta
-  // que lo vuelvan a rotular (Lautaro, 05/11/2026, ítem 5A de las fotos).
-  // cargas-1-monumento lo muestra junto a la grúa vendida.
+  // pintado «AUXILIO» / «Auxilio mecánico y cargas gral»: no va en ninguna
+  // foto puesta o cambiada desde la fase 1 hasta que lo vuelvan a rotular
+  // (Lautaro, 05/11/2026, ítem 5A de las fotos). Sigue, sí, en las fotos que
+  // el 4B deja hasta ~04/01/2027 (nosotros-flota-mixta-lausof en Nosotros de
+  // las tres portadas y cargas-5-flota en el encabezado del depósito ES/EN) y
+  // en og-portada.jpg; ver la lista de abajo. cargas-1-monumento lo muestra
+  // junto a la grúa vendida.
   [/\/assets\/(?:cargas-1-monumento|cargas-3-campo|cargas-4-ciudad|galeria\/lausof-camion-carga-lacaldera-salta-turismo)\./, 'el camión rotulado «AUXILIO»'],
   // Pintan el 0387 537-7527, que ya no funciona: el único teléfono es el 526-9009.
   [/\/assets\/(?:cargas-2-furgon|flota-van)[.-]/, 'un teléfono que ya no funciona'],

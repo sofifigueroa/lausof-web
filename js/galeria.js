@@ -16,10 +16,17 @@
 
    Marcado que espera (lo vigila tests/galeria.test.js):
      <section class="galeria" aria-roledescription="galería" aria-label="Fotos de …">
-       <div class="galeria-pista" tabindex="0" aria-live="polite">
+       <div class="galeria-pista" tabindex="0">
          <figure role="group" aria-roledescription="foto" aria-label="1 de 3"
                  data-miniatura="de costado"><picture>…</picture><figcaption>…</figcaption></figure>
          …
+   Anuncio (WCAG 4.1.3): la pista se desplaza sin cambiar el DOM, así que no
+   puede anunciar nada. Lo que avisa el cambio de foto es el contador: una
+   región aria-live="polite" con la parte visible («2 de 3») oculta al lector
+   y una parte solo para el lector («Foto 2 de 3: pie»). Esa parte arranca
+   vacía y se llena recién después de un gesto del visitante, para que la
+   página no anuncie cada galería al cargar. Con la foto ampliada anuncia el
+   contador del diálogo y el de la página se calla.
    Medición: evento GA4 `galeria` con `accion` (miniatura, anterior,
    siguiente, ampliar) y la sección y el tipo de la página. */
 (function () {
@@ -63,6 +70,28 @@
     return b;
   }
 
+  // Contador que también es la región que anuncia el cambio de foto.
+  function contadorVivo(etiqueta, clase) {
+    var c = el(etiqueta, clase);
+    c.setAttribute('aria-live', 'polite');
+    c.setAttribute('aria-atomic', 'true');
+    var visto = el('span', 'galeria-contador-visto');
+    visto.setAttribute('aria-hidden', 'true');
+    c.appendChild(visto);
+    c.appendChild(el('span', 'galeria-anuncio'));
+    return c;
+  }
+  // `oido` vacío = cambia lo que se ve sin anunciar nada.
+  function contar(c, visto, oido) {
+    c.querySelector('.galeria-contador-visto').textContent = visto;
+    c.querySelector('.galeria-anuncio').textContent = oido;
+  }
+  function anuncioDe(cuadro, n, total) {
+    var pie = cuadro.querySelector('figcaption');
+    var texto = pie ? pie.textContent.replace(/\s+/g, ' ').trim() : '';
+    return T.foto + ' ' + n + ' ' + T.de + ' ' + total + (texto ? ': ' + texto : '');
+  }
+
   // Copia del <picture> de un cuadro para otro tamaño. `ancho` = sizes nuevo;
   // sin ancho, la copia pide solo el archivo más grande (descriptor 1x), así
   // el navegador la mide a su ancho real y la CSS nunca la estira.
@@ -93,7 +122,7 @@
     dialogo = el('dialog', 'galeria-dialogo');
     dialogo.setAttribute('aria-labelledby', 'galeria-dialogo-pie');
     var barra = el('div', 'galeria-dialogo-barra');
-    var contador = el('p', 'galeria-dialogo-contador');
+    var contador = contadorVivo('p', 'galeria-dialogo-contador');
     var cerrar = el('button', 'galeria-cerrar', T.cerrar);
     cerrar.type = 'button';
     barra.appendChild(contador);
@@ -123,7 +152,8 @@
     dialogo.addEventListener('close', function () { if (activa && activa.origen) activa.origen.focus(); });
   }
 
-  function mostrarEnDialogo(g) {
+  // `anunciar`: falso al abrir (el lector ya lee el diálogo por su nombre).
+  function mostrarEnDialogo(g, anunciar) {
     var cuadro = g.cuadros[g.indice()];
     var figura = dialogo.querySelector('.galeria-dialogo-foto');
     var vieja = figura.querySelector('picture');
@@ -133,7 +163,9 @@
     dialogo.querySelector('#galeria-dialogo-pie').textContent = pie ? pie.textContent : '';
     var total = g.cuadros.length;
     var contador = dialogo.querySelector('.galeria-dialogo-contador');
-    contador.textContent = total > 1 ? T.foto + ' ' + (g.indice() + 1) + ' ' + T.de + ' ' + total : '';
+    var n = g.indice() + 1;
+    contar(contador, total > 1 ? T.foto + ' ' + n + ' ' + T.de + ' ' + total : '',
+      anunciar && total > 1 ? anuncioDe(cuadro, n, total) : '');
     dialogo.classList.toggle('es-unica', total < 2);
   }
 
@@ -149,8 +181,7 @@
     var ant = boton('galeria-ant', T.ant, '‹');
     var lista = el('ol', 'galeria-miniaturas');
     var sig = boton('galeria-sig', T.sig, '›');
-    var contador = el('span', 'galeria-contador');
-    contador.setAttribute('aria-hidden', 'true');
+    var contador = contadorVivo('span', 'galeria-contador');
     var ampliar = el('button', 'galeria-ampliar', T.ampliar);
     ampliar.type = 'button';
 
@@ -174,12 +205,15 @@
     control.appendChild(ampliar);
     seccion.appendChild(control);
 
-    function marcar(n) {
+    // `anunciar`: sólo tras un gesto del visitante, y nunca con el diálogo
+    // abierto sobre esta galería (ahí anuncia el diálogo).
+    function marcar(n, anunciar) {
       i = n;
       miniaturas.forEach(function (b, k) {
         if (k === i) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
       });
-      contador.textContent = (i + 1) + ' ' + T.de + ' ' + total;
+      var callar = !anunciar || (dialogo && dialogo.open && activa === g);
+      contar(contador, (i + 1) + ' ' + T.de + ' ' + total, callar ? '' : anuncioDe(cuadros[i], i + 1, total));
       ampliar.setAttribute('aria-label', T.ampliarFoto + ' ' + (i + 1) + ' ' + T.de + ' ' + total);
     }
 
@@ -189,10 +223,13 @@
       indice: function () { return i; },
       ir: function (n, accion) {
         var destino = ((n % total) + total) % total;
-        marcar(destino);
+        marcar(destino, true);
+        // Mientras la pista viaja al destino, el scroll no remarca los
+        // cuadros por los que pasa (no se anuncian fotos intermedias).
+        if (pista.clientWidth && Math.round(pista.scrollLeft / pista.clientWidth) !== destino) objetivo = destino;
         pista.scrollTo({ left: cuadros[destino].offsetLeft - pista.offsetLeft,
                          behavior: quieto && quieto.matches ? 'auto' : 'smooth' });
-        if (dialogo && dialogo.open && activa === g) mostrarEnDialogo(g);
+        if (dialogo && dialogo.open && activa === g) mostrarEnDialogo(g, true);
         if (accion) medir(accion);
       }
     };
@@ -201,7 +238,7 @@
       if (!dialogo) armarDialogo();
       activa = g;
       g.origen = origen;
-      mostrarEnDialogo(g);
+      mostrarEnDialogo(g, false);
       dialogo.showModal();
       medir('ampliar');
     }
@@ -220,8 +257,15 @@
       g.ir(n, e.key === 'ArrowLeft' ? 'anterior' : 'siguiente');
     });
 
-    // Deslizar con el dedo (o la rueda) también cambia el cuadro marcado.
+    // Deslizar con el dedo (o la rueda) también cambia el cuadro marcado, y
+    // eso sí se anuncia. Si el visitante toma la pista a mitad de un viaje,
+    // manda él.
     var pendiente = false;
+    var objetivo = null;
+    ['pointerdown', 'wheel', 'touchstart'].forEach(function (tipo) {
+      pista.addEventListener(tipo, function () { objetivo = null; }, { passive: true });
+    });
+    pista.addEventListener('scrollend', function () { objetivo = null; });
     pista.addEventListener('scroll', function () {
       if (pendiente) return;
       pendiente = true;
@@ -230,11 +274,12 @@
         var ancho = pista.clientWidth;
         if (!ancho) return;
         var n = Math.min(total - 1, Math.max(0, Math.round(pista.scrollLeft / ancho)));
-        if (n !== i) marcar(n);
+        if (objetivo !== null) { if (n === objetivo) objetivo = null; return; }
+        if (n !== i) marcar(n, true);
       });
     }, { passive: true });
 
-    marcar(0);
+    marcar(0, false);
     seccion.classList.add('galeria-lista');
   }
 

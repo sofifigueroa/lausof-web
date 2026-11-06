@@ -117,6 +117,24 @@ test('js/galeria.js arma botones nativos con nombre, el diálogo y mide el uso',
   assert.doesNotMatch(js, /carrusel|carousel/i, 'la palabra «carrusel» no va en ninguna etiqueta');
 });
 
+// WCAG 4.1.3 (AA): el cambio de foto se anuncia. La pista se desplaza sin
+// cambiar el DOM, así que un aria-live en ella no dice nada; anuncia el
+// contador (región polite), que arranca callado y se llena tras un gesto.
+// En el navegador lo prueba scripts/galeria-navegador.mjs.
+test('el cambio de foto se anuncia desde el contador, no desde la pista', () => {
+  const js = leer('js/galeria.js');
+  assert.match(js, /setAttribute\('aria-live', 'polite'\)/, 'el contador no es una región aria-live="polite"');
+  assert.match(js, /setAttribute\('aria-atomic', 'true'\)/, 'el contador no se lee entero (aria-atomic)');
+  assert.match(js, /contadorVivo\('span', 'galeria-contador'\)/, 'el contador de la galería no anuncia');
+  assert.match(js, /contadorVivo\('p', 'galeria-dialogo-contador'\)/, 'el contador de la foto ampliada no anuncia');
+  assert.match(js, /marcar\(0, false\)/, 'la galería anuncia la primera foto al cargar');
+  for (const [nombre, html] of Object.entries(paginas)) {
+    for (const g of galeriasDe(html)) {
+      assert.doesNotMatch(g.cuerpo, /class="galeria-pista"[^>]*aria-live/, `${nombre}: aria-live en la pista (no anuncia nada)`);
+    }
+  }
+});
+
 // WCAG 2.2.2 (nivel A): lo que se mueve solo más de 5 s necesita un control
 // para pausarlo. Hasta el 05/11/2026 el sitio tenía una rotación por CSS
 // (rotarFotos, 3,4 s por foto, sin pausa) que ninguna tarjeta usaba; se borró.

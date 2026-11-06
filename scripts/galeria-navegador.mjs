@@ -3,7 +3,9 @@
    -----------------------------------------------------------------------------
    Lo único de la galería que un test de Node sobre el HTML no puede probar
    (3b-diseno-sitio.md §2.3): teclado, el <dialog>, a dónde vuelve el foco, que
-   nada se mueva solo y que ninguna página quede con scroll horizontal a 390 px.
+   nada se mueva solo, que el cambio de foto se anuncie al lector de pantalla
+   (WCAG 4.1.3: región aria-live, callada al cargar) y que ninguna página
+   quede con scroll horizontal a 390 px.
    Un solo recorrido por el componente, no uno por página.
 
    Sin dependencias: levanta un servidor estático de la carpeta del sitio, abre
@@ -159,9 +161,25 @@ try {
     }
   }
 
-  /* 2. La galería a 390 y a 1440: controles, teclado, diálogo, foco. */
+  /* 2. La galería a 390 y a 1440: controles, teclado, diálogo, foco y anuncio. */
+  // Lo que anuncia una región viva: su texto sin lo que está aria-hidden.
+  const AYUDA = `window.__vivo = (raiz) => { const r = raiz && raiz.querySelector('[aria-live="polite"]');
+      if (!r) return { existe: false };
+      const c = r.cloneNode(true); c.querySelectorAll('[aria-hidden="true"]').forEach((n) => n.remove());
+      return { existe: true, oculto: !!r.closest('[aria-hidden="true"]'), atomica: r.getAttribute('aria-atomic') === 'true',
+               texto: c.textContent.replace(/\\s+/g, ' ').trim() }; };
+    window.__visto = (c) => c ? (c.querySelector('.galeria-contador-visto') || c).textContent : '';
+    true`;
   for (const ancho of [390, 1440]) {
     await abrir('galeria.html', ancho, { quieto: true });
+    await evaluar(AYUDA);
+    // Al cargar: cada galería tiene su región viva en los controles, visible
+    // para el lector y callada (no anuncia tres galerías al abrir la página).
+    const alCargar = await evaluar(`[...document.querySelectorAll('.galeria')].map((g) => __vivo(g.querySelector('.galeria-control')))`);
+    alCargar.forEach((v, k) => {
+      comprobar(v.existe && !v.oculto && v.atomica && v.texto === '',
+        `${ancho}px galería ${k + 1}: sin región aria-live callada y legible en el contador (${JSON.stringify(v)})`);
+    });
     const armado = await evaluar(`[...document.querySelectorAll('.galeria')].map((g) => ({
       cuadros: g.querySelectorAll('.galeria-pista > figure').length,
       miniaturas: g.querySelectorAll('.galeria-miniaturas button[aria-label]').length,
@@ -180,11 +198,14 @@ try {
       const i = b.findIndex((x) => x.getAttribute('aria-current') === 'true');
       const f = g.querySelectorAll('.galeria-pista > figure')[i];
       return { i, alineado: Math.abs((f.offsetLeft - p.offsetLeft) - p.scrollLeft) < 2,
-               contador: g.querySelector('.galeria-contador').textContent }; })()`;
+               contador: __visto(g.querySelector('.galeria-contador')),
+               vivo: __vivo(g.querySelector('.galeria-control')) }; })()`;
     await evaluar(`document.querySelector('.galeria .galeria-pista').focus()`);
     await tecla('ArrowRight', 'ArrowRight', 39); await esperar(150);
     let e = await evaluar(estado);
     comprobar(e.i === 1 && e.alineado && e.contador === '2 de 3', `${ancho}px: → no pasó a la foto 2 (${JSON.stringify(e)})`);
+    comprobar(e.vivo.existe && !e.vivo.oculto && /^Foto 2 de 3: \S/.test(e.vivo.texto),
+      `${ancho}px: → no anunció «Foto 2 de 3: pie» al lector (${JSON.stringify(e.vivo)})`);
     await tecla('End', 'End', 35); await esperar(150);
     e = await evaluar(estado);
     comprobar(e.i === 2 && e.alineado, `${ancho}px: Fin no fue a la última (${JSON.stringify(e)})`);
@@ -205,7 +226,7 @@ try {
     let d = await evaluar(`(() => { const d = document.querySelector('dialog.galeria-dialogo');
       const img = d && d.querySelector('img');
       return { abierto: !!(d && d.open), foco: !!(d && d.contains(document.activeElement)),
-               contador: d ? d.querySelector('.galeria-dialogo-contador').textContent : '',
+               contador: d ? __visto(d.querySelector('.galeria-dialogo-contador')) : '',
                pie: d ? d.querySelector('figcaption').textContent : '',
                real: img ? img.naturalWidth : 0, mostrado: img ? img.getBoundingClientRect().width : 0,
                cabe: img ? img.getBoundingClientRect().right <= innerWidth + 1 : false }; })()`);
@@ -214,19 +235,34 @@ try {
     comprobar(d.real > 0 && d.mostrado <= d.real + 0.5, `${ancho}px: la foto ampliada se estira por encima de su ancho real (${d.mostrado} > ${d.real})`);
     comprobar(d.cabe, `${ancho}px: la foto ampliada se sale de la pantalla`);
     await tecla('ArrowRight', 'ArrowRight', 39); await esperar(200);
-    d = await evaluar(`document.querySelector('dialog.galeria-dialogo .galeria-dialogo-contador').textContent`);
+    d = await evaluar(`__visto(document.querySelector('dialog.galeria-dialogo .galeria-dialogo-contador'))`);
     comprobar(d === 'Foto 3 de 3', `${ancho}px: → en el diálogo no pasó a la foto 3 (${d})`);
+    const vd = await evaluar(`__vivo(document.querySelector('dialog.galeria-dialogo .galeria-dialogo-barra'))`);
+    comprobar(vd.existe && !vd.oculto && /^Foto 3 de 3: \S/.test(vd.texto),
+      `${ancho}px: → en el diálogo no anunció «Foto 3 de 3: pie» (${JSON.stringify(vd)})`);
     e = await evaluar(estado);
     comprobar(e.i === 2, `${ancho}px: la galería no acompañó al diálogo (${JSON.stringify(e)})`);
+    comprobar(e.vivo.texto === '', `${ancho}px: con el diálogo abierto también anuncia la galería de atrás (${JSON.stringify(e.vivo)})`);
     await tecla('Escape', 'Escape', 27); await esperar(200);
     d = await evaluar(`({ abierto: document.querySelector('dialog.galeria-dialogo').open,
       foco: document.activeElement === document.querySelector('.galeria .galeria-ampliar') })`);
     comprobar(!d.abierto && d.foco, `${ancho}px: Esc no cerró el diálogo o el foco no volvió a «Ampliar» (${JSON.stringify(d)})`);
 
+    // Deslizar la pista (dedo o rueda) también marca y anuncia la foto.
+    // Chrome sin ventana deja la pestaña oculta después del Esc, y una página
+    // oculta no corre requestAnimationFrame (lo usa el deslizar): al frente.
+    await cdp('Page.bringToFront');
+    await evaluar(`(() => { const p = document.querySelector('.galeria .galeria-pista');
+      p.scrollTo({ left: 0, behavior: 'instant' }); return true; })()`); await esperar(250);
+    e = await evaluar(estado);
+    comprobar(e.i === 0 && /^Foto 1 de 3: \S/.test(e.vivo.texto),
+      `${ancho}px: deslizar a la primera no la marcó ni la anunció (${JSON.stringify(e)})`);
+
     // Nada se mueve solo: 7 s quieta (más que el ciclo más lento permitido)
     // y la foto marcada no cambia, sin animaciones sobre imágenes.
     if (ancho === 1440) {
       await abrir('galeria.html', ancho);
+      await evaluar(AYUDA);
       const antes = await evaluar(estado);
       await esperar(7000);
       const despues = await evaluar(estado);
