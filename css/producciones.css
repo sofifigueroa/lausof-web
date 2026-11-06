@@ -35,6 +35,12 @@
    diferencia de la home: acá son cuatro tarjetas cortas, se apilan y listo. */
 .cards.producciones{grid-template-columns:repeat(2,1fr)}
 @media(max-width:640px){.cards.producciones{grid-template-columns:1fr}}
+/* Una foto fija por tarjeta, que llena el recuadro. Hasta el 05/11/2026
+   cada foto iba dentro de un contenedor con una animación de rotación que
+   ninguna tarjeta usaba (todas tenían una sola foto); se borró con la regla
+   de que ninguna imagen se mueve sola sin un botón de pausa
+   (tests/galeria.test.js). */
+.cards.producciones .card-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 
 /* ---- locaciones: texto + foto ---- */
 .ruta-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;margin-top:36px}

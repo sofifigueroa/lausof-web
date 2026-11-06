@@ -50,9 +50,9 @@ for (const [nombre, contenido] of Object.entries(paginas)) {
   });
 }
 
-// Google Imágenes solo indexa el alt de cada <img>: los slides ocultos de los
-// slideshows lo llevan descriptivo (con role="img" en el contenedor no les
-// cuesta nada de accesibilidad). Los únicos alt="" permitidos son los del
+// Google Imágenes solo indexa el alt de cada <img>: toda foto lo lleva
+// descriptivo, también los cuadros de las galerías (las miniaturas las arma
+// js/galeria.js y no están en el HTML). Los únicos alt="" permitidos son los del
 // logo decorativo de cierre de página (uno por página que lo lleva) y la
 // foto de fondo del hero/encabezado.
 // Páginas que cierran sin el logo decorativo, por diseño.

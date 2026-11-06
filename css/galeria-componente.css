@@ -1,0 +1,114 @@
+/* ==========================================================================
+   Lausof SRL — galería de fotos que maneja el visitante (js/galeria.js)
+   Diseño: web/imagenes-2026-11-05/3b-diseno-sitio.md §2.2 (fase 1 de fotos,
+   05/11/2026). Un cuadro principal 4:3 que se desliza con el dedo, y debajo
+   las miniaturas, anterior/siguiente, el contador y «Ampliar».
+
+   Sin JavaScript es una tira que se desliza (scroll-snap) con los pies de
+   foto; los controles los arma js/galeria.js y recién ahí se ven.
+   Nada se mueve solo: ni animaciones ni transiciones sobre las fotos
+   (tests/galeria.test.js).
+   ========================================================================== */
+
+.galeria{min-width:0}
+
+/* ---- la pista: un cuadro por pantalla, se desliza con el dedo ---- */
+.galeria-pista{
+  display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+  overscroll-behavior-x:contain;scrollbar-width:none;
+  border:1px solid var(--border);border-radius:var(--radius);
+  border-bottom:3px solid var(--gold);background:var(--card);box-shadow:var(--shadow);
+}
+.galeria-pista::-webkit-scrollbar{display:none}
+.galeria-pista:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+/* Sin JavaScript, el cuadro siguiente asoma por el borde: así se entiende
+   que hay más fotos sin escribir «deslizar». */
+html:not(.js) .galeria-pista > figure{flex-basis:88%}
+.galeria-pista > figure{
+  flex:0 0 100%;margin:0;scroll-snap-align:start;min-width:0;
+}
+/* La foto entera, sin recortar: la galería es para mirar la unidad, y un
+   recorte 4:3 de una foto 16:9 le sacaría los costados. El fondo neutro
+   rellena lo que sobra. */
+.galeria-pista img{
+  display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:contain;
+  background:#eef1f6;cursor:zoom-in;
+}
+html:not(.js) .galeria-pista img{cursor:auto}
+.galeria-pista figcaption{
+  padding:10px 14px 12px;font-size:.92rem;line-height:1.45;color:var(--ink-mid);
+}
+
+/* ---- controles (los arma js/galeria.js) ---- */
+.galeria-control{
+  display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap;
+}
+.galeria-control button,.galeria-dialogo button{
+  font:inherit;cursor:pointer;border-radius:var(--radius);
+}
+.galeria-ant,.galeria-sig{
+  flex:0 0 auto;width:40px;height:40px;display:grid;place-items:center;
+  background:var(--card);color:var(--ink);border:1px solid var(--border);
+  font-size:1.5rem;line-height:1;padding:0 0 3px;
+}
+.galeria-miniaturas{
+  display:flex;gap:8px;list-style:none;margin:0;padding:0;flex:1 1 auto;min-width:0;
+}
+.galeria-miniaturas li{flex:0 1 96px;min-width:0}
+.galeria-miniaturas button{
+  display:block;width:100%;padding:0;border:2px solid transparent;background:none;
+}
+.galeria-miniaturas img{
+  display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;
+  background:#22304f;border-radius:2px;opacity:.72;
+}
+.galeria-miniaturas button[aria-current="true"]{border-color:var(--gold)}
+.galeria-miniaturas button[aria-current="true"] img{opacity:1}
+.galeria-contador{font-size:.88rem;color:var(--ink-soft);white-space:nowrap;margin-left:auto}
+.galeria-ampliar{
+  background:none;border:1px solid var(--border);color:var(--ink);
+  padding:8px 14px;font-size:.9rem;font-weight:700;min-height:40px;
+}
+@media (hover:hover){
+  .galeria-ant:hover,.galeria-sig:hover,.galeria-ampliar:hover{border-color:var(--gold);color:var(--gold-ink)}
+  .galeria-miniaturas button:hover img{opacity:1}
+}
+/* En el teléfono: una fila para las miniaturas y otra para el resto. */
+@media(max-width:560px){
+  .galeria-miniaturas{order:-1;flex-basis:100%}
+  .galeria-miniaturas li{flex:1 1 0}
+  .galeria-contador{margin-left:0}
+  .galeria-ampliar{margin-left:auto}
+}
+
+/* ---- la foto ampliada: <dialog> nativo ----
+   Se muestra a su ancho real como mucho (js/galeria.js le pide un único
+   archivo, el más grande): nunca se estira por encima de lo que mide. */
+.galeria-dialogo{
+  border:0;padding:16px 64px;max-width:min(1600px,100vw);max-height:100dvh;
+  background:transparent;color:var(--on-navy);overflow:visible;
+}
+.galeria-dialogo::backdrop{background:rgba(16,23,42,.92)}
+.galeria-dialogo-barra{display:flex;align-items:center;gap:16px;margin-bottom:10px}
+.galeria-dialogo-contador{margin:0;font-size:.92rem;color:var(--on-navy-soft)}
+.galeria-cerrar{
+  margin-left:auto;background:none;color:var(--on-navy);
+  border:1px solid rgba(255,255,255,.5);padding:8px 14px;font-weight:700;min-height:40px;
+}
+.galeria-dialogo-foto{margin:0;text-align:center}
+.galeria-dialogo-foto img{
+  display:block;margin:0 auto;width:auto;height:auto;
+  max-width:100%;max-height:calc(100dvh - 150px);
+}
+.galeria-dialogo-foto figcaption{margin-top:10px;font-size:.95rem;color:var(--on-navy-soft)}
+.galeria-dialogo .galeria-ant,.galeria-dialogo .galeria-sig{
+  position:fixed;top:50%;transform:translateY(-50%);
+  background:rgba(16,23,42,.6);color:var(--on-navy);border-color:rgba(255,255,255,.5);
+}
+.galeria-dialogo .galeria-ant{left:12px}
+.galeria-dialogo .galeria-sig{right:12px}
+.galeria-dialogo.es-unica .galeria-ant,.galeria-dialogo.es-unica .galeria-sig{display:none}
+@media(max-width:560px){
+  .galeria-dialogo{padding:12px}
+  .galeria-dialogo .galeria-ant,.galeria-dialogo .galeria-sig{top:auto;bottom:16px;transform:none}
+}

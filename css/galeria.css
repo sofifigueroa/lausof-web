@@ -40,3 +40,42 @@ section.fotos:last-of-type{padding-bottom:64px}
   .foto-grid{grid-template-columns:1fr 1fr;gap:10px}
   section.fotos{padding:36px 0 6px}
 }
+
+/* ==========================================================================
+   Página de flota (galeria.html, fotos fase 1, 05/11/2026)
+   Un bloque por tipo de unidad: a la izquierda el nombre y el texto de la
+   tabla de la portada, a la derecha su galería (css/galeria-componente.css).
+   golf-torneos.html sigue usando el encabezado y la grilla de arriba.
+   ========================================================================== */
+
+/* índice de tipos, dentro del encabezado azul */
+.flota-indice{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;font-size:.95rem}
+.flota-indice a{color:var(--on-navy);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.45);padding-bottom:1px}
+@media (hover:hover){.flota-indice a:hover{border-bottom-color:var(--gold)}}
+
+.flota-tipo{padding:44px 0;border-bottom:1px solid var(--border);scroll-margin-top:80px}
+.flota-tipo-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:40px;align-items:start}
+.flota-tipo h2{font-size:1.35rem}
+.flota-tipo-texto p{margin:10px 0 0;color:var(--ink-soft);max-width:36ch}
+/* Un tipo sin foto propia todavía: solo el nombre y su texto, más bajo. */
+.flota-tipo.sin-fotos{padding:28px 0}
+.flota-tipo.sin-fotos .flota-tipo-texto p{max-width:62ch}
+
+/* taller y depósito: dos fotos fijas del mismo peso, con su pie */
+.flota-par{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.flota-par figure{margin:0}
+.flota-par img{
+  display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;
+  background:#22304f;border:1px solid var(--border);border-radius:var(--radius);
+  border-bottom:3px solid var(--gold);box-shadow:var(--shadow);
+}
+.flota-par figcaption{margin-top:8px;font-size:.88rem;line-height:1.45;color:var(--ink-soft)}
+
+@media(max-width:880px){
+  .flota-tipo-grid{grid-template-columns:1fr;gap:18px}
+  .flota-tipo-texto p{max-width:62ch}
+}
+@media(max-width:480px){
+  .flota-par{grid-template-columns:1fr}
+  .flota-tipo{padding:34px 0}
+}

@@ -130,6 +130,8 @@ test('las páginas están sincronizadas con scripts/imagenes.mjs', async () => {
 // LCP: la foto del hero/encabezado es la única con fetchpriority="high" y
 // nunca lleva lazy-loading. Todo lo demás (menos el logo del menú, que está
 // arriba de todo y pesa poco) carga diferido y decodifica sin bloquear.
+// Una página sin foto de encabezado puede darle la prioridad al primer cuadro
+// de su primera galería, marcada data-lcp (la de flota; tests/galeria.test.js).
 test('la LCP se pide con prioridad y el resto de las fotos va diferido', () => {
   for (const [pagina, html] of Object.entries(paginas)) {
     const limpio = sinComentarios(html);
@@ -142,7 +144,10 @@ test('la LCP se pide con prioridad y el resto de las fotos va diferido', () => {
       assert.doesNotMatch(img[0], /loading="lazy"/, `${pagina}: la LCP no puede llevar loading="lazy"`);
       assert.strictEqual(prioritarias.length, 1, `${pagina}: más de una foto con fetchpriority="high"`);
     } else {
-      assert.strictEqual(prioritarias.length, 0, `${pagina}: fetchpriority="high" sin encabezado con foto`);
+      const galeria = limpio.match(/<section class="galeria"[^>]*\sdata-lcp[\s>][\s\S]*?<img\s[^>]*>/);
+      const permitida = galeria ? galeria[0].match(/<img\s[^>]*>$/)[0] : null;
+      assert.ok(prioritarias.length === 0 || (prioritarias.length === 1 && prioritarias[0] === permitida),
+        `${pagina}: fetchpriority="high" sin encabezado con foto ni galería data-lcp`);
     }
     const sinLogo = limpio.replace(/<a class="brand"[\s\S]*?<\/a>/, '');
     for (const img of imgsDe(sinLogo)) {

@@ -25,7 +25,6 @@ const EN_VOS = new Set([
   'clubes-deportivos.html',
   'deposito-galpon.html',
   'flota-en-venta.html',
-  'galeria.html',
   'golf-torneos.html',
   'index.html',
   'logistica-minera.html',

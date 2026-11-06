@@ -224,12 +224,13 @@ test('cada página declara su sección, su línea y su tipo en <body>', async ()
   assert.strictEqual(lineas.filter((l) => l === 'personal').length, 9);
   assert.strictEqual(lineas.filter((l) => l === 'cargas').length, 5);
   assert.strictEqual(cuenta.inicio, 3);
-  // Los enganches siguen inertes para todo lo demás: sólo js/contacto.js lee
-  // data-seccion y data-tipo, para los parámetros de GA4 (3a §7, 3b §2.3).
+  // Los enganches siguen inertes para todo lo demás: sólo js/contacto.js y
+  // js/galeria.js leen data-seccion y data-tipo, para los parámetros de GA4
+  // (3a §7, 3b §2.3; la galería, imagenes-2026-11-05/3b-diseno-sitio.md §2.2).
   // Nada lee data-linea; el asistente se instala recién en W5.
   for (const archivo of fs.readdirSync(path.join(raiz, 'js'))) {
     const js = fs.readFileSync(path.join(raiz, 'js', archivo), 'utf8');
-    if (archivo === 'contacto.js') {
+    if (archivo === 'contacto.js' || archivo === 'galeria.js') {
       assert.doesNotMatch(js, /data-linea|dataset\./, 'js/contacto.js lee otro enganche');
       assert.match(js, /'data-seccion'/);
       assert.match(js, /'data-tipo'/);

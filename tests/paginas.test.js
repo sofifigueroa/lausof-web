@@ -15,7 +15,9 @@ const dedicadas = {
   'logistica-minera.html': 'Transporte y Logística Minera en Salta — Personal, Cargas y Auxilio en la Puna | Lausof SRL',
   'transporte-de-personal.html': 'Transporte de Personal en Salta — Combis con Chofer para Empresas | Lausof SRL',
   'cargas-refrigeradas.html': 'Cargas Refrigeradas en Salta — Cadena de Frío y Depósito con Cámara | Lausof SRL',
-  'galeria.html': 'Galería — Flota y Trabajos de Lausof SRL | Salta',
+  // Desde el 05/11/2026 es la página de flota por tipo de unidad (fotos,
+  // fase 1; título de imagenes-2026-11-05/4-textos.md §2.5).
+  'galeria.html': 'Flota de Lausof: combis, camiones y 4x4 en Salta',
   'golf-torneos.html': 'Torneos de Golf — Traslados de Delegaciones | Lausof SRL',
   'charter-recitales.html': 'Combis a Recitales y Festivales — Salta, Jujuy y Tucumán | Lausof SRL',
   'clubes-deportivos.html': 'Traslados para Clubes y Delegaciones Deportivas — Salta y el NOA | Lausof SRL',

@@ -43,11 +43,15 @@ lausof-web/
   genera `scripts/imagenes.mjs` (ver "Fotos responsive"). Excepción: las imágenes de `og:image`
   van en JPEG 1200×630, porque los scrapers de WhatsApp/Facebook manejan mal
   el WebP.
-- **Alt descriptivo en cada `<img>`**, también en los slides ocultos de los
-  slideshows: el contenedor con `role="img"` ya aplana los hijos para los
-  lectores de pantalla, así que el alt de los slides no molesta a la
-  accesibilidad y es lo único que indexa Google Imágenes. Solo los logos
-  decorativos de cierre y la foto de fondo del hero/encabezado llevan `alt=""`.
+- **Alt descriptivo en cada `<img>`**, también en cada cuadro de una galería:
+  es lo único que indexa Google Imágenes. Solo los logos decorativos de cierre
+  y la foto de fondo del hero/encabezado llevan `alt=""` (las miniaturas de las
+  galerías también, pero esas las arma `js/galeria.js` y no están en el HTML).
+- **Patentes difuminadas** (Lautaro, 05/11/2026): toda foto que se pone en una
+  página nueva o en un lugar nuevo va con las patentes ilegibles, las de Lausof
+  y las de cualquier otro vehículo, en el `.jpg`, en el `.webp` y en todas sus
+  variantes. Con la biblioteca de fotos lo hace la exportación. Las fotos de la
+  fase 1 de fotos se difuminaron a mano (ver «Galería de fotos»).
 
 ## Fotos responsive (AVIF + WebP en varios anchos)
 
@@ -100,9 +104,6 @@ Lo que el script no decide y va escrito a mano en el `<img>`:
   `/turismo.html` y `/en/tours-and-transfers.html` con
   `--form-factor=mobile --throttling-method=simulate`. Un recorte nuevo
   tiene que conservar el alto del original (`tests/imagenes.test.js`).
-- **Slideshows**: el hijo n-ésimo del `.slideshow` ahora es el `<picture>`
-  (`picture{display:contents}` lo deja fuera del layout); los retardos se
-  escriben `.slideshow picture:nth-child(n) img`.
 
 Dos cosas que hay que recordar al tocar el código:
 
@@ -117,9 +118,54 @@ Dos cosas que hay que recordar al tocar el código:
 - **La hoja de estilos tiene cache-busting a mano** (`/css/styles.css?v=28`). Cada
   vez que se cambia el CSS hay que subir ese número en los dos HTML, o quien ya
   entró sigue viendo la hoja vieja.
-- **Las fotos de cada tarjeta rotan con una animación por cantidad de fotos**
-  (`slideshow-1`, `-3`, `-4`, `-6`, `-9`). Si a una tarjeta se le agrega o se le
-  saca una foto, hay que cambiarle la clase, o la rotación queda desfasada.
+- **Ninguna imagen se mueve sola.** La rotación de fotos de las tarjetas
+  (`rotarFotos`, 3,4 s por foto, sin pausa) se borró el 05/11/2026: ninguna
+  tarjeta la usaba y habría fallado WCAG 2.2.2. `tests/galeria.test.js` corta
+  cualquier animación o temporizador sobre fotos (ver «Galería de fotos»).
+
+## Galería de fotos (fase 1 de fotos, 05/11/2026)
+
+Diseño y decisiones: `web/imagenes-2026-11-05/` (3b-diseno-sitio.md §1–§3 y
+su nota del 05/11 sobre autoplay o manual por lugar; textos en 4-textos.md §2).
+
+- **Una galería que maneja el visitante**: `js/galeria.js` (diferido, sin
+  librerías) + `css/galeria-componente.css`. En el HTML va una
+  `<section class="galeria">` con 3 a 5 `<figure>` (foto + pie) dentro de
+  `.galeria-pista`; el marcado exacto está arriba de `js/galeria.js` y lo
+  vigila `tests/galeria.test.js`. Sin JavaScript es una tira que se desliza
+  con el dedo; con JavaScript suma miniaturas, anterior/siguiente, contador,
+  ←/→/Inicio/Fin y «Ampliar», que abre un `<dialog>` con la foto a su ancho
+  real como mucho. Mide el uso con el evento GA4 `galeria` (`accion`:
+  miniatura, anterior, siguiente, ampliar).
+- **Dónde va**: sólo donde el visitante mira varias vistas de una misma cosa
+  (un tipo de unidad, un camión, una ruta). Con menos de 3 fotos no hay
+  galería: van fijas, con su pie. Ninguna rota sola. Si algún día una tira que
+  sólo ambienta tiene que rotar, se construye con pausa visible, 5–7 s, freno
+  con el mouse y el foco, nada en teléfonos ni con movimiento reducido, y se
+  cambia el test para exigir ese control.
+- **Página de flota** (`galeria.html`): un bloque por tipo de unidad, con el
+  nombre, el orden y el texto de la tabla «Qué podemos mover» de la portada
+  (el test los compara). Hasta 5 fotos por tipo, elegidas a mano; ninguna
+  página muestra todas las fotos que hay. Un tipo sin foto propia y limpia va
+  sin galería, sin «próximamente».
+- **Techos de fotos por página** (`tests/galeria.test.js`): portadas 5, hubs 7,
+  páginas de servicio y de ruta 6 (encabezado + una galería de ≤5), flota ≤5
+  por tipo. `golf-torneos.html` es la única excepción fechada (caras sin
+  permiso, fase 2) y sólo puede bajar.
+- **Fotos retiradas**: una sola lista en `tests/servicios-retirados.test.js`
+  (grúa, camión rotulado «AUXILIO», teléfono viejo), con las que quedan a
+  propósito hasta la revisión del logo (~04/01/2027).
+- **Control en navegador**: `node scripts/galeria-navegador.mjs` (teclado,
+  diálogo, foco, nada que se mueva, sin scroll horizontal a 390 y 1440 en las
+  páginas tocadas; `--capturas DIR` guarda PNG). Usa Chrome sin ventana y el
+  protocolo de DevTools, sin dependencias. En la PC de pruebas va por el gate:
+  `~/.lausof-fleet/remote-gate.sh --no-db --require-clean <worktree> -- node scripts/galeria-navegador.mjs`.
+- **Patentes de la fase 1**, difuminadas en `.jpg`, `.webp` y variantes:
+  `refrigerados-3-interior`, `refrigerados-4-trasera`, `pasajeros-4-ruta`,
+  `4x4-1-salinas`, `4x4-3-cerros`, `pasajeros-3-taller`, `pasajeros-5-flota`
+  y `galeria/lausof-salinasgrandes-combis`. Las variantes se rehicieron con
+  los mismos parámetros de `scripts/imagenes.mjs`, que no regenera lo que ya
+  existe.
 
 ## Flota en venta
 

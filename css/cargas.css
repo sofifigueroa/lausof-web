@@ -53,6 +53,12 @@
   background:#22304f;border:1px solid var(--border);border-radius:var(--radius);
   border-bottom:3px solid var(--gold);box-shadow:var(--shadow);
 }
+/* Dos fotos con su pie (fase 1 de fotos, 05/11/2026): cada una muestra un
+   equipo que el comprador verifica, y el pie dice cuál. Siguen siendo fijas. */
+.fotos.dos{grid-template-columns:repeat(2,1fr)}
+@media(max-width:480px){.fotos.dos{grid-template-columns:1fr}}
+.fotos figure{margin:0}
+.fotos figcaption{margin-top:8px;font-size:.88rem;line-height:1.45;color:var(--ink-soft)}
 
 /* ---- enlace interno al pie de una sección de texto ----
    La regla de styles.css sólo alcanza a los .walink dentro de .card;
