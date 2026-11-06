@@ -306,7 +306,7 @@ test('turismo ES: «¿El chofer hace de guía?» no se contesta con «No» y ofr
     for (const [, respuesta] of html.matchAll(PREGUNTA_CHOFER_GUIA)) {
       vistas += 1;
       assert.doesNotMatch(respuesta, /^\s*No\b/, `${nombre} contesta «No»`);
-      assert.match(respuesta, /se puede coordinar/, `${nombre} no ofrece coordinar el guía`);
+      assert.match(respuesta, /se puede coordinar/i, `${nombre} no ofrece coordinar el guía`);
     }
   }
   assert.ok(vistas >= 3, `se esperaban al menos 3 respuestas, hay ${vistas}`);
