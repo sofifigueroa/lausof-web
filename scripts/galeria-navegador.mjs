@@ -199,6 +199,19 @@ try {
       comprobar(g.visibles, `${ancho}px galería ${k + 1}: un control sin tamaño (invisible)`);
     });
 
+    // Las miniaturas se ven: con la galería en pantalla, cada una cargó su
+    // foto (una miniatura vacía es un control que no dice nada).
+    const vacias = await evaluar(`(async () => { const fuera = [];
+      for (const [k, g] of [...document.querySelectorAll('.galeria')].entries()) {
+        g.scrollIntoView({ block: 'center' });
+        const imgs = [...g.querySelectorAll('.galeria-miniaturas img')];
+        await Promise.race([Promise.all(imgs.map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r; }))),
+          new Promise((r) => setTimeout(r, 4000))]);
+        imgs.forEach((i, n) => { if (!(i.complete && i.naturalWidth > 0)) fuera.push(\`galería \${k + 1}, miniatura \${n + 1}: \${i.currentSrc || i.getAttribute('src')}\`); });
+      }
+      window.scrollTo(0, 0); return fuera; })()`);
+    comprobar(vacias.length === 0, `${ancho}px: miniaturas sin foto (${vacias.join('; ')})`);
+
     // Cuántas fotos tiene la primera galería (la que se recorre): el control no
     // depende de cuántas haya hoy.
     const N = armado[0].cuadros;

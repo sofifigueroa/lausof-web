@@ -199,7 +199,7 @@ las patentes difuminadas. Cada una se revisó a tamaño completo antes de entrar
 - **Para sumar una foto aprobada:** exportarla con el mismo difuminado, copiarla
   a su categoría, agregarla a `biblioteca.json`, ponerla en la página, correr
   `node scripts/imagenes.mjs` y actualizar `usos`.
-- **Lote 1:** 40 fotos aprobadas, 17 en uso. Encabezados que tenían la insignia
+- **Lote 1:** 40 fotos aprobadas, 16 en uso. Encabezados que tenían la insignia
   vieja (producciones, alquiler 4x4, charter, clubes, estudio, combi con chofer,
   casamientos, internacionales, empresas; ES/EN donde existe) y el de cargas
   refrigeradas; las galerías de la página de flota; la galería del furgón en

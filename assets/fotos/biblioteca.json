@@ -92,10 +92,7 @@
    "lote": "lote-1",
    "aprobada": "2026-11-06",
    "sha256": "e221802fd9087e51373227f3138eb2b522c579d3efd380a618eea074fa10acdc",
-   "usos": [
-    "viajes-internacionales.html",
-    "en/international-trips.html"
-   ]
+   "usos": []
   },
   {
    "id": "F0046",
@@ -109,7 +106,9 @@
    "aprobada": "2026-11-06",
    "sha256": "412de30cc83655601d04b13d5e7eb1421db1ce912ae6fe2d8ead00dfa7284831",
    "usos": [
-    "viajes-de-estudio.html"
+    "viajes-de-estudio.html",
+    "viajes-internacionales.html",
+    "en/international-trips.html"
    ]
   },
   {
