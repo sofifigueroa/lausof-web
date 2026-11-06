@@ -335,7 +335,9 @@ const RENGLONES_TURISMO_0511 = [
   ['herramienta de rutas', /\bOSRM\b|\bRuta0\b|OpenStreetMap/],
   ['nota de trabajo', /no tiempos medidos|según Perfil \(2020\)|viajeros que la hicieron/],
   ['capacidad «4 a 10»', /grupo de 4 a 10 personas/],
-  ['frase de venta', /sin costos ocultos|Menos días parados|Menos riesgo de que una rotura|Sin call center|donde tiene que estar, cuando tiene que estar/],
+  // «Sin call center» volvió con la decisión 13B del 05/11/2026 (su «No problem
+  // with "Sin call center."» del 29/08); lo vigila el test de 13B, más abajo.
+  ['frase de venta', /sin costos ocultos|Menos días parados|Menos riesgo de que una rotura|donde tiene que estar, cuando tiene que estar/],
   ['dato que nadie preguntó', /Aguaray|cupos figuraban agotados|no hay cortes de ruta anunciados/],
   ['respuesta que cierra la venta', /No operamos ni vendemos el tren|tiene que resolverlo por su cuenta|El guía lo suma su agencia|se suma aparte/],
 ];
@@ -441,4 +443,48 @@ test('el patrón del plazo de respuesta distingue la respuesta del viaje', () =>
     'Respondemos com o orçamento por escrito.',
   ];
   for (const frase of viajes) assert.doesNotMatch(frase, PROMESA_DE_RESPUESTA, frase);
+});
+
+// Decisiones de Lautaro del 05/11/2026 (web/revision-sitio-2026-11-05,
+// 3-decisiones-consolidadas.md, ítems 8 y 13).
+// 8A: la pregunta por el precio dice qué lo define; nunca «No publicamos» ni
+// una respuesta que abre con «No». La línea «desde» espera los precios de
+// Natalia, así que ninguna respuesta lleva todavía un monto.
+const PREGUNTA_PRECIO = /<summary>(?:¿Cuánto cuesta\?|How much does it cost\?|Quanto custa\?)<\/summary>\s*<p>([^<]*)<\/p>/g;
+test('8A: el precio se explica, no se niega', () => {
+  let vistas = 0;
+  for (const [nombre, html] of Object.entries(paginas)) {
+    assert.doesNotMatch(html, /¿Publican precios\?|Do you publish prices\?|Vocês publicam preços\?/, `${nombre}: vuelve «¿Publican precios?»`);
+    assert.doesNotMatch(planoDe(html), /No publicamos precios|do not publish prices|Não publicamos preços/i, `${nombre}: dice que no publica precios`);
+    for (const [, respuesta] of html.matchAll(PREGUNTA_PRECIO)) {
+      vistas += 1;
+      assert.doesNotMatch(respuesta, /^\s*(?:No|Não)\b/, `${nombre}: la respuesta del precio abre con «No»`);
+      assert.match(respuesta, /cotiza|precio|cotizamos|priced|quoted|price|orçad|preço/i, `${nombre}: la respuesta no dice qué define el precio`);
+      assert.doesNotMatch(respuesta, /\$\s?\d|US\$|USD|R\$/, `${nombre}: la respuesta publica un monto antes de los precios de Natalia`);
+    }
+  }
+  assert.ok(vistas >= 31, `se esperaban al menos 31 respuestas de precio, hay ${vistas}`);
+});
+
+// 13B: sin la promesa de una sola persona; quedan «Sin call center» y
+// «alguien de la empresa», con sus palabras del 29/08.
+const UNA_PERSONA = /misma persona|mismo responsable|sola persona a cargo|solo responsable|un solo contacto de su lado|same person|one person (?:accountable|responsible|coordinating)|one contact on your side|mesmo responsável|só pessoa responsável/i;
+test('13B: ninguna página promete una sola persona', () => {
+  for (const [nombre, html] of Object.entries(paginas)) {
+    assert.doesNotMatch(planoDe(html), UNA_PERSONA, `${nombre}: vuelve la promesa de una sola persona`);
+  }
+});
+test('13B: las portadas y las páginas de la promesa dicen «Sin call center» y «alguien de la empresa»', () => {
+  assert.match(paginas['index.html'], /<b>Empresa familiar<\/b><p>Sin call center: las consultas las responde la propia empresa\.<\/p>/);
+  assert.match(paginas['index.html'], /El teléfono lo atiende alguien de la empresa, no un contestador\./);
+  assert.match(paginas['en/index.html'], /<b>A family company<\/b><p>No call center: questions are answered by the company itself\.<\/p>/);
+  assert.match(paginas['pt/index.html'], /<b>Empresa familiar<\/b><p>Sem call center: quem atende é alguém da empresa\.<\/p>/);
+  for (const nombre of ['charter-recitales.html', 'clubes-deportivos.html', 'peregrinaciones-eventos.html',
+    'traslados-fiesta-del-milagro.html', 'traslados-trail-jujuy-utmb.html', 'viajes-de-estudio.html',
+    'transporte-de-personal.html', 'traslados-empresas.html', 'cargas-refrigeradas.html', 'deposito-galpon.html']) {
+    assert.ok(planoDe(paginas[nombre]).includes('Sin call center: atiende alguien de la empresa.'), `${nombre}: falta «Sin call center: atiende alguien de la empresa.»`);
+  }
+  for (const nombre of ['en/personnel-transport.html', 'en/refrigerated-freight.html', 'en/warehouse.html']) {
+    assert.ok(planoDe(paginas[nombre]).includes('No call center: someone from the company answers.'), `${nombre}: falta «No call center: someone from the company answers.»`);
+  }
 });
