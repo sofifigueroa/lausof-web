@@ -16,7 +16,9 @@
        armar + las guardias de la salida + deploy al sitio de la DEMO con el
        CLI de Netlify. Rehúsa el sitio de producción, un sitio sin «demo» en el
        nombre, un árbol sucio, un HEAD distinto del sha y un sha que no esté en
-       origin/rediseno-agosto-2026.
+       origin/rediseno-agosto-2026. Va después de `publicacion.mjs publicar` y
+       `comprobar` (orden en README «El orden de cada deploy»: el push va antes
+       de publicar).
    comprobar [--sha <sha40>]
        Sólo lecturas (API de Netlify y HTTPS): producción = el sha; demo =
        producción + manifiesto; cabeceras y cuerpos en vivo; catálogo de la
@@ -312,7 +314,10 @@ export function verificarSalida({ salida, origen, perfil, manifiesto = MANIFIEST
   const servidos = archivosDe(sitio).filter(esTexto);
 
   // G13: sitio/ tiene sólo lo permitido y cada enlace interno resuelve adentro.
-  for (const x of problemasDeLaExportacion(sitio, { clave, extras: EXTRAS_DEMO })) mal(`G13 ${x}`);
+  // La demo no lleva sitemap: sus páginas se declaran contra el de producción.
+  const base = origen || fuentes;
+  const sitemap = fs.existsSync(path.join(base, 'sitemap.xml')) ? leer(base, 'sitemap.xml') : '';
+  for (const x of problemasDeLaExportacion(sitio, { clave, extras: EXTRAS_DEMO, sitemap })) mal(`G13 ${x}`);
 
   // G6: la demo siempre se esconde.
   for (const rel of paginasDe(sitio)) {

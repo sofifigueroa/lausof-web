@@ -195,6 +195,10 @@ test('G13: la demo sube sólo la lista de permitidos de producción más version
   const suelto = await armarDesde(base.origen, { despues: (s) => fs.writeFileSync(path.join(s, 'Claude.md'), 'x') });
   assert.deepStrictEqual(suelto.problemas.filter((x) => x.startsWith('G13')),
     ['G13 Claude.md: un .md no se publica nunca', 'G13 Claude.md: CLAUDE.md / README no se publica nunca', 'G13 Claude.md: no está en la lista de permitidos']);
+  // Control en rojo: una página que no está en el sitemap de producción (la demo no lleva el suyo).
+  const pagina = await armarDesde(base.origen, { despues: (s) => fs.writeFileSync(path.join(s, 'revision.html'), '<p>x</p>') });
+  assert.deepStrictEqual(pagina.problemas.filter((x) => x.startsWith('G13')),
+    ['G13 revision.html: página que no está en sitemap.xml ni en PAGINAS_FUERA_DEL_SITEMAP']);
 });
 
 // ---------------------------------------------------------------------------

@@ -16,10 +16,11 @@
        sobra o si una página enlaza un archivo que no quedó adentro.
    publicar --sha <sha40> [--salida <carpeta nueva>] [--conservar] [--permitir-anterior]
        exportar + deploy a PRODUCCIÓN (sitio lausof) con
-       `netlify-cli deploy --prod --no-build --dir <salida>`. Rehúsa un árbol
-       sucio, un HEAD distinto del sha y un sha que no sea la punta de
-       origin/rediseno-agosto-2026. Borra la carpeta al terminar bien, salvo
-       --conservar.
+       `netlify-cli deploy --prod --no-build --dir <salida>`. Primero trae
+       origin/rediseno-agosto-2026 (git fetch) y rehúsa un árbol sucio, un HEAD
+       distinto del sha y un sha que no sea la punta de origin
+       (motivosParaNoPublicar). Por eso el sha se empuja ANTES de publicar.
+       Borra la carpeta al terminar bien, salvo --conservar.
    comprobar
        Sólo lecturas: la lista de archivos del deploy publicado (API de
        Netlify) tiene que tener sólo rutas permitidas, y las rutas internas
@@ -62,6 +63,32 @@ export function esPublico(rel, { clave = null, extras = [] } = {}) {
   if (extras.includes(rel)) return true;
   if (clave && rel === `${clave}.txt`) return true;
   return PERMITIDOS.some((p) => p.re.test(rel));
+}
+
+// ---------------------------------------------------------------------------
+// Qué páginas son públicas: las del sitemap más esta lista cerrada. La forma
+// del nombre (PERMITIDOS) no alcanza: una página de revisión o una nota en
+// .html en la raíz, en en/ o en pt/ entraría igual (auditoría 9, N1). Una
+// página nueva entra al sitemap o, si no se indexa, a esta lista.
+// ---------------------------------------------------------------------------
+export const PAGINAS_FUERA_DEL_SITEMAP = ['404.html', 'en/404.html', 'google40eac84837fa77f1.html'];
+
+// Las rutas de archivo que nombra un sitemap (https://www.lausof.com/<url>).
+export function paginasDelSitemap(texto) {
+  const urls = [...String(texto || '').matchAll(/<loc>\s*https:\/\/www\.lausof\.com\/([^<\s]*)\s*<\/loc>/g)].map((m) => m[1]);
+  return new Set(urls.flatMap((u) => {
+    if (u === '' || u.endsWith('/')) return [`${u}index.html`];
+    if (u.endsWith('.html')) return [u];
+    return [`${u}.html`, `${u}/index.html`];
+  }));
+}
+
+// Cada .html tiene que estar en el sitemap o en PAGINAS_FUERA_DEL_SITEMAP.
+// Sin sitemap no se puede saber: todas las páginas cuentan como no declaradas.
+export function paginasNoDeclaradas(archivos, textoSitemap, { fuera = PAGINAS_FUERA_DEL_SITEMAP } = {}) {
+  const declaradas = paginasDelSitemap(textoSitemap);
+  return archivos.filter((rel) => rel.toLowerCase().endsWith('.html') && !declaradas.has(rel) && !fuera.includes(rel))
+    .map((rel) => `${rel}: página que no está en sitemap.xml ni en PAGINAS_FUERA_DEL_SITEMAP`);
 }
 
 // ---------------------------------------------------------------------------
@@ -141,13 +168,17 @@ const resuelve = (limpia, presentes, origenes) => {
 };
 
 // La guardia sobre una lista de rutas y una forma de leerlas: sirve para la
-// carpeta exportada y para el árbol del repo sin copiar las fotos.
-export function problemasDeLosArchivos(archivos, leer, { clave = null, extras = [], revisarEnlaces = true } = {}) {
+// carpeta exportada y para el árbol del repo sin copiar las fotos. `sitemap`
+// es el texto contra el que se declaran las páginas; por defecto, el
+// sitemap.xml de la propia lista (la demo, que no lo lleva, pasa el de origen).
+export function problemasDeLosArchivos(archivos, leer, { clave = null, extras = [], revisarEnlaces = true, sitemap } = {}) {
   const problemas = [];
   for (const rel of archivos) {
     for (const n of NUNCA) if (n.re.test(rel)) problemas.push(`${rel}: ${n.que} no se publica nunca`);
     if (!esPublico(rel, { clave, extras })) problemas.push(`${rel}: no está en la lista de permitidos`);
   }
+  const textoSitemap = sitemap !== undefined ? sitemap : (archivos.includes('sitemap.xml') ? leer('sitemap.xml') : '');
+  problemas.push(...paginasNoDeclaradas(archivos, textoSitemap));
   if (!revisarEnlaces) return problemas;
   const presentes = new Set(archivos);
   const origenes = new Set(origenesDeRedirects(presentes.has('_redirects') ? leer('_redirects') : ''));
@@ -181,9 +212,15 @@ export const claveDelSha = (sha, raiz = RAIZ) => {
   return r.status === 0 ? claveIndexNowDe(r.stdout) : null;
 };
 
-// Escribe en `destino` (que no existe) sólo las rutas `rutas` del sha.
-const archivar = (sha, rutas, destino, raiz) => new Promise((resolve, reject) => {
+// Escribe en `destino` sólo las rutas `rutas` del sha, en tandas: las rutas van
+// como argumentos de git archive y así nunca chocan con ARG_MAX aunque assets/
+// crezca (auditoría 9, N3).
+export const TANDA = 400;
+const archivar = async (sha, rutas, destino, raiz) => {
   fs.mkdirSync(destino, { recursive: true });
+  for (let i = 0; i < rutas.length; i += TANDA) await archivarTanda(sha, rutas.slice(i, i + TANDA), destino, raiz);
+};
+const archivarTanda = (sha, rutas, destino, raiz) => new Promise((resolve, reject) => {
   const lista = spawn('git', ['-C', raiz, 'archive', '--format=tar', sha, '--', ...rutas], {
     stdio: ['ignore', 'pipe', 'inherit'], env: { ...process.env, GIT_LITERAL_PATHSPECS: '1' },
   });
@@ -264,14 +301,18 @@ export async function netlify(ruta) {
 // Cómo lista Netlify un deploy (medido 06/11/2026): rutas en minúsculas, sin
 // _headers ni _redirects y con un /netlify.toml que arma Netlify (no se sirve).
 // La lista en vivo se compara contra la lista de permitidos en minúsculas.
-export function problemasDeLaListaEnVivo(rutas, { clave = null } = {}) {
+// Con `sitemap` (el texto servido), además cada página tiene que estar declarada.
+export function problemasDeLaListaEnVivo(rutas, { clave = null, sitemap } = {}) {
   const problemas = [];
+  const rels = [];
   for (const r of rutas) {
     const rel = r.replace(/^\//, '').toLowerCase();
     if (rel === 'netlify.toml') continue;
+    rels.push(rel);
     for (const n of NUNCA) if (n.re.test(rel)) problemas.push(`/${rel}: ${n.que}`);
     if (!esPublico(rel, { clave })) problemas.push(`/${rel}: no está en la lista de permitidos`);
   }
+  if (sitemap !== undefined) problemas.push(...paginasNoDeclaradas(rels, sitemap).map((p) => `/${p}`));
   return [...new Set(problemas)];
 }
 
@@ -289,7 +330,10 @@ export async function comprobar({ sitio = NETLIFY_PRODUCCION.id, host = HOST_PRO
   if (!f.ok || !Array.isArray(f.json)) return [`ROJO  archivos de ${sitio}: ${f.status}`];
   // La clave de IndexNow no cambia entre deploys: la del checkout que corre esto.
   const clave = claveIndexNowDe(fs.readFileSync(path.join(raiz, 'scripts', 'indexnow.mjs'), 'utf8'));
-  const problemas = problemasDeLaListaEnVivo(f.json.map((x) => x.path), { clave });
+  // Las páginas se declaran contra el sitemap que se sirve, no el del checkout.
+  const sm = await fetch(`${host}/sitemap.xml`, { redirect: 'manual' });
+  if (sm.status !== 200) return [`ROJO  P1 ${host}/sitemap.xml: ${sm.status}`];
+  const problemas = problemasDeLaListaEnVivo(f.json.map((x) => x.path), { clave, sitemap: await sm.text() });
   if (problemas.length === 0) lineas.push(`VERDE P1 deploy ${deploy?.id}: ${f.json.length} archivos, todos permitidos`);
   else lineas.push(`ROJO  P1 deploy ${deploy?.id}: ${problemas.length} rutas no permitidas (p. ej. ${problemas.slice(0, 5).join('; ')})`);
   const estados = await Promise.all(SONDAS.map(async (r) => [r, (await fetch(`${host}${r}`, { redirect: 'manual' })).status]));
@@ -303,17 +347,37 @@ export async function comprobar({ sitio = NETLIFY_PRODUCCION.id, host = HOST_PRO
 // ---------------------------------------------------------------------------
 // publicar (producción)
 // ---------------------------------------------------------------------------
-async function publicar({ sha, salida, conservar = false, permitirAnterior = false }) {
-  if (!/^[0-9a-f]{40}$/.test(sha || '')) throw new Error('falta --sha <sha40>');
+// Por qué no se publica, sin tocar git ni la red (los datos los junta
+// estadoParaPublicar). Lista vacía = se puede publicar.
+export function motivosParaNoPublicar({ sha, limpio, head, origenAlDia, punta, enOrigen, permitirAnterior = false }) {
+  if (!/^[0-9a-f]{40}$/.test(sha || '')) return ['falta --sha <sha40>'];
   const motivos = [];
-  if (git(RAIZ, 'status', '--porcelain') !== '') motivos.push('el árbol tiene cambios sin commitear');
-  if (git(RAIZ, 'rev-parse', 'HEAD') !== sha) motivos.push(`HEAD no es el sha a publicar (${sha})`);
-  const punta = git(RAIZ, 'rev-parse', '--verify', `${REF_RAMA}^{commit}`);
-  if (sha !== punta) {
-    const r = spawnSync('git', ['-C', RAIZ, 'merge-base', '--is-ancestor', sha, punta]);
-    if (!permitirAnterior) motivos.push(`${sha} no es la punta de ${REF_RAMA} (${punta}); --permitir-anterior sólo para volver a uno anterior`);
-    else if (r.status !== 0) motivos.push(`${sha} no está en ${REF_RAMA}`);
+  if (!limpio) motivos.push('el árbol tiene cambios sin commitear');
+  if (head !== sha) motivos.push(`HEAD (${head}) no es el sha a publicar (${sha})`);
+  if (!origenAlDia) motivos.push(`no se pudo traer ${REF_RAMA} (git fetch origin ${RAMA}); sin eso no se sabe cuál es la punta`);
+  else if (!punta) motivos.push(`no existe ${REF_RAMA}`);
+  else if (sha !== punta) {
+    if (!permitirAnterior) motivos.push(`${sha} no es la punta de ${REF_RAMA} (${punta}): primero se empuja (avance rápido) y después se publica; --permitir-anterior sólo para volver a uno anterior`);
+    else if (!enOrigen) motivos.push(`${sha} no está en ${REF_RAMA}`);
   }
+  return motivos;
+}
+
+// Lo que motivosParaNoPublicar necesita, leído de git. Trae la rama de origin
+// antes de compararla: el ref local puede estar viejo si se empujó desde otro
+// clon (auditoría 9, N2).
+export function estadoParaPublicar(sha, { raiz = RAIZ, permitirAnterior = false } = {}) {
+  const traer = spawnSync('git', ['-C', raiz, 'fetch', '--quiet', 'origin', RAMA], { encoding: 'utf8' });
+  const origenAlDia = traer.status === 0;
+  const p = spawnSync('git', ['-C', raiz, 'rev-parse', '--verify', '--quiet', `${REF_RAMA}^{commit}`], { encoding: 'utf8' });
+  const punta = p.status === 0 ? p.stdout.trim() : null;
+  const enOrigen = Boolean(punta) && /^[0-9a-f]{40}$/.test(sha || '')
+    && spawnSync('git', ['-C', raiz, 'merge-base', '--is-ancestor', sha, punta]).status === 0;
+  return { sha, limpio: git(raiz, 'status', '--porcelain') === '', head: git(raiz, 'rev-parse', 'HEAD'), origenAlDia, punta, enOrigen, permitirAnterior };
+}
+
+async function publicar({ sha, salida, conservar = false, permitirAnterior = false }) {
+  const motivos = motivosParaNoPublicar(estadoParaPublicar(sha, { permitirAnterior }));
   if (motivos.length) throw new Error(`no se publica:\n  - ${motivos.join('\n  - ')}`);
   const destino = salida || path.join(os.tmpdir(), 'lausof-publicacion', `${sha.slice(0, 12)}-${Date.now()}`);
   const x = await exportar({ sha, salida: destino });

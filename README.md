@@ -728,8 +728,11 @@ node scripts/publicacion.mjs comprobar                                         #
   `_redirects` que no sea `404!`). Si un archivo nuevo que el sitio necesita
   no está en la lista, la revisión lo dice: se suma a `PERMITIDOS` en el mismo
   commit, nunca se vuelve a `--dir .`.
-- `publicar` exige árbol limpio, HEAD = sha y sha = punta de
-  `origin/rediseno-agosto-2026`; sube con
+- `publicar` primero trae `origin/rediseno-agosto-2026` (`git fetch`, por si
+  se empujó desde otro clon) y exige árbol limpio, HEAD = sha y sha = punta de
+  `origin/rediseno-agosto-2026` (`motivosParaNoPublicar`, con un control en
+  rojo por motivo en `tests/publicacion.test.js`). Por eso el sha se empuja
+  antes de publicar. Sube con
   `netlify-cli deploy --prod --no-build --dir <exportación> --site 0abef4b8-…`
   y borra la exportación al terminar (`--conservar` para dejarla).
 - `comprobar` lee la lista de archivos del deploy publicado por la API de
@@ -739,30 +742,46 @@ node scripts/publicacion.mjs comprobar                                         #
   árbol completo porque el manifiesto lo necesita, y antes de subir poda todo
   lo que no está permitido, salvo `version-demo.json`.
 - Guardias: `tests/publicacion.test.js` (lista, exportación real con git,
-  enlaces de las 77 páginas, lista en vivo) y G5 de `tests/entorno.test.js`.
+  enlaces de las 77 páginas, lista en vivo, motivos de `publicar`) y G5 de
+  `tests/entorno.test.js`.
+- Cada `.html` exportado tiene que estar en `sitemap.xml` o en
+  `PAGINAS_FUERA_DEL_SITEMAP` (hoy `404.html`, `en/404.html` y la verificación
+  de Search Console). Una página interna con forma de página (una revisión en
+  la raíz, una nota en `en/`) no sale. Una página pública nueva entra al
+  sitemap en el mismo commit; si no se indexa, a esa lista. `comprobar` hace
+  la misma revisión contra el sitemap que se sirve, y la demo (que no lleva
+  sitemap) contra el de producción.
 - Los deploys viejos de Netlify (`<id>--lausof.netlify.app`) siguen sirviendo lo
   que se subió con `--dir .` hasta el 06/11/2026; borrarlos es decisión de Lautaro.
 
 ### El orden de cada deploy a producción (y la demo detrás)
 
-Desde un worktree limpio en la punta de `origin/rediseno-agosto-2026`, con el
-gate verde:
+Siempre en este orden, desde un worktree limpio con HEAD = el sha a publicar.
+`publicar` exige que el sha ya sea la punta de `origin/rediseno-agosto-2026`,
+así que el push va antes y no después:
 
-1. `node scripts/publicacion.mjs publicar --sha <sha40>` (exportación
-   permitida + deploy a producción con el título `rediseno-agosto-2026 <sha40>`)
-   y después `node scripts/publicacion.mjs comprobar`. Nunca `--dir .`.
-2. IndexNow, como dice la sección siguiente.
-3. `git push origin rediseno-agosto-2026` (sólo avance rápido).
-4. `node scripts/demo.mjs publicar --sha <sha40>`: la demo de la vitrina
-   (excepción de Lautaro del 06/11, ver `CLAUDE.md`) toma el mismo sha más su
-   manifiesto y se sube a su propio sitio de Netlify.
-5. `node scripts/demo.mjs comprobar --sha <sha40>`: una línea VERDE/ROJO por
-   control (producción = sha, demo = producción + manifiesto, cabeceras en
-   vivo, catálogo de la demo de Apacheta). Sus líneas van al bloque del deploy
-   en `WEB-LANE-HANDOFF.md`.
+1. **Merge**: el trabajo entra a `rediseno-agosto-2026` (merge o avance
+   rápido) en el worktree del integrador; `<sha40>` es esa punta.
+2. **Gate**: `~/.lausof-fleet/remote-gate.sh --tier integrator --require-clean --no-db <worktree> -- npm test`
+   en verde sobre ese sha.
+3. **Push**: `git push origin rediseno-agosto-2026` (sólo avance rápido, nunca
+   force).
+4. **Publicar**: `node scripts/publicacion.mjs publicar --sha <sha40>`
+   (exportación permitida + deploy a producción con el título
+   `rediseno-agosto-2026 <sha40>`). Nunca `--dir .`.
+5. **Comprobar**: `node scripts/publicacion.mjs comprobar` (dos líneas VERDE al
+   bloque del deploy). Después, IndexNow, como dice la sección siguiente.
+6. **Demo publicar**: `node scripts/demo.mjs publicar --sha <sha40>`: la demo
+   de la vitrina (excepción de Lautaro del 06/11, ver `CLAUDE.md`) toma el
+   mismo sha más su manifiesto y se sube a su propio sitio de Netlify.
+7. **Demo comprobar**: `node scripts/demo.mjs comprobar --sha <sha40>`: una
+   línea VERDE/ROJO por control (producción = sha, demo = producción +
+   manifiesto, cabeceras en vivo, catálogo de la demo de Apacheta). Sus líneas
+   van al bloque del deploy en `WEB-LANE-HANDOFF.md`.
 
-Si 4 o 5 salen en rojo, producción queda como está: se anota «demo atrasada en
-<sha>: <motivo>» en `WEB-LANE-HANDOFF.md` y una lane nueva lo arregla.
+Si 4 rehúsa, no se sube nada; se corrige el motivo y se vuelve a 4. Si 6 o 7
+salen en rojo, producción queda como está: se anota «demo atrasada en <sha>:
+<motivo>» en `WEB-LANE-HANDOFF.md` y una lane nueva lo arregla.
 
 Nunca hay `netlify/` ni `netlify.toml` en la raíz del repo: el CLI empaquetaría
 una edge function también en el deploy de producción (netlify/cli #7933). La

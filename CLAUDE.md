@@ -20,7 +20,7 @@ La regla global es que no hay staging, previews ni entornos de desarrollo: Lauta
 **Reglas de la demo:**
 - Todo lo que difiere entre producción y la demo está en `scripts/entorno.mjs`. Ninguna página, cabecera, robots, js ni css nombra un host de la demo (guardia G2); este archivo y los tests sí, y no se publican.
 - Nada de la demo vive en `netlify/` ni en un `netlify.toml` del repo: el CLI empaquetaría la edge function también en el deploy de producción (netlify/cli #7933). G5 lo impide.
-- Producción nunca espera a la demo. Después de cada deploy de producción, el mismo integrador, desde el mismo árbol limpio:
+- Producción nunca espera a la demo. Orden completo en README «El orden de cada deploy»: merge → gate → push (avance rápido) → `publicacion.mjs publicar` → `publicacion.mjs comprobar` → demo. Después de cada deploy de producción, el mismo integrador, desde el mismo árbol limpio:
   1. `node scripts/demo.mjs publicar --sha <sha40>`
   2. `node scripts/demo.mjs comprobar --sha <sha40>` y copia sus líneas en el bloque del deploy de WEB-LANE-HANDOFF.
 
