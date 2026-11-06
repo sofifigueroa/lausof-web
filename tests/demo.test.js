@@ -137,7 +137,7 @@ test('O11: la respuesta del precio cambia sólo donde la vitrina existe', async 
   const { salida } = await armadoBase();
   const cafayate = fs.readFileSync(path.join(salida, 'sitio', 'traslado-salta-cafayate.html'), 'utf8');
   const d = await demo;
-  if (!d.zonaTienda(cafayate)) assert.match(cafayate, /la cotización se envía por escrito/);
+  if (!d.zonaTienda(cafayate)) assert.match(cafayate, /<summary>¿Cuánto cuesta\?<\/summary>\s*<p>[^<]*la cotización se envía por escrito/);
   // Con la vitrina (simulada en el origen como la escribiría el generador), la
   // respuesta pasa a la de 4-textos §5. El ancla #reservar es de la vitrina: la
   // sección vieja «Cómo pedirlo» que hoy usa ese id lo deja.
@@ -158,7 +158,7 @@ test('O11: la respuesta del precio cambia sólo donde la vitrina existe', async 
   assert.ok(html('traslado-serenata-a-cafayate.html').includes(RESPUESTA_PRECIO.es.evento));
   assert.ok(html('en/salta-to-cafayate-transfer.html').includes(RESPUESTA_PRECIO.en.precio));
   assert.ok(html('pt/traslado-salta-cafayate.html').includes(RESPUESTA_PRECIO.pt.precio));
-  assert.doesNotMatch(html('traslado-salta-cafayate.html'), /la cotización se envía por escrito/);
+  assert.doesNotMatch(html('traslado-salta-cafayate.html'), /<summary>¿Cuánto cuesta\?<\/summary>\s*<p>[^<]*la cotización se envía por escrito/);
   // Cada página de la lista existe y tiene la pregunta (si no, O11 corta el armado).
   for (const rel of Object.keys(FAQ_PRECIO)) assert.ok(fs.existsSync(path.join(raiz, rel)), rel);
 });
