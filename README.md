@@ -445,7 +445,11 @@ y `3a-wireframes/`, textos `4-textos.md`, decisiones `DECISION-2026-11-05.md`).
   Escribe en cada página la zona `<!-- GENERADO:MENU -->` (los dos
   desplegables de escritorio, la etiqueta de sección y el botón «Menú» con su
   hoja en el teléfono), la zona `<!-- GENERADO:PIE -->` de las portadas (las
-  dos columnas de sección del pie) y, en `<body>`, `data-seccion`
+  dos columnas de sección del pie), en el pie de todas las páginas las zonas
+  `<!-- GENERADO:FACTURACION -->` («Datos de facturación»: razón social, CUIT,
+  factura) y `<!-- GENERADO:LEGAL -->` (las dos líneas finales), con los
+  textos de `PIE_DATOS` (una línea extra de una página va en
+  `EXTRAS_FACTURACION`), y, en `<body>`, `data-seccion`
   (`turismo`/`empresas`/`inicio`/`institucional`), `data-linea`
   (`personal`/`cargas`, sólo empresas) y `data-tipo` (el tipo de `PAGINAS` de
   `prefill.mjs`). Esos atributos hoy no los lee nada: son el enganche del

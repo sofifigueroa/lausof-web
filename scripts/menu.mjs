@@ -28,6 +28,9 @@
         del pie la zona <!-- GENERADO:CRUCE -->: un solo enlace al hub de la
         otra sección (3a §3.4, reglas T2 y B1). Es, junto con el menú, el
         único camino de turismo a empresas; tests/cruces.test.js lo vigila.
+     5. en todas las páginas con pie, escribe las zonas GENERADO:FACTURACION
+        (título y lista de «Datos de facturación») y GENERADO:LEGAL (las dos
+        líneas del final), con los textos de PIE_DATOS.
 
    Los textos salen de 4-textos.md §0.1 y §1.4 (misma carpeta), al pie de la
    letra. Una página a la que el menú apunta y que no existe en un idioma va
@@ -46,6 +49,7 @@ import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { raiz, paginas } from './rutas-raiz.mjs';
 import { PAGINAS, idiomaDe } from './prefill.mjs';
+import { FICHA } from './empresa.mjs';
 
 /* ---- sección de cada página (3a §3.3) ------------------------------------
    Las 14 páginas de empresas y su línea, más los dos hubs de empresas, que
@@ -91,8 +95,8 @@ export const MENU = {
       items: [
         ['Excursiones y traslados', '/turismo.html#circuitos'],
         ['Chile y Bolivia', '/viajes-internacionales.html'],
-        ['Fechas y eventos', '/feriados-fines-de-semana-largos.html'],
-        ['Grupos y ocasiones', '/turismo.html#eventos'],
+        ['Feriados y fiestas', '/feriados-fines-de-semana-largos.html'],
+        ['Grupos y eventos', '/turismo.html#eventos'],
         ['Agencias y hoteles', '/agencias-y-hoteles.html'],
         ['4x4 con chofer', '/alquiler-4x4.html#viajeros'],
         ['Aeropuerto', '/traslado-aeropuerto-salta.html'],
@@ -184,6 +188,44 @@ export const MENU = {
 };
 
 export const TELEFONO = { href: 'tel:+5493875269009', texto: '387 526-9009' };
+
+/* ---- datos de facturación y línea legal del pie, por idioma --------------
+   Hasta el 05/11/2026 estaban escritos a mano en cada página, con variantes
+   de una a otra. Ahora salen de acá, entre los comentarios
+   GENERADO:FACTURACION (dentro de <div class="wrap proveedores">) y
+   GENERADO:LEGAL (dentro de <div class="wrap legal">).
+     · Título «Datos de facturación»: «Datos para proveedores y compras» se
+       leía como los proveedores de Lausof (misma confusión que «documentación
+       de proveedor», revisión del sitio del 05/11, auditorías es-empresas
+       FIX-1 y es-turismo P5).
+     · «Factura A o B» en español: Lausof factura con IVA (21 % y 10,5 %), así
+       que emite A a quien es responsable inscripto y B a los demás; «solo A»
+       hacía pensar a un turista que no recibe factura (es-turismo P4/P5).
+     · «Noroeste argentino» en lugar de «NOA»: una sigla que fuera de la
+       Argentina no se entiende (auditoría en F4); el portugués ya lo decía así.
+   Una página que necesita una línea más en el bloque la suma en
+   EXTRAS_FACTURACION. */
+export const PIE_DATOS = {
+  es: {
+    titulo: 'Datos de facturación',
+    items: ['Razón social: Lausof S.R.L.', `CUIT: ${FICHA.taxID}`, 'Emitimos factura A o B.'],
+    legal: [`© Lausof SRL · CUIT ${FICHA.taxID} · Salta Capital, Argentina`, 'Empresa familiar de transporte y logística · Noroeste argentino'],
+  },
+  en: {
+    titulo: 'Billing details',
+    items: ['Legal name: Lausof S.R.L.', `CUIT (Argentine tax ID): ${FICHA.taxID}`, 'We issue Factura A (Argentine tax invoice).'],
+    legal: [`© Lausof SRL · CUIT ${FICHA.taxID} · Salta, Argentina`, 'Family-owned transport and logistics company · northwest Argentina'],
+  },
+  pt: {
+    titulo: 'Dados para faturamento',
+    items: ['Razão social: Lausof S.R.L.', `CUIT (registro fiscal argentino): ${FICHA.taxID}`, 'Emitimos nota fiscal argentina (factura A).'],
+    legal: [`© Lausof SRL · CUIT ${FICHA.taxID} · Salta Capital, Argentina`, 'Empresa familiar de transporte e logística · Noroeste argentino'],
+  },
+};
+
+export const EXTRAS_FACTURACION = {
+  'en/mining-logistics.html': ['CNRT license No. 60284 · AMT permit · cargo and passenger insurance in force.'],
+};
 
 /* ---- armado del HTML ------------------------------------------------------ */
 
@@ -284,6 +326,29 @@ export function zonaCruce(pagina) {
   ].map((l) => `      ${l}`).join('\n');
 }
 
+/** El título y la lista del bloque de facturación del pie. Pura. */
+export function zonaFacturacion(pagina) {
+  const d = PIE_DATOS[idiomaDe(pagina)];
+  const items = [...d.items, ...(EXTRAS_FACTURACION[pagina] || [])];
+  return [
+    '<!-- GENERADO:FACTURACION — no editar a mano: editar scripts/menu.mjs y correr `node scripts/menu.mjs` -->',
+    `<b>${escapar(d.titulo)}</b>`,
+    '<ul>',
+    ...items.map((i) => `  <li>${escapar(i)}</li>`),
+    '</ul>',
+    '<!-- /GENERADO:FACTURACION -->',
+  ].map((l) => `    ${l}`).join('\n');
+}
+
+/** Las dos líneas legales del final del pie. Pura. */
+export function zonaLegal(pagina) {
+  return [
+    '<!-- GENERADO:LEGAL — no editar a mano: editar scripts/menu.mjs y correr `node scripts/menu.mjs` -->',
+    ...PIE_DATOS[idiomaDe(pagina)].legal.map((l) => `<span>${escapar(l)}</span>`),
+    '<!-- /GENERADO:LEGAL -->',
+  ].map((l) => `    ${l}`).join('\n');
+}
+
 /** Los atributos de contexto de <body> para una página. */
 export function atributosBody(pagina) {
   const seccion = seccionDe(pagina);
@@ -299,6 +364,10 @@ const ZONA_CRUCE = /\n[ \t]*<!-- GENERADO:CRUCE[\s\S]*?<!-- \/GENERADO:CRUCE -->
 // Fin de la primera columna del pie: ahí va el enlace de cruce.
 const PRIMERA_COLUMNA_PIE = /(<footer class="site"[^>]*>\s*<div class="wrap foot-grid">\s*<div>[\s\S]*?)(\n[ \t]*<\/div>\s*<div>\s*<b>)/;
 const NAV_VIEJO = /[ \t]*<nav class="main"[\s\S]*?<\/nav>/;
+// El título y la lista del bloque de facturación: la zona generada o, la
+// primera vez, el <b> y el <ul> escritos a mano.
+const FACTURACION = /(<div class="wrap proveedores">)\s*(?:<!-- GENERADO:FACTURACION[\s\S]*?<!-- \/GENERADO:FACTURACION -->|<b>[^<]*<\/b>\s*<ul>[\s\S]*?<\/ul>)/;
+const LEGAL = /(<div class="wrap legal">)[\s\S]*?(\n[ \t]*<\/div>)/;
 const SCRIPT_MENU = '<script defer src="/js/menu.js?v=1"></script>';
 const SCRIPT_CONTACTO = /^([ \t]*)<script defer src="\/js\/contacto\.js\?v=\d+"><\/script>$/m;
 
@@ -306,6 +375,8 @@ const SCRIPT_CONTACTO = /^([ \t]*)<script defer src="\/js\/contacto\.js\?v=\d+">
 export function conMenu(html, pagina) {
   let nuevo = html.replace(/<body\b[^>]*>/, `<body ${atributosBody(pagina).map(([k, v]) => `${k}="${v}"`).join(' ')}>`);
   if (PORTADAS.includes(pagina)) nuevo = nuevo.replace(ZONA_PIE, () => zonaPie(pagina));
+  nuevo = nuevo.replace(FACTURACION, (_, apertura) => `${apertura}\n${zonaFacturacion(pagina)}`);
+  nuevo = nuevo.replace(LEGAL, (_, apertura, cierre) => `${apertura}\n${zonaLegal(pagina)}${cierre}`);
   const cruce = zonaCruce(pagina);
   nuevo = nuevo.replace(ZONA_CRUCE, '');
   if (cruce) {

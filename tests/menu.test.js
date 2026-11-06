@@ -94,6 +94,34 @@ test('en el pie de las portadas, «Ver todo» es el último enlace de cada colum
   }
 });
 
+// El bloque de facturación y la línea legal del pie salen de scripts/menu.mjs
+// (PIE_DATOS), iguales en todas las páginas de un idioma. Revisión del
+// 05/11/2026: «Datos para proveedores y compras» se leía como los proveedores
+// de Lausof, y «NOA» no se entiende fuera de la Argentina.
+test('el pie lleva «Datos de facturación» y la línea legal generados, sin «proveedores» ni «NOA»', async () => {
+  const { PIE_DATOS } = await cargar();
+  let conBloque = 0;
+  for (const [nombre, html] of Object.entries(paginas)) {
+    const pie = (html.match(/<footer class="site"[^>]*>[\s\S]*?<\/footer>/) || [''])[0];
+    if (!pie) continue;
+    const d = PIE_DATOS[idiomaDe(nombre)];
+    const legal = pie.match(/<!-- GENERADO:LEGAL[\s\S]*?<!-- \/GENERADO:LEGAL -->/);
+    assert.ok(legal, `${nombre}: el pie no tiene la zona GENERADO:LEGAL`);
+    assert.deepStrictEqual([...legal[0].matchAll(/<span>([^<]*)<\/span>/g)].map((m) => m[1]), d.legal, `${nombre}: línea legal`);
+    const texto = sinComentarios(pie).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    assert.doesNotMatch(texto, /proveedores y compras|Supplier and procurement|fornecedores e compras/i, `${nombre}: título viejo del bloque`);
+    assert.doesNotMatch(texto, /\bNOA\b/, `${nombre}: «NOA» en el pie`);
+    if (!/<div class="wrap proveedores">/.test(pie)) continue;
+    conBloque += 1;
+    const zona = pie.match(/<!-- GENERADO:FACTURACION[\s\S]*?<!-- \/GENERADO:FACTURACION -->/);
+    assert.ok(zona, `${nombre}: el bloque de facturación no está generado`);
+    assert.ok(zona[0].includes(`<b>${d.titulo}</b>`), `${nombre}: el título no es «${d.titulo}»`);
+    for (const item of d.items) assert.ok(zona[0].includes(`<li>${item}</li>`), `${nombre}: falta «${item}»`);
+  }
+  assert.ok(conBloque >= 75, `sólo ${conBloque} pies con bloque de facturación`);
+  assert.ok(PIE_DATOS.es.items.includes('Emitimos factura A o B.'), 'el español dice A o B: Lausof emite las dos');
+});
+
 test('la etiqueta de sección del teléfono sólo va en páginas de turismo y empresas', async () => {
   const { seccionDe } = await cargar();
   for (const [nombre, html] of conMenu) {

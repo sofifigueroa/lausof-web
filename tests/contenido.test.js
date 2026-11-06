@@ -271,3 +271,53 @@ test('la pregunta por la excursión guiada no cierra la venta: el guía se coord
   }
   assert.ok(vistas >= 7, `se esperaban al menos 7 respuestas, hay ${vistas}`);
 });
+
+// Auditoría de copia del 05/11/2026 (páginas de empresas e institucionales,
+// web/revision-sitio-2026-11-05/auditoria-es-empresas.md, FIX-5 a FIX-35):
+// jerga, frases de venta y promesas absolutas que salieron y no vuelven.
+const GRUPO_EMPRESAS_0511 = ['index.html', 'empresas-y-mineria.html', 'transporte-de-personal.html',
+  'transporte-de-personal-obras-de-litio.html', 'logistica-minera.html', 'traslados-empresas.html',
+  'producciones.html', 'cargas-refrigeradas.html', 'deposito-galpon.html', 'alquiler-autoelevadores.html',
+  '404.html', 'flota-en-venta.html', 'galeria.html'];
+const RENGLONES_EMPRESAS_0511 = [
+  ['«interjurisdiccional» (se dice «viajes entre provincias»)', /interjurisdiccional/i],
+  ['«Facturamos A» (se dice «Factura A»)', /Facturamos A\b/],
+  ['IVA fijo del 21 % (pasajeros va al 10,5 %)', /IVA 21/],
+  ['eslogan de la seguridad', /no es un adicional/i],
+  ['eslogan «Su tranquilidad»', /Su tranquilidad viaja/i],
+  ['jerga de depósito', /staging|posiciones fr[ií]as/i],
+  ['letra de contrato', /M[ií]nimos y plazos a convenir/i],
+  ['«la más pedida» sin datos', /opci[oó]n m[aá]s pedida/i],
+  ['«inmovilizar capital»', /inmovilizar capital/i],
+  ['«vouchers»', /vouchers/i],
+  ['«Años operando»', /A[nñ]os operando/i],
+  ['«horarios comprometidos»', /horarios comprometidos/i],
+  ['«la barrera» (se dice «el control de ingreso a la mina»)', /la barrera\b/i],
+  ['cadena de frío absoluta', /sin cortes|no se corta en ning[uú]n tramo/i],
+];
+test('las páginas de empresas e institucionales no repiten los renglones de la auditoría del 05/11', () => {
+  for (const nombre of GRUPO_EMPRESAS_0511) {
+    const plano = paginas[nombre].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    for (const [etiqueta, patron] of RENGLONES_EMPRESAS_0511) {
+      assert.doesNotMatch(plano, patron, `${nombre}: ${etiqueta}`);
+    }
+  }
+});
+
+test('ningún <h1> de empresas e institucionales termina en punto', () => {
+  for (const nombre of GRUPO_EMPRESAS_0511) {
+    for (const [, h1] of paginas[nombre].matchAll(/<h1[^>]*>([\s\S]*?)<\/h1>/g)) {
+      assert.doesNotMatch(h1.replace(/<[^>]+>/g, '').trim(), /\.$/, `${nombre}: el h1 termina en punto`);
+    }
+  }
+});
+
+// FIX-35: la 404 ofrece las dos secciones en el orden de las líneas, no la
+// venta de la flota (que queda discreta, sólo en el pie).
+test('404.html: las puertas son Turismo y traslados, Empresas y minería y WhatsApp', () => {
+  const puertas = paginas['404.html'].match(/<div class="np-enlaces">([\s\S]*?)<\/div>/)[1];
+  const hrefs = [...puertas.matchAll(/href="([^"]*)"/g)].map((m) => m[1]);
+  assert.deepStrictEqual(hrefs.slice(0, 2), ['/turismo.html', '/empresas-y-mineria.html']);
+  assert.match(hrefs[2], /^https:\/\/wa\.me\/5493875269009/);
+  assert.strictEqual(hrefs.length, 3);
+});
