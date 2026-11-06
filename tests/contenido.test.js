@@ -271,3 +271,60 @@ test('la pregunta por la excursión guiada no cierra la venta: el guía se coord
   }
   assert.ok(vistas >= 7, `se esperaban al menos 7 respuestas, hay ${vistas}`);
 });
+
+// Ola de arreglos del 05/11/2026 en las páginas de turismo en español
+// (web/revision-sitio-2026-11-05/auditoria-es-turismo.md): las fuentes no
+// nombran herramientas que el viajero no conoce, el chofer-guía no se
+// contesta con «No», la factura no queda en «solo A» para clubes, colegios
+// y viajeros, y no vuelven los renglones que nadie preguntó.
+const TURISMO_ES = Object.entries(paginas)
+  .filter(([nombre, html]) => !/^(en|pt)\//.test(nombre) && html.includes('data-seccion="turismo"'));
+const planoDe = (html) => html.replace(/<script[\s\S]*?<\/script>/gi, ' ')
+  .replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ');
+const RENGLONES_TURISMO_0511 = [
+  ['herramienta de rutas', /\bOSRM\b|\bRuta0\b|OpenStreetMap/],
+  ['nota de trabajo', /no tiempos medidos|según Perfil \(2020\)|viajeros que la hicieron/],
+  ['capacidad «4 a 10»', /grupo de 4 a 10 personas/],
+  ['frase de venta', /sin costos ocultos|Menos días parados|Menos riesgo de que una rotura|Sin call center|donde tiene que estar, cuando tiene que estar/],
+  ['dato que nadie preguntó', /Aguaray|cupos figuraban agotados|no hay cortes de ruta anunciados/],
+  ['respuesta que cierra la venta', /No operamos ni vendemos el tren|tiene que resolverlo por su cuenta|El guía lo suma su agencia|se suma aparte/],
+];
+test('turismo ES: no vuelven los renglones arreglados el 05/11/2026', () => {
+  assert.ok(TURISMO_ES.length >= 29, `se esperaban 29 páginas de turismo, hay ${TURISMO_ES.length}`);
+  for (const [nombre, html] of TURISMO_ES) {
+    const plano = planoDe(html);
+    for (const [etiqueta, patron] of RENGLONES_TURISMO_0511) {
+      assert.doesNotMatch(plano, patron, `${nombre}: ${etiqueta}`);
+    }
+  }
+});
+
+const PREGUNTA_CHOFER_GUIA = /<summary>¿El chofer hace de guía\?<\/summary>\s*<p>([^<]*)/g;
+test('turismo ES: «¿El chofer hace de guía?» no se contesta con «No» y ofrece coordinar el guía', () => {
+  let vistas = 0;
+  for (const [nombre, html] of TURISMO_ES) {
+    for (const [, respuesta] of html.matchAll(PREGUNTA_CHOFER_GUIA)) {
+      vistas += 1;
+      assert.doesNotMatch(respuesta, /^\s*No\b/, `${nombre} contesta «No»`);
+      assert.match(respuesta, /se puede coordinar/, `${nombre} no ofrece coordinar el guía`);
+    }
+  }
+  assert.ok(vistas >= 3, `se esperaban al menos 3 respuestas, hay ${vistas}`);
+});
+
+// Factura A sólo va a Responsables Inscriptos: un club exento, un colegio o un
+// viajero reciben B. El pie (bloque de datos de facturación) lo arregla su
+// propio carril; acá se mira el cuerpo de las páginas para grupos y viajeros.
+const FACTURA_A_O_B = [
+  'charter-recitales.html', 'clubes-deportivos.html', 'viajes-de-estudio.html', 'traslado-tren-a-las-nubes.html',
+  'traslado-carnaval-quebrada-de-humahuaca.html', 'feriados-fines-de-semana-largos.html', 'traslado-serenata-a-cafayate.html',
+  'traslados-trail-jujuy-utmb.html', 'viajes-internacionales.html', 'traslado-salta-san-pedro-de-atacama.html',
+  'traslado-san-pedro-de-atacama-salta.html', 'traslado-salta-uyuni.html', 'traslado-uyuni-salta.html',
+];
+test('turismo ES: a clubes, colegios y viajeros la factura es A o B', () => {
+  for (const nombre of FACTURA_A_O_B) {
+    const cuerpo = paginas[nombre].replace(/<div class="wrap proveedores">[\s\S]*?<\/div>/, ' ');
+    const plano = planoDe(cuerpo) + ' ' + [...cuerpo.matchAll(/\scontent="([^"]*)"/g)].map((m) => m[1]).join(' ');
+    assert.doesNotMatch(plano, /factura A(?! o B)/, `${nombre} dice «factura A» sin la B`);
+  }
+});

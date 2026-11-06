@@ -166,8 +166,9 @@ for (const [nombre, km] of Object.entries(distancias)) {
       assert.match(texto, km, `${nombre}: el ${donde} no dice la distancia`);
       assert.match(texto, /\d h\b|\d Hours\b/, `${nombre}: el ${donde} no dice el tiempo`);
     }
-    // El dato es el mismo que la tabla de la página, con su fuente.
-    assert.match(visible(html), /Google Maps|Ruta0/);
+    // El dato es el mismo que la tabla de la página, con su fuente fechada
+    // (desde el 05/11/2026 sin nombrar herramientas como Ruta0 u OSRM).
+    assert.match(visible(html), /Google Maps|Ruta0|aproximados, en auto y sin paradas, consultados el \d{2}\/\d{2}\/2026/);
   });
 }
 
