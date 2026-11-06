@@ -159,10 +159,33 @@ const RESENAS = 'https://www.google.com/maps?cid=13700114490953273065';
 const RENGLON_RESENAS = /<span><a href="https:\/\/www\.google\.com\/maps\?cid=13700114490953273065" target="_blank" rel="noopener"><b>(?:Reseñas en Google|Google reviews|Avaliações no Google)<\/b><\/a>: (?:4,9 de 5, con 9 reseñas \(03\/11\/2026\)|4\.9 out of 5 from 9 reviews \(November 3, 2026\)|4,9 de 5, com 9 avaliações \(03\/11\/2026\))<\/span>/g;
 const sinEnlaceResenas = (html) => html.replace(RENGLON_RESENAS, '');
 
+// Plazo de respuesta (decisión 1A de Lautaro, 05/11/2026,
+// web/revision-sitio-2026-11-05/3-decisiones-consolidadas.md, ítem 1): el sitio
+// no promete cuándo se responde, en ningún idioma ni en meta, og o JSON-LD,
+// hasta que la primera respuesta a consultas web esté medida y baje de un día.
+// La cotización se ofrece «por escrito» / «written quote» / «por escrito» (PT).
+// Sólo corta frases de respuesta o cotización: «ida y vuelta en el día»,
+// «same-day return trips» o «no mesmo dia ou com uma noite» son del viaje.
+const PROMESA_DE_RESPUESTA = new RegExp([
+  // ES: «Le respondemos con la cotización en el día», «Cotización en el día»,
+  // «normalmente en el mismo día hábil», «Respondemos en 24 horas».
+  String.raw`\b(?:respond\w*|cotiz\w*|cotización|propuesta|precio|presupuesto)\b[^.<"]{0,60}?\ben el (?:mismo )?día\b`,
+  String.raw`\bdía hábil\b`,
+  String.raw`\brespond\w* (?:en|dentro de) (?:menos de )?(?:\d+|una|un par de) (?:h\b|horas?|minutos)`,
+  // EN: «same business day», «same-day quote», «reply within 2 hours».
+  String.raw`\bsame[- ]business[- ]day\b`,
+  String.raw`\bsame[- ]day (?:quotes?|reply|replies|answers?|response)\b`,
+  String.raw`\b(?:reply|replies|quote|quotes|answer|respond)\w*\b[^.<"]{0,60}?\b(?:the same day|within \d+ (?:hours?|minutes))\b`,
+  // PT: «Respondemos com o orçamento no mesmo dia», «no mesmo dia útil».
+  String.raw`\b(?:respond\w*|orçamento|preço)\b[^.<"]{0,60}?\bno mesmo dia\b`,
+  String.raw`\bdia útil\b`,
+].join('|'), 'i');
+
 module.exports = {
   RESENAS,
   RENGLON_RESENAS,
   sinEnlaceResenas,
+  PROMESA_DE_RESPUESTA,
   paginas,
   paginasEs,
   paginasEn,

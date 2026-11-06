@@ -17,7 +17,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert');
-const { paginas, pares, sitemap, redirects, urlDe, rutaDe, sinComentarios } = require('./util.js');
+const { paginas, pares, sitemap, redirects, urlDe, rutaDe, sinComentarios, PROMESA_DE_RESPUESTA } = require('./util.js');
 
 // Páginas de ruta ES → EN. Una ruta nueva entra acá y en el mapa de pares.
 const RUTAS = {
@@ -96,8 +96,9 @@ for (const nombre of todas) {
       'Lausof va como la última opción, después de las públicas');
     assert.ok(filas.some((f) => (en ? /bus|taxi/i : /colectivo|taxi/i).test(f)),
       'el bloque no nombra la opción de transporte público');
-    // La respuesta en el día, también acá.
-    assert.match(texto, en ? /same business day/ : /en el día/);
+    // La cotización por escrito, sin plazo de respuesta (decisión 1A, 05/11/2026).
+    assert.doesNotMatch(texto, PROMESA_DE_RESPUESTA, 'el bloque promete un plazo de respuesta');
+    assert.match(texto, en ? /\bwritten quote\b/ : /\bpor escrito\b/, 'el bloque no ofrece la cotización por escrito');
     // Fuente fechada.
     assert.match(texto, en ? /(?:checked|Checked) [A-Z][a-z]{2} \d{1,2}, 2026/ : /consultados? el \d{2}\/\d{2}\/2026/,
       'el bloque no fecha su fuente');
