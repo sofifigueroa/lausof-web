@@ -378,3 +378,21 @@ test('turismo ES: a clubes, colegios y viajeros la factura es A o B', () => {
     assert.doesNotMatch(plano, /factura A(?! o B)/, `${nombre} dice «factura A» sin la B`);
   }
 });
+
+// Integración de la ola FIX del 05/11/2026: Salta–Purmamarca es la misma
+// distancia en los tres idiomas (la de la página de Purmamarca, 188 km), y la
+// nota bajo la tabla de San Pedro de Atacama no nombra herramientas de rutas.
+const SAN_PEDRO_3_IDIOMAS = ['traslado-salta-san-pedro-de-atacama.html', 'traslado-san-pedro-de-atacama-salta.html',
+  'en/salta-to-san-pedro-de-atacama.html', 'en/san-pedro-de-atacama-to-salta.html', 'pt/traslado-salta-san-pedro-de-atacama.html'];
+test('San Pedro de Atacama ES/EN/PT: Salta–Purmamarca son 188 km y las notas no nombran OSRM ni OpenStreetMap', () => {
+  for (const nombre of SAN_PEDRO_3_IDIOMAS) {
+    const html = paginas[nombre];
+    const tramo = html.match(/<tr><th scope="row">(?:Salta – Purmamarca|Purmamarca – Salta|Salta to Purmamarca|Purmamarca to Salta)<\/th><td>([^<]*)/);
+    assert.ok(tramo, `${nombre}: falta el tramo Salta–Purmamarca`);
+    assert.match(tramo[1], /188 km/, `${nombre}: Salta–Purmamarca no dice 188 km`);
+    assert.doesNotMatch(html, /\b180 km\b/, `${nombre}: queda un «180 km»`);
+    for (const [, nota] of html.matchAll(/<p class="nota-fuente">([\s\S]*?)<\/p>/g)) {
+      assert.doesNotMatch(nota, /OSRM|OpenStreetMap/, `${nombre}: la nota nombra la herramienta de rutas`);
+    }
+  }
+});
