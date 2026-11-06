@@ -114,6 +114,32 @@
     return c;
   }
 
+  // Las miniaturas piden su foto recién cuando la galería se acerca a la
+  // pantalla. Con `loading="lazy"` solo, Chrome las baja ni bien carga la
+  // página (su margen llega a 2500 px) y compiten con la foto del encabezado:
+  // en cargas refrigeradas la LCP pasaba de 1,95 s a 2,40 s (Lighthouse móvil,
+  // 06/11/2026). Sin IntersectionObserver se piden enseguida.
+  function enEspera(picture) {
+    [].forEach.call(picture.querySelectorAll('source, img'), function (n) {
+      ['srcset', 'src'].forEach(function (a) {
+        if (n.hasAttribute(a)) { n.setAttribute('data-' + a, n.getAttribute(a)); n.removeAttribute(a); }
+      });
+    });
+    return picture;
+  }
+  function pedir(seccion) {
+    [].forEach.call(seccion.querySelectorAll('.galeria-miniaturas [data-srcset], .galeria-miniaturas [data-src]'), function (n) {
+      ['srcset', 'src'].forEach(function (a) {
+        if (n.hasAttribute('data-' + a)) { n.setAttribute(a, n.getAttribute('data-' + a)); n.removeAttribute('data-' + a); }
+      });
+    });
+  }
+  var vigia = 'IntersectionObserver' in window ? new IntersectionObserver(function (entradas) {
+    entradas.forEach(function (e) {
+      if (e.isIntersecting) { pedir(e.target); vigia.unobserve(e.target); }
+    });
+  }, { rootMargin: '300px 0px' }) : null;
+
   /* ---- el diálogo, uno por página ---- */
   var dialogo = null;
   var activa = null; // la galería que lo abrió
@@ -191,7 +217,7 @@
       b.type = 'button';
       var etiqueta = cuadro.getAttribute('data-miniatura');
       b.setAttribute('aria-label', T.foto + ' ' + (k + 1) + (etiqueta ? ': ' + etiqueta : ''));
-      b.appendChild(copiaDe(cuadro.querySelector('picture'), '120px'));
+      b.appendChild(enEspera(copiaDe(cuadro.querySelector('picture'), '120px')));
       b.addEventListener('click', function () { g.ir(k, 'miniatura'); });
       li.appendChild(b);
       lista.appendChild(li);
@@ -283,5 +309,8 @@
     seccion.classList.add('galeria-lista');
   }
 
-  [].forEach.call(document.querySelectorAll('.galeria'), armar);
+  [].forEach.call(document.querySelectorAll('.galeria'), function (seccion) {
+    armar(seccion);
+    if (vigia) vigia.observe(seccion); else pedir(seccion);
+  });
 })();

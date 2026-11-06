@@ -18,7 +18,6 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <link rel="stylesheet" href="/css/styles.css?v=28">
   <link rel="stylesheet" href="/css/cargas.css?v=4">
-  <link rel="stylesheet" href="/css/galeria-componente.css?v=2">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_AR">
@@ -106,7 +105,7 @@
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-GHHRS5LDE7')</script>
   <script defer src="/js/contacto.js?v=2"></script>
   <script defer src="/js/menu.js?v=1"></script>
-  <script defer src="/js/galeria.js?v=1"></script>
+  <script defer src="/js/galeria.js?v=2"></script>
   <!-- GENERADO:EMPRESA — no editar a mano: editar scripts/empresa.mjs y correr `node scripts/empresa.mjs` -->
   <script type="application/ld+json" id="empresa">{"@context":"https://schema.org","@type":"LocalBusiness","@id":"https://www.lausof.com/#empresa","name":"Lausof SRL","legalName":"LAUSOF S.R.L.","alternateName":"Lausof Transportes","brand":{"@type":"Brand","name":"Lausof Transportes"},"url":"https://www.lausof.com/","logo":"https://www.lausof.com/assets/logo-horizontal-web.png","telephone":"+54-9-387-526-9009","email":"transporte@lausof.com","taxID":"30-71146774-9","foundingDate":"2010","address":{"@type":"PostalAddress","streetAddress":"Junín 1334","addressLocality":"Salta","addressRegion":"Salta","postalCode":"A4400","addressCountry":"AR"},"identifier":{"@type":"PropertyValue","propertyID":"CNRT","name":"Habilitación CNRT","value":"60284"},"hasCertification":{"@type":"Certification","name":"Habilitación CNRT N.º 60284","certificationIdentification":"60284","issuedBy":{"@type":"GovernmentOrganization","name":"Comisión Nacional de Regulación del Transporte (CNRT)"}}}</script>
   <!-- /GENERADO:EMPRESA -->
@@ -197,6 +196,11 @@
            en ripio; acá van las vistas del furgón (por dentro, el equipo de frío,
            la rampa y el portón), en una galería que maneja el visitante. La del
            frente con el rótulo del parasol sigue afuera. -->
+      <!-- La hoja de la galería va acá y no en el <head>: la galería queda
+           debajo del encabezado y así no frena la primera pintura (un <link>
+           en el <body> sólo detiene lo que viene después; Lighthouse, 06/11/2026:
+           en el <head> la LCP pasaba de 1,95 s a 2,40 s). -->
+      <link rel="stylesheet" href="/css/galeria-componente.css?v=2">
       <section class="galeria" aria-roledescription="galería" aria-label="Fotos de los camiones térmicos">
         <div class="galeria-pista" tabindex="0">
           <figure role="group" aria-roledescription="foto" aria-label="1 de 4" data-miniatura="por dentro"><picture><source type="image/avif" srcset="/assets/refrigerados-3-interior-v2-400w.avif 400w, /assets/refrigerados-3-interior-v2-560w.avif 560w, /assets/refrigerados-3-interior-v2.avif 722w" sizes="(max-width: 760px) calc(100vw - 48px), 686px"><img src="/assets/refrigerados-3-interior-v2.webp" srcset="/assets/refrigerados-3-interior-v2-400w.webp 400w, /assets/refrigerados-3-interior-v2-560w.webp 560w, /assets/refrigerados-3-interior-v2.webp 722w" alt="Interior del furgón térmico de Lausof con ganchos para media res" width="722" height="604" sizes="(max-width: 760px) calc(100vw - 48px), 686px" loading="lazy" decoding="async"></picture><figcaption>Por dentro: rieles en el techo para colgar media res.</figcaption></figure>
