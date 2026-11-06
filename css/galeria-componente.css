@@ -35,6 +35,19 @@ html:not(.js) .galeria-pista > figure{flex-basis:88%}
   background:#eef1f6;cursor:zoom-in;
 }
 html:not(.js) .galeria-pista img{cursor:auto}
+/* Con JavaScript, las fotos de la pista esperan a que la galería se acerque a
+   la pantalla o a que la página termine de cargar (js/galeria.js le pone
+   .galeria-cerca). Con `loading="lazy"` solo, Chrome las pide ni bien arma la
+   página (su margen llega a 1250–2500 px) y le quitan ancho de banda a la foto
+   del encabezado: en cargas refrigeradas la LCP pasaba de 1,95 s a 2,25 s
+   (Lighthouse móvil, 06/11/2026). Una <img> con display:none y carga
+   diferida no se pide; el <picture> guarda el mismo cuadro 4:3, así no se
+   mueve nada al aparecer. La galería marcada data-lcp no espera: su primer
+   cuadro es la LCP. Sin JavaScript (sin .js) todo carga como siempre. */
+html.js .galeria:not([data-lcp]):not(.galeria-cerca) .galeria-pista picture{
+  display:block;aspect-ratio:4/3;background:#eef1f6;
+}
+html.js .galeria:not([data-lcp]):not(.galeria-cerca) .galeria-pista img{display:none}
 .galeria-pista figcaption{
   padding:10px 14px 12px;font-size:.92rem;line-height:1.45;color:var(--ink-mid);
 }

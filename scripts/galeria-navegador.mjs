@@ -218,9 +218,16 @@ try {
         await Promise.race([Promise.all(imgs.map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r; }))),
           new Promise((r) => setTimeout(r, 4000))]);
         imgs.forEach((i, n) => { if (!(i.complete && i.naturalWidth > 0)) fuera.push(\`galería \${k + 1}, miniatura \${n + 1}: \${i.currentSrc || i.getAttribute('src')}\`); });
+        // Y la foto del cuadro que se ve: la pista la tiene en espera hasta
+        // .galeria-cerca (css/galeria-componente.css), y en pantalla tiene que
+        // estar suelta, cargada y con tamaño.
+        const cuadro = g.querySelector('.galeria-pista > figure img');
+        await Promise.race([cuadro.complete && cuadro.naturalWidth ? 0 : new Promise((r) => { cuadro.onload = cuadro.onerror = r; }),
+          new Promise((r) => setTimeout(r, 4000))]);
+        if (!(cuadro.complete && cuadro.naturalWidth > 0 && cuadro.getBoundingClientRect().width > 0)) fuera.push(\`galería \${k + 1}, cuadro 1 sin foto\`);
       }
       window.scrollTo(0, 0); return fuera; })()`);
-    comprobar(vacias.length === 0, `${ancho}px: miniaturas sin foto (${vacias.join('; ')})`);
+    comprobar(vacias.length === 0, `${ancho}px: miniaturas o cuadros sin foto (${vacias.join('; ')})`);
 
     // Cuántas fotos tiene la primera galería (la que se recorre): el control no
     // depende de cuántas haya hoy.

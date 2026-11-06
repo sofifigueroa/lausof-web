@@ -137,6 +137,16 @@ su nota del 05/11 sobre autoplay o manual por lugar; textos en 4-textos.md §2).
   ←/→/Inicio/Fin y «Ampliar», que abre un `<dialog>` con la foto a su ancho
   real como mucho. Mide el uso con el evento GA4 `galeria` (`accion`:
   miniatura, anterior, siguiente, ampliar).
+- **Las fotos de la galería no le compiten a la del encabezado** (06/11/2026):
+  con `loading="lazy"` solo, Chrome pide las fotos de una galería cercana al
+  borde (su margen es 1250–2500 px) mientras baja la del encabezado. Por eso,
+  con JavaScript, las fotos de la pista quedan en espera (`display:none`, el
+  `<picture>` guarda el cuadro 4:3) hasta que `js/galeria.js` le pone
+  `.galeria-cerca` a la sección: al acercarse a 300 px de la pantalla o al
+  terminar de cargar la página, lo que pase primero. Las miniaturas se piden
+  sólo al acercarse. La galería con `data-lcp` no espera. Lighthouse móvil
+  simulado, cargas refrigeradas: LCP 2,25 → 1,95 s; `galeria.js` en sí no
+  pesaba (sacarlo dejaba 2,25 s). Sin JavaScript carga todo como siempre.
 - **Dónde va**: sólo donde el visitante mira varias vistas de una misma cosa
   (un tipo de unidad, un camión, una ruta). Con menos de 3 fotos no hay
   galería: van fijas, con su pie. Ninguna rota sola. Si algún día una tira que

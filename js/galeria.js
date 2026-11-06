@@ -127,7 +127,10 @@
     });
     return picture;
   }
+  // `pedir` suelta también las fotos de la pista: css/galeria-componente.css
+  // las tiene en espera (display:none) hasta que la sección lleve .galeria-cerca.
   function pedir(seccion) {
+    seccion.classList.add('galeria-cerca');
     [].forEach.call(seccion.querySelectorAll('.galeria-miniaturas [data-srcset], .galeria-miniaturas [data-src]'), function (n) {
       ['srcset', 'src'].forEach(function (a) {
         if (n.hasAttribute('data-' + a)) { n.setAttribute(a, n.getAttribute('data-' + a)); n.removeAttribute('data-' + a); }
@@ -309,7 +312,18 @@
     seccion.classList.add('galeria-lista');
   }
 
-  [].forEach.call(document.querySelectorAll('.galeria'), function (seccion) {
+  // Las fotos de la pista se sueltan cuando la galería se acerca a la
+  // pantalla (`pedir`) o, lo que pase primero, cuando la página terminó de
+  // cargar: la foto del encabezado ya está pintada y no hay con quién
+  // competir, y así están listas antes de que el visitante llegue. Las
+  // miniaturas, sólo al acercarse. Se registra antes de armar: si algo
+  // fallara al armar, las fotos de la pista igual aparecen.
+  var galerias = [].slice.call(document.querySelectorAll('.galeria'));
+  function soltar() { galerias.forEach(function (s) { s.classList.add('galeria-cerca'); }); }
+  if (document.readyState === 'complete') soltar();
+  else window.addEventListener('load', soltar, { once: true });
+
+  galerias.forEach(function (seccion) {
     armar(seccion);
     if (vigia) vigia.observe(seccion); else pedir(seccion);
   });
