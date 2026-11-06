@@ -149,6 +149,10 @@ const problemasPuerta = (dir, r) => {
   for (const prohibido of ['netlify', 'netlify.toml']) if (fs.existsSync(path.join(dir, prohibido))) mal.push(`${prohibido} en la raíz del repo`);
   const ocultos = reglas404(r);
   for (const regla of ['/demo/*', '/CLAUDE.md', '/e2e/*']) if (!ocultos.includes(regla)) mal.push(`${regla} sin su regla 404!`);
+  // Netlify sirve cada ruta en minúsculas: /README.md se sirve como /readme.md.
+  for (const regla of ocultos) {
+    if (regla !== regla.toLowerCase() && !ocultos.includes(regla.toLowerCase())) mal.push(`${regla.toLowerCase()} sin su regla 404! (Netlify sirve en minúsculas)`);
+  }
   return mal;
 };
 
@@ -164,6 +168,7 @@ test('G5: el repo no tiene netlify/ ni netlify.toml, y demo/, CLAUDE.md y e2e/ n
     fs.rmSync(copia, { recursive: true, force: true });
   }
   assert.deepStrictEqual(problemasPuerta(raiz, redirects.replace(/^\/demo\/\*.*$/m, '')), ['/demo/* sin su regla 404!']);
+  assert.deepStrictEqual(problemasPuerta(raiz, redirects.replace(/^\/readme\.md .*$/m, '')), ['/readme.md sin su regla 404! (Netlify sirve en minúsculas)']);
 });
 
 // ---------------------------------------------------------------------------

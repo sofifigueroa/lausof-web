@@ -562,11 +562,14 @@ async function publicar({ sha, salida, permitirAnterior }) {
 // ---------------------------------------------------------------------------
 // comprobar (sólo lecturas)
 // ---------------------------------------------------------------------------
-// Lo que el deploy de producción sube y Netlify no lista como archivo del
-// sitio: los que empiezan con punto (el CLI no los sube) y los que la API
-// procesa aparte (_headers y _redirects son reglas, no archivos). Medido el
-// 06/11/2026 contra el deploy publicado (ver la línea de C1 si cambia).
-const NO_LISTADOS = (rel) => rel.startsWith('.') || rel.includes('/.') || rel === '_headers' || rel === '_redirects';
+// Cómo lista Netlify los archivos de un deploy (medido el 06/11/2026 contra los
+// dos sitios): todas las rutas en minúsculas (README.md → /readme.md); sin los
+// que empiezan con punto (el CLI no los sube); sin _headers ni _redirects (son
+// reglas, no archivos), y con un /netlify.toml que arma Netlify con la
+// configuración procesada (no se sirve: 404). Las comparaciones van en
+// minúsculas y dejan afuera esos tres.
+const NO_LISTADOS = (rel) => rel.startsWith('.') || rel.includes('/.') || ['_headers', '_redirects', 'netlify.toml'].includes(rel);
+const ruta = (rel) => rel.toLowerCase();
 
 export async function comprobar({ sha }) {
   const p = perfilDe('demo');
@@ -592,12 +595,13 @@ export async function comprobar({ sha }) {
   else {
     const esperado = huellasDelSha(objetivo);
     const faltan = []; const sobran = []; const distintos = [];
-    for (const [rel, h] of esperado) {
+    const esperadas = new Map([...esperado].map(([rel, h]) => [ruta(rel), h]));
+    for (const [rel, h] of esperadas) {
       if (NO_LISTADOS(rel)) continue;
       if (!prod.archivos.has(rel)) faltan.push(rel);
       else if (prod.archivos.get(rel) !== h) distintos.push(rel);
     }
-    for (const rel of prod.archivos.keys()) if (!esperado.has(rel)) sobran.push(rel);
+    for (const rel of prod.archivos.keys()) if (!esperadas.has(rel) && !NO_LISTADOS(rel)) sobran.push(rel);
     const n = faltan.length + sobran.length + distintos.length;
     if (n === 0) verde(`C1 producción (deploy ${prod.deploy?.id}) = ${objetivo}, ${prod.archivos.size} archivos`);
     else rojo(`C1 producción ≠ ${objetivo}: ${distintos.length} distintos, ${faltan.length} faltan, ${sobran.length} sobran (p. ej. ${[...distintos, ...faltan, ...sobran].slice(0, 5).join(', ')})`);
@@ -611,6 +615,11 @@ export async function comprobar({ sha }) {
   if (raizProd.status === 200 && !raizProd.headers.get('x-robots-tag') && !htmlProd.includes(CLASE_FRANJA) && htmlProd.includes(GA4_PRODUCCION)) {
     verde('C3 www.lausof.com/: 200, sin X-Robots-Tag, sin la franja, con el GA4 de producción');
   } else rojo(`C3 www.lausof.com/: ${raizProd.status}, X-Robots-Tag=${raizProd.headers.get('x-robots-tag')}, franja=${htmlProd.includes(CLASE_FRANJA)}, GA4=${htmlProd.includes(GA4_PRODUCCION)}`);
+
+  // Los internos con mayúsculas se sirven en minúsculas (ver NO_LISTADOS).
+  const internosProd = await Promise.all(['/readme.md', '/claude.md'].map(async (r) => [r, (await pedir(`${HOST_PRODUCCION}${r}`)).status]));
+  if (internosProd.every(([, st]) => st === 404)) verde('C3 www.lausof.com: /readme.md y /claude.md dan 404');
+  else rojo(`C3 www.lausof.com: ${internosProd.map(([r, st]) => `${r} ${st}`).join(', ')} (internos a la vista; regla 404! en minúsculas)`);
 
   const sinLlave = await pedir(`${p.host}/`);
   if (sinLlave.status === 401 && /noindex/.test(sinLlave.headers.get('x-robots-tag') || '')) verde('C3 demo / sin llave: 401 con X-Robots-Tag');
@@ -649,7 +658,7 @@ export async function comprobar({ sha }) {
   const demo = await listar(p.netlify.id);
   if (demo.error) rojo(`C2 demo: ${demo.error}`);
   else if (!prod.error && version) {
-    const declaradas = rutasDelRegistro(version.manifiesto);
+    const declaradas = new Set([...rutasDelRegistro(version.manifiesto)].map(ruta));
     const distintas = new Set();
     for (const [rel, h] of prod.archivos) if (demo.archivos.get(rel) !== h) distintas.add(rel);
     for (const rel of demo.archivos.keys()) if (!prod.archivos.has(rel)) distintas.add(rel);

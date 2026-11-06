@@ -86,6 +86,12 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 # en demo/ y sólo `node scripts/demo.mjs armar` lo usa; CLAUDE.md es la guía
 # de los agentes; e2e/ es el recorrido de QA de la demo. Ninguno es el sitio.
 /CLAUDE.md                     /404.html                      404!
+# Netlify guarda y sirve cada ruta en minúsculas (la API lista /readme.md, y
+# https://www.lausof.com/readme.md respondía 200 el 06/11/2026 aunque /README.md
+# tenía su regla): cada interno con mayúsculas lleva también su regla en
+# minúsculas. tests/entorno.test.js (G5) lo exige.
+/readme.md                     /404.html                      404!
+/claude.md                     /404.html                      404!
 /demo/*                        /404.html                      404!
 /e2e/*                         /404.html                      404!
 
