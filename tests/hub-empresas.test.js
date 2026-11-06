@@ -43,8 +43,8 @@ const DISENO = {
     h1: 'Transporte de personal y cargas para minería y empresas',
     grupos: [['personal', 'Personal para minería'], ['cargas', 'Cargas']],
     secciones: ['servicios', 'seguridad', 'equipamiento', 'como-trabajamos', 'documentacion', 'contacto'],
-    pruebas: ['CNRT 60284', 'AMT', 'Todas las zonas mineras', '24 h',
-      'CUIT · Factura A', 'Flota y taller propios', 'Desde 2010', 'Viajes internacionales'],
+    pruebas: ['CNRT 60284', 'AMT', 'Todas las zonas mineras', 'A toda hora',
+      'Factura A o B', 'Flota y taller propios', 'Desde 2010', 'Viajes internacionales'],
     enlacesPrueba: { 'Todas las zonas mineras': '/logistica-minera.html#zonas', 'Flota y taller propios': '#equipamiento' },
     practicas: ['Unidades equipadas para ingreso a mina', 'Libro de a bordo por unidad',
       'Reporte de incidentes firmado por el chofer', 'Tolerancia cero', 'Mantenimiento preventivo documentado',
@@ -56,7 +56,7 @@ const DISENO = {
         ['Obras de litio', '/transporte-de-personal-obras-de-litio.html'], ['Logística minera', '/logistica-minera.html'],
         ['Traslados corporativos', '/traslados-empresas.html'], ['4x4 mensual', '/alquiler-4x4.html#empresas'],
         ['Producciones', '/producciones.html']],
-      cargas: [['Cargas refrigeradas', '/cargas-refrigeradas.html'], ['Depósito y cámara de frío', '/deposito-galpon.html'],
+      cargas: [['Cargas refrigeradas', '/cargas-refrigeradas.html'], ['Cargas generales', null], ['Depósito y cámara de frío', '/deposito-galpon.html'],
         ['Autoelevadores', '/alquiler-autoelevadores.html'], ['Traslado de vehículos', null], ['Taller', null]],
     },
   },
@@ -64,8 +64,8 @@ const DISENO = {
     h1: 'Crew transport and freight for mining and business',
     grupos: [['crew', 'Mining crew transport'], ['freight', 'Freight']],
     secciones: ['services', 'safety', 'equipment', 'how-we-work', 'documents', 'contact'],
-    pruebas: ['CNRT 60284 · interprovincial', 'AMT', 'Every mining area', '24/7',
-      'Tax ID · Factura A', 'Own fleet and workshop', 'Since 2010', 'International trips'],
+    pruebas: ['CNRT 60284 · interprovincial', 'AMT', 'Every mining area', 'Any hour',
+      'Factura A or B', 'Own fleet and workshop', 'Since 2010', 'International trips'],
     enlacesPrueba: { 'Every mining area': '/en/mining-logistics.html#areas', 'Own fleet and workshop': '#equipment' },
     practicas: ['Units fitted out for mine-site entry', 'On-board trip log per unit', 'Incident reports signed by the driver',
       'Zero tolerance', 'Documented preventive maintenance', 'Drivers with a professional license', 'Insurance in force'],
@@ -75,7 +75,7 @@ const DISENO = {
       crew: [['Crew transport', '/en/personnel-transport.html'], ['Lithium projects', '/en/crew-transport-lithium-projects.html'],
         ['Mining logistics', '/en/mining-logistics.html'], ['Corporate transfers', null],
         ['Monthly 4x4', '/en/4x4-rental.html#companies'], ['Film productions', '/en/film-production-logistics.html']],
-      freight: [['Refrigerated freight', '/en/refrigerated-freight.html'], ['Warehouse & cold room', '/en/warehouse.html'],
+      freight: [['Refrigerated freight', '/en/refrigerated-freight.html'], ['General freight', null], ['Warehouse & cold room', '/en/warehouse.html'],
         ['Forklifts', null], ['Vehicle transfers', null], ['Workshop', null]],
     },
   },
@@ -211,6 +211,21 @@ for (const nombre of HUBS) {
       assert.ok(fs.existsSync(path.join(raiz, archivo)), `${nombre}: ${href} no existe`);
       if (ancla) assert.ok(ids(fs.readFileSync(path.join(raiz, archivo), 'utf8')).has(ancla), `${nombre}: ${href} apunta a un ancla que no existe`);
     }
+  });
+
+  // Decisiones del 05/11/2026 (propuesta-decisiones-sitio.html, «2A 3A 9A»):
+  // 3A, el CUIT sale del bloque de pruebas y queda en el pie (Res. SCI
+  // 270/2020 lo pide ahí); 2A, salidas a toda hora y nunca «atención 24 h»;
+  // 9A, la logística minera vuelve a ofrecer asistencia mecánica.
+  test(`${nombre}: pruebas sin CUIT (sigue en el pie), salidas a toda hora y asistencia mecánica en Logística minera`, () => {
+    const prueba = cuerpo.match(/<section class="prueba"[\s\S]*?<\/section>/)[0];
+    assert.doesNotMatch(prueba, /30-71146774-9|\bCUIT\b|Tax ID/, 'el CUIT volvió al bloque de pruebas');
+    const pie = sinComentarios(html).match(/<footer class="site"[^>]*>[\s\S]*?<\/footer>/)[0];
+    assert.match(pie, /30-71146774-9/, 'el CUIT tiene que seguir en el pie (Res. SCI 270/2020)');
+    assert.doesNotMatch(texto, /\b24 ?(hs|h|horas|hours)\b|24\/7|around the clock/i, 'promesa de 24 h en el hub');
+    assert.match(texto, nombre === ES ? /Salidas a toda hora y factura A o B/ : /Departures at any hour, with invoice type A or B/);
+    const ficha = cuerpo.match(/<a class="ficha-linea" href="\/(?:en\/)?(?:logistica-minera|mining-logistics)\.html"><b>[^<]+<\/b><span>([^<]+)<\/span>/)[1];
+    assert.strictEqual(ficha, nombre === ES ? 'Personal, carga y asistencia mecánica en altura.' : 'Crew, cargo and on-site mechanics at altitude.');
   });
 
   test(`${nombre}: JSON-LD WebPage + BreadcrumbList, con #empresa, igual a la miga visible`, () => {

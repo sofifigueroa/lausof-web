@@ -55,7 +55,7 @@ const dedicadas = {
   'alquiler-combi-con-chofer-salta.html': 'Alquiler de Combi con Chofer por Día en Salta — Para Grupos, Agencias y Viajes de Varios Días | Lausof SRL',
   // Páginas B2B del 03/11/2026 (tests/b2b.test.js).
   'agencias-y-hoteles.html': 'Transporte para Agencias de Viajes, Hoteles y Operadores en Salta y Jujuy — Combis con Chofer | Lausof SRL',
-  'transporte-de-personal-obras-de-litio.html': 'Transporte de Personal para Obras de Litio en la Puna — Cambios de Turno y Campamentos, 24 h | Lausof SRL',
+  'transporte-de-personal-obras-de-litio.html': 'Transporte de Personal para Obras de Litio en la Puna — Cambios de Turno y Campamentos | Lausof SRL',
   // Salta – Jujuy (plan SEO 03/11/2026, §3 #3; tests/como-llegar.test.js).
   'traslado-salta-jujuy.html': 'Traslado de Salta a Jujuy — Combi con chofer a San Salvador de Jujuy y al aeropuerto de Jujuy | Lausof SRL',
   // Hub «Empresas y minería» (05/11/2026, tests/hub-empresas.test.js).

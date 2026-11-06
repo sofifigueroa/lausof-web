@@ -160,6 +160,56 @@ test('ningún pie dice que se atiende las 24 horas', () => {
   }
 });
 
+// Decisiones de Lautaro del 05/11/2026 sobre propuesta-decisiones-sitio.html
+// (textos en web/revision-sitio-2026-11-05/3-decisiones-consolidadas.md).
+// Se mira todo el HTML sin comentarios: texto, metas y JSON-LD.
+//   2A: se ofrecen viajes a cualquier hora; nadie promete atención 24 h.
+//   5A: alcohol cero y sin drogas al volante, unidades libres de humo; sin la
+//       desvinculación directa por tabaco (LCT arts. 242 y 67).
+//   9A: «asistencia en ruta» y «Field Support» pasan a asistencia mecánica, y
+//       el inglés no dice «recoveries» (palabra del oficio de la grúa).
+//   11A: la vuelta del trail se acuerda por horarios, no con un chofer que
+//       espera al último corredor.
+const PROMESAS_RETIRADAS_0511 = [
+  ['2A atención 24 h', /atenci[oó]n las 24|atendemos las 24|servicio las 24 horas|servi[cç]o 24 horas|available 24 hours|service around the clock|24\/7|<span>24 h<\/span>/i],
+  ['5A desvinculación por tabaco', /desvinculaci[oó]n|grounds for (?:immediate )?dismissal|tabaco a bordo|tobacco on board/i],
+  ['9A asistencia en ruta', /asistencia en ruta en la Puna|assist[eê]ncia na estrada|field support|\brecover(?:y|ies)\b/i],
+  ['11A el chofer espera al último', /espera hasta que llega el último|waits for the last runner/i],
+];
+
+test('ninguna página vuelve a las promesas retiradas el 05/11 (2A, 5A, 9A, 11A)', () => {
+  for (const [nombre, html] of Object.entries(paginas)) {
+    for (const [etiqueta, patron] of PROMESAS_RETIRADAS_0511) {
+      const m = html.match(patron);
+      assert.ok(!m, `${nombre}: volvió «${etiqueta}»: «${m && html.slice(Math.max(0, m.index - 60), m.index + 60)}»`);
+    }
+  }
+});
+
+// Lo que esas decisiones mantienen (y la familia hace verdad): la tolerancia
+// cero con su texto nuevo, el libro de a bordo y el reporte de incidentes en
+// las cuatro páginas; las dos líneas de «rescate» que Lautaro eligió el 29/08
+// en logistica-minera; y la vuelta del trail con su texto nuevo.
+const MANTENIDAS_0511 = {
+  'index.html': ['Alcohol cero y sin drogas al volante. Unidades libres de humo.', 'Libro de a bordo por unidad', 'Reporte de incidentes firmado por el chofer'],
+  'empresas-y-mineria.html': ['Alcohol cero y sin drogas al volante. Unidades libres de humo.', 'Libro de a bordo por unidad', 'Reporte de incidentes firmado por el chofer'],
+  'en/index.html': ['Zero alcohol and no drugs at the wheel. Smoke-free vehicles.', 'On-board trip log per unit', 'Incident reports signed by the driver'],
+  'en/business-and-mining.html': ['Zero alcohol and no drugs at the wheel. Smoke-free vehicles.', 'On-board trip log per unit', 'Incident reports signed by the driver'],
+  'logistica-minera.html': [
+    'Una unidad parada en la Puna no puede esperar a que alguien improvise el rescate: nuestros mecánicos van hasta el vehículo con soldadora y grupo electrógeno propios, y si hay que moverlo, coordinamos el traslado.',
+    'Soldadora y grupo electrógeno propios para rescates lejos de todo',
+  ],
+  'en/mining-logistics.html': ['Our own welding rig and generator, so our mechanics can get a stopped unit going far from anywhere'],
+  'traslados-trail-jujuy-utmb.html': ['y los horarios de vuelta según los tiempos de cada corredor; si terminan a horas muy distintas, se cotiza más de un viaje.'],
+  'en/jujuy-utmb-trail-race-transfers.html': ["on return times based on each runner's pace; if runners finish hours apart, we quote more than one trip."],
+};
+
+test('las líneas que las decisiones del 05/11 mantienen siguen publicadas', () => {
+  for (const [nombre, lineas] of Object.entries(MANTENIDAS_0511)) {
+    for (const linea of lineas) assert.ok(paginas[nombre].includes(linea), `${nombre} perdió «${linea}»`);
+  }
+});
+
 test('index.html: las afirmaciones verificadas siguen presentes', () => {
   for (const [etiqueta, patron] of requeridas) {
     assert.ok(patron.test(paginas['index.html']), `falta "${etiqueta}" en index.html`);
