@@ -449,6 +449,17 @@ test('San Pedro de Atacama ES/EN/PT: Salta–Purmamarca son 188 km y las notas n
   }
 });
 
+// Integración de las decisiones del 05/11/2026: ninguna página, en ningún
+// idioma, nombra la herramienta de donde salen las distancias (Ruta0, OSRM,
+// OpenStreetMap). Las notas de fuente dicen «aproximados, en auto y sin
+// paradas» y la fecha, como las páginas ES. Los comentarios HTML quedan fuera.
+test('ninguna página nombra Ruta0, OSRM ni OpenStreetMap en el texto visible', () => {
+  for (const [nombre, html] of Object.entries(paginas)) {
+    const m = sinComentarios(html).match(/Ruta0|OSRM|OpenStreetMap/i);
+    assert.ok(!m, `${nombre}: nombra la herramienta de rutas («${m && m[0]}»)`);
+  }
+});
+
 // Plazo de respuesta (decisión 1A de Lautaro, 05/11/2026,
 // web/revision-sitio-2026-11-05/3-decisiones-consolidadas.md, ítem 1): ninguna
 // página promete cuándo se responde, en ES, EN ni PT, tampoco en meta, og o
