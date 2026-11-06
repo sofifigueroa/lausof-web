@@ -251,6 +251,14 @@ for (const [nombre, html] of Object.entries(paginas)) {
         `el enlace del pie de ${nombre} lleva la clase .lang-switch: esa clase marca el ` +
         'selector de la barra, no el pie');
     });
+    // Sólo el nombre del idioma con su enlace (Lautaro, 05/11/2026): nada de
+    // «— este sitio en inglés», que repite lo obvio.
+    const parrafos = (pieDe(html).match(/<p>[\s\S]*?<\/p>/g) || [])
+      .filter((p) => /<a\b(?=[^>]*\bhreflang=")(?=[^>]*\slang=")/.test(p));
+    for (const p of parrafos) {
+      assert.match(p.replace(/<[^>]+>/g, '').trim(), /^(English|Español|Português)( · (English|Español|Português))*$/,
+        `${nombre}: el enlace de idioma del pie lleva texto además del nombre del idioma`);
+    }
   });
 }
 

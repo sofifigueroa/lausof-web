@@ -122,21 +122,20 @@ test('las páginas que nombran la habilitación citan la CNRT 60284', () => {
 });
 
 // Afirmaciones que la familia confirmó el 10/10/2026 (BUILD-BRIEF) y que el
-// cliente busca para reservar: atención las 24 hs (era la guardia de auxilio;
-// la grúa se vendió el 04/11/2026 y queda la atención de la empresa), agencia de
-// turismo habilitada y viajes al exterior. Antes se sacaban "por no estar en
-// los papeles"; la política ahora es que se quedan. Se miran en el texto
-// visible (sin etiquetas) de cada página donde viven, en los dos idiomas.
+// cliente busca para reservar: agencia de turismo habilitada y viajes al
+// exterior. Antes se sacaban "por no estar en los papeles"; la política ahora
+// es que se quedan. Se miran en el texto visible (sin etiquetas) de cada
+// página donde viven, en los dos idiomas. La línea del pie «Atendemos las
+// 24 hs» venía de la guardia de auxilio y Lautaro la sacó el 05/11/2026
+// (la vigila la guardia del pie, más abajo).
 const confirmadas = {
   // La portada lo dice en la barra de afirmaciones y en la puerta de turismo
   // (05/11/2026, 4-textos.md §1.2-§1.3).
-  'index.html': [/Atendemos las 24 hs, todos los días/,
-    /Agencia de turismo habilitada/, /Viajes internacionales/, /viajes a Chile y Bolivia/],
+  'index.html': [/Agencia de turismo habilitada/, /Viajes internacionales/, /viajes a Chile y Bolivia/],
   'turismo.html': [/Agencia de turismo habilitada/, /Somos agencia de turismo habilitada/,
     /Viajes al exterior[^.]{0,60}Chile[^.]{0,40}Bolivia/],
   'viajes-de-estudio.html': [/Agencia de turismo habilitada/],
-  'en/index.html': [/We answer 24 hours a day, every day/,
-    /Licensed travel agency/, /International trips/, /Chile and Bolivia/],
+  'en/index.html': [/Licensed travel agency/, /International trips/, /Chile and Bolivia/],
   'en/tours-and-transfers.html': [/Licensed travel agency/, /We are a licensed travel agency/,
     /Trips abroad[^.]{0,60}Chile[^.]{0,40}Bolivia/, /Do you go to Chile or Bolivia\?/],
 };
@@ -147,6 +146,17 @@ test('las afirmaciones confirmadas por la familia siguen publicadas', () => {
     for (const patron of patrones) {
       assert.match(plano, patron, `${nombre} perdió una afirmación confirmada: ${patron}`);
     }
+  }
+});
+
+// El pie de ninguna página, en ningún idioma, promete atención las 24 horas
+// (Lautaro, 05/11/2026: la línea era de la guardia de auxilio, que ya no
+// está). Se mira el texto visible del <footer>.
+test('ningún pie dice que se atiende las 24 horas', () => {
+  for (const [nombre, html] of Object.entries(paginas)) {
+    const pie = (sinComentarios(html).match(/<footer class="site"[^>]*>[\s\S]*?<\/footer>/) || [''])[0];
+    const texto = pie.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    assert.doesNotMatch(texto, /\b24 ?(hs|h|horas|hours)\b|24\/7/i, `${nombre}: el pie promete atención las 24 horas`);
   }
 });
 

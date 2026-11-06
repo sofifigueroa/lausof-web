@@ -249,15 +249,18 @@ export function zonaMenu(pagina) {
   ].map((l) => `    ${l}`).join('\n');
 }
 
-/** Las dos columnas de sección del pie de las portadas (3a §3.1). Pura. */
+/** Las dos columnas de sección del pie de las portadas (3a §3.1). Pura.
+    «Ver todo» va al final de cada columna, después de los servicios
+    (Lautaro, 05/11/2026). En el menú de arriba sigue primero. */
 export function zonaPie(pagina) {
   const t = MENU[idiomaDe(pagina)];
   const columna = (titulo, cuerpo) => `<div><b>${escapar(titulo)}</b>${cuerpo}</div>`;
-  const turismo = columna(t.turismo.titulo, lista([[t.verTodo, t.turismo.hub], ...t.turismo.items], t));
+  const turismo = columna(t.turismo.titulo, lista([...t.turismo.items, [t.verTodo, t.turismo.hub]], t));
   const empresas = t.empresas.es
     ? columna(t.empresas.titulo.replace(/ \(.*\)$/, ''), lista([[t.empresas.titulo, t.empresas.hub, true]], { enEspanol: '' }))
-    : columna(t.empresas.titulo, lista([[t.verTodo, t.empresas.hub]], t)
-      + t.empresas.columnas.map(([sub, items]) => `<div><p class="pie-sub">${escapar(sub)}</p>${lista(items, t)}</div>`).join(''));
+    : columna(t.empresas.titulo,
+      t.empresas.columnas.map(([sub, items]) => `<div><p class="pie-sub">${escapar(sub)}</p>${lista(items, t)}</div>`).join('')
+      + lista([[t.verTodo, t.empresas.hub]], t));
   return [
     '<!-- GENERADO:PIE — no editar a mano: editar scripts/menu.mjs y correr `node scripts/menu.mjs` -->',
     `<div class="wrap pie-secciones">${turismo}${empresas}</div>`,
