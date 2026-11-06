@@ -40,7 +40,7 @@ const PORTADAS = {
       ['Pessoal para mineração', '/empresas-y-mineria.html#personal', 'personal'],
       ['Cargas', '/empresas-y-mineria.html#cargas', 'carga'],
     ],
-    prueba: ['24 h', 'CNRT 60284', 'AMT', 'Agência de turismo habilitada', 'Viagens internacionais', 'Factura A', 'Frota e oficina próprias'],
+    prueba: ['24 h', 'CNRT 60284', 'AMT (Salta)', 'Agência de turismo habilitada', 'Viagens internacionais', 'Frota e oficina próprias'],
   },
 };
 
@@ -138,7 +138,7 @@ test('pt/index.html: las puertas de empresas van al hub en español y lo dicen',
   const [, personal, cargas] = puertasDe(paginas['pt/index.html']);
   for (const puerta of [personal, cargas]) {
     assert.match(puerta, /<h2><a href="\/empresas-y-mineria\.html#[a-z]+" hreflang="es">/);
-    assert.match(puerta, />Ver em espanhol<\/a>/);
+    assert.match(puerta, />Ver detalhes \(em espanhol\)<\/a>/);
     assert.doesNotMatch(puerta, /class="puerta-sub"/, 'el sitio en portugués no lista subpáginas de empresas');
   }
 });

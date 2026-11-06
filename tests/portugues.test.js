@@ -171,6 +171,30 @@ for (const [es, pt] of Object.entries(paresPt)) {
     assert.doesNotMatch(visible, /R\$\s*\d|US\$\s*\d|USD\s*\d|\$\s*\d/, `${pt} publica un precio`);
     assert.doesNotMatch(visible, /San\s+Crist[oó]bal|\bAMT\s*(n[º°]|nº|#|número)/i, `${pt} publica un dato vedado`);
   });
+
+  // -------------------------------------------------------------------------
+  // 6b. Auditoría PT del 05/11/2026 (revision-sitio-2026-11-05/auditoria-pt.md):
+  //     ni el guía ni las bodegas se cierran con un «no», «Factura A/B» no le
+  //     dice nada a un brasileño (los datos para proveedores del pie lo
+  //     conservan), «privativo» en el cuerpo (el <title> y sus espejos pueden
+  //     seguir con «privado») y «desde» sólo para el tiempo, nunca un lugar.
+  // -------------------------------------------------------------------------
+  test(`${pt}: no cierra el guía, sin «Factura A/B» fuera del pie, «privativo» y «desde» sólo temporal`, () => {
+    const sinPie = html.split(/<footer class="site"/)[0];
+    const visible = textoVisible(sinPie);
+    const cerca = (m) => m && visible.slice(Math.max(0, m.index - 40), m.index + 60);
+    let m = visible.match(/não é (um passeio guiado|guia)|faz papel de guia\?\s*Não\b/i);
+    assert.ok(!m, `${pt} cierra el guía: "${cerca(m)}"`);
+    m = visible.match(/reservadas pelo grupo|pela agência que organiza/i);
+    assert.ok(!m, `${pt} le pasa la reserva a otro: "${cerca(m)}"`);
+    m = visible.match(/\bfactura [AB]\b/i);
+    assert.ok(!m, `${pt} dice «factura A/B» fuera del pie: "${cerca(m)}"`);
+    const cuerpo = textoVisible(sinPie.split('\n').filter((l) => !l.includes('| Lausof SRL')).join('\n'));
+    m = cuerpo.match(/\bprivad[oa]s?\b/i);
+    assert.ok(!m, `${pt} dice «privado» en vez de «privativo»: "${m && cuerpo.slice(Math.max(0, m.index - 40), m.index + 40)}"`);
+    m = visible.match(/\bdesde (?!\d|então)/i);
+    assert.ok(!m, `${pt} usa «desde» para un lugar: "${cerca(m)}"`);
+  });
 }
 
 // ---------------------------------------------------------------------------
