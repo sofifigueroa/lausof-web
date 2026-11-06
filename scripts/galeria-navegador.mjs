@@ -199,6 +199,12 @@ try {
       comprobar(g.visibles, `${ancho}px galería ${k + 1}: un control sin tamaño (invisible)`);
     });
 
+    // Cuántas fotos tiene la primera galería (la que se recorre): el control no
+    // depende de cuántas haya hoy.
+    const N = armado[0].cuadros;
+    comprobar(N >= 3, `${ancho}px: la primera galería tiene ${N} cuadros (van de 3 a 5)`);
+    const vivoN = (k) => new RegExp(`^Foto ${k} de ${N}: \\S`);
+
     const estado = `(() => { const g = document.querySelector('.galeria'); const p = g.querySelector('.galeria-pista');
       const b = [...g.querySelectorAll('.galeria-miniaturas button')];
       const i = b.findIndex((x) => x.getAttribute('aria-current') === 'true');
@@ -209,18 +215,18 @@ try {
     await evaluar(`document.querySelector('.galeria .galeria-pista').focus()`);
     await tecla('ArrowRight', 'ArrowRight', 39); await esperar(150);
     let e = await evaluar(estado);
-    comprobar(e.i === 1 && e.alineado && e.contador === '2 de 3', `${ancho}px: → no pasó a la foto 2 (${JSON.stringify(e)})`);
-    comprobar(e.vivo.existe && !e.vivo.oculto && /^Foto 2 de 3: \S/.test(e.vivo.texto),
+    comprobar(e.i === 1 && e.alineado && e.contador === `2 de ${N}`, `${ancho}px: → no pasó a la foto 2 (${JSON.stringify(e)})`);
+    comprobar(e.vivo.existe && !e.vivo.oculto && vivoN(2).test(e.vivo.texto),
       `${ancho}px: → no anunció «Foto 2 de 3: pie» al lector (${JSON.stringify(e.vivo)})`);
     await tecla('End', 'End', 35); await esperar(150);
     e = await evaluar(estado);
-    comprobar(e.i === 2 && e.alineado, `${ancho}px: Fin no fue a la última (${JSON.stringify(e)})`);
+    comprobar(e.i === N - 1 && e.alineado, `${ancho}px: Fin no fue a la última (${JSON.stringify(e)})`);
     await tecla('Home', 'Home', 36); await esperar(150);
     e = await evaluar(estado);
     comprobar(e.i === 0 && e.alineado, `${ancho}px: Inicio no fue a la primera (${JSON.stringify(e)})`);
     await tecla('ArrowLeft', 'ArrowLeft', 37); await esperar(150);
     e = await evaluar(estado);
-    comprobar(e.i === 2, `${ancho}px: ← desde la primera no dio la vuelta (${JSON.stringify(e)})`);
+    comprobar(e.i === N - 1, `${ancho}px: ← desde la primera no dio la vuelta (${JSON.stringify(e)})`);
     await evaluar(`document.querySelectorAll('.galeria .galeria-miniaturas button')[1].click()`); await esperar(150);
     e = await evaluar(estado);
     comprobar(e.i === 1 && e.alineado, `${ancho}px: la miniatura 2 no llevó a la foto 2 (${JSON.stringify(e)})`);
@@ -237,14 +243,14 @@ try {
                real: img ? img.naturalWidth : 0, mostrado: img ? img.getBoundingClientRect().width : 0,
                cabe: img ? img.getBoundingClientRect().right <= innerWidth + 1 : false }; })()`);
     comprobar(d.abierto && d.foco, `${ancho}px: «Ampliar» no abrió el diálogo con el foco adentro (${JSON.stringify(d)})`);
-    comprobar(d.contador === 'Foto 2 de 3' && d.pie.length > 0, `${ancho}px: el diálogo no muestra la foto 2 con su pie (${JSON.stringify(d)})`);
+    comprobar(d.contador === `Foto 2 de ${N}` && d.pie.length > 0, `${ancho}px: el diálogo no muestra la foto 2 con su pie (${JSON.stringify(d)})`);
     comprobar(d.real > 0 && d.mostrado <= d.real + 0.5, `${ancho}px: la foto ampliada se estira por encima de su ancho real (${d.mostrado} > ${d.real})`);
     comprobar(d.cabe, `${ancho}px: la foto ampliada se sale de la pantalla`);
     await tecla('ArrowRight', 'ArrowRight', 39); await esperar(200);
     d = await evaluar(`__visto(document.querySelector('dialog.galeria-dialogo .galeria-dialogo-contador'))`);
-    comprobar(d === 'Foto 3 de 3', `${ancho}px: → en el diálogo no pasó a la foto 3 (${d})`);
+    comprobar(d === `Foto 3 de ${N}`, `${ancho}px: → en el diálogo no pasó a la foto 3 (${d})`);
     const vd = await evaluar(`__vivo(document.querySelector('dialog.galeria-dialogo .galeria-dialogo-barra'))`);
-    comprobar(vd.existe && !vd.oculto && /^Foto 3 de 3: \S/.test(vd.texto),
+    comprobar(vd.existe && !vd.oculto && vivoN(3).test(vd.texto),
       `${ancho}px: → en el diálogo no anunció «Foto 3 de 3: pie» (${JSON.stringify(vd)})`);
     e = await evaluar(estado);
     comprobar(e.i === 2, `${ancho}px: la galería no acompañó al diálogo (${JSON.stringify(e)})`);
@@ -261,7 +267,7 @@ try {
     await evaluar(`(() => { const p = document.querySelector('.galeria .galeria-pista');
       p.scrollTo({ left: 0, behavior: 'instant' }); return true; })()`); await esperar(250);
     e = await evaluar(estado);
-    comprobar(e.i === 0 && /^Foto 1 de 3: \S/.test(e.vivo.texto),
+    comprobar(e.i === 0 && vivoN(1).test(e.vivo.texto),
       `${ancho}px: deslizar a la primera no la marcó ni la anunció (${JSON.stringify(e)})`);
 
     // Nada se mueve solo: 7 s quieta (más que el ciclo más lento permitido)
