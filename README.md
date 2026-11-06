@@ -241,12 +241,25 @@ textos `4-textos.md` §2, decisiones `DECISION-2026-11-05.md`).
   `#workshop`, `#corporate-transfers`, `#forklifts`).
 - **Reglas:** todo el texto sale de lo ya publicado (seguridad de la portada,
   equipamiento de minería); sin cantidades de flota, aseguradora, número de AMT,
-  clientes, portales de contratistas ni promesa de tiempo de respuesta. En español,
+  clientes, portales de contratistas (salvo en el panel del servicio, abajo) ni promesa
+  de tiempo de respuesta. En español,
   impersonal (sin vos ni tú).
 - **Contacto:** tipo `empresa` en `scripts/prefill.mjs`; el pedido de documentación es
-  un `mailto` con `data-prefill="proveedor"` y asunto «Solicitud de documentación de
-  proveedor» (EN «Supplier prequalification — documents»). En teléfono la barra fija
+  un `mailto` con `data-prefill="proveedor"` y asunto «Documentación para alta de
+  proveedor» (EN «Supplier registration — Lausof documents»). En teléfono la barra fija
   es Llamar · Mail · WhatsApp (`.wa-bar.tres`).
+- **Servicio «Documentación de ingreso»** (EN «Mine entry documents»; aprobado el
+  05/11/2026, `~/lausof/web/servicio-documentacion-2026-11-05/`, alcance D6B: vehículos
+  y personal). La oficina carga y mantiene al día los papeles de los vehículos y del
+  personal de un contratista en los portales de las mineras. Vive en el hub, sin página
+  propia: ficha en `#personal`/`#crew` después de «4x4 mensual», panel
+  `#documentacion-flota` (EN `#fleet-documents`) primero dentro de `#documentacion`,
+  al lado del alta de proveedor (`.docs-par`), un ítem del menú y un enlace en
+  «Otros servicios» de litio. Botones con `data-prefill="documentacion-flota"` y asunto
+  propio `ASUNTO_FLOTA` (`tests/util.js`). SICOP, Exactian y Minexus se nombran sólo en
+  ese panel, una vez cada uno, con la nota `.nota-marcas`; ninguna otra página los
+  nombra. GA4 lo cuenta por `link_position` = `documentacion-flota` / `fleet-documents`.
+  Guardias: `tests/hub-empresas.test.js` y `tests/documentacion-flota.test.js`.
 - **Miga de la sección:** las 14 páginas de empresas llevan
   `Inicio › Empresas y minería › Personal para minería | Cargas › página`, visible y
   como `BreadcrumbList`. `.crumbs` vive en `styles.css` (antes en `turismo.css`).

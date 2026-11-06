@@ -111,6 +111,9 @@ export const MENU = {
           ['Logística minera', '/logistica-minera.html'],
           ['Traslados corporativos', '/traslados-empresas.html'],
           ['4x4 mensual', '/alquiler-4x4.html#empresas'],
+          // Servicio sin página propia: baja al panel del hub
+          // (servicio-documentacion-2026-11-05/, 05/11/2026, alcance D6B).
+          ['Documentación de ingreso', `${HUB_EMPRESAS}#documentacion-flota`],
           ['Producciones', '/producciones.html'],
         ]],
         ['Cargas', [
@@ -149,6 +152,7 @@ export const MENU = {
           ['Mining logistics', '/en/mining-logistics.html'],
           ['Corporate transfers', '/en/business-and-mining.html#corporate-transfers'],
           ['Monthly 4x4', '/en/4x4-rental.html#companies'],
+          ['Mine entry documents', '/en/business-and-mining.html#fleet-documents'],
           ['Film productions', '/en/film-production-logistics.html'],
         ]],
         ['Freight', [

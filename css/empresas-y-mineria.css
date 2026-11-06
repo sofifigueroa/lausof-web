@@ -164,6 +164,21 @@ a.ficha-linea::after{
   .docs ul{columns:1}
 }
 
+/* ---- dos paneles de documentación (servicio-documentacion-2026-11-05,
+   3-diseno §1.3) ----
+   Primero el servicio (los papeles de los vehículos y del personal de un
+   contratista), al lado el alta de proveedor (los papeles de Lausof). Lado a
+   lado en escritorio, uno debajo del otro en teléfono, el servicio primero.
+   En media pantalla cada panel apila texto y botones. */
+.docs-par{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;margin-top:12px}
+.docs-par .docs{grid-template-columns:1fr;align-items:start}
+.docs-par .docs ul{columns:1}
+.docs-servicio{scroll-margin-top:78px}
+.docs-servicio .portales{color:var(--ink);font-weight:700}
+.docs-servicio .nota-marcas{margin-top:2px;font-size:.8rem}
+.docs-servicio .ctas{display:flex;flex-wrap:wrap;gap:10px}
+@media(max-width:880px){.docs-par{grid-template-columns:1fr;gap:20px}}
+
 /* ---- cierre ---- */
 .cta-final .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 

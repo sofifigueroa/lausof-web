@@ -159,7 +159,20 @@ const RESENAS = 'https://www.google.com/maps?cid=13700114490953273065';
 const RENGLON_RESENAS = /<span><a href="https:\/\/www\.google\.com\/maps\?cid=13700114490953273065" target="_blank" rel="noopener"><b>(?:Reseñas en Google|Google reviews|Avaliações no Google)<\/b><\/a>: (?:4,9 de 5, con 9 reseñas \(03\/11\/2026\)|4\.9 out of 5 from 9 reviews \(November 3, 2026\)|4,9 de 5, com 9 avaliações \(03\/11\/2026\))<\/span>/g;
 const sinEnlaceResenas = (html) => html.replace(RENGLON_RESENAS, '');
 
+// Servicio «Documentación de ingreso» del hub de empresas (05/11/2026,
+// ~/lausof/web/servicio-documentacion-2026-11-05/4-textos.md §1.9, alcance
+// D6B). Su asunto fijo, el mismo en el HTML y en los tests (hub-empresas,
+// correo y documentacion-flota): con él la oficina cuenta estos correos en
+// transporte@ aunque GA4 no registre el clic. PORTALES son los únicos nombres
+// de portales que el sitio dice, y sólo dentro de PANEL_FLOTA.
+const ASUNTO_FLOTA = { es: 'Consulta — documentación de ingreso', en: 'Inquiry — mine entry documents' };
+const PANEL_FLOTA = { es: 'documentacion-flota', en: 'fleet-documents' };
+const PORTALES = ['SICOP', 'Exactian', 'Minexus'];
+
 module.exports = {
+  ASUNTO_FLOTA,
+  PANEL_FLOTA,
+  PORTALES,
   RESENAS,
   RENGLON_RESENAS,
   sinEnlaceResenas,

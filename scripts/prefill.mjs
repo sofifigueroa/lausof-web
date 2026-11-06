@@ -171,11 +171,23 @@ export const TIPOS = {
   // Pedido de la documentación de Lausof para darla de alta como proveedor
   // (sólo correo, con data-prefill en el enlace): asunto «Documentación para
   // alta de proveedor». Sin renglón de «portal» desde el 05/11/2026 (noche):
-  // sugería que Lausof carga papeles en portales por otras empresas.
+  // este tipo es para los papeles PROPIOS de Lausof. El servicio de
+  // documentación de contratistas tiene su propio tipo, `documentacion-flota`
+  // (servicio-documentacion-2026-11-05/4-textos.md §1.5).
   proveedor: {
     es: ['Empresa', 'Documentación que necesitan'],
     en: ['Company', 'Documents you need'],
     pt: ['Empresa', 'Documentos de que precisam'],
+  },
+  // Servicio «Documentación de ingreso» del hub (05/11/2026, fila 21 de
+  // LAUTARO-2026-11-05-noche.md; servicio-documentacion-2026-11-05/4-textos.md
+  // §1.9, alcance D6B: vehículos y personal). Los dos botones del panel
+  // #documentacion-flota llevan data-prefill con este tipo. No es `flota`,
+  // que es la venta de unidades. Ninguna página pt lo usa (hub sólo es/en).
+  'documentacion-flota': {
+    es: ['Empresa', 'Cantidad de vehículos', 'Cantidad de personas', 'Mineras o portales'],
+    en: ['Company', 'Number of vehicles', 'Number of people', 'Mines or portals'],
+    pt: ['Empresa', 'Quantidade de veículos', 'Quantidade de pessoas', 'Mineradoras ou portais'],
   },
 };
 
