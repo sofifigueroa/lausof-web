@@ -82,6 +82,12 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /package-lock.json             /404.html                      404!
 /tests/*                       /404.html                      404!
 /scripts/*                     /404.html                      404!
+# La demo de la vitrina (CLAUDE.md, 3b-diseno-entorno.md §1.3): su código vive
+# en demo/ y sólo `node scripts/demo.mjs armar` lo usa; CLAUDE.md es la guía
+# de los agentes; e2e/ es el recorrido de QA de la demo. Ninguno es el sitio.
+/CLAUDE.md                     /404.html                      404!
+/demo/*                        /404.html                      404!
+/e2e/*                         /404.html                      404!
 
 # Variantes sin .html de cada página (auditoría técnica 03/11/2026, M3).
 # Netlify sirve /turismo y /turismo/ con 200 como copia de /turismo.html; con

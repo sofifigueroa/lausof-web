@@ -38,10 +38,15 @@
 #   cada página lleva sus scripts y estilos en línea (gtag, barra de WhatsApp).
 #   Lo que el sitio carga de afuera es sólo gtag.js y sus envíos a Analytics;
 #   tests/cabeceras.test.js corta si una página pide otro dominio.
+# - Apacheta (vitrina y chat, 3b-diseno-entorno.md §1.2; contrato de Apacheta
+#   §3.1): APP en script-src y frame-src, SITIO en connect-src. Ninguna página
+#   los carga todavía (la vitrina está apagada en scripts/entorno.mjs); van
+#   desde ahora para que la demo cambie sólo el valor del host (O7 de
+#   scripts/demo.mjs) y no agregue directivas.
 
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: accelerometer=(), browsing-topics=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), hid=(), magnetometer=(), microphone=(), midi=(), payment=(), serial=(), usb=()
   Content-Security-Policy: frame-ancestors 'self'
-  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.google.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://app.getapacheta.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.google.com https://getapacheta.com; frame-src 'self' https://app.getapacheta.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'

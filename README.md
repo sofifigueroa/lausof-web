@@ -702,10 +702,37 @@ El deploy publica la carpeta entera (`npx netlify-cli deploy --prod --dir .`,
 ver `WEB-LANE-HANDOFF.md`): el CLI sólo deja afuera lo que empieza con punto.
 Por eso `_redirects` tiene reglas `404!` para todo lo que está en la raíz y no
 es el sitio (`README.md`, `package.json`, `package-lock.json`, `tests/`,
-`scripts/`). Si se suma un archivo o carpeta interna a la raíz, necesita su
-regla en el mismo commit; `tests/seo.test.js` lo exige. La excepción es el
-archivo de la clave de IndexNow (`d1eb0835b80b7ebe76ad80c22dc86589.txt`), que
-sí es público: ver la sección siguiente.
+`scripts/`, `demo/`, `CLAUDE.md`, `e2e/`). Si se suma un archivo o carpeta
+interna a la raíz, necesita su regla en el mismo commit; `tests/seo.test.js` lo
+exige. La excepción es el archivo de la clave de IndexNow
+(`d1eb0835b80b7ebe76ad80c22dc86589.txt`), que sí es público: ver la sección
+siguiente.
+
+### El orden de cada deploy a producción (y la demo detrás)
+
+Desde un worktree limpio en la punta de `origin/rediseno-agosto-2026`, con el
+gate verde:
+
+1. `npx netlify-cli deploy --prod --dir . --no-build --site 0abef4b8-2f02-4123-9f79-fcfd58750ac8 --message "rediseno-agosto-2026 <sha40>"`
+   (el título deja legible la historia de Netlify; la prueba de qué sha está
+   en vivo es `comprobar`).
+2. IndexNow, como dice la sección siguiente.
+3. `git push origin rediseno-agosto-2026` (sólo avance rápido).
+4. `node scripts/demo.mjs publicar --sha <sha40>`: la demo de la vitrina
+   (excepción de Lautaro del 06/11, ver `CLAUDE.md`) toma el mismo sha más su
+   manifiesto y se sube a su propio sitio de Netlify.
+5. `node scripts/demo.mjs comprobar --sha <sha40>`: una línea VERDE/ROJO por
+   control (producción = sha, demo = producción + manifiesto, cabeceras en
+   vivo, catálogo de la demo de Apacheta). Sus líneas van al bloque del deploy
+   en `WEB-LANE-HANDOFF.md`.
+
+Si 4 o 5 salen en rojo, producción queda como está: se anota «demo atrasada en
+<sha>: <motivo>» en `WEB-LANE-HANDOFF.md` y una lane nueva lo arregla.
+
+Nunca hay `netlify/` ni `netlify.toml` en la raíz del repo: el CLI empaquetaría
+una edge function también en el deploy de producción (netlify/cli #7933). La
+puerta de la demo vive en `demo/llave.mjs` y sólo `armar` la pone al lado de la
+salida. `tests/entorno.test.js` (G5) lo frena.
 
 ### Antes de cada commit que toque páginas: `lastmod` desde git
 

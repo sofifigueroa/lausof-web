@@ -1,0 +1,21 @@
+/* Marca de la demo (3a §8 capa 1; 4-textos §7.1). Sólo existe en la demo:
+   `node scripts/demo.mjs armar` la copia a /css/demo.css y agrega la franja
+   después de <body>. No es fija: se va con el scroll, así no le quita alto al
+   encabezado en el teléfono ni tapa ningún control. */
+.demo-franja{
+  background:var(--navy-deep,#131b30);
+  color:var(--on-navy,#fff);
+  font:600 .85rem/1.35 var(--font,'Avenir Next',Helvetica,Arial,sans-serif);
+  padding:.45rem 1rem;
+  text-align:center;
+}
+.demo-franja-etiqueta{
+  display:inline-block;
+  background:#f2c94c;
+  color:#131b30;
+  font-weight:800;
+  letter-spacing:.06em;
+  padding:.05rem .4rem;
+  margin-right:.5rem;
+  border-radius:var(--radius,4px);
+}
