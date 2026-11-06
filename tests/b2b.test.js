@@ -16,7 +16,7 @@ const test = require('node:test');
 const assert = require('node:assert');
 const fs = require('node:fs');
 const path = require('node:path');
-const { paginas, pares, sitemap, redirects, urlDe, sinComentarios, DOMINIO } = require('./util.js');
+const { paginas, pares, sitemap, redirects, urlDe, sinComentarios, DOMINIO, PROMESA_DE_RESPUESTA } = require('./util.js');
 
 const raiz = path.join(__dirname, '..');
 const AGENCIAS = 'agencias-y-hoteles.html';
@@ -127,14 +127,16 @@ for (const nombre of todas) {
     assert.ok(lastmodDe(nombre) >= pagina.dateModified);
   });
 
-  test(`${nombre}: sin precios, sin porcentajes, sin número de AMT, con la CNRT 60284, 24 horas y la respuesta en el día`, () => {
+  test(`${nombre}: sin precios, sin porcentajes, sin número de AMT, con la CNRT 60284, 24 horas y la cotización por escrito, sin plazo de respuesta`, () => {
     assert.doesNotMatch(texto, /(US\$|USD|ARS|\$\s?\d|€)/, 'publica un precio');
     assert.doesNotMatch(texto, /\d\s?%|\bpor ciento\b|\bpercent\b/i, 'publica un porcentaje (comisión o tarifa)');
     assert.doesNotMatch(texto, /\bAMT\b[^.]{0,20}(N\.?[º°o]\.?|No\.|#)\s*\d/i, 'publica un número de AMT');
     assert.doesNotMatch(texto, /aseguradora|insurer|san crist[oó]bal|p[oó]liza|policy no/i, 'publica datos del seguro');
     assert.match(texto, /CNRT (N\.º |license No\. )60284/);
     assert.match(texto, en ? /24 hours/ : /24 horas/);
-    assert.match(texto, en ? /same business day/ : /\ben el día\b/, 'falta la respuesta en el día');
+    // Decisión 1A (05/11/2026): sin plazo de respuesta; la cotización va por escrito.
+    assert.doesNotMatch(texto, PROMESA_DE_RESPUESTA, 'promete un plazo de respuesta');
+    assert.match(texto, en ? /\bwritten quote\b/ : /\bcotización se envía por escrito\b/, 'falta la cotización por escrito');
   });
 
   test(`${nombre}: no nombra empresas, proyectos ni agencias como clientes`, () => {

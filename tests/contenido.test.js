@@ -5,7 +5,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert');
-const { paginas: crudas, sinComentarios } = require('./util.js');
+const { paginas: crudas, sinComentarios, PROMESA_DE_RESPUESTA } = require('./util.js');
 
 // Se evalúa lo que el visitante ve: los comentarios HTML quedan afuera,
 // porque ahí sí se nombran los temas vedados (son las notas del dueño).
@@ -395,4 +395,50 @@ test('San Pedro de Atacama ES/EN/PT: Salta–Purmamarca son 188 km y las notas n
       assert.doesNotMatch(nota, /OSRM|OpenStreetMap/, `${nombre}: la nota nombra la herramienta de rutas`);
     }
   }
+});
+
+// Plazo de respuesta (decisión 1A de Lautaro, 05/11/2026,
+// web/revision-sitio-2026-11-05/3-decisiones-consolidadas.md, ítem 1): ninguna
+// página promete cuándo se responde, en ES, EN ni PT, tampoco en meta, og o
+// JSON-LD. Vuelve cuando la primera respuesta a consultas web esté medida y
+// baje de un día. Se revisa el HTML entero sin comentarios: así entran los
+// atributos content= y los bloques application/ld+json.
+test('ninguna página promete un plazo de respuesta (decisión 1A)', () => {
+  for (const [nombre, html] of Object.entries(paginas)) {
+    const m = html.match(PROMESA_DE_RESPUESTA);
+    assert.ok(!m, `${nombre}: promete un plazo de respuesta («${m && m[0]}»)`);
+  }
+});
+
+// Control: el patrón corta las frases que se sacaron el 05/11 y deja pasar las
+// del viaje, que también dicen «en el día», «same day» o «no mesmo dia».
+test('el patrón del plazo de respuesta distingue la respuesta del viaje', () => {
+  const promesas = [
+    'Le respondemos con la cotización en el día.',
+    'Combi de 19+1 plazas con chofer; cotización en el día.',
+    'Tres datos y te cotizamos en el día',
+    'Respondemos en el día.',
+    'Le respondemos con la cotización normalmente en el mismo día hábil.',
+    'Le respondemos en el día con el plan de traslados y la cotización.',
+    'Respondemos en 24 horas.',
+    'We reply in English, normally the same business day (Argentina time, UTC−3).',
+    '19-seat minibus with driver, both ways; same-day quote.',
+    'We reply within 2 hours.',
+    'Respondemos com o orçamento no mesmo dia.',
+    'Com isso respondemos com o preço, normalmente no mesmo dia.',
+    'Respondemos normalmente no mesmo dia útil.',
+  ];
+  for (const frase of promesas) assert.match(frase, PROMESA_DE_RESPUESTA, frase);
+  const viajes = [
+    'Con esos datos, la cotización se envía por escrito.',
+    'Envíenos la fecha, cuántos viajan y si es solo ida a Cachi, ida y vuelta en el día o el circuito completo.',
+    '¿Se puede ir y volver en el día?',
+    'la combi lleva al equipo, el chofer espera el partido y vuelven en el día. Para torneos largos también cotizamos',
+    'Same-day return trips',
+    'Private minibus or 4x4 with driver, there and back the same day.',
+    'We reply with a written quote.',
+    'Passeio privativo de van com motorista, no mesmo dia ou com uma noite.',
+    'Respondemos com o orçamento por escrito.',
+  ];
+  for (const frase of viajes) assert.doesNotMatch(frase, PROMESA_DE_RESPUESTA, frase);
 });

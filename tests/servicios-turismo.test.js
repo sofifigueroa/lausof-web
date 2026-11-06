@@ -15,7 +15,7 @@ const test = require('node:test');
 const assert = require('node:assert');
 const fs = require('node:fs');
 const path = require('node:path');
-const { paginas, pares, sitemap, urlDe, sinComentarios, DOMINIO } = require('./util.js');
+const { paginas, pares, sitemap, urlDe, sinComentarios, DOMINIO, PROMESA_DE_RESPUESTA } = require('./util.js');
 
 const raiz = path.join(__dirname, '..');
 const NUEVAS = {
@@ -51,8 +51,9 @@ const lastmodDe = (nombre) => {
 // Páginas de ruta en español, sacadas del mapa de pares: una ruta nueva entra sola.
 const rutasEs = Object.keys(pares).filter((n) => /^(traslado-salta-|salinas-grandes-)/.test(n));
 
-// La "respuesta en el día": en español, "en el día"; en inglés, "same business day".
-const respuestaEnElDia = (nombre) => (esIngles(nombre) ? /same business day/ : /\ben el día\b/);
+// Decisión 1A (05/11/2026): sin plazo de respuesta. Lo que se ofrece es la
+// cotización por escrito: «por escrito» en español, «written quote» en inglés.
+const porEscrito = (nombre) => (esIngles(nombre) ? /\bwritten quote\b/ : /\bpor escrito\b/);
 
 test('las dos páginas nuevas están en el mapa de pares y en el sitemap, en los dos idiomas', () => {
   for (const [es, en] of Object.entries(NUEVAS)) {
@@ -110,12 +111,13 @@ for (const nombre of todas) {
     assert.ok(lastmodDe(nombre) >= pagina.dateModified);
   });
 
-  test(`${nombre}: sin precios, sin números de permiso, con la CNRT 60284 y la respuesta en el día`, () => {
+  test(`${nombre}: sin precios, sin números de permiso, con la CNRT 60284 y la cotización por escrito, sin plazo de respuesta`, () => {
     const texto = visible(html);
     assert.doesNotMatch(texto, /(US\$|USD|ARS|\$\s?\d|€)/, 'publica un precio');
     assert.doesNotMatch(texto, /\bAMT\b[^.]{0,20}(N\.?[º°o]\.?|No\.|#)\s*\d/i, 'publica un número de AMT');
     assert.match(texto, /CNRT (N\.º |license No\. )60284/);
-    assert.match(texto, respuestaEnElDia(nombre), 'falta la respuesta en el día');
+    assert.doesNotMatch(texto, PROMESA_DE_RESPUESTA, 'promete un plazo de respuesta');
+    assert.match(texto, porEscrito(nombre), 'falta la cotización por escrito');
   });
 
   test(`${nombre}: los WhatsApp van pre-armados y nombran el servicio`, () => {
@@ -186,9 +188,12 @@ test('la portada: el título abre con el transporte de pasajeros y la descripci�
   assert.strictEqual(html.match(/<meta property="og:description" content="([^"]+)">/)[1], desc);
 });
 
-test('alquiler-4x4.html: promete la respuesta en el día, como su gemela inglesa', () => {
-  assert.match(visible(paginas['alquiler-4x4.html']), /\ben el día\b/);
-  assert.match(visible(paginas['en/4x4-rental.html']), /same business day/);
+test('alquiler-4x4.html y su gemela inglesa: presupuesto por escrito, sin plazo de respuesta', () => {
+  for (const nombre of ['alquiler-4x4.html', 'en/4x4-rental.html']) {
+    assert.doesNotMatch(visible(paginas[nombre]), PROMESA_DE_RESPUESTA, `${nombre}: promete un plazo de respuesta`);
+  }
+  assert.match(visible(paginas['alquiler-4x4.html']), /\bpresupuesto por escrito\b/);
+  assert.match(visible(paginas['en/4x4-rental.html']), /\bquote in writing\b/);
 });
 
 test('cada página de ruta en español enlaza el hub de feriados', () => {
