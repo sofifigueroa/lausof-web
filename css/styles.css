@@ -531,6 +531,20 @@ footer.site .proveedores ul{flex-direction:row;flex-wrap:wrap;gap:6px 28px}
   margin-top:40px;padding-top:20px;font-size:.82rem;
   display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 }
+/* el enlace al aviso de privacidad: su propia línea arriba del ©, mismo
+   tamaño y color, sin nada que lo destaque (privacidad-2026-11-05, 3-diseno §1.2) */
+footer.site .legal-enlaces{flex-basis:100%;margin:0}
+
+/* ---- aviso de privacidad (/privacidad.html y sus traducciones) ----
+   Texto legal en una columna de lectura, sin foto ni llamado a la acción. */
+.privacidad{max-width:68ch;padding:28px 0 72px}
+.privacidad h1{font-size:clamp(1.9rem,4.4vw,2.6rem);letter-spacing:-.015em}
+.privacidad h2{font-size:1.2rem;margin:34px 0 10px}
+.privacidad p{margin:0 0 12px}
+.privacidad ul{margin:0 0 12px;padding-left:1.2em}
+.privacidad li{margin:0 0 6px}
+.privacidad .vigencia,.privacidad .traduccion{color:var(--ink-soft);font-size:.92rem}
+.privacidad .vigencia{margin-top:10px}
 
 /* ---- barra fija de acción (mobile) ---- */
 .wa-bar{

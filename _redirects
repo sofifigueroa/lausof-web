@@ -120,6 +120,7 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /galeria                                      /galeria.html                                     301!
 /logistica-minera                             /logistica-minera.html                            301!
 /peregrinaciones-eventos                      /peregrinaciones-eventos.html                     301!
+/privacidad                                   /privacidad.html                                  301!
 /producciones                                 /producciones.html                                301!
 /salinas-grandes-desde-salta                  /salinas-grandes-desde-salta.html                 301!
 /semana-santa-salta-jujuy                     /semana-santa-salta-jujuy.html                    301!
@@ -156,6 +157,7 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /en/minibus-with-driver-salta                 /en/minibus-with-driver-salta.html                301!
 /en/mining-logistics                          /en/mining-logistics.html                         301!
 /en/personnel-transport                       /en/personnel-transport.html                      301!
+/en/privacy                                   /en/privacy.html                                  301!
 /en/refrigerated-freight                      /en/refrigerated-freight.html                     301!
 /en/salinas-grandes-from-salta                /en/salinas-grandes-from-salta.html               301!
 /en/salta-airport-transfer                    /en/salta-airport-transfer.html                   301!
@@ -175,6 +177,7 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /en/wedding-transportation                    /en/wedding-transportation.html                   301!
 # Portugués de Brasil (03/11/2026): las mismas variantes sin .html de /pt/.
 /pt/passeios-e-traslados                      /pt/passeios-e-traslados.html                     301!
+/pt/privacidade                               /pt/privacidade.html                              301!
 /pt/salinas-grandes-saindo-de-salta           /pt/salinas-grandes-saindo-de-salta.html          301!
 /pt/traslado-salta-cafayate                   /pt/traslado-salta-cafayate.html                  301!
 /pt/traslado-salta-purmamarca-tilcara-humahuaca  /pt/traslado-salta-purmamarca-tilcara-humahuaca.html  301!

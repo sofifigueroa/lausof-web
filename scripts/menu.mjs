@@ -74,7 +74,8 @@ export const EMPRESAS = {
 };
 
 export const PORTADAS = ['index.html', 'en/index.html', 'pt/index.html'];
-export const INSTITUCIONAL = ['flota-en-venta.html', 'galeria.html', '404.html', 'en/404.html'];
+export const INSTITUCIONAL = ['flota-en-venta.html', 'galeria.html', '404.html', 'en/404.html',
+  'privacidad.html', 'en/privacy.html', 'pt/privacidade.html'];
 
 export function seccionDe(pagina) {
   if (PORTADAS.includes(pagina)) return 'inicio';
@@ -208,22 +209,30 @@ export const TELEFONO = { href: 'tel:+5493875269009', texto: '387 526-9009' };
      · «Noroeste argentino» en lugar de «NOA»: una sigla que fuera de la
        Argentina no se entiende (auditoría en F4); el portugués ya lo decía así.
    Una página que necesita una línea más en el bloque la suma en
-   EXTRAS_FACTURACION. */
+   EXTRAS_FACTURACION.
+   `privacidad`: el aviso de privacidad de cada idioma (Ley 25.326 art. 6),
+   enlazado desde la línea legal de todas las páginas, arriba del ©
+   (web/privacidad-2026-11-05/3-diseno.md §1). Sólo el nombre: ningún enlace
+   de esa línea lleva `lang`, así tests/ingles.test.js no lo cuenta como
+   enlace de idioma. */
 export const PIE_DATOS = {
   es: {
     titulo: 'Datos de facturación',
     items: ['Razón social: Lausof S.R.L.', `CUIT: ${FICHA.taxID}`, 'Emitimos factura A o B.'],
     legal: [`© Lausof SRL · CUIT ${FICHA.taxID} · Salta Capital, Argentina`, 'Empresa familiar de transporte y logística · Noroeste argentino'],
+    privacidad: ['Privacidad', '/privacidad.html'],
   },
   en: {
     titulo: 'Billing details',
     items: ['Legal name: Lausof S.R.L.', `CUIT (Argentine tax ID): ${FICHA.taxID}`, 'We issue Factura A (Argentine tax invoice).'],
     legal: [`© Lausof SRL · CUIT ${FICHA.taxID} · Salta, Argentina`, 'Family-owned transport and logistics company · northwest Argentina'],
+    privacidad: ['Privacy', '/en/privacy.html'],
   },
   pt: {
     titulo: 'Dados para faturamento',
     items: ['Razão social: Lausof S.R.L.', `CUIT (registro fiscal argentino): ${FICHA.taxID}`, 'Emitimos nota fiscal argentina (factura A).'],
     legal: [`© Lausof SRL · CUIT ${FICHA.taxID} · Salta Capital, Argentina`, 'Empresa familiar de transporte e logística · Noroeste argentino'],
+    privacidad: ['Privacidade', '/pt/privacidade.html'],
   },
 };
 
@@ -344,11 +353,17 @@ export function zonaFacturacion(pagina) {
   ].map((l) => `    ${l}`).join('\n');
 }
 
-/** Las dos líneas legales del final del pie. Pura. */
+/** La línea legal del final del pie: el enlace al aviso de privacidad
+    (marcado como la página actual en el propio aviso) y las dos líneas del ©.
+    Pura. */
 export function zonaLegal(pagina) {
+  const d = PIE_DATOS[idiomaDe(pagina)];
+  const [texto, href] = d.privacidad;
+  const actual = `/${pagina}` === href ? ' aria-current="page"' : '';
   return [
     '<!-- GENERADO:LEGAL — no editar a mano: editar scripts/menu.mjs y correr `node scripts/menu.mjs` -->',
-    ...PIE_DATOS[idiomaDe(pagina)].legal.map((l) => `<span>${escapar(l)}</span>`),
+    `<p class="legal-enlaces"><a href="${href}"${actual}>${escapar(texto)}</a></p>`,
+    ...d.legal.map((l) => `<span>${escapar(l)}</span>`),
     '<!-- /GENERADO:LEGAL -->',
   ].map((l) => `    ${l}`).join('\n');
 }

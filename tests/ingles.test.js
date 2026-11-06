@@ -12,7 +12,7 @@
 const test = require('node:test');
 const assert = require('node:assert');
 const {
-  paginas, paginasEs, paginasEn, paginasPt, pares, paresPt, sinGemelaEn,
+  paginas, paginasEs, paginasEn, paginasPt, pares, paresPt, privadas, sinGemelaEn,
   urlDe, rutaDe, DOMINIO, index, sitemap, redirects, sinComentarios,
 } = require('./util.js');
 
@@ -160,7 +160,7 @@ for (const [es, en] of Object.entries(pares)) {
 
 if (Object.keys(pares).length > 0) {
   test('toda página en español sin gemela manda el selector a la portada inglesa', () => {
-    const conGemela = new Set(Object.keys(pares));
+    const conGemela = new Set([...Object.keys(pares), ...Object.keys(privadas)]);
     for (const nombre of Object.keys(paginasEs)) {
       if (conGemela.has(nombre)) continue;
       assert.deepStrictEqual(switcherDe(paginasEs[nombre]), ['/en/'],
@@ -233,6 +233,12 @@ for (const nombre of Object.keys(paginasPt)) {
   gemelaDelPie[nombre] = es
     ? [{ href: rutaDe(es), idioma: 'es' }, { href: rutaDe(pares[es]), idioma: 'en' }]
     : [];
+}
+// El aviso de privacidad: cada idioma enlaza a los otros dos, como un trío.
+for (const [es, { en, pt }] of Object.entries(privadas)) {
+  gemelaDelPie[es] = [{ href: rutaDe(en), idioma: 'en' }, { href: rutaDe(pt), idioma: 'pt' }];
+  gemelaDelPie[en] = [{ href: rutaDe(es), idioma: 'es' }, { href: rutaDe(pt), idioma: 'pt' }];
+  gemelaDelPie[pt] = [{ href: rutaDe(es), idioma: 'es' }, { href: rutaDe(en), idioma: 'en' }];
 }
 
 for (const [nombre, html] of Object.entries(paginas)) {

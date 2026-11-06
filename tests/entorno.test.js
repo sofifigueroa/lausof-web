@@ -15,7 +15,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
-const { paginas, headers, robots, redirects } = require('./util.js');
+const { paginas, headers, robots, redirects, noIndexables } = require('./util.js');
 
 const raiz = path.join(__dirname, '..');
 const importar = (rel) => import(pathToFileURL(path.join(raiz, rel)).href);
@@ -59,8 +59,8 @@ const artefactosDemo = (nombre, texto, { demo, FRANJA, PREFIJO_TITULO }) => {
     new URL(demo.host).host, ...Object.values(FRANJA).map((f) => f.texto)];
   if (demo.ga4) prohibidos.push(demo.ga4);
   for (const p of prohibidos) if (texto.includes(p)) mal.push(`${nombre}: «${p}»`);
-  const es404 = nombre === '404.html' || nombre === 'en/404.html';
-  if (!es404 && /<meta name="robots" content="[^"]*noindex/i.test(texto)) mal.push(`${nombre}: noindex`);
+  // Sólo las páginas que no se indexan a propósito (tests/util.js) llevan noindex.
+  if (!noIndexables.includes(nombre) && /<meta name="robots" content="[^"]*noindex/i.test(texto)) mal.push(`${nombre}: noindex`);
   return mal;
 };
 

@@ -18,7 +18,7 @@
 const test = require('node:test');
 const assert = require('node:assert');
 const {
-  paginasEs, paginasEn, paginasPt, pares, paresPt, urlDe, DOMINIO, sitemap, sinComentarios,
+  paginasEs, paginasEn, paginasPt, pares, paresPt, privadas, urlDe, DOMINIO, sitemap, sinComentarios,
 } = require('./util.js');
 
 const textoVisible = (html) => sinComentarios(html)
@@ -49,7 +49,8 @@ test('el mapa ES↔PT y el directorio /pt/ coinciden', () => {
     assert.ok(pt.startsWith('pt/'), `${pt} no vive bajo pt/`);
     assert.ok(pares[es] && paginasEn[pares[es]], `${es} tiene versión pt pero no gemela inglesa`);
   }
-  const registradas = new Set(Object.values(paresPt));
+  // El aviso de privacidad en portugués no se indexa y no es gemela (privadas).
+  const registradas = new Set([...Object.values(paresPt), ...Object.values(privadas).map((g) => g.pt)]);
   for (const nombre of Object.keys(paginasPt)) {
     assert.ok(registradas.has(nombre), `${nombre} existe y no está en paresPt (tests/util.js)`);
   }

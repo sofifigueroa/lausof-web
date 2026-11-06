@@ -55,8 +55,9 @@ for (const [nombre, contenido] of Object.entries(paginas)) {
 // js/galeria.js y no están en el HTML). Los únicos alt="" permitidos son los del
 // logo decorativo de cierre de página (uno por página que lo lleva) y la
 // foto de fondo del hero/encabezado.
-// Páginas que cierran sin el logo decorativo, por diseño.
-const sinLogoDecorativo = ['galeria.html', 'golf-torneos.html'];
+// Páginas que cierran sin el logo decorativo, por diseño. El aviso de
+// privacidad es texto legal, sin cierre de página.
+const sinLogoDecorativo = ['galeria.html', 'golf-torneos.html', 'privacidad.html', 'en/privacy.html', 'pt/privacidade.html'];
 test('toda imagen lleva alt descriptivo salvo los logos decorativos', () => {
   let decorativos = 0;
   for (const [nombre, contenido] of Object.entries(paginas)) {

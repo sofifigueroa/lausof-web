@@ -71,7 +71,8 @@ export function esPublico(rel, { clave = null, extras = [] } = {}) {
 // .html en la raíz, en en/ o en pt/ entraría igual (auditoría 9, N1). Una
 // página nueva entra al sitemap o, si no se indexa, a esta lista.
 // ---------------------------------------------------------------------------
-export const PAGINAS_FUERA_DEL_SITEMAP = ['404.html', 'en/404.html', 'google40eac84837fa77f1.html'];
+export const PAGINAS_FUERA_DEL_SITEMAP = ['404.html', 'en/404.html', 'google40eac84837fa77f1.html',
+  'privacidad.html', 'en/privacy.html', 'pt/privacidade.html'];
 
 // Las rutas de archivo que nombra un sitemap (https://www.lausof.com/<url>).
 export function paginasDelSitemap(texto) {

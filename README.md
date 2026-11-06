@@ -558,7 +558,8 @@ y `3a-wireframes/`, textos `4-textos.md`, decisiones `DECISION-2026-11-05.md`).
   hoja en el teléfono), la zona `<!-- GENERADO:PIE -->` de las portadas (las
   dos columnas de sección del pie), en el pie de todas las páginas las zonas
   `<!-- GENERADO:FACTURACION -->` («Datos de facturación»: razón social, CUIT,
-  factura) y `<!-- GENERADO:LEGAL -->` (las dos líneas finales), con los
+  factura) y `<!-- GENERADO:LEGAL -->` (el enlace al aviso de privacidad del
+  idioma, `PIE_DATOS[idioma].privacidad`, y las dos líneas del ©), con los
   textos de `PIE_DATOS` (una línea extra de una página va en
   `EXTRAS_FACTURACION`), y, en `<body>`, `data-seccion`
   (`turismo`/`empresas`/`inicio`/`institucional`), `data-linea`
@@ -745,8 +746,9 @@ node scripts/publicacion.mjs comprobar                                         #
   enlaces de las 77 páginas, lista en vivo, motivos de `publicar`) y G5 de
   `tests/entorno.test.js`.
 - Cada `.html` exportado tiene que estar en `sitemap.xml` o en
-  `PAGINAS_FUERA_DEL_SITEMAP` (hoy `404.html`, `en/404.html` y la verificación
-  de Search Console). Una página interna con forma de página (una revisión en
+  `PAGINAS_FUERA_DEL_SITEMAP` (hoy las dos 404, el aviso de privacidad en sus
+  tres idiomas y la verificación de Search Console; la misma lista, sin la
+  verificación, es `noIndexables` de `tests/util.js`). Una página interna con forma de página (una revisión en
   la raíz, una nota en `en/`) no sale. Una página pública nueva entra al
   sitemap en el mismo commit; si no se indexa, a esa lista. `comprobar` hace
   la misma revisión contra el sitemap que se sirve, y la demo (que no lleva
@@ -858,3 +860,21 @@ El dominio `lausof.com` ya existe (hoy apunta a Wix). Plan:
 1. Subir este repo a GitHub y activar **GitHub Pages** (o conectar a **Netlify/Cloudflare Pages**) — hosting gratuito.
 2. Probar en la URL provisoria (`*.github.io` / `*.netlify.app`).
 3. Con el OK de la familia, apuntar el DNS de `lausof.com` al nuevo hosting (requiere acceso al registrador del dominio).
+
+## Aviso de privacidad
+
+`/privacidad.html`, `/en/privacy.html` y `/pt/privacidade.html` (Ley 25.326
+art. 6, versión corta del 06/11/2026; diseño, textos y auditoría en
+`~/lausof/web/privacidad-2026-11-05/`). Cuatro apartados: responsable (con el
+domicilio legal, `DOMICILIO_LEGAL` de `scripts/empresa.mjs`), datos y para
+qué, quién los recibe (Google, Netlify, Apacheta por su marca y sin enlace,
+Mercado Pago con su aviso) y derechos con la leyenda de la Res. AAIP 14/2018.
+- No se indexan: `noindex,follow`, fuera del sitemap y de IndexNow, sin
+  hreflang, canónica ni Open Graph. Se llega desde el pie de todas las
+  páginas. Para que producción las publique están en
+  `PAGINAS_FUERA_DEL_SITEMAP`.
+- Los enlaces de idioma (barra y pie) van entre los tres avisos (`privadas`
+  en `tests/util.js`).
+- «Vigente desde» es la fecha de publicación: si cambia lo que el aviso dice,
+  se cambia la fecha en el mismo commit. La forma del aviso (apartados,
+  leyenda, responsable, que no se indexe) la vigila `tests/privacidad.test.js`.

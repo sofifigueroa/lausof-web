@@ -53,6 +53,13 @@ export const ID_EMPRESA = 'https://www.lausof.com/#empresa';
 // mes. La casilla contacto@ sigue existiendo, pero el sitio ya no la ofrece.
 export const CORREO = 'transporte@lausof.com';
 
+// Domicilio legal (sede social inscripta) de LAUSOF S.R.L.: BO Salta del
+// 17/09/2010 y del 30/10/2015, «Los Perales 22». Es el que exige el aviso de
+// privacidad (Res. AAIP 126/2024, Anexo I 3 a); no es la dirección de la
+// base (Junín 1334, `address` de FICHA). No va en el JSON-LD.
+// Fuente: web/privacidad-2026-11-05/3-diseno.md §2.1.
+export const DOMICILIO_LEGAL = 'Los Perales 22, Salta';
+
 export const FICHA = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',

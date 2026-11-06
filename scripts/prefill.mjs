@@ -211,6 +211,7 @@ export const PAGINAS = {
   'index.html': 'general',
   'logistica-minera.html': 'mineria',
   'peregrinaciones-eventos.html': 'pasajeros',
+  'privacidad.html': 'general',
   'producciones.html': 'produccion',
   'salinas-grandes-desde-salta.html': 'pasajeros',
   'semana-santa-salta-jujuy.html': 'pasajeros',
@@ -249,6 +250,7 @@ export const PAGINAS = {
   'en/minibus-with-driver-salta.html': 'combi-dia',
   'en/mining-logistics.html': 'mineria',
   'en/personnel-transport.html': 'personal',
+  'en/privacy.html': 'general',
   'en/refrigerated-freight.html': 'refrigerado',
   'en/salinas-grandes-from-salta.html': 'pasajeros',
   'en/salta-airport-transfer.html': 'aeropuerto',
@@ -269,6 +271,7 @@ export const PAGINAS = {
   // Portugués de Brasil (03/11/2026): las 7 páginas de /pt/.
   'pt/index.html': 'general',
   'pt/passeios-e-traslados.html': 'turismo',
+  'pt/privacidade.html': 'general',
   'pt/traslado-salta-san-pedro-de-atacama.html': 'pasajeros',
   'pt/traslado-salta-uyuni.html': 'pasajeros',
   'pt/salinas-grandes-saindo-de-salta.html': 'pasajeros',

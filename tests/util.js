@@ -130,8 +130,21 @@ const paresPt = {
   'traslado-salta-purmamarca-tilcara-humahuaca.html': 'pt/traslado-salta-purmamarca-tilcara-humahuaca.html',
 };
 
-// Página de /en/ que existe sin ser gemela de nadie (no se indexa).
-const sinGemelaEn = ['en/404.html'];
+// Páginas que no se indexan: noindex, fuera del sitemap y sin hreflang,
+// canónica ni Open Graph. Son las dos 404 y el aviso de privacidad en sus tres
+// idiomas (web/privacidad-2026-11-05/3-diseno.md §2.5: «as hidden as
+// possible», se llega desde el pie). Una página que no se indexa es un
+// renglón acá y otro en PAGINAS_FUERA_DEL_SITEMAP de scripts/publicacion.mjs
+// (tests/privacidad.test.js compara las dos listas).
+const noIndexables = ['404.html', 'en/404.html', 'privacidad.html', 'en/privacy.html', 'pt/privacidade.html'];
+
+// El aviso de privacidad en sus tres idiomas. No son `pares` ni `paresPt`
+// (eso es «trío indexable con hreflang»): este mapa sólo dice adónde van los
+// enlaces de idioma visibles, el selector de la barra y el del pie.
+const privadas = { 'privacidad.html': { en: 'en/privacy.html', pt: 'pt/privacidade.html' } };
+
+// Páginas de /en/ que existen sin ser gemela de nadie (no se indexan).
+const sinGemelaEn = noIndexables.filter((n) => n.startsWith('en/'));
 
 const DOMINIO = 'https://www.lausof.com';
 
@@ -205,6 +218,8 @@ module.exports = {
   paginasPt,
   pares,
   paresPt,
+  privadas,
+  noIndexables,
   sinGemelaEn,
   urlDe,
   rutaDe,
