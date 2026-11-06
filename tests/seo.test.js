@@ -104,34 +104,34 @@ test('el JSON-LD de la portada lleva geo, hasMap y el teléfono de la ficha', ()
 
 // La ficha de la portada es la única definición completa de la entidad, así
 // que tiene que contar lo mismo que las fichas de Google, Apple Maps y Bing:
-// horario 24 hs, antigüedad, CUIT, logo, fotos y las redes reales. Si acá
+// antigüedad, CUIT, logo, fotos y las redes reales. Si acá
 // falta algo, las páginas que referencian el @id #empresa tampoco lo heredan.
 const empresa = () => JSON.parse(
   index.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
 
-test('el JSON-LD de la portada declara la guardia de 24 hs los 7 días', () => {
-  const horarios = empresa().openingHoursSpecification;
-  assert.ok(Array.isArray(horarios) && horarios.length,
-    'falta openingHoursSpecification: la ficha no dice que el auxilio es 24 hs');
-  const dias = horarios.flatMap((h) => [].concat(h.dayOfWeek));
-  for (const dia of ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
-    'Saturday', 'Sunday']) {
-    assert.ok(dias.includes(dia), `el horario no cubre ${dia}`);
-  }
-  // El día completo se expresa 00:00–23:59 (la forma que documenta Google
-  // para negocios abiertos las 24 horas).
-  for (const h of horarios) {
-    assert.strictEqual(h.opens, '00:00', 'un tramo horario no abre a las 00:00');
-    assert.strictEqual(h.closes, '23:59', 'un tramo horario no cierra a las 23:59');
+// Decisión 2A del 05/11/2026: el horario 00:00–23:59 venía de la guardia de
+// auxilio, que ya no existe. Sale hasta que se pueda leer el horario del
+// perfil de Google; cuando se lea, lo carga el carril de fichas (ítem 16) y
+// este test pasa a exigir ese horario. Ninguna ficha JSON-LD del sitio
+// promete atención las 24 horas.
+test('ninguna ficha JSON-LD declara horario de atención ni atención las 24 hs', () => {
+  assert.strictEqual(empresa().openingHoursSpecification, undefined,
+    'volvió openingHoursSpecification: el horario lo fija el perfil de Google (decisión 2A)');
+  for (const [nombre, html] of Object.entries(paginas)) {
+    for (const [, bloque] of html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) {
+      assert.doesNotMatch(bloque, /openingHours/, `${nombre}: el JSON-LD declara un horario`);
+      assert.doesNotMatch(bloque, /atenci[oó]n las 24|atendemos las 24|available 24 hours|around the clock|24\/7/i,
+        `${nombre}: el JSON-LD promete atención las 24 horas`);
+    }
   }
 });
 
-test('la ficha lleva antigüedad, CUIT y la descripción de las 24 hs', () => {
+test('la ficha lleva antigüedad, CUIT y la descripción de la empresa', () => {
   const datos = empresa();
   assert.strictEqual(datos.foundingDate, '2010',
     'falta foundingDate 2010 (Contrato Social de 2010)');
   assert.strictEqual(datos.taxID, '30-71146774-9', 'el CUIT del JSON-LD no es el de Lausof');
-  for (const palabra of ['24 hs', 'Salta', 'Junín 1334']) {
+  for (const palabra of ['Salta', 'Junín 1334', 'cargas generales']) {
     assert.ok(datos.description.includes(palabra),
       `la descripción perdió "${palabra}": ${datos.description}`);
   }

@@ -22,7 +22,7 @@ const PORTADAS = {
       ['Personal para minería', '/empresas-y-mineria.html#personal', 'personal'],
       ['Cargas', '/empresas-y-mineria.html#cargas', 'carga'],
     ],
-    prueba: ['24 h', 'CNRT 60284', 'AMT', 'Agencia de turismo habilitada', 'Viajes internacionales', 'Factura A', 'Flota y taller propios'],
+    prueba: ['Salidas de madrugada', 'CNRT 60284', 'AMT', 'Agencia de turismo habilitada', 'Viajes internacionales', 'Factura A', 'Flota y taller propios'],
   },
   'en/index.html': {
     h1: 'Passenger transport in Salta and northwest Argentina',
@@ -31,7 +31,7 @@ const PORTADAS = {
       ['Mining crew transport', '/en/business-and-mining.html#crew', 'personal'],
       ['Freight', '/en/business-and-mining.html#freight', 'carga'],
     ],
-    prueba: ['24/7', 'CNRT 60284', 'AMT', 'Licensed tourism agency', 'International trips', 'Factura A (tax invoice)', 'Own fleet and workshop'],
+    prueba: ['Dawn departures', 'CNRT 60284', 'AMT', 'Licensed tourism agency', 'International trips', 'Factura A (tax invoice)', 'Own fleet and workshop'],
   },
   'pt/index.html': {
     h1: 'Transporte de passageiros em Salta e no norte da Argentina',
@@ -40,7 +40,7 @@ const PORTADAS = {
       ['Pessoal para mineração', '/empresas-y-mineria.html#personal', 'personal'],
       ['Cargas', '/empresas-y-mineria.html#cargas', 'carga'],
     ],
-    prueba: ['24 h', 'CNRT 60284', 'AMT (Salta)', 'Agência de turismo habilitada', 'Viagens internacionais', 'Frota e oficina próprias'],
+    prueba: ['Saídas de madrugada', 'CNRT 60284', 'AMT (Salta)', 'Agência de turismo habilitada', 'Viagens internacionais', 'Frota e oficina próprias'],
   },
 };
 
@@ -111,8 +111,9 @@ for (const [nombre, esperado] of Object.entries(PORTADAS)) {
 
   test(`${nombre}: nada vedado en los bloques nuevos`, () => {
     const texto = visible(bloquesNuevos(html));
-    // Ningún número salvo los publicados: CNRT, el año, las 24 h, la línea y 4x4.
-    const numeros = (texto.match(/\d[\d.,/]*/g) || []).filter((n) => !['60284', '2010', '24', '24/7', '387', '526-9009', '4', '4x4'].includes(n));
+    // Ningún número salvo los publicados: CNRT, el año, la línea y 4x4. Las
+    // 24 h ya no son un número publicado (decisión 2A del 05/11/2026).
+    const numeros = (texto.match(/\d[\d.,/]*/g) || []).filter((n) => !['60284', '2010', '387', '526-9009', '4', '4x4'].includes(n));
     assert.deepStrictEqual(numeros.filter((n) => !/^(526|9009)$/.test(n)), [], 'números que no están en la lista de publicados');
     assert.doesNotMatch(texto, /\$|\bUSD\b|\bARS\b|precio|price|preço/i, 'precios');
     assert.doesNotMatch(texto, /gr[uú]a|remolque|auxilio|\btow|sin chofer|self-drive|rent a car|izaje/i, 'servicios retirados');
