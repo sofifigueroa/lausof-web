@@ -224,3 +224,40 @@ test('ninguna página invita a visitar la base de Junín 1334', () => {
     }
   }
 });
+
+// Renglones que Lautaro marcó en el sitio publicado (05/11/2026,
+// web/revision-sitio-2026-11-05/LAUTARO-2026-11-05-noche.md, filas 6 y 8 a 11),
+// en los tres idiomas. Lausof es quien opera el viaje: no se habla de «la
+// empresa que pone la unidad»; no se promete una visita; la pregunta por la
+// excursión guiada no se contesta con «No», porque un guía habilitado se
+// coordina si el grupo lo pide; y el idioma no se responde con «la página
+// tiene su versión en inglés».
+const RENGLONES_0511 = [
+  ['visita prometida', /coordinamos una visita|combinamos uma visita/i],
+  ['otra empresa pone la unidad', /empresa que pone la unidad|empresa dona do ve[ií]culo|company that (runs|operates) (it|the vehicle)/i],
+  ['eslogan del respaldo', /respaldo de una? empresa habilitada|a licensed company behind the trip/i],
+  ['«no es una excursión guiada»', /no es una excursi[oó]n guiada|not a guided tour|n[aã]o [eé] um passeio guiado/i],
+  ['la página en otro idioma como respuesta', /tiene su versi[oó]n en ingl[eé]s|tamb[eé]m tem vers[aã]o em/i],
+];
+test('ninguna página repite los renglones marcados el 05/11/2026', () => {
+  for (const [nombre, html] of Object.entries(paginas)) {
+    const plano = html.replace(/<script[\s\S]*?<\/script>/gi, ' ')
+      .replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    for (const [etiqueta, patron] of RENGLONES_0511) {
+      assert.doesNotMatch(plano, patron, `${nombre}: ${etiqueta}`);
+    }
+  }
+});
+
+const PREGUNTA_GUIADA = /<summary>(?:¿Es una excursión guiada\?|Is this a guided tour\?|É um passeio guiado\?)<\/summary>\s*<p>([^<]*)/g;
+test('la pregunta por la excursión guiada no cierra la venta: el guía se coordina', () => {
+  let vistas = 0;
+  for (const [nombre, html] of Object.entries(paginas)) {
+    for (const [, respuesta] of html.matchAll(PREGUNTA_GUIADA)) {
+      vistas += 1;
+      assert.doesNotMatch(respuesta, /^\s*(No|Não)\b/, `${nombre} contesta «No»`);
+      assert.match(respuesta, /lo coordinamos|we can arrange one|nós providenciamos/, `${nombre} no ofrece coordinar el guía`);
+    }
+  }
+  assert.ok(vistas >= 7, `se esperaban al menos 7 respuestas, hay ${vistas}`);
+});
