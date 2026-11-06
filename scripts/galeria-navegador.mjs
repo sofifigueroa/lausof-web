@@ -157,8 +157,15 @@ try {
         mkdirSync(dirCapturas, { recursive: true });
         // La captura de página entera no dispara la carga diferida: se piden
         // todas las fotos antes, para que la captura las muestre.
-        await evaluar(`Promise.all([...document.images].map((i) => { i.loading = 'eager';
-          return i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r; }); })).then(() => true)`);
+        // Se recorre la página de arriba abajo (y cada pista de galería) para
+        // que pidan todo, y se espera a que termine de cargar.
+        await evaluar(`(async () => { const h = document.documentElement.scrollHeight;
+          for (let y = 0; y < h; y += innerHeight / 2) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); }
+          scrollTo(0, 0);
+          [...document.images].forEach((i) => { i.loading = 'eager'; });
+          await Promise.race([Promise.all([...document.images].map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r; }))),
+            new Promise((r) => setTimeout(r, 8000))]);
+          return true; })()`);
         const alto = await evaluar('Math.ceil(document.documentElement.scrollHeight)');
         const { data } = await cdp('Page.captureScreenshot', { format: 'png', captureBeyondViewport: true,
           clip: { x: 0, y: 0, width: ancho, height: alto, scale: 1 } });
