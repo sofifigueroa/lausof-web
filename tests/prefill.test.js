@@ -48,6 +48,11 @@ const REQUISITOS = {
   empresa: [/^(Empresa|Company)$/, /^(Servicio|Service|Serviço) \(/, /^(Mina, origen o destino|Mine, origin or destination|Mina, origem ou destino)$/,
     /^(Fecha o frecuencia|Date or frequency|Data ou frequência)$/, /^(Personas o carga|People or cargo|Pessoas ou carga)$/],
   proveedor: [/^(Empresa|Company)$/, /^(Documentación que necesitan|Documents you need|Documentos de que precisam)$/],
+  // Servicio «Documentación de ingreso» (servicio-documentacion-2026-11-05/
+  // 4-textos.md §1.9, D6B): quién, cuántos vehículos y personas (el abono
+  // depende de eso) y en qué mineras o portales.
+  'documentacion-flota': [/^(Empresa|Company)$/, /^(Cantidad de vehículos|Number of vehicles|Quantidade de veículos)$/,
+    /^(Cantidad de personas|Number of people|Quantidade de pessoas)$/, /^(Mineras o portales|Mines or portals|Mineradoras ou portais)$/],
 };
 
 const etiquetas = (texto, separador) => texto.split(separador).slice(1)

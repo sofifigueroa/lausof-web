@@ -18,7 +18,8 @@ const test = require('node:test');
 const assert = require('node:assert');
 const fs = require('node:fs');
 const path = require('node:path');
-const { paginas, pares, paresPt, sitemap, redirects, urlDe, sinComentarios, DOMINIO } = require('./util.js');
+const { paginas, pares, paresPt, sitemap, redirects, urlDe, sinComentarios, DOMINIO,
+  ASUNTO_FLOTA, PANEL_FLOTA, PORTALES } = require('./util.js');
 
 const raiz = path.join(__dirname, '..');
 const ES = 'empresas-y-mineria.html';
@@ -36,6 +37,62 @@ const visible = (html) => sinComentarios(html)
 const main = (html) => sinComentarios(html).match(/<main>([\s\S]*?)<\/main>/)[1];
 const jsonLd = (html) => [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)]
   .flatMap((m) => { const d = JSON.parse(m[1]); return d['@graph'] || [d]; });
+
+// Un elemento completo (de su etiqueta de apertura a su cierre), contando los
+// <div> anidados. `apertura` es el texto exacto de la etiqueta.
+const bloqueDiv = (html, apertura) => {
+  const desde = html.indexOf(apertura);
+  if (desde < 0) return null;
+  const etiquetas = /<\/?div\b[^>]*>/g;
+  etiquetas.lastIndex = desde;
+  let nivel = 0;
+  for (let m; (m = etiquetas.exec(html));) {
+    nivel += m[0].startsWith('</') ? -1 : 1;
+    if (nivel === 0) return html.slice(desde, m.index + m[0].length);
+  }
+  return null;
+};
+
+// Servicio «Documentación de ingreso» (fila 21 de LAUTARO-2026-11-05-noche.md;
+// ~/lausof/web/servicio-documentacion-2026-11-05/, 3-diseno §4, alcance D6B).
+// Las reglas viven en funciones para poder probarlas también contra páginas
+// rotas a propósito (el control en rojo, más abajo).
+const APERTURA_PANEL = (id) => `<div class="docs docs-servicio" id="${id}">`;
+const panelServicio = (html, id) => bloqueDiv(sinComentarios(html), APERTURA_PANEL(id));
+const PORTAL_RE = new RegExp(`\\b(${PORTALES.join('|')})\\b`, 'i');
+// Palabras de Apacheta o de un producto de software (Lautaro 24/10 y 31/10:
+// Lausof y Apacheta no se mezclan; 3-diseno §2.4).
+const VEDADAS_APACHETA = /apacheta|plataforma|sistema|software|\bapps?\b|aplicaci[oó]n|autom[aá]tic|automatizad|sincroniz|integraci[oó]n|\bIA\b|\bAI\b|alertas?\b|\bpanel\b|tablero|tiempo real|carg[aá] una vez|un papel, todos los portales|platform|\bsystems?\b|automat|\bsync|integrat|alerts?\b|dashboard|real[- ]time|upload once/i;
+// Promesas sobre el ingreso a mina (dos bloqueos en 8 semanas están en el
+// registro; DNU 274/2019).
+const VEDADAS_RESULTADO = /sin bloqueos|cero rechazos|garantiz|asegur\w* el ingreso|without (any )?blocks|guarantee|zero rejections/i;
+// Socios, certificaciones u homologaciones que no existen. «Certificado de
+// ART» es un papel del personal (D6B) y no cuenta.
+const VEDADAS_SOCIOS = /partner|\bsocios?\b|aliad|homologad|certificad(?![oa] de ART)|aprobad\w* por|integrad|oficial|todas las plataformas|every platform|all platforms|certified|certification|approved by|official|endorsed/i;
+
+/** Lanza si el hub rompe alguna regla del servicio. `html` es la página entera. */
+function reglasServicio(html, idioma) {
+  const id = PANEL_FLOTA[idioma];
+  const panel = panelServicio(html, id);
+  assert.ok(panel, `falta el panel #${id}`);
+  const enPanel = visible(panel);
+  // Los portales: cada uno exactamente una vez en el panel, y en ningún otro
+  // lugar visible de la página (head incluido).
+  for (const portal of PORTALES) {
+    assert.strictEqual((enPanel.match(new RegExp(`\\b${portal}\\b`, 'gi')) || []).length, 1, `#${id}: ${portal} tiene que ir una vez`);
+  }
+  const resto = sinComentarios(html).replace(panel, ' ');
+  assert.doesNotMatch(resto, PORTAL_RE, 'un portal nombrado fuera del panel del servicio (texto, atributos, head o JSON-LD)');
+  // La nota de marcas, con la no asociación (CSJN 19/12/2024, 1 §3.1).
+  const nota = panel.match(/<p class="nota-marcas">([^<]+)<\/p>/);
+  assert.ok(nota, `#${id}: falta la nota de marcas (.nota-marcas)`);
+  assert.match(nota[1], idioma === 'es' ? /sin asociación con Lausof/ : /not affiliated with Lausof/);
+  assert.doesNotMatch(panel, /<a\b[^>]*href="https?:\/\/(?!wa\.me\/)/, `#${id}: los portales no se enlazan`);
+  assert.doesNotMatch(panel, /<img\b/, `#${id}: sin logos`);
+  assert.doesNotMatch(enPanel, VEDADAS_APACHETA, `#${id}: palabras de Apacheta o de software`);
+  assert.doesNotMatch(enPanel, VEDADAS_RESULTADO, `#${id}: promesa sobre el ingreso`);
+  assert.doesNotMatch(enPanel, VEDADAS_SOCIOS, `#${id}: socios o certificaciones que no existen`);
+}
 
 // Lo que el diseño fija para cada idioma: anclas, grupos y destinos.
 const DISENO = {
@@ -55,7 +112,7 @@ const DISENO = {
       personal: [['Transporte de personal', '/transporte-de-personal.html'],
         ['Obras de litio', '/transporte-de-personal-obras-de-litio.html'], ['Logística minera', '/logistica-minera.html'],
         ['Traslados corporativos', '/traslados-empresas.html'], ['4x4 mensual', '/alquiler-4x4.html#empresas'],
-        ['Producciones', '/producciones.html']],
+        ['Documentación de ingreso', '#documentacion-flota'], ['Producciones', '/producciones.html']],
       cargas: [['Cargas refrigeradas', '/cargas-refrigeradas.html'], ['Cargas generales', null], ['Depósito y cámara de frío', '/deposito-galpon.html'],
         ['Autoelevadores', '/alquiler-autoelevadores.html'], ['Traslado de vehículos', null], ['Taller', null]],
     },
@@ -74,7 +131,8 @@ const DISENO = {
     fichas: {
       crew: [['Crew transport', '/en/personnel-transport.html'], ['Lithium projects', '/en/crew-transport-lithium-projects.html'],
         ['Mining logistics', '/en/mining-logistics.html'], ['Corporate transfers', null],
-        ['Monthly 4x4', '/en/4x4-rental.html#companies'], ['Film productions', '/en/film-production-logistics.html']],
+        ['Monthly 4x4', '/en/4x4-rental.html#companies'], ['Mine entry documents', '#fleet-documents'],
+        ['Film productions', '/en/film-production-logistics.html']],
       freight: [['Refrigerated freight', '/en/refrigerated-freight.html'], ['General freight', null], ['Warehouse & cold room', '/en/warehouse.html'],
         ['Forklifts', null], ['Vehicle transfers', null], ['Workshop', null]],
     },
@@ -171,7 +229,9 @@ for (const nombre of HUBS) {
     assert.doesNotMatch(texto, /(US\$|USD|ARS|\$\s?\d|€)/, 'precio publicado');
     assert.doesNotMatch(texto, /\b\d+\s+(unidades|veh[ií]culos|camiones|camionetas|combis|choferes|units|vehicles|trucks|pickups|minibuses|drivers)\b/i);
     assert.doesNotMatch(texto, /rio\s*tinto|\beramet\b|\bposco\b|\bganfeng\b|\bgal[aá]n\b|\blivent\b|\bclientes? como\b|our clients/i);
-    assert.doesNotMatch(texto, /\bSICOP\b|\bExactian\b|\bISO\s?9001\b|\bIRAM\b/i, 'sin portales ni certificaciones (4 §2.3, 3a §3.6)');
+    // Desde el 05/11/2026 (fila 21) los portales se nombran sólo en el panel
+    // del servicio (la prueba de abajo); las certificaciones, en ningún lado.
+    assert.doesNotMatch(texto, /\bISO\s?9001\b|\bIRAM\b/i, 'sin certificaciones (4 §2.3, 3a §3.6)');
     assert.doesNotMatch(texto, /respondemos en|en menos de \d|within \d+ (hours|minutes)|same business day|en el día/i,
       'sin promesa de tiempo de respuesta (3a §3.6)');
     const tipos = JSON.stringify(jsonLd(html).map((n) => n['@type']));
@@ -183,7 +243,9 @@ for (const nombre of HUBS) {
   // lleva «Solicitar documentación de proveedor»; el pedido vive sólo en la
   // sección de documentación, que dice en claro que Lausof manda SU
   // documentación para el alta de proveedor. Nada de «tarifario del
-  // cliente» ni de portales de contratistas.
+  // cliente». Desde la fila 21 la misma sección lleva además, primero, el
+  // panel del servicio (papeles de vehículos y personal de contratistas en
+  // los portales de las mineras), con sus propios botones y asunto.
   test(`${nombre}: dos caminos de contacto en el héroe, y el pedido de documentación sólo en su sección`, () => {
     const head = cuerpo.match(/<section class="page-head hub-head"[\s\S]*?<\/section>/)[0];
     assert.strictEqual((head.match(/<a class="btn/g) || []).length, 2);
@@ -199,6 +261,45 @@ for (const nombre of HUBS) {
       'frases que Lautaro no entendió (05/11 noche)');
     const barra = html.match(/<div class="wa-bar tres"[\s\S]*?<\/div>/)[0];
     assert.deepStrictEqual([...barra.matchAll(/href="(tel|mailto|https:\/\/wa)/g)].map((m) => m[1]), ['tel', 'mailto', 'https://wa']);
+  });
+
+  const idioma = nombre === ES ? 'es' : 'en';
+  const idPanel = PANEL_FLOTA[idioma];
+
+  test(`${nombre}: el servicio «Documentación de ingreso» nombra los portales sólo en su panel, con la nota de marcas y sin palabras vedadas`, () => {
+    reglasServicio(html, idioma);
+  });
+
+  test(`${nombre}: la sección de documentación lleva dos paneles, el servicio primero y el alta de proveedor después`, () => {
+    const docs = sinComentarios(cuerpo).match(/<section class="block" id="(?:documentacion|documents)">([\s\S]*?)<\/section>/)[1];
+    assert.match(docs, new RegExp(`<p class="kicker">${idioma === 'es' ? 'Documentación' : 'Documents'}</p>\\s*<div class="docs-par">`));
+    const par = bloqueDiv(docs, '<div class="docs-par">');
+    const paneles = [...par.matchAll(/<div class="docs(?: [^"]*)?"(?: id="([^"]+)")?>/g)].map((m) => m[1] || 'alta');
+    assert.deepStrictEqual(paneles, [idPanel, 'alta'], 'el servicio primero, el alta de proveedor al lado');
+    const h2 = [...par.matchAll(/<h2>([^<]+)<\/h2>/g)].map((m) => m[1].replace(/&#39;/g, "'"));
+    assert.deepStrictEqual(h2, idioma === 'es'
+      ? ['Documentación de vehículos y personal de empresas contratistas', 'Documentación para el alta de proveedor']
+      : ["Documents for contractors' vehicles and crew", 'Documents for supplier registration'], 'cada H2 dice de quién son los papeles');
+    // La ficha del grupo baja al panel.
+    assert.ok(cuerpo.includes(`<a class="ficha-linea" href="#${idPanel}">`), 'la ficha no baja al panel');
+  });
+
+  test(`${nombre}: el panel del servicio tiene un WhatsApp y un mail propios; el héroe no`, () => {
+    const panel = panelServicio(html, idPanel);
+    const head = cuerpo.match(/<section class="page-head hub-head"[\s\S]*?<\/section>/)[0];
+    assert.doesNotMatch(head, /data-prefill="documentacion-flota"/, 'el servicio no va en el héroe');
+    const enlaces = [...panel.matchAll(/<a\b[^>]*>/g)].map((m) => m[0]);
+    assert.strictEqual(enlaces.length, 2, 'dos botones en el panel');
+    assert.strictEqual(enlaces.filter((a) => a.includes('href="https://wa.me/5493875269009?text=')).length, 1);
+    assert.strictEqual(enlaces.filter((a) => a.includes('href="mailto:transporte@lausof.com?')).length, 1);
+    for (const a of enlaces) assert.match(a, /data-prefill="documentacion-flota"/, `sin el tipo del servicio: ${a}`);
+    assert.strictEqual((sinComentarios(html).match(/data-prefill="documentacion-flota"/g) || []).length, 2, 'el tipo del servicio fuera del panel');
+    const asunto = `subject=${encodeURIComponent(ASUNTO_FLOTA[idioma])}&amp;`;
+    assert.ok(panel.includes(asunto), `el mail del panel no lleva el asunto «${ASUNTO_FLOTA[idioma]}»`);
+    assert.strictEqual(sinComentarios(html).split(asunto).length - 1, 1, 'el asunto del servicio aparece fuera del panel');
+    const rotulos = [...panel.matchAll(/<a\b[^>]*>(?:[\s\S]*?<\/svg>)?([^<]+)<\/a>/g)].map((m) => m[1]);
+    assert.deepStrictEqual(rotulos, idioma === 'es' ? ['Consultar por WhatsApp', 'Consultar por mail'] : ['Ask on WhatsApp', 'Ask by email']);
+    for (const r of rotulos) assert.ok(r.length <= 24, `botón de más de 24 caracteres: ${r}`);
   });
 
   test(`${nombre}: todo enlace interno resuelve a un archivo y a un ancla que existen`, () => {
@@ -240,6 +341,31 @@ for (const nombre of HUBS) {
     assert.deepStrictEqual([...nav.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)].map((m) => m[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&')), miga);
   });
 }
+
+// Control en rojo (3-diseno §6): las reglas del servicio frenan una página
+// rota a propósito. Si alguna de estas versiones pasara, la guardia no
+// estaría guardando nada.
+test('control en rojo: las reglas del servicio frenan un portal fuera del panel y las promesas o palabras vedadas dentro', () => {
+  const html = paginas[ES];
+  assert.doesNotThrow(() => reglasServicio(html, 'es'), 'la página real tiene que pasar');
+  const enPanel = (agregado) => html.replace('<p>Incluye:</p>', `<p>Incluye: ${agregado}</p>`);
+  const rotas = {
+    'SICOP en el héroe': html.replace('<h1>Transporte de personal', '<h1>SICOP. Transporte de personal'),
+    'Minexus en el pie': html.replace('<footer class="site">', '<footer class="site"><p>Minexus</p>'),
+    'Exactian en la meta descripción': html.replace('<meta name="description" content="', '<meta name="description" content="Exactian. '),
+    'un portal dos veces en el panel': enPanel('SICOP'),
+    '«sin bloqueos» en el panel': enPanel('sin bloqueos en el ingreso'),
+    '«garantizamos» en el panel': enPanel('garantizamos el ingreso'),
+    'una palabra de software en el panel': enPanel('con nuestra plataforma'),
+    'un socio en el panel': enPanel('socios oficiales de los portales'),
+    'sin la nota de marcas': html.replace('<p class="nota-marcas">', '<p class="nota">'),
+    'un logo en el panel': enPanel('<img src="/assets/x.webp" alt="">'),
+  };
+  for (const [caso, rota] of Object.entries(rotas)) {
+    assert.notStrictEqual(rota, html, `${caso}: la versión rota no cambió nada`);
+    assert.throws(() => reglasServicio(rota, 'es'), assert.AssertionError, `${caso}: la guardia no lo frenó`);
+  }
+});
 
 for (const [nombre, linea] of Object.entries(SECCION)) {
   test(`${nombre}: miga Inicio › Empresas y minería › ${linea === 'personal' ? 'Personal para minería' : 'Cargas'} › página, visible y en JSON-LD`, () => {

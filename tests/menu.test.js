@@ -94,6 +94,34 @@ test('en el pie de las portadas, «Ver todo» es el último enlace de cada colum
   }
 });
 
+// Servicio «Documentación de ingreso» (fila 21 de LAUTARO-2026-11-05-noche.md;
+// servicio-documentacion-2026-11-05/3-diseno §1.3): un ítem en la columna de
+// Personal para minería, justo después de «4x4 mensual», que baja al panel
+// del hub. Sin página propia, así que no cambia ningún contador. El pie de
+// las portadas lo toma del menú, antes de «Ver todo». En portugués, nada.
+test('el menú lleva «Documentación de ingreso» después de «4x4 mensual», al panel del hub, y el pie de las portadas también', async () => {
+  const { MENU } = await cargar();
+  const ESPERADO = {
+    es: ['Documentación de ingreso', '/empresas-y-mineria.html#documentacion-flota', '4x4 mensual', 'index.html'],
+    en: ['Mine entry documents', '/en/business-and-mining.html#fleet-documents', 'Monthly 4x4', 'en/index.html'],
+  };
+  for (const [idioma, [rotulo, destino, anterior, portada]] of Object.entries(ESPERADO)) {
+    const [, items] = MENU[idioma].empresas.columnas[0];
+    const i = items.findIndex(([r]) => r === rotulo);
+    assert.ok(i > 0, `${idioma}: falta «${rotulo}» en la columna de personal`);
+    assert.strictEqual(items[i - 1][0], anterior, `${idioma}: «${rotulo}» tiene que ir después de «${anterior}»`);
+    assert.strictEqual(items[i][1], destino);
+    assert.ok(rotulo.length <= 24, `${idioma}: el rótulo pasa de 24 caracteres`);
+    assert.ok(MENU[idioma].empresas.columnas[1][1].every(([r]) => r !== rotulo), `${idioma}: el servicio no va en Cargas`);
+    const [ruta, ancla] = destino.split('#');
+    assert.match(paginas[ruta.slice(1)], new RegExp(`\\bid="${ancla}"`), `${destino}: no existe el ancla`);
+    const pie = paginas[portada].match(/<!-- GENERADO:PIE[\s\S]*?<!-- \/GENERADO:PIE -->/)[0];
+    assert.ok(pie.includes(`<a href="${destino}">${rotulo}</a>`), `${portada}: el pie no lleva el servicio`);
+  }
+  const pt = JSON.stringify(MENU.pt);
+  assert.doesNotMatch(pt, /documentacion-flota|fleet-documents/, 'el sitio pt es sólo turismo');
+});
+
 // El bloque de facturación y la línea legal del pie salen de scripts/menu.mjs
 // (PIE_DATOS), iguales en todas las páginas de un idioma. Revisión del
 // 05/11/2026: «Datos para proveedores y compras» se leía como los proveedores

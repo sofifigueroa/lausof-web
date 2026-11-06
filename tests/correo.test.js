@@ -14,9 +14,19 @@ const assert = require('node:assert');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
-const { paginasEs, sinComentarios } = require('./util.js');
+const { paginasEs, sinComentarios, ASUNTO_FLOTA } = require('./util.js');
 
 const ASUNTO_PROVEEDOR = 'Documentación para alta de proveedor';
+
+// Asuntos que una página puede llevar además del suyo, cada uno sólo en las
+// páginas registradas acá. El pedido de la documentación de Lausof para el
+// alta de proveedor (estructura del sitio 05/11/2026, 3a §3.5) y el servicio
+// «Documentación de ingreso» (fila 21 de LAUTARO-2026-11-05-noche.md;
+// servicio-documentacion-2026-11-05/3-diseno §4), los dos en el hub.
+const ASUNTOS_SECUNDARIOS = {
+  [ASUNTO_PROVEEDOR]: ['empresas-y-mineria.html'],
+  [ASUNTO_FLOTA.es]: ['empresas-y-mineria.html'],
+};
 
 const mailtosDe = (html) => [...sinComentarios(html).matchAll(/href="mailto:([^"]+)"/g)]
   .map((m) => new URL(`mailto:${m[1].replace(/&amp;/g, '&')}`));
@@ -35,10 +45,11 @@ for (const [nombre, html] of Object.entries(paginasEs)) {
   test(`${nombre}: todos los mailto llevan el mismo asunto fijo, en castellano`, () => {
     const asuntos = new Set(mailtos.map((m) => m.searchParams.get('subject')));
     assert.ok(!asuntos.has(null), `${nombre}: hay un mailto sin asunto`);
-    // Además del asunto de cotización, una página de empresas puede ofrecer
-    // el pedido de la documentación de Lausof para el alta de proveedor, con
-    // su propio asunto fijo (estructura del sitio 05/11/2026, 3a §3.5).
-    asuntos.delete(ASUNTO_PROVEEDOR);
+    // Además del asunto principal, sólo los secundarios registrados para
+    // esta página; cualquier otro asunto de más falla.
+    for (const [secundario, donde] of Object.entries(ASUNTOS_SECUNDARIOS)) {
+      if (donde.includes(nombre)) asuntos.delete(secundario);
+    }
     assert.strictEqual(asuntos.size, 1, `${nombre}: más de un asunto: ${[...asuntos].join(' | ')}`);
     const [asunto] = asuntos;
     assert.match(asunto, /^(Pedido de cotización|Consulta|Alquiler)/, `${nombre}: asunto inesperado: ${asunto}`);
@@ -51,6 +62,16 @@ for (const [nombre, html] of Object.entries(paginasEs)) {
     }
   });
 }
+
+test('los asuntos secundarios empiezan como una consulta, entran en 80 caracteres y viven sólo en sus páginas', () => {
+  for (const [asunto, donde] of Object.entries(ASUNTOS_SECUNDARIOS)) {
+    assert.ok(asunto.length <= 80, `asunto demasiado largo: ${asunto}`);
+    for (const nombre of donde) {
+      assert.ok(mailtosDe(paginasEs[nombre]).some((m) => m.searchParams.get('subject') === asunto), `${nombre} ya no usa «${asunto}»: sacarlo de la lista`);
+    }
+  }
+  assert.match(ASUNTO_FLOTA.es, /^(Consulta|Pedido de cotización)/);
+});
 
 test('cada página en español tiene su propio asunto', () => {
   const porAsunto = new Map();
