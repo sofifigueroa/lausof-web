@@ -37,6 +37,10 @@
 .circuito .card-photo img{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
 }
+/* Las fotos de las tarjetas esperan a acercarse a la pantalla para no
+   competir con la foto del encabezado (js/fotos-cerca.js pone .fotos-cerca).
+   La caja ya tiene su proporción, así que nada se mueve al aparecer. */
+html.js [data-fotos-cerca]:not(.fotos-cerca) img{display:none}
 
 /* ---- "Cómo viajamos" ----
    Los datos duros del servicio en dos columnas, con el mismo cuadradito

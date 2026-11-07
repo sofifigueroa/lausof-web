@@ -69,6 +69,42 @@
    ]
   },
   {
+   "id": "F0042",
+   "archivo": "4x4/camioneta-4x4-amarok-ripio-de-altura-lausof-v1.webp",
+   "categoria": "4x4",
+   "ancho": 1600,
+   "alto": 1200,
+   "alt_es": "Camioneta 4x4 de Lausof en un camino de ripio de altura",
+   "credito": "Lausof SRL",
+   "lote": "lote-2",
+   "aprobada": "2026-11-06",
+   "sha256": "8cf772526991c5bb08113e9f6b61433668c10d4dc0df06d6d76874a1b09de632",
+   "usos": [
+    "alquiler-combi-con-chofer-salta.html",
+    "en/crew-transport-lithium-projects.html",
+    "en/film-production-logistics.html",
+    "en/jujuy-utmb-trail-race-transfers.html",
+    "en/minibus-with-driver-salta.html",
+    "en/salta-airport-transfer.html",
+    "en/salta-to-cachi-transfer.html",
+    "en/salta-to-uyuni.html",
+    "en/tours-and-transfers.html",
+    "en/train-to-the-clouds-transfer.html",
+    "en/uyuni-to-salta.html",
+    "producciones.html",
+    "pt/passeios-e-traslados.html",
+    "pt/traslado-salta-uyuni.html",
+    "transporte-de-personal-obras-de-litio.html",
+    "traslado-aeropuerto-salta.html",
+    "traslado-salta-cachi.html",
+    "traslado-salta-uyuni.html",
+    "traslado-tren-a-las-nubes.html",
+    "traslado-uyuni-salta.html",
+    "traslados-trail-jujuy-utmb.html",
+    "turismo.html"
+   ]
+  },
+  {
    "id": "F0044",
    "archivo": "pasajeros-combis/minibus-salinas-grandes-reflejo-lausof-v1.webp",
    "categoria": "pasajeros-combis",
@@ -106,9 +142,9 @@
    "aprobada": "2026-11-06",
    "sha256": "412de30cc83655601d04b13d5e7eb1421db1ce912ae6fe2d8ead00dfa7284831",
    "usos": [
+    "en/international-trips.html",
     "viajes-de-estudio.html",
-    "viajes-internacionales.html",
-    "en/international-trips.html"
+    "viajes-internacionales.html"
    ]
   },
   {
@@ -167,10 +203,10 @@
    "sha256": "592c1df25451df366c29a2db1295f1d979eb9b988087f9dc188f9fd0418ec164",
    "usos": [
     "alquiler-combi-con-chofer-salta.html",
-    "galeria.html",
-    "traslados-casamientos.html",
     "en/minibus-with-driver-salta.html",
-    "en/wedding-transportation.html"
+    "en/wedding-transportation.html",
+    "galeria.html",
+    "traslados-casamientos.html"
    ]
   },
   {
@@ -278,6 +314,40 @@
    "usos": []
   },
   {
+   "id": "F0083",
+   "archivo": "turismo-destinos/purmamarca-cerro-de-los-siete-colores-lausof-v1.webp",
+   "categoria": "turismo-destinos",
+   "ancho": 1280,
+   "alto": 960,
+   "alt_es": "Purmamarca, al pie del cerro de los Siete Colores, en Jujuy",
+   "credito": "Lausof SRL",
+   "lote": "lote-2",
+   "aprobada": "2026-11-06",
+   "sha256": "2d10c0f8a4ce70e2d6da47801a59946ab43c1c6e97bc7be106e391d3182960c4",
+   "usos": [
+    "en/salinas-grandes-from-salta.html",
+    "en/salta-to-purmamarca-tilcara-humahuaca.html",
+    "en/salta-to-san-pedro-de-atacama.html",
+    "en/salta-to-uyuni.html",
+    "en/san-pedro-de-atacama-to-salta.html",
+    "en/tours-and-transfers.html",
+    "en/uyuni-to-salta.html",
+    "pt/passeios-e-traslados.html",
+    "pt/salinas-grandes-saindo-de-salta.html",
+    "pt/traslado-salta-purmamarca-tilcara-humahuaca.html",
+    "pt/traslado-salta-san-pedro-de-atacama.html",
+    "pt/traslado-salta-uyuni.html",
+    "salinas-grandes-desde-salta.html",
+    "traslado-salta-purmamarca-tilcara-humahuaca.html",
+    "traslado-salta-san-pedro-de-atacama.html",
+    "traslado-salta-uyuni.html",
+    "traslado-san-pedro-de-atacama-salta.html",
+    "traslado-uyuni-salta.html",
+    "turismo.html",
+    "viajes-de-estudio.html"
+   ]
+  },
+  {
    "id": "F0090",
    "archivo": "turismo-destinos/valle-cultivos-pueblo-lausof-v1.webp",
    "categoria": "turismo-destinos",
@@ -315,8 +385,24 @@
    "aprobada": "2026-11-06",
    "sha256": "5f6267e54ac7436354ad18ee9367d05781d60fa6c5b7379ec65225414beceaa6",
    "usos": [
-    "producciones.html",
-    "en/film-production-logistics.html"
+    "en/film-production-logistics.html",
+    "producciones.html"
+   ]
+  },
+  {
+   "id": "F0104",
+   "archivo": "cargas-frio/camiones-termicos-y-camionetas-puna-lausof-v1.webp",
+   "categoria": "cargas-frio",
+   "ancho": 1600,
+   "alto": 900,
+   "alt_es": "Camiones térmicos y camionetas 4x4 de Lausof en un camino de la Puna",
+   "credito": "Lausof SRL",
+   "lote": "lote-2",
+   "aprobada": "2026-11-06",
+   "sha256": "9128e30e072ee9371ee46ef256475d15cba60526f959a8061f5bfa68e762a8a2",
+   "usos": [
+    "en/mining-logistics.html",
+    "logistica-minera.html"
    ]
   },
   {
@@ -388,8 +474,25 @@
    "sha256": "1fd6a62a180eec760c580970d8deb78b5e7dff127bd4f1ef5ca3a34a8e03353d",
    "usos": [
     "cargas-refrigeradas.html",
+    "en/refrigerated-freight.html",
+    "galeria.html"
+   ]
+  },
+  {
+   "id": "F0145",
+   "archivo": "cargas-frio/camion-4x4-refrigerado-puertas-abiertas-lausof-v1.webp",
+   "categoria": "cargas-frio",
+   "ancho": 1280,
+   "alto": 960,
+   "alt_es": "Camión 4x4 refrigerado de Lausof con las dos puertas de la cabina abiertas",
+   "credito": "Lausof SRL",
+   "lote": "lote-2",
+   "aprobada": "2026-11-06",
+   "sha256": "9e9f64676d5ed2f1f4aaa243dab271234c8025a48cbf0251cdf23a1a4c022896",
+   "usos": [
+    "en/mining-logistics.html",
     "galeria.html",
-    "en/refrigerated-freight.html"
+    "logistica-minera.html"
    ]
   },
   {
@@ -408,6 +511,21 @@
    ]
   },
   {
+   "id": "F0152",
+   "archivo": "cargas-frio/camion-4x4-refrigerado-atardecer-lausof-v1.webp",
+   "categoria": "cargas-frio",
+   "ancho": 780,
+   "alto": 1040,
+   "alt_es": "Camión 4x4 refrigerado de Lausof al atardecer, con las luces encendidas",
+   "credito": "Lausof SRL",
+   "lote": "lote-2",
+   "aprobada": "2026-11-06",
+   "sha256": "2aa19ce2be3a1172b7fdfe168189a33b2e8bc0ac65c90155568106d9c5f44278",
+   "usos": [
+    "galeria.html"
+   ]
+  },
+  {
    "id": "F0163",
    "archivo": "cargas-frio/camion-termico-camino-nevado-lausof-v1.webp",
    "categoria": "cargas-frio",
@@ -419,6 +537,27 @@
    "aprobada": "2026-11-06",
    "sha256": "b73ab9965fa4cd0070fe6492405eb9d10c75c429e0fc217fce479562147f309b",
    "usos": []
+  },
+  {
+   "id": "F0183",
+   "archivo": "cargas-frio/camion-termico-iveco-de-costado-lausof-v1.webp",
+   "categoria": "cargas-frio",
+   "ancho": 1280,
+   "alto": 960,
+   "alt_es": "Camión térmico Iveco de Lausof de costado: el furgón completo, con la puerta lateral",
+   "credito": "Lausof SRL",
+   "lote": "lote-2",
+   "aprobada": "2026-11-06",
+   "sha256": "8f8ed717c064ddcda085fab8420f49ed42d7c74f148cf7104787d27d800986bd",
+   "usos": [
+    "cargas-refrigeradas.html",
+    "en/film-production-logistics.html",
+    "en/index.html",
+    "en/refrigerated-freight.html",
+    "index.html",
+    "producciones.html",
+    "pt/index.html"
+   ]
   },
   {
    "id": "F0184",
@@ -433,8 +572,42 @@
    "sha256": "6d4bf8a5fef7a43b034be0aaede4ffb1fe26bfd91b66ef68c625b9b9a3808eff",
    "usos": [
     "cargas-refrigeradas.html",
+    "en/refrigerated-freight.html",
+    "galeria.html"
+   ]
+  },
+  {
+   "id": "F0193",
+   "archivo": "cargas-frio/camion-4x4-refrigerado-frente-lausof-v1.webp",
+   "categoria": "cargas-frio",
+   "ancho": 1200,
+   "alto": 1600,
+   "alt_es": "Camión 4x4 refrigerado de Lausof, de frente, con el equipo de frío sobre la cabina",
+   "credito": "Lausof SRL",
+   "lote": "lote-2",
+   "aprobada": "2026-11-06",
+   "sha256": "f059f6293904bcf5394d528725de6f552fa85b3b5bfbb9b6e4931011a1a18b70",
+   "usos": [
+    "galeria.html"
+   ]
+  },
+  {
+   "id": "F0254",
+   "archivo": "4x4/camioneta-4x4-baliza-cerros-nevados-lausof-v1.webp",
+   "categoria": "4x4",
+   "ancho": 1280,
+   "alto": 720,
+   "alt_es": "Camioneta 4x4 de Lausof con baliza y matafuego, en una ruta de altura con cerros nevados detrás",
+   "credito": "Lausof SRL",
+   "lote": "lote-2",
+   "aprobada": "2026-11-06",
+   "sha256": "bc28d22d7cb2f4984079a1f264a450e8743ad25e18dc3cd0dc99900b1466ce01",
+   "usos": [
+    "alquiler-4x4.html",
+    "en/4x4-rental.html",
+    "en/international-trips.html",
     "galeria.html",
-    "en/refrigerated-freight.html"
+    "viajes-internacionales.html"
    ]
   },
   {
@@ -463,8 +636,8 @@
    "sha256": "01bf63e5eb77c1b301ea96a668df940f2d373014ce2319fb0efa8d3dc2f4e947",
    "usos": [
     "alquiler-4x4.html",
-    "galeria.html",
-    "en/4x4-rental.html"
+    "en/4x4-rental.html",
+    "galeria.html"
    ]
   },
   {
@@ -479,10 +652,10 @@
    "aprobada": "2026-11-06",
    "sha256": "7f7b8a79d4912ca4d042b5c68f2e8d8b9baa61f89f2ec94a6657c13cfaa25d6e",
    "usos": [
-    "galeria.html",
-    "salinas-grandes-desde-salta.html",
     "en/salinas-grandes-from-salta.html",
-    "pt/salinas-grandes-saindo-de-salta.html"
+    "galeria.html",
+    "pt/salinas-grandes-saindo-de-salta.html",
+    "salinas-grandes-desde-salta.html"
    ]
   },
   {
@@ -567,8 +740,8 @@
    "sha256": "04e7cffcd3bd744579f13998cf55e3e990ed835844ee98dfa7d3ae7f50aaf196",
    "usos": [
     "cargas-refrigeradas.html",
-    "galeria.html",
-    "en/refrigerated-freight.html"
+    "en/refrigerated-freight.html",
+    "galeria.html"
    ]
   }
  ],

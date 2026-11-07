@@ -96,6 +96,31 @@ test('las páginas con galería cargan js/galeria.js y su hoja una sola vez; las
   }
 });
 
+// Fotos de abajo que esperan a acercarse (lote 2, 06/11/2026): con
+// `loading="lazy"` solo, Chrome pide las fotos que están hasta 1250–2500 px
+// debajo y le quitan ancho de banda a la foto del encabezado (la LCP simulada
+// de turismo pasó de 3,53 s a 3,75 s y la de la flota de 1,73 s a 1,88 s).
+test('las fotos de abajo esperan a acercarse: tarjetas de turismo y galerías, nunca al load', () => {
+  const HUBS = ['turismo.html', 'en/tours-and-transfers.html', 'pt/passeios-e-traslados.html'];
+  for (const [nombre, html] of Object.entries(paginas)) {
+    const limpio = sinComentarios(html);
+    const marcadas = (limpio.match(/\sdata-fotos-cerca[\s>]/g) || []).length;
+    const js = (limpio.match(/<script defer src="\/js\/fotos-cerca\.js\?v=\d+"><\/script>/g) || []).length;
+    // Una caja marcada sin el script no mostraría nunca su foto.
+    assert.strictEqual(js, marcadas ? 1 : 0, `${nombre}: ${marcadas} cajas data-fotos-cerca y js/fotos-cerca.js ${js} veces`);
+    if (HUBS.includes(nombre)) {
+      const tarjetas = [...limpio.matchAll(/<article class="card circuito">\s*<div class="card-photo([^>]*)>/g)];
+      assert.ok(tarjetas.length > 0, `${nombre}: sin tarjetas de circuito`);
+      for (const [, resto] of tarjetas) assert.match(resto, /\sdata-fotos-cerca/, `${nombre}: una tarjeta de circuito sin data-fotos-cerca`);
+    }
+  }
+  assert.match(leer('css/turismo.css'), /html\.js \[data-fotos-cerca\]:not\(\.fotos-cerca\) img\{display:none\}/);
+  const cerca = leer('js/fotos-cerca.js');
+  assert.match(cerca, /IntersectionObserver/);
+  assert.doesNotMatch(cerca, /setTimeout|setInterval|addEventListener\(\s*'load'/, 'js/fotos-cerca.js suelta las fotos con un temporizador o al load');
+  assert.doesNotMatch(leer('js/galeria.js'), /addEventListener\(\s*'load'|readyState === 'complete'/, 'js/galeria.js vuelve a soltar las galerías al load');
+});
+
 // js/galeria.js arma los controles: si el marcado que espera cambia, se
 // rompen en silencio. Se vigilan las piezas que el diseño exige.
 test('js/galeria.js arma botones nativos con nombre, el diálogo y mide el uso', () => {

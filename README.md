@@ -218,6 +218,20 @@ las patentes difuminadas. Cada una se revisó a tamaño completo antes de entrar
   que ya estaba en el repo: `galeria/lausof-4x4-salinasgrandes` →
   `4x4-1-salinas-v2` y `galeria/lausof-combi-ruta40-cachi-cafayate` →
   `pasajeros-4-ruta-v2`.
+- **Lote 2 (06/11/2026):** Lautaro aprobó 64; entran al repo sólo las 8 que
+  van en una página (las demás quedan en la biblioteca de Drive y en
+  `web/imagenes-2026-11-05/curaduria-2/`; tabla de lugares y motivos en
+  `web/imagenes-2026-11-05/9-notas-builder-lote2.md`). Fotos con la insignia
+  vieja que salen: `turismo/camino-de-ripio-4x4-lausof` de sus 18 páginas →
+  la Amarok en ripio de altura (F0042), y `turismo/purmamarca-cerro-siete-colores-lausof`
+  de 20 de sus 23 → Purmamarca y el cerro de los Siete Colores (F0083; queda
+  en peregrinaciones y en la tarjeta de Uyuni de viajes internacionales ES/EN,
+  donde la vieja muestra las combis y la nueva sería sólo paisaje). `4x4-3-cerros-v2` (insignia)
+  → la camioneta con baliza (F0254). `refrigerados-1-lateral` (722 px) → el
+  mismo Iveco de costado a 1280 px (F0183), en las portadas y producciones. La
+  página de flota suma la galería del camión 4x4 refrigerado (F0193, F0145,
+  F0152); logística minera muestra ese camión en su tarjeta (antes había un
+  Iveco común) y la flota en la Puna (F0104) en «Cargas y equipos a los salares».
 
 ## Flota en venta
 

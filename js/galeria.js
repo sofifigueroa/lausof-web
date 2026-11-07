@@ -312,19 +312,17 @@
     seccion.classList.add('galeria-lista');
   }
 
-  // Las fotos de la pista se sueltan cuando la galería se acerca a la
-  // pantalla (`pedir`) o, lo que pase primero, cuando la página terminó de
-  // cargar: la foto del encabezado ya está pintada y no hay con quién
-  // competir, y así están listas antes de que el visitante llegue. Las
-  // miniaturas, sólo al acercarse. Se registra antes de armar: si algo
-  // fallara al armar, las fotos de la pista igual aparecen.
+  // Las fotos de la pista y las miniaturas se sueltan sólo cuando la galería
+  // se acerca a la pantalla (`pedir`, 300 px antes). Hasta el lote 1 también
+  // se soltaban todas al `load`: en la medición simulada de Lighthouse eso
+  // las ponía a competir con la foto del encabezado (lote 2, 06/11/2026: la
+  // galería nueva de la flota llevó la LCP de 1,73 s a 1,88 s). Se observa
+  // antes de armar (el aviso llega en otro cuadro, con la galería ya armada):
+  // si algo fallara al armar, las fotos igual aparecen al acercarse.
   var galerias = [].slice.call(document.querySelectorAll('.galeria'));
-  function soltar() { galerias.forEach(function (s) { s.classList.add('galeria-cerca'); }); }
-  if (document.readyState === 'complete') soltar();
-  else window.addEventListener('load', soltar, { once: true });
-
+  if (vigia) galerias.forEach(function (seccion) { vigia.observe(seccion); });
   galerias.forEach(function (seccion) {
     armar(seccion);
-    if (vigia) vigia.observe(seccion); else pedir(seccion);
+    if (!vigia) pedir(seccion);
   });
 })();

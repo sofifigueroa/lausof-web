@@ -31,15 +31,26 @@ const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const iCapturas = process.argv.indexOf('--capturas');
 const dirCapturas = iCapturas > 0 ? process.argv[iCapturas + 1] : null;
 
-// Páginas que tocaron las fotos (fase 1 y lote 1 de la biblioteca, 06/11/2026):
+// Páginas que tocaron las fotos (fase 1 y lotes 1 y 2 de la biblioteca, 06/11/2026):
 // se miran sin scroll horizontal y, con --capturas, se fotografían.
-const PAGINAS = ['galeria.html', 'cargas-refrigeradas.html', 'en/refrigerated-freight.html',
-  'logistica-minera.html', 'en/mining-logistics.html', 'producciones.html', 'en/film-production-logistics.html',
-  'alquiler-4x4.html', 'en/4x4-rental.html', 'charter-recitales.html', 'clubes-deportivos.html', 'viajes-de-estudio.html',
+const PAGINAS = ['galeria.html', 'cargas-refrigeradas.html', 'en/refrigerated-freight.html', 'logistica-minera.html',
+  'en/mining-logistics.html', 'producciones.html', 'en/film-production-logistics.html', 'alquiler-4x4.html',
+  'en/4x4-rental.html', 'charter-recitales.html', 'clubes-deportivos.html', 'viajes-de-estudio.html',
   'alquiler-combi-con-chofer-salta.html', 'en/minibus-with-driver-salta.html', 'traslados-casamientos.html',
-  'en/wedding-transportation.html', 'viajes-internacionales.html', 'en/international-trips.html', 'traslados-empresas.html',
-  'salinas-grandes-desde-salta.html', 'en/salinas-grandes-from-salta.html', 'pt/salinas-grandes-saindo-de-salta.html',
-  'alquiler-autoelevadores.html', 'index.html'];
+  'en/wedding-transportation.html', 'viajes-internacionales.html', 'en/international-trips.html',
+  'traslados-empresas.html', 'salinas-grandes-desde-salta.html', 'en/salinas-grandes-from-salta.html',
+  'pt/salinas-grandes-saindo-de-salta.html', 'alquiler-autoelevadores.html', 'index.html',
+  'en/crew-transport-lithium-projects.html', 'en/index.html', 'en/jujuy-utmb-trail-race-transfers.html',
+  'en/salta-airport-transfer.html', 'en/salta-to-cachi-transfer.html',
+  'en/salta-to-purmamarca-tilcara-humahuaca.html', 'en/salta-to-san-pedro-de-atacama.html', 'en/salta-to-uyuni.html',
+  'en/san-pedro-de-atacama-to-salta.html', 'en/tours-and-transfers.html', 'en/train-to-the-clouds-transfer.html',
+  'en/uyuni-to-salta.html', 'pt/index.html', 'pt/passeios-e-traslados.html',
+  'pt/traslado-salta-purmamarca-tilcara-humahuaca.html', 'pt/traslado-salta-san-pedro-de-atacama.html',
+  'pt/traslado-salta-uyuni.html', 'transporte-de-personal-obras-de-litio.html', 'traslado-aeropuerto-salta.html',
+  'traslado-salta-cachi.html', 'traslado-salta-purmamarca-tilcara-humahuaca.html',
+  'traslado-salta-san-pedro-de-atacama.html', 'traslado-salta-uyuni.html',
+  'traslado-san-pedro-de-atacama-salta.html', 'traslado-tren-a-las-nubes.html', 'traslado-uyuni-salta.html',
+  'traslados-trail-jujuy-utmb.html', 'turismo.html'];
 
 /* ---- servidor estático ---- */
 const TIPOS = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript',
@@ -314,6 +325,26 @@ try {
       comprobar(animadas === 0, `hay ${animadas} animaciones sobre fotos`);
     }
   }
+
+  /* 2b. Las fotos de abajo esperan a acercarse (lote 2, 06/11/2026): al cargar,
+     la última galería de la flota y la última tarjeta del hub de turismo no
+     pidieron su foto (no le compiten a la del encabezado); al llevarlas a la
+     pantalla, la piden y se ven. */
+  const esperaYCarga = async (pagina, selector) => {
+    await abrir(pagina, 390);
+    await esperar(300);
+    const alCargar = await evaluar(`(() => { const i = [...document.querySelectorAll(${JSON.stringify(selector)})].pop();
+      return i ? { pedida: !!i.currentSrc, ancho: i.naturalWidth } : null; })()`);
+    comprobar(alCargar && !alCargar.pedida, `${pagina} a 390px: la foto de abajo (${selector}) se pidió al cargar (${JSON.stringify(alCargar)})`);
+    const cerca = await evaluar(`(async () => { const i = [...document.querySelectorAll(${JSON.stringify(selector)})].pop();
+      i.closest('figure, .card-photo').scrollIntoView({ block: 'center' });
+      await new Promise((r) => setTimeout(r, 400));
+      await Promise.race([i.complete && i.naturalWidth ? 0 : new Promise((r) => { i.onload = i.onerror = r; }), new Promise((r) => setTimeout(r, 4000))]);
+      return { cargada: i.complete && i.naturalWidth > 0, ancho: i.getBoundingClientRect().width }; })()`);
+    comprobar(cerca.cargada && cerca.ancho > 0, `${pagina} a 390px: al acercarse, la foto de abajo no apareció (${JSON.stringify(cerca)})`);
+  };
+  await esperaYCarga('galeria.html', '.galeria-pista > figure:first-child img');
+  await esperaYCarga('turismo.html', '.circuito .card-photo img');
 
   /* 3. Sin JavaScript no queda ningún control muerto. */
   await cdp('Emulation.setScriptExecutionDisabled', { value: true });
