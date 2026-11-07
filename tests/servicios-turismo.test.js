@@ -241,3 +241,25 @@ test('las reseñas de Google se enlazan desde la zona de confianza, sin marcado 
     }
   }
 });
+
+// Lautaro, 06/11 (web/demo-reservas-2026-11-06/LAUTARO-2026-11-06.md, D11):
+// «Circuitos que hacemos» pasa a «Destinos». El título de la sección de
+// circuitos y su enlace en «En esta página» dicen lo mismo en los tres idiomas;
+// el ancla no cambia (la enlazan el menú de todas las páginas y sitios de afuera).
+test('el hub de turismo titula la sección «Destinos» en ES/EN/PT, con el mismo nombre en «En esta página»', () => {
+  const HUBS = [
+    ['turismo.html', 'circuitos', 'Destinos', 'Circuitos que hacemos'],
+    ['en/tours-and-transfers.html', 'routes', 'Destinations', 'The routes we drive'],
+    ['pt/passeios-e-traslados.html', 'circuitos', 'Destinos', 'Roteiros que fazemos'],
+  ];
+  for (const [archivo, ancla, titulo, viejo] of HUBS) {
+    const html = fs.readFileSync(path.join(raiz, archivo), 'utf8');
+    const seccion = html.match(new RegExp(`<section class="block" id="${ancla}">[\\s\\S]*?<h2>([^<]+)</h2>`));
+    assert.ok(seccion, `${archivo}: falta la sección #${ancla}`);
+    assert.strictEqual(seccion[1], titulo, `${archivo}: el título de #${ancla}`);
+    const salto = html.match(/<nav class="jump[\s\S]*?<\/nav>/);
+    assert.ok(salto, `${archivo}: falta «En esta página»`);
+    assert.match(salto[0], new RegExp(`<a href="#${ancla}">${titulo}</a>`), `${archivo}: el enlace a #${ancla}`);
+    assert.ok(!visible(html).includes(viejo), `${archivo}: todavía dice «${viejo}»`);
+  }
+});
