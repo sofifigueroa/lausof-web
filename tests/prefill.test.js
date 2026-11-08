@@ -44,6 +44,8 @@ const REQUISITOS = {
   'agencia-hotel': [/^(Agencia u hotel|Tour operator or hotel|Agência ou hotel)$/],
   general: [/^(Servicio|Service|Serviço)$/, /^(Fecha|Date|Data)$/, /^(Origen y destino|From and to|Origem e destino)$/],
   flota: [/^(Unidad|Vehicle|Veículo)$/],
+  // Privacidad (ronda 6): lo que la página dice que se puede pedir, nunca los renglones de una cotización.
+  privacidad: [/^(Consulta o pedido sobre datos personales|Question or request about personal data|Dúvida ou pedido sobre dados pessoais)$/],
   // Hub «Empresas y minería» (4-textos.md §4, 05/11/2026).
   empresa: [/^(Empresa|Company)$/, /^(Servicio|Service|Serviço) \(/, /^(Mina, origen o destino|Mine, origin or destination|Mina, origem ou destino)$/,
     /^(Fecha o frecuencia|Date or frequency|Data ou frequência)$/, /^(Personas o carga|People or cargo|Pessoas ou carga)$/],

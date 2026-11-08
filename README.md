@@ -360,7 +360,7 @@ textos `4-textos.md` §2, decisiones `DECISION-2026-11-05.md`).
 - **Contacto:** tipo `empresa` en `scripts/prefill.mjs`; el pedido de documentación es
   un `mailto` con `data-prefill="proveedor"` y asunto «Documentación para alta de
   proveedor» (EN «Supplier registration — Lausof documents»). En teléfono la barra fija
-  es Llamar · Mail · WhatsApp (`.wa-bar.tres`).
+  es Llamar · Correo · WhatsApp (`.wa-bar.tres`).
 - **Servicio «Documentación de ingreso»** (EN «Mine entry documents»; aprobado el
   05/11/2026, `~/lausof/web/servicio-documentacion-2026-11-05/`, alcance D6B: vehículos
   y personal). La oficina carga y mantiene al día los papeles de los vehículos y del
@@ -413,6 +413,7 @@ idioma y país.
 | `contact_whatsapp` | un enlace a `wa.me` o `api.whatsapp.com` |
 | `contact_phone` | un enlace `tel:` |
 | `contact_email` | un enlace `mailto:` |
+| `map_open` | un enlace a Google Maps con un recorrido o un lugar (`google.com/maps/dir/` o `/maps/search/`, el bloque «Datos del viaje»). No es un contacto: lleva los mismos parámetros menos `contact_channel`. El perfil de reseñas (`/maps?cid=`) no se mide |
 
 Los tres llevan los mismos parámetros:
 
@@ -421,7 +422,7 @@ Los tres llevan los mismos parámetros:
 | `contact_channel` | `whatsapp`, `phone` o `email` |
 | `page_language` | `es` o `en` (sale del `lang` de la página) |
 | `contact_page_path` | la ruta de la página (`/turismo.html`, `/en/`) |
-| `link_position` | `header`, `hero`, `puerta` (las tres puertas de las portadas), `cta_final`, `quick_bar` (la barra fija de abajo), `footer`, o el `id` de la sección que contiene el enlace (`servicios`, `services`…) |
+| `link_position` | `header`, `hero`, `puerta` (las tres puertas de las portadas), `cta_final`, `quick_bar` (la barra fija de abajo), `footer`, `datos_viaje` (el bloque «Datos del viaje», en los tres idiomas), o el `id` de la sección que contiene el enlace (`servicios`, `services`…) |
 | `link_text` | el texto visible del enlace ("Cotizar por WhatsApp"). Si el texto es un número o una casilla, va el nombre del canal |
 | `seccion` | el `data-seccion` del `<body>`: `turismo`, `empresas`, `inicio` o `institucional` |
 | `tipo` | el `data-tipo` del `<body>`: el tipo de la página en `PAGINAS` (`scripts/prefill.mjs`), p. ej. `pasajeros`, `refrigerado`, `empresa` |
@@ -614,7 +615,7 @@ sola fuente con `scripts/bloques.mjs` (ronda 1, `~/lausof/web/rondas-2026-11-07/
 | `GENERADO:CONFIANZA` | la franja de habilitaciones (`div.certs`) | `FRANJAS` de `scripts/empresa.mjs`, una por familia (pasajeros, empresas, portada, 4x4, autoelevadores) e idioma |
 | `GENERADO:CIERRE` | el cierre azul (`section.cta-final`) | título y textos de cada página en `scripts/bloques-datos.mjs`; botones (WhatsApp y correo) y nota iguales por idioma (`TEXTOS_BLOQUES`) |
 | `GENERADO:CONTACTO` | el pie de contacto (`div.foot-grid`) | `TEXTOS_BLOQUES` y `REDES`; los idiomas, del selector `.lang-switch` de la página; adentro sigue `GENERADO:CRUCE` de `menu.mjs` |
-| `GENERADO:BARRA` | la barra del teléfono (`div.wa-bar`) | Llamar · WhatsApp; Llamar · Mail · WhatsApp en empresas |
+| `GENERADO:BARRA` | la barra del teléfono (`div.wa-bar`) | `BARRAS` de `empresa.mjs`: Llamar · WhatsApp; Llamar · Correo · WhatsApp en empresas; Email · WhatsApp en la portada en inglés |
 | `GENERADO:RESENA` | el renglón del puntaje en las portadas | `RESENAS_GOOGLE` de `empresa.mjs` |
 
 ```bash
@@ -684,6 +685,30 @@ node scripts/versiones.mjs    # después de tocar cualquier .css o .js (--compro
   teléfono la fila legal deja 68 px libres a la derecha para el botón del
   chat (redondo, 12 px arriba de la barra).
 - Lo vigilan `tests/encabezado.test.js` y `tests/estilos.test.js`.
+
+## Salidas de contacto: una redacción por idioma (08/11/2026)
+
+Ronda 6 (`~/lausof/web/rondas-2026-11-07/`). Los botones de WhatsApp y de
+correo dicen lo mismo en todas las páginas de un idioma. Hasta ese día el
+mismo botón decía 9 cosas en español, 8 en inglés y 4 en portugués.
+
+| Pieza | Dónde | Regla |
+|---|---|---|
+| `ACCIONES` | `scripts/empresa.mjs` | por idioma: `cotizar` (WhatsApp y correo con el mismo verbo: «Cotizar por WhatsApp» / «Cotizar por correo», «Get a quote on WhatsApp» / «Get a quote by email», «Orçamento pelo WhatsApp» / «Orçamento por e-mail»), `consultar` (las páginas que no cotizan: `TIPOS_CONSULTA`, p. ej. la flota en venta y privacidad) y `canal` (Llamar, Correo, WhatsApp) |
+| `BARRAS` | `scripts/empresa.mjs` | qué botones lleva la barra del teléfono y en qué orden; con tres es `wa-bar tres`; los rótulos son siempre el canal (con el verbo no entran en un renglón a 360 px) |
+| Botones escritos a mano | `scripts/acciones.mjs` | el botón del menú (`nav-cta`), los del encabezado y los `a.btn` de contacto del cuerpo: si el rótulo es genérico (`GENERICOS`), pasa al de `ACCIONES`; si nombra lo que cotiza («Cotizar el traslado»), queda. En español «mail» pasa siempre a «correo» |
+| Cierre y barra | `scripts/bloques.mjs` | toman los rótulos de `ACCIONES` |
+| «Coordinar con el equipo» | `scripts/viaje.mjs` | en la fila «Unidades» de los datos del viaje, cuando esa fila nombra las plazas de la combi: «¿Más de 19 pasajeros? Coordinar con el equipo», un WhatsApp con la primera línea de la página, el renglón «Somos un grupo de más de 19 pasajeros» y los renglones de su tipo |
+| Tipo `privacidad` | `scripts/prefill.mjs` | las tres páginas de privacidad piden «Consulta o pedido sobre datos personales», nunca los renglones de una cotización |
+
+```bash
+node scripts/acciones.mjs              # pone las redacciones de ACCIONES en los botones genéricos
+node scripts/acciones.mjs --comprobar  # sale con 1 si algún botón genérico no está al día
+```
+
+- **Orden al regenerar:** `acciones.mjs` → `prefill.mjs` → `viaje.mjs` → `bloques.mjs` → el resto.
+- **Medición:** todo enlace nuevo de WhatsApp o correo queda medido por `js/contacto.js` (por el `href`). Los del bloque «Datos del viaje» van con `link_position: datos_viaje`, y el enlace al mapa manda `map_open` (ver «Medición de contactos»).
+- Lo vigila `tests/acciones.test.js`.
 
 ## Datos del viaje y preguntas frecuentes (08/11/2026)
 

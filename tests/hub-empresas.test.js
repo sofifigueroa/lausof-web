@@ -300,7 +300,7 @@ for (const nombre of HUBS) {
     assert.ok(panel.includes(asunto), `el mail del panel no lleva el asunto «${ASUNTO_FLOTA[idioma]}»`);
     assert.strictEqual(sinComentarios(html).split(asunto).length - 1, 1, 'el asunto del servicio aparece fuera del panel');
     const rotulos = [...panel.matchAll(/<a\b[^>]*>(?:[\s\S]*?<\/svg>)?([^<]+)<\/a>/g)].map((m) => m[1]);
-    assert.deepStrictEqual(rotulos, idioma === 'es' ? ['Consultar por WhatsApp', 'Consultar por mail'] : ['Ask on WhatsApp', 'Ask by email']);
+    assert.deepStrictEqual(rotulos, idioma === 'es' ? ['Consultar por WhatsApp', 'Consultar por correo'] : ['Ask on WhatsApp', 'Ask by email']);
     for (const r of rotulos) assert.ok(r.length <= 24, `botón de más de 24 caracteres: ${r}`);
   });
 

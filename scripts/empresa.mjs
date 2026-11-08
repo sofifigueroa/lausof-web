@@ -330,24 +330,87 @@ export const ORDEN_HABILITACIONES = [
   ['factura', /\bFactura [AB]|Nota fiscal/],
 ];
 
+/* LAS ACCIONES DE CONTACTO, una sola redacción por idioma (ronda 6 de
+   lausof.com, 08/11/2026). Las usan la barra del teléfono, el cierre y el pie
+   (scripts/bloques.mjs) y los botones genéricos del encabezado de cada página
+   y del menú (scripts/acciones.mjs). Hasta el 08/11 el mismo botón decía 9
+   cosas distintas en español («Cotizá por WhatsApp», «Consultar
+   disponibilidad», «Escríbanos por WhatsApp»…), 8 en inglés y 4 en portugués.
+
+     cotizar    el pedido de cotización: casi todas las páginas
+     consultar  las páginas que no cotizan un viaje (TIPOS_CONSULTA: la flota
+                en venta, privacidad, la documentación de proveedor)
+     canal      el rótulo corto, sólo el canal: la barra del teléfono (BARRAS)
+
+   Un verbo por idioma y por acción, para WhatsApp y para el correo
+   (auditoría de estructura del 05/11, N8: el hub en inglés decía «Request a
+   quote by email» y «Get a quote on WhatsApp»). En español, «correo» y nunca
+   «mail»: es lo que dice el chat (misma auditoría, N5) y lo que recomiendan
+   FundéuRAE (fundeu.es/consulta/e-mail-102) y el Diccionario panhispánico
+   de dudas (rae.es/dpd/email). En portugués, «Orçamento pelo WhatsApp», de la
+   revisión nativa del 05/11 (7b-revision-pt.md, N2: «Tourists say pedir um
+   orçamento»). Infinitivo o sustantivo: sirve igual en las páginas en vos y
+   en usted (1b A11). */
+export const ACCIONES = {
+  es: {
+    cotizar: { wa: 'Cotizar por WhatsApp', correo: 'Cotizar por correo' },
+    consultar: { wa: 'Consultar por WhatsApp', correo: 'Consultar por correo' },
+    canal: { llamar: 'Llamar', correo: 'Correo', wa: 'WhatsApp' },
+  },
+  en: {
+    cotizar: { wa: 'Get a quote on WhatsApp', correo: 'Get a quote by email' },
+    consultar: { wa: 'Ask on WhatsApp', correo: 'Ask by email' },
+    canal: { llamar: 'Call', correo: 'Email', wa: 'WhatsApp' },
+  },
+  pt: {
+    cotizar: { wa: 'Orçamento pelo WhatsApp', correo: 'Orçamento por e-mail' },
+    consultar: { wa: 'Falar pelo WhatsApp', correo: 'Escrever por e-mail' },
+    canal: { llamar: 'Ligar', correo: 'E-mail', wa: 'WhatsApp' },
+  },
+};
+
+/** Los tipos de página o de enlace (scripts/prefill.mjs) que no piden una cotización. */
+export const TIPOS_CONSULTA = ['flota', 'privacidad', 'proveedor', 'documentacion-flota'];
+/** «cotizar» o «consultar», según el tipo del enlace. */
+export const accionDe = (tipo) => (TIPOS_CONSULTA.includes(tipo) ? 'consultar' : 'cotizar');
+
+/* LA BARRA DEL TELÉFONO, una regla por caso (ronda 6). Cada caso dice qué
+   botones lleva y en qué orden; con tres botones la barra es `wa-bar tres`
+   (partes iguales). Los rótulos son siempre el canal (ACCIONES.canal):
+   medido con chrome-headless-shell el 08/11, «Get a quote on WhatsApp»,
+   «Orçamento pelo WhatsApp» y «Consultar por WhatsApp» pasan a dos renglones
+   a 390 px y «Cotizar por WhatsApp» a 360 px (la barra crece de 52 a 75 px y
+   se acerca al botón del chat); y la barra de la vitrina, la que queda en
+   las páginas con reserva, ya dice «WhatsApp · Reservar»
+   (tienda-v2-0611:scripts/tienda-textos.mjs, tienda.barra.wa). La acción
+   entera va en los botones del encabezado, del menú y del cierre.
+     empresas   Llamar · Correo · WhatsApp: 3 de 4 toques en minería fueron
+                correo (estructura del 05/11, 3a §3.5, tests/menu.test.js)
+     en/index   Email · WhatsApp: la portada en inglés empieza por el correo,
+                el canal que responde en inglés
+     el resto   Llamar · WhatsApp
+   El orden de los casos es el de la búsqueda: el primero que coincide gana. */
+export const BARRAS = [
+  { caso: 'empresas', botones: ['llamar', 'correo', 'wa'] },
+  { caso: 'en/index.html', botones: ['correo', 'wa'] },
+  { caso: 'resto', botones: ['llamar', 'wa'] },
+];
+
 /* Textos del pie de contacto, del cierre y de la barra, por idioma. Los
-   rótulos de la barra de empresas (Llamar · Mail · WhatsApp) los fija
-   tests/menu.test.js. */
+   rótulos de los botones salen de ACCIONES. */
 export const TEXTOS_BLOQUES = {
   es: {
     pie: 'Transporte y logística en Salta y el norte argentino.<br>Junín 1334 / Siria 1333 — Salta Capital (4400)',
     telefonos: 'Teléfonos', telefono: '387 526-9009', llamadasY: 'llamadas y', correo: 'Correo', notasTelefono: [],
     flotaEnVenta: '<a href="/flota-en-venta.html">Flota en venta →</a>',
-    barra: 'Acciones rápidas', llamar: 'Llamar', mail: 'Mail', barraWa: 'Cotizar por WhatsApp',
-    cierreWa: 'Consultar por WhatsApp', cierreCorreo: 'Escribir por correo', cierreNota: null,
+    barra: 'Acciones rápidas', cierreNota: null,
   },
   en: {
     pie: 'Transport and logistics in Salta and northwest Argentina.<br>Junín 1334 / Siria 1333 — Salta (A4400), Argentina',
     telefonos: 'Phone', telefono: '+54 9 387 526-9009', llamadasY: 'calls and', correo: 'Email',
     notasTelefono: ['Argentine mobile numbers include a 9 after the country code when dialed from abroad.'],
     flotaEnVenta: null,
-    barra: 'Quick actions', llamar: 'Call', mail: 'Email', barraWa: 'WhatsApp',
-    cierreWa: 'Message us on WhatsApp', cierreCorreo: 'Request a quote by email',
+    barra: 'Quick actions',
     // Ya estaba en 22 cierres y pies en inglés (plan C.7): promete lo que se
     // cumple (correo y WhatsApp en inglés) y no repite el teléfono ni el correo,
     // que están en los botones de al lado.
@@ -357,8 +420,7 @@ export const TEXTOS_BLOQUES = {
     pie: 'Transporte e logística em Salta e no norte da Argentina.<br>Junín 1334 / Siria 1333 — Salta Capital (4400), Argentina',
     telefonos: 'Telefone', telefono: '387 526-9009', llamadasY: 'ligações e', correo: 'E-mail', notasTelefono: [],
     flotaEnVenta: null,
-    barra: 'Ações rápidas', llamar: 'Ligar', mail: 'E-mail', barraWa: 'Consultar disponibilidade',
-    cierreWa: 'Consultar pelo WhatsApp', cierreCorreo: 'Escrever por e-mail', cierreNota: null,
+    barra: 'Ações rápidas', cierreNota: null,
   },
 };
 export const REDES = 'Instagram <a href="https://www.instagram.com/lausofsrl" target="_blank" rel="noopener">@lausofsrl</a> · Facebook <a href="https://www.facebook.com/lausoftransportes" target="_blank" rel="noopener">@lausoftransportes</a>';

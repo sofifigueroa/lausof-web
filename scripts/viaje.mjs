@@ -28,7 +28,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { raiz, paginas } from './rutas-raiz.mjs';
-import { idiomaDe } from './prefill.mjs';
+import { idiomaDe, PAGINAS as TIPO_DE, waDePagina, armarWa } from './prefill.mjs';
 import { VIAJES } from './viaje-datos.mjs';
 
 export const CLAVES = ['duracion', 'distancia', 'salida', 'incluye', 'unidades'];
@@ -38,16 +38,19 @@ export const TEXTOS_VIAJE = {
     id: 'datos-del-viaje', titulo: 'Datos del viaje',
     filas: { duracion: 'Duración', distancia: 'Distancia', salida: 'Salida', incluye: 'Incluye', unidades: 'Unidades' },
     ruta: 'Ver el recorrido en el mapa', lugar: 'Ver en el mapa',
+    equipo: '¿Más de {n} pasajeros? Coordinar con el equipo', grupo: 'Somos un grupo de más de {n} pasajeros',
   },
   en: {
     id: 'trip-details', titulo: 'Trip details',
     filas: { duracion: 'Duration', distancia: 'Distance', salida: 'Pickup', incluye: 'Included', unidades: 'Vehicles' },
     ruta: 'See the route on the map', lugar: 'See it on the map',
+    equipo: 'More than {n} passengers? Coordinate with our team', grupo: 'We are a group of more than {n} passengers',
   },
   pt: {
     id: 'dados-da-viagem', titulo: 'Dados da viagem',
     filas: { duracion: 'Duração', distancia: 'Distância', salida: 'Saída', incluye: 'Inclui', unidades: 'Veículos' },
     ruta: 'Ver o trajeto no mapa', lugar: 'Ver no mapa',
+    equipo: 'Mais de {n} passageiros? Combinar com a equipe', grupo: 'Somos um grupo de mais de {n} passageiros',
   },
 };
 
@@ -68,15 +71,43 @@ export function urlMapa(mapa) {
   return `https://www.google.com/maps/dir/?api=1&${partes.join('&')}`;
 }
 
-/** El HTML del bloque de una página (sin la zona). */
-export function bloqueDe(pagina, dato) {
+/* Ronda 6 (08/11/2026): pasado el límite de pasajeros, la salida es
+   coordinar con el equipo, como hace el mercado (1b B13, L23: «for when
+   surpassing the passenger limit the company sets we say "coordinate with
+   team"… let's do what the market does»). El límite es el de la unidad más
+   grande que nombra la propia fila «Unidades» (la combi de 19+1 plazas); una
+   página cuya fila no lo nombra (la 4x4) no lleva la salida. El enlace es el
+   WhatsApp de la página, con su primera línea, un renglón que dice que el
+   grupo es más grande y los renglones de su tipo (scripts/prefill.mjs). */
+const PLAZAS = /\b(\d+)(?:\+1 plazas|\+1 lugares|-seat| pasajeros más el chofer)/;
+/** Las plazas de la unidad más grande que nombra la fila «Unidades», o null. */
+export function plazasDe(dato) {
+  const m = dato.filas.unidades && dato.filas.unidades.valor.match(PLAZAS);
+  return m ? Number(m[1]) : null;
+}
+
+/** El WhatsApp de «coordinar con el equipo» de una página, o null si no corresponde. */
+export function waGrupo(html, pagina, dato) {
+  const n = plazasDe(dato);
+  if (!n) return null;
+  const w = waDePagina(html, pagina);
+  if (!w) throw new Error(`${pagina}: ningún WhatsApp fuera de las zonas del que tomar número y primera línea`);
+  const idioma = idiomaDe(pagina);
+  return armarWa(w.numero, `${w.apertura}\n${TEXTOS_VIAJE[idioma].grupo.replace('{n}', n)}`, TIPO_DE[pagina], idioma);
+}
+
+/** El HTML del bloque de una página (sin la zona). `grupo` es el WhatsApp de «coordinar con el equipo». */
+export function bloqueDe(pagina, dato, grupo = null) {
   const t = TEXTOS_VIAJE[idiomaDe(pagina)];
   const url = urlMapa(dato.mapa);
   const enlace = url
     ? `<a class="datos-viaje-mapa" href="${url.replace(/&/g, '&amp;')}" target="_blank" rel="noopener">${dato.mapa.tipo === 'lugar' ? t.lugar : t.ruta}</a>`
     : '';
   const filas = CLAVES.filter((c) => dato.filas[c]).map((c) => {
-    const extra = c === 'salida' && enlace ? ` ${enlace}` : '';
+    const equipo = c === 'unidades' && grupo
+      ? ` <a class="datos-viaje-mapa datos-viaje-equipo" href="${escapar(grupo)}" target="_blank" rel="noopener">${t.equipo.replace('{n}', plazasDe(dato))}</a>`
+      : '';
+    const extra = (c === 'salida' && enlace ? ` ${enlace}` : '') + equipo;
     return `        <div><dt>${t.filas[c]}</dt><dd>${escapar(dato.filas[c].valor)}${extra}</dd></div>`;
   });
   const suelto = enlace && !dato.filas.salida ? `\n      <p>${enlace}</p>` : '';
@@ -92,16 +123,16 @@ export function bloqueDe(pagina, dato) {
   ].join('\n');
 }
 
-const zonaDe = (pagina, dato) => `\n\n  ${ABRE}\n${bloqueDe(pagina, dato)}\n  ${CIERRA}`;
+const zonaDe = (html, pagina, dato) => `\n\n  ${ABRE}\n${bloqueDe(pagina, dato, waGrupo(html, pagina, dato))}\n  ${CIERRA}`;
 
 /** La página con el bloque al día (o sin él, si no tiene datos). Pura e idempotente. */
 export function conViaje(html, pagina, viajes = VIAJES) {
   const dato = viajes[pagina];
-  if (ZONA.test(html)) return html.replace(ZONA, dato ? zonaDe(pagina, dato) : '');
+  if (ZONA.test(html)) return html.replace(ZONA, dato ? zonaDe(html, pagina, dato) : '');
   if (!dato) return html;
   for (const marca of ['<!-- /GENERADO:CONFIANZA -->', '<!-- /GENERADO:MIGAS -->']) {
     const i = html.indexOf(marca);
-    if (i >= 0) return html.slice(0, i + marca.length) + zonaDe(pagina, dato) + html.slice(i + marca.length);
+    if (i >= 0) return html.slice(0, i + marca.length) + zonaDe(html, pagina, dato) + html.slice(i + marca.length);
   }
   throw new Error(`${pagina}: sin franja ni miga donde poner los datos del viaje`);
 }

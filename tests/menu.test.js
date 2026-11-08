@@ -282,12 +282,13 @@ test('cada página de servicio declara un solo serviceType; hubs, portadas e ins
 });
 
 // 3a §3.5: en las 14 páginas de empresas y en sus dos hubs la barra fija del
-// teléfono es Llamar · Mail · WhatsApp (3 de 4 toques en minería fueron
+// teléfono es Llamar · Correo · WhatsApp (3 de 4 toques en minería fueron
 // correo, 1c §5): el 526-9009, transporte@ con asunto y renglones, y el
 // WhatsApp pre-armado. Turismo, portadas e institucionales quedan como hoy.
-test('la barra del teléfono de empresas es Llamar · Mail · WhatsApp; el resto queda como estaba', async () => {
+// Ronda 6 (08/11/2026): «Correo» y no «Mail» (ACCIONES en scripts/empresa.mjs).
+test('la barra del teléfono de empresas es Llamar · Correo · WhatsApp; el resto queda como estaba', async () => {
   const { seccionDe } = await cargar();
-  const ROTULOS = { es: ['Llamar', 'Mail', 'WhatsApp'], en: ['Call', 'Email', 'WhatsApp'] };
+  const ROTULOS = { es: ['Llamar', 'Correo', 'WhatsApp'], en: ['Call', 'Email', 'WhatsApp'] };
   let empresas = 0;
   for (const [nombre, html] of Object.entries(paginas)) {
     const barras = sinComentarios(html).match(/<div class="wa-bar[^"]*"[^>]*>[\s\S]*?<\/div>/g) || [];

@@ -16,7 +16,8 @@
                 teléfono y correo. El enlace a la otra sección (GENERADO:CRUCE)
                 sigue saliendo de scripts/menu.mjs y queda adentro, igual.
      BARRA      la barra del teléfono (div.wa-bar): Llamar · WhatsApp, o
-                Llamar · Mail · WhatsApp en empresas (tests/menu.test.js)
+                Llamar · Correo · WhatsApp en empresas (BARRAS en
+                scripts/empresa.mjs; tests/menu.test.js)
      RESENA     el renglón del puntaje de Google en las tres portadas, debajo
                 del título de la sección de reseñas (ronda 4, 08/11/2026)
      PRUEBA     la lista de pruebas del hub de empresas (ul.prueba-grid, ES y
@@ -55,7 +56,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { raiz, paginas } from './rutas-raiz.mjs';
-import { FRANJAS, PRUEBAS_HUB, TEXTOS_BLOQUES, REDES, TEL_HREF, WA_VENTAS, RESENAS_GOOGLE, datoResenas } from './empresa.mjs';
+import { FRANJAS, PRUEBAS_HUB, TEXTOS_BLOQUES, ACCIONES, BARRAS, accionDe, REDES, TEL_HREF, WA_VENTAS, RESENAS_GOOGLE, datoResenas } from './empresa.mjs';
 import { PAGINAS as TIPO_DE, idiomaDe, armarWa, armarMailto, waDePagina } from './prefill.mjs';
 import { zonaCruce, seccionDe, PORTADAS } from './menu.mjs';
 import { PAGINAS as DATOS, PIE_PORTADAS } from './bloques-datos.mjs';
@@ -136,10 +137,11 @@ export function cierre(html, pagina) {
   if (!c) return null;
   // El puntaje va en el cierre sólo si la página no lo muestra en otro lado.
   const conResena = !PORTADAS.includes(pagina) && !sinPuntaje(pagina) && !resenaFueraDelCierre(html);
-  const { idioma, wa, mail } = enlaces(html, pagina);
+  const { idioma, tipo, wa, mail } = enlaces(html, pagina);
   const t = TEXTOS_BLOQUES[idioma];
-  const botonWa = `<a class="btn btn-wa" href="${wa}" target="_blank" rel="noopener">${SVG_WA}${t.cierreWa}</a>`;
-  const botonCorreo = `<a class="btn btn-ghost" href="${mail}">${SVG_CORREO}${t.cierreCorreo}</a>`;
+  const a = ACCIONES[idioma][accionDe(tipo)];
+  const botonWa = `<a class="btn btn-wa" href="${wa}" target="_blank" rel="noopener">${SVG_WA}${a.wa}</a>`;
+  const botonCorreo = `<a class="btn btn-ghost" href="${mail}">${SVG_CORREO}${a.correo}</a>`;
   // En inglés, las páginas de empresas ponen el correo primero: las lee compras,
   // y el correo es el canal que responde en inglés (en/warehouse.html, 05/11/2026).
   const botones = idioma === 'en' && familiaDe(pagina) === 'empresas' ? [botonCorreo, botonWa] : [botonWa, botonCorreo];
@@ -213,17 +215,24 @@ export function contacto(html, pagina) {
   ];
 }
 
+/** El caso de BARRAS (scripts/empresa.mjs) que le toca a una página. */
+export function barraDe(pagina) {
+  return BARRAS.find(({ caso }) => (caso === 'empresas' ? seccionDe(pagina) === 'empresas' : caso === pagina || caso === 'resto'));
+}
+
 export function barra(html, pagina) {
   const { idioma, wa, mail } = enlaces(html, pagina);
   const t = TEXTOS_BLOQUES[idioma];
-  const llamar = `<a class="btn btn-ghost" href="${TEL_HREF}">${SVG_TEL}${t.llamar}</a>`;
-  const correo = `<a class="btn btn-ghost" href="${mail}">${SVG_CORREO}${t.mail}</a>`;
-  const empresas = seccionDe(pagina) === 'empresas';
-  const botonWa = `<a class="btn btn-wa" href="${wa}" target="_blank" rel="noopener">${SVG_WA}${empresas ? 'WhatsApp' : t.barraWa}</a>`;
-  // Tres caminos en empresas (3 de 4 toques en minería fueron correo, 1c §5).
-  // La portada en inglés empieza por el correo: es el canal que responde en inglés.
-  const botones = empresas ? [llamar, correo, botonWa] : pagina === 'en/index.html' ? [correo, botonWa] : [llamar, botonWa];
-  return [`<div class="wa-bar${empresas ? ' tres' : ''}" aria-label="${t.barra}">`, ...botones.map((b) => `  ${b}`), '</div>'];
+  const { canal } = ACCIONES[idioma];
+  const { botones } = barraDe(pagina);
+  // Los rótulos son el canal: con el verbo no entran en un renglón a 360 px (BARRAS).
+  const tres = botones.length === 3;
+  const boton = {
+    llamar: `<a class="btn btn-ghost" href="${TEL_HREF}">${SVG_TEL}${canal.llamar}</a>`,
+    correo: `<a class="btn btn-ghost" href="${mail}">${SVG_CORREO}${canal.correo}</a>`,
+    wa: `<a class="btn btn-wa" href="${wa}" target="_blank" rel="noopener">${SVG_WA}${canal.wa}</a>`,
+  };
+  return [`<div class="wa-bar${tres ? ' tres' : ''}" aria-label="${t.barra}">`, ...botones.map((b) => `  ${boton[b]}`), '</div>'];
 }
 
 /** El puntaje en la sección de reseñas de las portadas, con el mismo rótulo que la franja. */

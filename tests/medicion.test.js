@@ -303,3 +303,46 @@ test('las direcciones en inglés que daban 404 redirigen a la portada en inglés
       `${origen}.html existe: la regla necesitaría ! para aplicarse`);
   }
 });
+
+// Ronda 6 (08/11/2026): el enlace al mapa del bloque «Datos del viaje» manda
+// map_open (no es un contacto: no lleva contact_channel), y los contactos de
+// ese bloque («Coordinar con el equipo») van como datos_viaje en los tres
+// idiomas, no con el id de la sección en cada idioma.
+const MAPA = 'https://www.google.com/maps/dir/?api=1&origin=Salta%2C+Argentina&destination=Cafayate%2C+Salta%2C+Argentina&travelmode=driving';
+
+test('un clic en el recorrido de Google Maps manda map_open con zona y texto, sin datos del enlace', () => {
+  const { eventos, clic } = cargar({ lang: 'es', pathname: '/traslado-salta-cafayate.html', body: { 'data-seccion': 'turismo', 'data-tipo': 'pasajeros' } });
+  clic(hijoDe(enlace(MAPA, 'Ver el recorrido en el mapa', { '.datos-viaje': true, '[id]': { id: 'datos-del-viaje' } })));
+  assert.deepStrictEqual(JSON.parse(JSON.stringify(eventos)), [['event', 'map_open', {
+    page_language: 'es',
+    contact_page_path: '/traslado-salta-cafayate.html',
+    link_position: 'datos_viaje',
+    link_text: 'Ver el recorrido en el mapa',
+    seccion: 'turismo',
+    tipo: 'pasajeros',
+  }]]);
+  assert.doesNotMatch(JSON.stringify(eventos), /Cafayate%2C|origin=|google\.com/);
+});
+
+test('el lugar en el mapa también es map_open; el perfil de reseñas de Google no se mide', () => {
+  const { eventos, clic } = cargar();
+  clic(enlace('https://www.google.com/maps/search/?api=1&query=Aeropuerto+de+Salta', 'Ver en el mapa'));
+  clic(enlace('https://www.google.com/maps?cid=13700114490953273065', 'Reseñas en Google'));
+  clic(enlace('https://example.com/maps/dir/', 'otro'));
+  assert.deepStrictEqual(eventos.map((e) => e[1]), ['map_open']);
+});
+
+test('un WhatsApp del bloque «Datos del viaje» va como datos_viaje en cualquier idioma', () => {
+  for (const id of ['datos-del-viaje', 'trip-details', 'dados-da-viagem']) {
+    const { eventos, clic } = cargar();
+    clic(enlace(WA, '¿Más de 19 pasajeros? Coordinar con el equipo', { '.datos-viaje': true, '[id]': { id } }));
+    assert.strictEqual(eventos[0][1], 'contact_whatsapp');
+    assert.strictEqual(eventos[0][2].link_position, 'datos_viaje');
+  }
+});
+
+test('sin gtag, el clic en el mapa no rompe nada', () => {
+  const { eventos, clic } = cargar({ gtag: false });
+  assert.doesNotThrow(() => clic(enlace(MAPA, 'Ver el recorrido en el mapa')));
+  assert.strictEqual(eventos.length, 0);
+});

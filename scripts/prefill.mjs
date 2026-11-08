@@ -156,6 +156,16 @@ export const TIPOS = {
   },
   // Venta de unidades (WhatsApp de ventas): no es una cotización.
   flota: { es: ['Unidad'], en: ['Vehicle'], pt: ['Veículo'] },
+  // Las páginas de privacidad (ronda 6, 08/11/2026): no cotizan nada. Hasta
+  // ese día usaban `general`, así que el correo «Consulta sobre privacidad»
+  // llegaba con «Servicio / Fecha / Origen y destino / Pasajeros o carga».
+  // Un solo renglón, con lo que la página dice que se puede pedir (ver,
+  // corregir o borrar los datos, #derechos).
+  privacidad: {
+    es: ['Consulta o pedido sobre datos personales'],
+    en: ['Question or request about personal data'],
+    pt: ['Dúvida ou pedido sobre dados pessoais'],
+  },
   // Hub «Empresas y minería» (05/11/2026, web/estructura-sitio-2026-11-05/
   // 4-textos.md §4): la primera línea ya dice que es una consulta de empresa.
   // El hub no tiene versión en portugués (la portada pt enlaza el hub en
@@ -211,7 +221,7 @@ export const PAGINAS = {
   'index.html': 'general',
   'logistica-minera.html': 'mineria',
   'peregrinaciones-eventos.html': 'pasajeros',
-  'privacidad.html': 'general',
+  'privacidad.html': 'privacidad',
   'producciones.html': 'produccion',
   'salinas-grandes-desde-salta.html': 'pasajeros',
   'semana-santa-salta-jujuy.html': 'pasajeros',
@@ -250,7 +260,7 @@ export const PAGINAS = {
   'en/minibus-with-driver-salta.html': 'combi-dia',
   'en/mining-logistics.html': 'mineria',
   'en/personnel-transport.html': 'personal',
-  'en/privacy.html': 'general',
+  'en/privacy.html': 'privacidad',
   'en/refrigerated-freight.html': 'refrigerado',
   'en/salinas-grandes-from-salta.html': 'pasajeros',
   'en/salta-airport-transfer.html': 'aeropuerto',
@@ -271,7 +281,7 @@ export const PAGINAS = {
   // Portugués de Brasil (03/11/2026): las 7 páginas de /pt/.
   'pt/index.html': 'general',
   'pt/passeios-e-traslados.html': 'turismo',
-  'pt/privacidade.html': 'general',
+  'pt/privacidade.html': 'privacidad',
   'pt/traslado-salta-san-pedro-de-atacama.html': 'pasajeros',
   'pt/traslado-salta-uyuni.html': 'pasajeros',
   'pt/salinas-grandes-saindo-de-salta.html': 'pasajeros',

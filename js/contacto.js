@@ -7,6 +7,13 @@
      contact_phone      enlaces tel:
      contact_email      enlaces mailto:
 
+   Y uno más, que no es un contacto (ronda 6, 08/11/2026: el enlace al mapa
+   del bloque «Datos del viaje» de la ronda 5 no se medía, 1b D15):
+
+     map_open           enlaces a Google Maps con un recorrido o un lugar
+                        (google.com/maps/dir/ o /maps/search/), con los
+                        mismos parámetros menos contact_channel
+
    Un solo listener delegado en el documento cubre todas las páginas y
    cualquier enlace que se agregue después; no hay nada que tocar por página.
 
@@ -43,8 +50,12 @@
     ['.puertas', 'puerta'],
     ['footer.site', 'footer'],
     ['.hero, .page-head', 'hero'],
-    ['.cta-final', 'cta_final']
+    ['.cta-final', 'cta_final'],
+    ['.datos-viaje', 'datos_viaje']
   ];
+
+  // El recorrido o el lugar en Google Maps (no el perfil de reseñas, que es /maps?cid=).
+  var MAPA = /^https:\/\/www\.google\.com\/maps\/(dir|search)\//i;
 
   // Límite de GA4 para el valor de un parámetro.
   var MAXIMO = 100;
@@ -97,9 +108,19 @@
       if (!origen || typeof origen.closest !== 'function') return;
       var enlace = origen.closest('a[href]');
       if (!enlace) return;
-      var canal = canalDe(String(enlace.getAttribute('href') || '').trim());
-      if (!canal) return;
+      var href = String(enlace.getAttribute('href') || '').trim();
+      var canal = canalDe(href);
+      if (!canal && !MAPA.test(href)) return;
       if (typeof window.gtag !== 'function') return;
+      if (!canal) {
+        window.gtag('event', 'map_open', conContexto({
+          page_language: idiomaDe(),
+          contact_page_path: String(window.location.pathname || '/').slice(0, MAXIMO),
+          link_position: posicionDe(enlace),
+          link_text: String(enlace.textContent || '').replace(/\s+/g, ' ').trim().slice(0, MAXIMO)
+        }));
+        return;
+      }
       window.gtag('event', 'contact_' + canal, conContexto({
         contact_channel: canal,
         page_language: idiomaDe(),
