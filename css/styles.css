@@ -61,7 +61,7 @@ picture source{display:none}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 
-.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:24px;padding-right:24px}
 
 /* el header es sticky: los anclajes tienen que frenar antes de quedar tapados
    (también las fichas con ancla propia, como la 4x4 mensual para empresas) */
@@ -262,7 +262,8 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
    el minibús y la cabina del camión. En 16:9 cada unidad entra entera y el
    encuadre propio de cada foto lo fija su clase (.puerta-foto-viaducto,
    -minibus, -camion). En el teléfono la foto es una miniatura apaisada de
-   108×76 con el mismo criterio. */
+   120×84 con el mismo criterio (108×76 hasta la ronda 8: con el H1 otra vez
+   con aire, las tres puertas siguen entrando en la primera pantalla de 360×740). */
 .puertas{padding:20px 0 18px}
 .puertas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .puerta{
@@ -304,9 +305,9 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
   .hero h1{font-size:1.72rem;max-width:none}
   .hero .lead{font-size:.95rem;color:#fff;margin:10px 0 0;text-shadow:0 1px 8px rgba(16,23,42,.5)}
   .puertas{padding:12px 0 10px}
-  .puertas-grid{grid-template-columns:1fr;gap:10px}
-  .puerta{flex-direction:row;align-items:center;border-top-width:1px;border-left:3px solid var(--gold);min-height:76px}
-  .puerta-foto{flex:0 0 108px;height:76px;aspect-ratio:auto;margin:6px 0 6px 6px;border-radius:3px;overflow:hidden}
+  .puertas-grid{grid-template-columns:1fr;gap:12px}
+  .puerta{flex-direction:row;align-items:center;border-top-width:1px;border-left:3px solid var(--gold);min-height:96px}
+  .puerta-foto{flex:0 0 120px;height:84px;aspect-ratio:auto;margin:6px 0 6px 6px;border-radius:3px;overflow:hidden}
   .puerta-foto-minibus img{object-position:12% 50%}
   .puerta-cuerpo{padding:8px 34px 8px 12px;gap:2px}
   .puerta h2{font-size:1.02rem}
@@ -622,7 +623,13 @@ footer.site .legal-enlaces{flex-basis:100%;margin:0}
 @media(max-width:720px){
   body{font-size:16px}
   section.block{padding:52px 0}
-  .wrap{padding:0 20px}
+  /* Sólo el relleno de los costados. Hasta el 08/11/2026 decía `padding:0 20px`
+     y, por ir más abajo en la hoja, borraba sin querer el relleno vertical de
+     todo .wrap en el teléfono: el H1 de las portadas quedaba pegado al menú
+     (ronda 8). Las cinco piezas de abajo se ven sin relleno vertical desde
+     hace meses y así siguen (si se quiere aire ahí, es una propuesta aparte). */
+  .wrap{padding-left:20px;padding-right:20px}
+  .topbar-row,.crumbs.wrap,.wrap.legal,.wrap.proveedores,.pie-secciones{padding-top:0;padding-bottom:0}
   /* las seis habilitaciones en dos columnas compactas: se leen de un vistazo
      y no empujan los servicios una pantalla entera hacia abajo */
   .certs-row{

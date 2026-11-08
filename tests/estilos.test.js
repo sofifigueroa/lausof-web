@@ -95,3 +95,17 @@ test('el botón de la barra de arriba se maneja desde js/menu.js, sin código en
   assert.match(js, /querySelector\('\.hero, \.page-head'\)/);
   assert.match(js, /classList\.toggle\('past-hero'/);
 });
+
+// Ronda 8 (08/11/2026): la regla de teléfono de .wrap era `padding:0 20px`.
+// Como va más abajo en la hoja, borraba el relleno vertical de todo .wrap a
+// 720 px o menos, y el H1 de las tres portadas quedaba pegado al menú
+// (.hero-grid pedía 22/20 px y recibía 0). Una regla genérica de .wrap sólo
+// pone los costados; el aire de arriba y de abajo lo decide cada pieza.
+test('ninguna regla de .wrap sola usa el atajo padding (pisaría el relleno vertical de cada pieza)', () => {
+  for (const hoja of hojas) {
+    const css = sinComentariosCss(leerHoja(hoja));
+    for (const m of css.matchAll(/(^|[}\s,])\.wrap\s*\{([^}]*)\}/g)) {
+      assert.ok(!/(^|;)\s*padding\s*:/.test(m[2]), `${hoja}: «.wrap{${m[2].trim()}}» usa el atajo padding; usar padding-left y padding-right`);
+    }
+  }
+});
