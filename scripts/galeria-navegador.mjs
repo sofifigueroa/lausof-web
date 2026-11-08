@@ -368,9 +368,15 @@ try {
     // dejaba el cuadro 3 vacío (N4); loading="eager" no depende del margen.
     return { pedidas: [0, 1, 2, fotos.length - 1].map((k) => !!fotos[k].currentSrc && fotos[k].loading === 'eager'), x: p.left + p.width / 2, y: p.top + p.height / 2, ancho: p.width, total: fotos.length }; })()`);
   comprobar(antes.pedidas.every(Boolean), `390px: con la galería cerca, los cuadros 1, 2, 3 y el último (la vuelta) no pidieron su foto antes de deslizar (${JSON.stringify(antes.pedidas)})`);
-  await cdp('Input.synthesizeScrollGesture', { x: Math.round(antes.x), y: Math.round(antes.y), xDistance: -Math.round(antes.ancho * 2), yDistance: 0,
-    speed: 6000, gestureSourceType: 'touch' });
-  await esperar(700);
+  // Un dedo de verdad, evento por evento: Input.synthesizeScrollGesture no
+  // movía la pista en el Chrome de la PC (Linux, 08/11/2026). Dos cuadros en
+  // unos 160 ms: un deslizamiento rápido.
+  const dedo = (type, x) => cdp('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x, y: Math.round(antes.y), id: 1 }] });
+  const desde = Math.round(antes.x + antes.ancho * 0.4);
+  await dedo('touchStart', desde);
+  for (let k = 1; k <= 8; k++) { await dedo('touchMove', Math.round(desde - (antes.ancho * 1.6 * k) / 8)); await esperar(20); }
+  await dedo('touchEnd');
+  await esperar(1200);
   const tras = await evaluar(`(async () => { const g = document.querySelector('.galeria'); const p = g.querySelector('.galeria-pista');
     const k = Math.round(p.scrollLeft / p.clientWidth); const f = g.querySelectorAll('.galeria-pista > figure')[k];
     const img = f.querySelector('img');
