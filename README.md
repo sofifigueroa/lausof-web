@@ -651,7 +651,7 @@ Ronda 2 (`~/lausof/web/rondas-2026-11-07/`). Cuatro piezas que se copiaban a man
 | Encabezado (`section.page-head`) | un molde: foto, kicker, título, bajada, botones (y el del hub de empresas, con la foto en su columna). Lo que dice cada encabezado sigue en la página | `scripts/encabezado.mjs` |
 | CSS del encabezado y de las preguntas frecuentes | sólo en `styles.css` (antes en 14 y 13 hojas); cada hoja cambia sus variables `--ph-h1`, `--ph-lead`, `--ph-foco`, `--ph-velo`. Cortes de pantalla: 480 · 560 · 720 · 880 · 960 (más 1080/1239 del menú), lista al principio de `styles.css` | `tests/estilos.test.js` |
 | `?v=` de hojas y scripts | el hash del archivo, igual en todas las páginas | `scripts/versiones.mjs` |
-| Botón de la barra de arriba al pasar el encabezado (`past-hero`) | `js/encabezado.js`, antes en línea en 82 páginas (para poder cerrar la CSP) | `scripts/menu.mjs` pone la etiqueta |
+| Botón de la barra de arriba al pasar el encabezado (`past-hero`) | al final de `js/menu.js`, antes en línea en 82 páginas (para poder cerrar la CSP); no en un archivo propio porque un pedido más atrasaba la foto principal de `charter-recitales` (+150 ms en Lighthouse) | `tests/estilos.test.js` |
 
 ```bash
 node scripts/encabezado.mjs   # miga y molde del encabezado (--comprobar para revisar)

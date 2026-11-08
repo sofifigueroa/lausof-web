@@ -394,8 +394,6 @@ const etiquetaScript = (archivo) => `<script defer src="/js/${archivo}?v=${versi
 const lineaScript = (archivo) => new RegExp(`^([ \\t]*)<script defer src="/js/${archivo.replace('.', '\\.')}\\?v=[^"]*"></script>$`, 'm');
 const SCRIPT_MENU = lineaScript('menu.js');
 const SCRIPT_CONTACTO = lineaScript('contacto.js');
-// El botón de la barra de arriba que aparece al pasar el encabezado (js/encabezado.js, antes en línea).
-const SCRIPT_ENCABEZADO = lineaScript('encabezado.js');
 
 /** La página con el menú, los atributos de <body> y el script al día. Pura e idempotente. */
 export function conMenu(html, pagina) {
@@ -415,9 +413,6 @@ export function conMenu(html, pagina) {
   if (!SCRIPT_MENU.test(nuevo)) {
     if (!SCRIPT_CONTACTO.test(nuevo)) throw new Error(`${pagina}: no carga /js/contacto.js, no sé dónde poner /js/menu.js`);
     nuevo = nuevo.replace(SCRIPT_CONTACTO, (linea, sangria) => `${linea}\n${sangria}${etiquetaScript('menu.js')}`);
-  }
-  if (!SCRIPT_ENCABEZADO.test(nuevo)) {
-    nuevo = nuevo.replace(SCRIPT_MENU, (linea, sangria) => `${linea}\n${sangria}${etiquetaScript('encabezado.js')}`);
   }
   return nuevo;
 }

@@ -5,7 +5,7 @@
 //    styles.css (antes copiados en 14 y 13 hojas, W3, W6);
 //  · los cortes de pantalla son los de la lista de styles.css (antes 13, W10);
 //  · el script del botón de la barra de arriba es un archivo, no código en
-//    línea (W8).
+//    línea: va en js/menu.js, que ya cargan todas las páginas con barra (W8).
 'use strict';
 
 const test = require('node:test');
@@ -84,14 +84,14 @@ test('los cortes de pantalla son los de la lista de styles.css', () => {
   assert.ok(vistos.size <= permitidos.size);
 });
 
-test('el botón de la barra de arriba se maneja desde js/encabezado.js, sin código en línea', () => {
+test('el botón de la barra de arriba se maneja desde js/menu.js, sin código en línea', () => {
   for (const [nombre, html] of Object.entries(paginas)) {
     const enLinea = [...html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)].map((m) => m[1]);
     assert.ok(!enLinea.some((s) => s.includes('past-hero')), `${nombre}: todavía tiene el script de past-hero en línea`);
-    if (!html.includes('<body')) continue;
-    assert.strictEqual((html.match(/<script defer src="\/js\/encabezado\.js\?v=[0-9a-f]+"><\/script>/g) || []).length, 1, `${nombre}: no carga /js/encabezado.js una vez`);
+    // Toda página con el botón de la barra de arriba carga menu.js, que lo maneja.
+    if (html.includes('class="nav-cta')) assert.match(html, /<script defer src="\/js\/menu\.js\?v=[0-9a-f]+"><\/script>/, `${nombre}: tiene .nav-cta y no carga /js/menu.js`);
   }
-  const js = fs.readFileSync(path.join(raiz, 'js', 'encabezado.js'), 'utf8');
+  const js = fs.readFileSync(path.join(raiz, 'js', 'menu.js'), 'utf8');
   assert.match(js, /querySelector\('\.hero, \.page-head'\)/);
   assert.match(js, /classList\.toggle\('past-hero'/);
 });
