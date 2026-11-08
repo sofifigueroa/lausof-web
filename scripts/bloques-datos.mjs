@@ -39,7 +39,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "¿Una 4x4 para el viaje o para la operación?",
       "textos": [
-        "Cuéntenos las fechas, el recorrido y, si es para una empresa, el plazo del alquiler. Le respondemos con el presupuesto por escrito, con las condiciones claras."
+        "Cuéntenos las fechas, el recorrido y, si es para una empresa, el plazo del alquiler. Le respondemos con el presupuesto por escrito."
       ],
       "id": "contacto"
     }
@@ -105,7 +105,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "Pedir una cotización",
       "textos": [
-        "Por WhatsApp, mail o teléfono."
+        "Por WhatsApp, correo o teléfono."
       ],
       "id": "contacto"
     }
@@ -118,7 +118,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "Do you need a 4x4 pickup for your trip or your operation?",
       "textos": [
-        "Tell us your dates, your route and, for a company, the rental term. We reply with the quote in writing, with the conditions clear."
+        "Tell us your dates, your route and, for a company, the rental term. We reply with a written quote."
       ],
       "id": "contact"
     }
@@ -138,7 +138,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "Does your project need crews up in the Puna?",
       "textos": [
-        "Tell us where the project is, how the shifts work and how many people go up. You get a written quote."
+        "Tell us where the project is, how the shifts work and how many people go up. We reply with a written quote."
       ]
     }
   },
@@ -147,7 +147,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "Are you putting a shoot together in Salta?",
       "textos": [
-        "Send us the dates, the locations and what has to move, and we will come back with a written quote."
+        "Send us the dates, the locations and what has to move. We reply with a written quote."
       ],
       "id": "contact"
     }
@@ -157,7 +157,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "Planning your next program in the north?",
       "textos": [
-        "Send us the dates, the route and how many are traveling. You get a written quote."
+        "Send us the dates, the route and how many are traveling. We reply with a written quote."
       ]
     }
   },
@@ -202,7 +202,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "Planning your days in the north?",
       "textos": [
-        "Send us the dates, a rough schedule, the route and how many are traveling. You get a written quote."
+        "Send us the dates, a rough schedule, the route and how many are traveling. We reply with a written quote."
       ]
     }
   },
@@ -211,8 +211,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "Does your operation need to go up to the Puna?",
       "textos": [
-        "Tell us what has to move (crews, cargo or equipment) and between which points. We reply with a written quote.",
-        "To get a useful quote in one round, include: the service; dates; origin and destination; number of passengers, or cargo type, weight and temperature; your company and a contact."
+        "Tell us what has to move (crews, cargo or equipment) and between which points. We reply with a written quote."
       ],
       "id": "contact"
     }
@@ -222,7 +221,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "Do you need to move your people?",
       "textos": [
-        "To get a useful quote in one round, include: the service; the dates; origin and destination; how many passengers are traveling; and your company and a contact. We reply with a written quote."
+        "Tell us how many people travel, from where and how often. We reply with a written quote."
       ],
       "id": "contact"
     }
@@ -253,7 +252,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "Arriving in Salta?",
       "textos": [
-        "Send us the flight number, the date, how many are traveling and where you are heading from the airport. You get a written quote."
+        "Send us the flight number, the date, how many are traveling and where you are heading from the airport. We reply with a written quote."
       ]
     }
   },
@@ -262,7 +261,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "Planning the trip to Cachi?",
       "textos": [
-        "Tell us the date, how many are traveling, and whether it is one way to Cachi, there and back in a day, or the full loop on Ruta 40. You get a written quote."
+        "Tell us the date, how many are traveling, and whether it is one way to Cachi, there and back in a day, or the full loop on Ruta 40. We reply with a written quote."
       ]
     }
   },
@@ -271,7 +270,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "Planning the trip to Cafayate?",
       "textos": [
-        "Tell us the date, how many are traveling, whether it is one way, a day trip or several days, and where we pick you up. You get a written quote."
+        "Tell us the date, how many are traveling, whether it is one way, a day trip or several days, and where we pick you up. We reply with a written quote."
       ]
     }
   },
@@ -280,7 +279,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "Shall we drive you from Salta to Jujuy?",
       "textos": [
-        "Send us the date, how many are traveling, where we pick you up and whether it is one way or return. You get a written quote."
+        "Send us the date, how many are traveling, where we pick you up and whether it is one way or return. We reply with a written quote."
       ]
     }
   },
@@ -298,7 +297,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "Heading up to the Puna?",
       "textos": [
-        "Tell us the date, how many are traveling, whether it is one way, a day trip or part of a longer trip, and where we pick you up. You get a written quote."
+        "Tell us the date, how many are traveling, whether it is one way, a day trip or part of a longer trip, and where we pick you up. We reply with a written quote."
       ]
     }
   },
@@ -334,7 +333,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "Ready to plan the trip?",
       "textos": [
-        "Tell us the route or destination, the dates, where the trip starts and ends, how many people are traveling, and a name and contact for the booking. With that we can send you a price straight away."
+        "Tell us the route or destination, the dates, where the trip starts and ends, how many people are traveling, and a name and contact for the booking. We reply with a written quote."
       ]
     }
   },
@@ -380,7 +379,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "Planning a wedding in Salta?",
       "textos": [
-        "Tell us the date, where the ceremony and the party are, how many guests need transport, and which hotels they are staying at. You get a written quote."
+        "Tell us the date, where the ceremony and the party are, how many guests need transport, and which hotels they are staying at. We reply with a written quote."
       ]
     }
   },
@@ -399,7 +398,7 @@ export const PAGINAS = {
     "cierre": {
       "titulo": "¿Te interesa alguna unidad?",
       "textos": [
-        "Escribinos y te contamos el estado real de la unidad, la documentación y cómo coordinar para verla en Salta Capital."
+        "Escribinos y te contamos el estado de la unidad, la documentación y cómo coordinar para verla en Salta Capital."
       ],
       "id": "contacto",
       "nota": "Las consultas por las unidades van al WhatsApp de ventas: <a href=\"https://wa.me/5493875092489?text=Hola%20Lausof%2C%20quiero%20consultar%20por%20una%20unidad%20en%20venta%0AUnidad%3A%20\" target=\"_blank\" rel=\"noopener\">387 509-2489</a>."

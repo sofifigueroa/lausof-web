@@ -37,7 +37,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combis de 19+1 plazas y camionetas 4x4; para grupos más grandes, más de una unidad",
+        "valor": "Combis de 19+1 plazas y camionetas 4x4",
         "fuente": [
           "Combis de 19+1 plazas y camionetas 4x4; para grupos más grandes coordinamos más de una unidad"
         ]
@@ -95,7 +95,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combis de 19+1 plazas y camionetas 4x4; para grupos más grandes, más de una unidad",
+        "valor": "Combis de 19+1 plazas y camionetas 4x4",
         "fuente": [
           "Combis de 19+1 plazas y camionetas 4x4, con chofer profesional",
           "Grupos más grandes: coordinamos más de una unidad para el mismo programa"
@@ -169,7 +169,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combis de 19+1 plazas; más unidades si viaja más de un plantel",
+        "valor": "Combis de 19+1 plazas",
         "fuente": [
           "Jugadores, cuerpo técnico y delegados en combis de 19+1 plazas",
           "Si viaja más de un plantel, sumamos unidades"
@@ -201,7 +201,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combi de 19+1 plazas; para grupos más grandes, más de una unidad",
+        "valor": "Combi de 19+1 plazas",
         "fuente": [
           "La combi de 19+1 plazas va con chofer profesional",
           "cotizamos más de una unidad para el mismo viaje"
@@ -232,7 +232,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combis de 19+1 plazas; más de una unidad para que el grupo viaje junto",
+        "valor": "Combis de 19+1 plazas",
         "fuente": [
           "Combis de 19+1 plazas. ¿Son más? Coordinamos más de una unidad para que nadie viaje separado."
         ]
@@ -271,7 +271,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combi privada de 19+1 plazas o camioneta 4x4, preparadas para la altura; más de una unidad si hace falta",
+        "valor": "Combi privada de 19+1 plazas o camioneta 4x4, preparadas para la altura",
         "fuente": [
           "para más de 19 pasajeros, más de una unidad",
           "O una camioneta 4x4, según el grupo; unidades preparadas para la altura",
@@ -312,7 +312,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combi para 19 pasajeros más el chofer, o camioneta 4x4 para grupos chicos o caminos de ripio",
+        "valor": "Combi de 19+1 plazas, o camioneta 4x4 para grupos chicos o caminos de ripio",
         "fuente": [
           "La combi lleva 19 pasajeros más el chofer",
           "Para grupos chicos o caminos de ripio usamos camionetas 4x4"
@@ -351,7 +351,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combis de 19+1 plazas y camionetas 4x4; más de una unidad para grupos grandes",
+        "valor": "Combis de 19+1 plazas y camionetas 4x4",
         "fuente": [
           "Combis de 19+1 plazas y camionetas 4x4 con chofer profesional",
           "Grupos más grandes: coordinamos más de una unidad para el mismo vuelo"
@@ -382,7 +382,7 @@ export const VIAJES = {
         ]
       },
       "salida": {
-        "valor": "Salta, en el punto acordado en el chat, o en el aeropuerto si el grupo llega en avión",
+        "valor": "Salta, en el punto acordado por WhatsApp, o en el aeropuerto si el grupo llega en avión",
         "fuente": [
           "El grupo sale de Salta, el chofer espera en el pueblo",
           "la combi lo busca en el aeropuerto",
@@ -398,7 +398,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combi de 19+1 plazas; para grupos más grandes, más de una unidad",
+        "valor": "Combi de 19+1 plazas",
         "fuente": [
           "Una combi de 19+1 plazas con chofer profesional",
           "cotizamos más de una unidad para el mismo viaje"
@@ -445,7 +445,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combis de 19+1 plazas preparadas para ripio y camionetas 4x4; más de una unidad para grupos grandes",
+        "valor": "Combis de 19+1 plazas preparadas para ripio y camionetas 4x4",
         "fuente": [
           "Combis de 19+1 plazas con chofer profesional, preparadas para ripio",
           "Camionetas 4x4 para grupos chicos o cuando el camino lo pide",
@@ -490,7 +490,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combis de 19+1 plazas y camionetas 4x4 con chofer; más de una unidad para grupos grandes",
+        "valor": "Combis de 19+1 plazas y camionetas 4x4 con chofer",
         "fuente": [
           "Combis de 19+1 plazas y camionetas 4x4 con chofer profesional",
           "coordinamos más de una unidad para que viajen juntos"
@@ -532,7 +532,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combis de 19+1 plazas y camionetas 4x4 con chofer; más de una unidad para grupos grandes",
+        "valor": "Combis de 19+1 plazas y camionetas 4x4 con chofer",
         "fuente": [
           "Combis de 19+1 plazas y camionetas 4x4 con chofer profesional",
           "Coordinamos más de una unidad para el mismo viaje"
@@ -576,7 +576,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combi privada de 19+1 plazas; más de una unidad para grupos grandes; 4x4 o combi para ripio con el Hornocal",
+        "valor": "Combi privada de 19+1 plazas; 4x4 o combi para ripio con el Hornocal",
         "fuente": [
           "para más de 19 pasajeros, más de una unidad",
           "Camioneta 4x4 o combi preparada para ripio cuando el plan incluye el Hornocal",
@@ -667,7 +667,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combis de 19+1 plazas y camionetas 4x4; más de una unidad para grupos grandes",
+        "valor": "Combis de 19+1 plazas y camionetas 4x4",
         "fuente": [
           "Combis de 19+1 plazas y camionetas 4x4, con chofer profesional",
           "Grupos más grandes: más de una unidad"
@@ -761,7 +761,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combis de 19+1 plazas y camionetas 4x4; más de una unidad para grupos grandes",
+        "valor": "Combis de 19+1 plazas y camionetas 4x4",
         "fuente": [
           "Combis de 19+1 plazas y camionetas 4x4, con chofer profesional",
           "Grupos más grandes: más de una unidad"
@@ -809,7 +809,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combi de 19+1 plazas; para grupos más grandes, más de una unidad",
+        "valor": "Combi de 19+1 plazas",
         "fuente": [
           "en una combi de 19+1 plazas con chofer profesional",
           "Si el grupo es más grande, cotizamos más de una unidad"
@@ -952,7 +952,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combis de 19+1 plazas; más de una unidad con los mismos horarios si los invitados son más",
+        "valor": "Combis de 19+1 plazas",
         "fuente": [
           "Combis de 19+1 plazas. Si los invitados son más, coordinamos más de una unidad con los mismos horarios."
         ]
@@ -984,7 +984,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combi de 19+1 plazas; para grupos más numerosos, más de una unidad con el mismo punto de encuentro",
+        "valor": "Combi de 19+1 plazas",
         "fuente": [
           "Las combis son de 19+1 plazas",
           "Para grupos más numerosos coordinamos más de una unidad, con el mismo punto de encuentro"
@@ -1051,7 +1051,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Combis de 19+1 plazas; la cantidad de unidades según el contingente",
+        "valor": "Combis de 19+1 plazas",
         "fuente": [
           "Las combis son de 19+1 plazas.",
           "la cantidad de unidades que necesita el contingente"
@@ -1065,15 +1065,15 @@ export const VIAJES = {
       "duracion": {
         "valor": "San Pedro de Atacama: un día completo de viaje; Uyuni: recomendado en dos días",
         "fuente": [
-          "Un día completo de viaje, todo asfaltado.",
-          "Lo recomendamos en dos días."
+          "un día completo de viaje, todo asfaltado",
+          "lo recomendamos en dos días"
         ]
       },
       "distancia": {
         "valor": "Unos 590 km a San Pedro de Atacama y unos 690 km a Uyuni",
         "fuente": [
-          "Unos 590 km por Purmamarca, Salinas Grandes y el Paso de Jama",
-          "Unos 690 km por la Quebrada de Humahuaca, La Quiaca–Villazón y Tupiza"
+          "Unos 590 km por el Paso de Jama",
+          "Unos 690 km por la Quebrada de Humahuaca, La Quiaca y Tupiza"
         ]
       },
       "salida": {
@@ -1113,7 +1113,7 @@ export const VIAJES = {
         "valor": "One of our drivers, who knows gravel roads, altitude and border passes; maintenance and GPS",
         "fuente": [
           "the pickup always comes with one of our drivers, who knows the gravel roads, the altitude and the border passes",
-          "Maintenance included in the rental",
+          "4x4 pickups maintained in our own workshop",
           "GPS on the units in service, for the length of the rental."
         ]
       },
@@ -1150,7 +1150,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "19-seat minibuses and 4x4 pickups; more vehicles for larger groups",
+        "valor": "19-seat minibuses and 4x4 pickups",
         "fuente": [
           "19-seat minibuses and 4x4 pickups; for larger groups we add vehicles to the same program"
         ]
@@ -1195,14 +1195,14 @@ export const VIAJES = {
       "duracion": {
         "valor": "San Pedro de Atacama: a full day on paved roads; Uyuni: best over two days",
         "fuente": [
-          "A full day on paved roads.",
-          "La Quiaca–Villazón and Tupiza. Best over two days."
+          "a full day on paved roads",
+          "La Quiaca and Tupiza, best over two days"
         ]
       },
       "distancia": {
         "valor": "About 590 km to San Pedro de Atacama and about 690 km to Uyuni",
         "fuente": [
-          "About 590 km via Purmamarca, Salinas Grandes and the Jama Pass",
+          "About 590 km over the Jama Pass",
           "About 690 km via the Quebrada de Humahuaca"
         ]
       },
@@ -1297,7 +1297,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "19-seat minibuses and 4x4 pickups; additional vehicles for larger groups",
+        "valor": "19-seat minibuses and 4x4 pickups",
         "fuente": [
           "19-seat minibuses and 4x4 pickups, with a professional driver",
           "Larger groups: we coordinate additional vehicles for the same program"
@@ -1337,7 +1337,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "A private 19-seat minibus or a 4x4 pickup, prepared for altitude; more minibuses for larger groups",
+        "valor": "A private 19-seat minibus or a 4x4 pickup, prepared for altitude",
         "fuente": [
           "A private 19-seat minibus for the group",
           "Or a 4x4 pickup, chosen for the group; vehicles prepared for altitude",
@@ -1384,7 +1384,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "19-seat minibuses and 4x4 pickups; additional vehicles for larger groups",
+        "valor": "19-seat minibuses and 4x4 pickups",
         "fuente": [
           "19-seat minibuses with a professional driver",
           "4x4 pickups for small groups or when the trip continues on gravel",
@@ -1427,7 +1427,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "19-seat minibuses prepared for gravel and 4x4 pickups; more minibuses for larger groups",
+        "valor": "19-seat minibuses prepared for gravel and 4x4 pickups",
         "fuente": [
           "19-seat minibuses with a professional driver, prepared for gravel roads",
           "4x4 pickups for small groups or when the road calls for it",
@@ -1471,7 +1471,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "19-seat minibuses and 4x4 pickups with a professional driver; more minibuses for larger groups",
+        "valor": "19-seat minibuses and 4x4 pickups with a professional driver",
         "fuente": [
           "19-seat minibuses with a professional driver",
           "4x4 pickups for small groups",
@@ -1558,7 +1558,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "A private 19-seat minibus; more minibuses for larger groups; a 4x4 or gravel-ready minibus for the Hornocal",
+        "valor": "A private 19-seat minibus; a 4x4 or gravel-ready minibus for the Hornocal",
         "fuente": [
           "A private 19-seat minibus for the group",
           "larger groups travel in additional minibuses",
@@ -1650,7 +1650,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "19-seat minibuses and 4x4 pickups; several minibuses for larger groups",
+        "valor": "19-seat minibuses and 4x4 pickups",
         "fuente": [
           "19-seat minibuses and 4x4 pickups with a professional driver",
           "Larger groups travel in several minibuses"
@@ -1744,7 +1744,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "19-seat minibuses and 4x4 pickups; several minibuses for larger groups",
+        "valor": "19-seat minibuses and 4x4 pickups",
         "fuente": [
           "19-seat minibuses and 4x4 pickups with a professional driver",
           "Larger groups travel in several minibuses"
@@ -1843,7 +1843,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "19-seat minibus; larger groups get extra vehicles on the same trip",
+        "valor": "19-seat minibus",
         "fuente": [
           "19-seat minibuses with a professional driver",
           "Larger groups get a quote for extra vehicles on the same trip"
@@ -1939,7 +1939,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "19-seat minibuses; more minibuses on the same schedule for more guests",
+        "valor": "19-seat minibuses",
         "fuente": [
           "19-seat minibuses. For more guests, we add minibuses on the same schedule."
         ]
@@ -1978,7 +1978,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Van privativa de 19+1 lugares ou caminhonete 4x4, preparadas para a altitude; vans adicionais se preciso",
+        "valor": "Van privativa de 19+1 lugares ou caminhonete 4x4, preparadas para a altitude",
         "fuente": [
           "Uma van privativa de 19+1 lugares para o grupo",
           "Ou uma caminhonete 4x4, conforme o grupo; veículos preparados para a altitude",
@@ -2025,7 +2025,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Vans de 19+1 lugares e caminhonetes 4x4 com motorista; mais de um veículo para grupos maiores",
+        "valor": "Vans de 19+1 lugares e caminhonetes 4x4 com motorista",
         "fuente": [
           "Vans de 19+1 lugares e caminhonetes 4x4 com motorista profissional",
           "coordenamos mais de um veículo para que viajem juntos"
@@ -2069,7 +2069,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Van privativa de 19+1 lugares; vans adicionais para grupos maiores; 4x4 ou van para cascalho no Hornocal",
+        "valor": "Van privativa de 19+1 lugares; 4x4 ou van para cascalho no Hornocal",
         "fuente": [
           "Uma van privativa de 19+1 lugares para o grupo",
           "os grupos maiores viajam em vans adicionais",
@@ -2116,7 +2116,7 @@ export const VIAJES = {
         ]
       },
       "unidades": {
-        "valor": "Vans de 19+1 lugares e caminhonetes 4x4; mais de um veículo para grupos maiores",
+        "valor": "Vans de 19+1 lugares e caminhonetes 4x4",
         "fuente": [
           "Vans de 19+1 lugares e caminhonetes 4x4, com motorista profissional",
           "Grupos maiores: mais de um veículo"

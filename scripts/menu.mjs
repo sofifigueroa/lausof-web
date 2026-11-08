@@ -225,13 +225,13 @@ export const PIE_DATOS = {
   },
   en: {
     titulo: 'Billing details',
-    items: ['Legal name: Lausof S.R.L.', `CUIT (Argentine tax ID): ${FICHA.taxID}`, 'We issue Factura A (Argentine tax invoice).'],
+    items: ['Legal name: Lausof S.R.L.', `CUIT (Argentine tax ID): ${FICHA.taxID}`, 'We issue Factura A or B (Argentine tax invoices).'],
     legal: [`© Lausof SRL · CUIT ${FICHA.taxID} · Salta, Argentina`, 'Family-owned transport and logistics company · northwest Argentina'],
     privacidad: ['Privacy', '/en/privacy.html'],
   },
   pt: {
     titulo: 'Dados para faturamento',
-    items: ['Razão social: Lausof S.R.L.', `CUIT (registro fiscal argentino): ${FICHA.taxID}`, 'Emitimos nota fiscal argentina (factura A).'],
+    items: ['Razão social: Lausof S.R.L.', `CUIT (registro fiscal argentino): ${FICHA.taxID}`, 'Emitimos nota fiscal argentina (factura A ou B).'],
     legal: [`© Lausof SRL · CUIT ${FICHA.taxID} · Salta Capital, Argentina`, 'Empresa familiar de transporte e logística · Noroeste argentino'],
     privacidad: ['Privacidade', '/pt/privacidade.html'],
   },

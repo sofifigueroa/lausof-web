@@ -269,7 +269,7 @@ export const FRANJAS = {
     en: { rotulo: 'Credentials', items: [
       ['With a driver', ' for travelers, monthly for companies'],
       ['4x4 pickups', ' prepared for gravel and altitude'],
-      ['Maintenance', ' included in the rental'],
+      ['Maintenance', ' in our own workshop'],
       ['GPS', ' on the units in service'],
       ['More than a decade', ' working in the Puna'],
       ['Factura A', ` (Argentine tax invoice) — CUIT ${CUIT}`],
@@ -299,7 +299,7 @@ export const PRUEBAS_HUB = {
     ['Todas las zonas mineras', 'Salta, Jujuy y Catamarca, en toda la Puna.', '/logistica-minera.html#zonas'],
     ['A toda hora', 'Salidas de madrugada, de noche y fines de semana.'],
     ['Factura A o B', 'Con remito.'],
-    ['Flota y taller propios', 'Mantenimiento en taller propio, no tercerizado.', '#equipamiento'],
+    ['Flota y taller propios', 'Mantenimiento en taller propio.', '#equipamiento'],
     ['Desde 2010', 'Empresa familiar de transporte de Salta.'],
     ['Viajes internacionales', 'Chile y Bolivia por tierra; el permiso internacional de cada unidad lo tramitamos nosotros.'],
     RESENA,
@@ -311,7 +311,7 @@ export const PRUEBAS_HUB = {
     ['Every mining area', 'All the mining areas and routes of the Puna: Salta, Jujuy and Catamarca.', '/en/mining-logistics.html#areas'],
     ['Any hour', 'Pre-dawn, night and weekend departures.'],
     ['Factura A or B', 'With a delivery note (remito).'],
-    ['Own fleet and workshop', 'Maintenance in our own workshop, not subcontracted.', '#equipment'],
+    ['Own fleet and workshop', 'Maintenance in our own workshop.', '#equipment'],
     ['Since 2010', 'A family-run transport company from Salta.'],
     ['International trips', "Chile and Bolivia by road; we file each vehicle's international trip permit."],
     RESENA,
@@ -401,7 +401,7 @@ export const BARRAS = [
 export const TEXTOS_BLOQUES = {
   es: {
     pie: 'Transporte y logística en Salta y el norte argentino.<br>Junín 1334 / Siria 1333 — Salta Capital (4400)',
-    telefonos: 'Teléfonos', telefono: '387 526-9009', llamadasY: 'llamadas y', correo: 'Correo', notasTelefono: [],
+    telefonos: 'Teléfono', telefonosVarios: 'Teléfonos', telefono: '387 526-9009', llamadasY: 'llamadas y', correo: 'Correo', notasTelefono: [],
     flotaEnVenta: '<a href="/flota-en-venta.html">Flota en venta →</a>',
     barra: 'Acciones rápidas', cierreNota: null,
   },

@@ -8,11 +8,12 @@
    tarjetas de Norte Travel (1-investigacion.md §R-B). Datos y fuentes en
    scripts/tarjetas-datos.mjs.
 
-   El script escribe sólo dos cosas dentro de cada tarjeta:
+   El script escribe sólo tres cosas dentro de cada tarjeta:
      1. la etiqueta, justo antes del <h3>;
-     2. el texto del enlace .ruta-link (o el enlace entero, si la tarjeta no
+     2. la línea, el <p> justo después del <h3> (ronda 9: una sola frase);
+     3. el texto del enlace .ruta-link (o el enlace entero, si la tarjeta no
         tenía, antes del cierre de .card-body, después de la zona TIENDA).
-   No toca la foto, el título, la descripción ni las zonas
+   No toca la foto, el título ni las zonas
    <!-- GENERADO:TIENDA hub -->, y deja el href de un enlace que ya existe
    (los renglones de un wa.me o mailto los pone scripts/prefill.mjs: correr
    prefill después de este script).
@@ -40,6 +41,10 @@ const TARJETA = /<article class="card circuito">[\s\S]*?<\/article>/g;
 const ETIQUETA = /<span class="tag">[^<]*<\/span>\s*/;
 const RUTA = /(<a class="ruta-link"[^>]*>)([^<]*)(<\/a>)/;
 const FLECHA = ' →';
+const LINEA = /(<\/h3>(?:\s*<!--[\s\S]*?-->)*\s*<p>)([\s\S]*?)(<\/p>)/;
+/** Una línea: una sola frase corta (ronda 9; 1b L29). */
+export const LARGO_LINEA = 120;
+const DOS_FRASES = /[.!?]\s+[A-ZÁÉÍÓÚÑ¿¡]/;
 const normal = (s) => s.replace(/\s+/g, ' ').trim().toLowerCase();
 const escapar = (s) => s.replace(/&/g, '&amp;');
 
@@ -47,6 +52,12 @@ const escapar = (s) => s.replace(/&/g, '&amp;');
 export function problemasDeDatos(pagina, datos = TARJETAS[pagina], viajes = VIAJES, descripciones = []) {
   const p = [];
   datos.forEach((d, i) => {
+    if (!d.linea) p.push(`${pagina}: «${d.titulo}» sin línea`);
+    else {
+      if (d.linea.length > LARGO_LINEA) p.push(`${pagina}: la línea de «${d.titulo}» mide ${d.linea.length} (límite ${LARGO_LINEA})`);
+      if (DOS_FRASES.test(d.linea)) p.push(`${pagina}: la línea de «${d.titulo}» tiene más de una frase`);
+      if (/desde \$|\$|ARS|USD/.test(d.linea)) p.push(`${pagina}: la línea de «${d.titulo}» dice un precio (BRIEF)`);
+    }
     if (d.etiqueta === null) {
       if (!d.motivo) p.push(`${pagina}: «${d.titulo}» va sin etiqueta y sin motivo`);
       return;
@@ -68,8 +79,8 @@ export function problemasDeDatos(pagina, datos = TARJETAS[pagina], viajes = VIAJ
 }
 
 const descripcionDe = (tarjeta) => {
-  const m = tarjeta.match(/<\/h3>\s*<p>([\s\S]*?)<\/p>/);
-  return m ? m[1].replace(/<[^>]+>/g, '') : '';
+  const m = tarjeta.match(LINEA);
+  return m ? m[2].replace(/<[^>]+>/g, '') : '';
 };
 
 /** Una tarjeta al día con su dato. Pura e idempotente. */
@@ -77,6 +88,10 @@ export function conTarjeta(tarjeta, d, pagina) {
   const titulo = (tarjeta.match(/<h3>([^<]*)<\/h3>/) || [])[1];
   if (titulo !== d.titulo) throw new Error(`${pagina}: la tarjeta dice «${titulo}» y los datos «${d.titulo}» (¿cambió el orden o el título?)`);
   let out = tarjeta.replace(ETIQUETA, '');
+  if (d.linea) {
+    if (!LINEA.test(out)) throw new Error(`${pagina}: «${d.titulo}» no tiene el <p> después del <h3>`);
+    out = out.replace(LINEA, (_, a, __, c) => `${a}${escapar(d.linea)}${c}`);
+  }
   if (d.etiqueta) {
     const h3 = out.indexOf('<h3>');
     const sangria = out.slice(out.lastIndexOf('\n', h3) + 1, h3);

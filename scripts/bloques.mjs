@@ -183,7 +183,8 @@ export function contacto(html, pagina) {
     : t.flotaEnVenta && pagina !== 'flota-en-venta.html' ? t.flotaEnVenta : null;
   const cruce = zonaCruce(pagina);
   // La flota en venta: llamadas al 526-9009 y WhatsApp a la línea de ventas (28/08/2026).
-  const telefonos = tipo === 'flota' && numero === WA_VENTAS.numero
+  const ventas = tipo === 'flota' && numero === WA_VENTAS.numero;
+  const telefonos = ventas
     ? [`<li><a href="${TEL_HREF}">${t.telefono}</a></li>`, `<li>WhatsApp <a href="${wa}" target="_blank" rel="noopener">${WA_VENTAS.texto}</a></li>`]
     : [`<li><a href="${TEL_HREF}">${t.telefono}</a> — ${t.llamadasY} <a href="${wa}" target="_blank" rel="noopener">WhatsApp</a></li>`,
       ...t.notasTelefono.map((n) => `<li>${n}</li>`)];
@@ -200,7 +201,8 @@ export function contacto(html, pagina) {
     ...(cruce ? [cruce.replace(/^ {2}/gm, '')] : []),
     '  </div>',
     '  <div>',
-    `    <b>${t.telefonos}</b>`,
+    // «Teléfono» con una línea; «Teléfonos» sólo en la flota en venta, que suma la de ventas (ronda 9).
+    `    <b>${ventas && t.telefonosVarios ? t.telefonosVarios : t.telefonos}</b>`,
     '    <ul>',
     ...telefonos.map((l) => `      ${l}`),
     '    </ul>',

@@ -80,3 +80,24 @@ test('escribir es idempotente y conserva la cantidad de tarjetas', async () => {
     assert.strictEqual(una.match(TARJETA).length, TARJETAS[pagina].length, pagina);
   }
 });
+
+// Ronda 9 (08/11/2026): la línea de cada tarjeta es una sola frase corta y
+// sale de los datos (1b L29, L4). Antes había descripciones de 2–3 frases.
+test('la línea de cada tarjeta: una frase, de los datos, sin precio (con control en rojo)', async () => {
+  const { conTarjetas, problemasDeDatos, LARGO_LINEA } = await guion;
+  const { TARJETAS } = await datos;
+  for (const [pagina, lista] of Object.entries(TARJETAS)) {
+    const html = paginas[pagina];
+    const lineas = (html.match(TARJETA) || []).map((t) => (t.match(/<\/h3>(?:\s*<!--[\s\S]*?-->)*\s*<p>([\s\S]*?)<\/p>/) || [])[1]);
+    assert.deepStrictEqual(lineas, lista.map((d) => d.linea.replace(/&/g, '&amp;')), pagina);
+  }
+  const mal = JSON.parse(JSON.stringify(TARJETAS['turismo.html']));
+  mal[0].linea = 'La Ruta 68 y los viñedos. Es el clásico día completo.';
+  mal[1].linea = 'x'.repeat(LARGO_LINEA + 1);
+  mal[2].linea = 'Ida y vuelta por US$ 300.';
+  delete mal[3].linea;
+  const p = problemasDeDatos('turismo.html', mal).join('\n');
+  for (const r of [/más de una frase/, /mide \d+/, /dice un precio/, /sin línea/]) assert.match(p, r);
+  // Sin el <p> después del título, el generador corta.
+  assert.throws(() => conTarjetas(paginas['turismo.html'].replace(/(<h3>Iruya<\/h3>\s*)<p>/, '$1<div>'), 'turismo.html'), /no tiene el <p>/);
+});
