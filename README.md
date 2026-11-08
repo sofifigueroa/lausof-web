@@ -676,7 +676,13 @@ node scripts/versiones.mjs    # después de tocar cualquier .css o .js (--compro
   «ir» se conservan donde están; la página actual de la miga es
   `<li aria-current="page">` (en eventos era `<span aria-current>`, que
   `tituloDe` también lee). `versiones.mjs` no entra a las zonas TIENDA; la
-  vitrina puede usar `version('css/tienda.css')`.
+  vitrina puede usar `version('css/tienda.css')`. Desde la ronda 3
+  (08/11/2026), `menu.mjs` conserva la zona TIENDA «pie» al regenerar la fila
+  legal y `empresa.mjs` pone su ficha antes de la zona TIENDA «estilos» (las
+  dos van justo antes de `</head>`), así las zonas de la vitrina pueden vivir
+  en las páginas del repo sin que un generador las borre o las mueva. En el
+  teléfono la fila legal deja 68 px libres a la derecha para el botón del
+  chat (redondo, 12 px arriba de la barra).
 - Lo vigilan `tests/encabezado.test.js` y `tests/estilos.test.js`.
 
 ## Cabeceras de seguridad

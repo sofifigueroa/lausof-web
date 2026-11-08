@@ -363,3 +363,17 @@ test('ninguna URL del 05/11/2026 se movió y el sitemap no achica', () => {
     assert.doesNotMatch(redirects, new RegExp(`^/${url.replace(/[.]/g, '\\.')}\\s`, 'm'), `/${url} redirige`);
   }
 });
+
+// La vitrina (tienda-v2-0611:scripts/tienda.mjs, ponerZonas) pone su zona
+// «pie» en la fila legal, justo antes de <!-- /GENERADO:LEGAL -->. Regenerar
+// el pie la deja tal cual, en el mismo lugar (antes se perdía).
+test('menu: regenerar la fila legal conserva la zona TIENDA «pie» de la vitrina', async () => {
+  const { conMenu } = await cargar();
+  const pagina = 'traslado-salta-cafayate.html';
+  const base = paginas[pagina].replace(/\n[ \t]*<!-- GENERADO:TIENDA pie -->[\s\S]*?<!-- \/GENERADO:TIENDA -->/, '');
+  const zona = '<!-- GENERADO:TIENDA pie --><a class="pie-arrepentimiento" href="https://x.invalid/lausof/cancelar">Botón de arrepentimiento</a><!-- /GENERADO:TIENDA -->';
+  const conZona = base.replace('\n    <!-- /GENERADO:LEGAL -->', `\n    ${zona}\n    <!-- /GENERADO:LEGAL -->`);
+  assert.notStrictEqual(conZona, base, 'la fila legal cambió de forma: la prueba no puso la zona');
+  assert.strictEqual(conMenu(conZona, pagina), conZona);
+  assert.strictEqual(conMenu(base, pagina), base);
+});

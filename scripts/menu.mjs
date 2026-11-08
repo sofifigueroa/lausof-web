@@ -389,6 +389,16 @@ const NAV_VIEJO = /[ \t]*<nav class="main"[\s\S]*?<\/nav>/;
 // primera vez, el <b> y el <ul> escritos a mano.
 const FACTURACION = /(<div class="wrap proveedores">)\s*(?:<!-- GENERADO:FACTURACION[\s\S]*?<!-- \/GENERADO:FACTURACION -->|<b>[^<]*<\/b>\s*<ul>[\s\S]*?<\/ul>)/;
 const LEGAL = /(<div class="wrap legal">)[\s\S]*?(\n[ \t]*<\/div>)/;
+// La vitrina (tienda-v2-0611:scripts/tienda.mjs, ponerZonas) pone su zona
+// «pie» (el «Botón de arrepentimiento») en la fila legal, justo antes de
+// <!-- /GENERADO:LEGAL -->, con la sangría de esa línea. Al regenerar la
+// fila, las zonas TIENDA que hubiera quedan tal cual, en el mismo lugar.
+const TIENDA = /<!-- GENERADO:TIENDA [a-z0-9-]+ -->[\s\S]*?<!-- \/GENERADO:TIENDA -->/g;
+const CIERRE_LEGAL = '\n    <!-- /GENERADO:LEGAL -->';
+function conTienda(zona, fila) {
+  const tienda = fila.match(TIENDA) || [];
+  return tienda.length ? zona.replace(CIERRE_LEGAL, `${tienda.map((z) => `\n    ${z}`).join('')}${CIERRE_LEGAL}`) : zona;
+}
 // Los ?v= los escribe scripts/versiones.mjs (hash del archivo); acá se buscan con cualquier valor.
 const etiquetaScript = (archivo) => `<script defer src="/js/${archivo}?v=${version(`js/${archivo}`)}"></script>`;
 const lineaScript = (archivo) => new RegExp(`^([ \\t]*)<script defer src="/js/${archivo.replace('.', '\\.')}\\?v=[^"]*"></script>$`, 'm');
@@ -400,7 +410,7 @@ export function conMenu(html, pagina) {
   let nuevo = html.replace(/<body\b[^>]*>/, `<body ${atributosBody(pagina).map(([k, v]) => `${k}="${v}"`).join(' ')}>`);
   if (PORTADAS.includes(pagina)) nuevo = nuevo.replace(ZONA_PIE, () => zonaPie(pagina));
   nuevo = nuevo.replace(FACTURACION, (_, apertura) => `${apertura}\n${zonaFacturacion(pagina)}`);
-  nuevo = nuevo.replace(LEGAL, (_, apertura, cierre) => `${apertura}\n${zonaLegal(pagina)}${cierre}`);
+  nuevo = nuevo.replace(LEGAL, (fila, apertura, cierre) => `${apertura}\n${conTienda(zonaLegal(pagina), fila)}${cierre}`);
   const cruce = zonaCruce(pagina);
   nuevo = nuevo.replace(ZONA_CRUCE, '');
   if (cruce) {

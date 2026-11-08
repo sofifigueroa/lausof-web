@@ -253,7 +253,11 @@ test('el hub de turismo titula la sección «Destinos» en ES/EN/PT, con el mism
     ['pt/passeios-e-traslados.html', 'circuitos', 'Destinos', 'Roteiros que fazemos'],
   ];
   for (const [archivo, ancla, titulo, viejo] of HUBS) {
-    const html = fs.readFileSync(path.join(raiz, archivo), 'utf8');
+    // Sin comentarios ni la marca «PRECIOS DE PRUEBA»: la vitrina envuelve el
+    // texto del título en su zona TIENDA «destinos» y, fuera de producción,
+    // le suma esa marca (tienda-v2-0611:scripts/tienda.mjs, ponerZonas y chipTitulo).
+    const html = sinComentarios(fs.readFileSync(path.join(raiz, archivo), 'utf8'))
+      .replace(/ ?<span class="tienda-chip"[^>]*>[^<]*<\/span>/g, '');
     const seccion = html.match(new RegExp(`<section class="block" id="${ancla}">[\\s\\S]*?<h2>([^<]+)</h2>`));
     assert.ok(seccion, `${archivo}: falta la sección #${ancla}`);
     assert.strictEqual(seccion[1], titulo, `${archivo}: el título de #${ancla}`);

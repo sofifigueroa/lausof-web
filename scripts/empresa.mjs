@@ -114,11 +114,17 @@ export function paginas() {
   return todasLasPaginas().filter((f) => f !== 'index.html' && !f.endsWith('404.html')).sort();
 }
 
-// La página con el bloque al día, justo antes de </head>. Pura e idempotente.
+// La página con el bloque al día, justo antes de </head>; si la vitrina
+// (tienda-v2-0611:scripts/tienda.mjs, ponerZonas) ya puso ahí su zona TIENDA
+// «estilos», justo antes de esa zona, así las dos quedan quietas al
+// regenerar. Pura e idempotente.
+const ESTILOS_TIENDA = /[ \t]*<!-- GENERADO:TIENDA estilos -->/;
 export function conFicha(html) {
   const sin = html.replace(ZONA, '');
-  const i = sin.indexOf('</head>');
-  if (i < 0) throw new Error('la página no tiene </head>');
+  const fin = sin.indexOf('</head>');
+  if (fin < 0) throw new Error('la página no tiene </head>');
+  const estilos = sin.search(ESTILOS_TIENDA);
+  const i = estilos >= 0 && estilos < fin ? estilos : fin;
   return sin.slice(0, i) + bloque() + sin.slice(i);
 }
 

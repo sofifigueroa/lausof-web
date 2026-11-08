@@ -115,3 +115,14 @@ test('la ficha no publica lo que la política deja afuera', async () => {
   const telefonos = texto.match(/\+?54[-\s\d]{9,}/g) || [];
   assert.strictEqual(telefonos.length, 1, `la ficha tiene más de un teléfono: ${telefonos.join(', ')}`);
 });
+
+// La vitrina pone su zona TIENDA «estilos» justo antes de </head>, donde va
+// también esta ficha: la ficha queda antes de la zona y las dos quietas.
+test('empresa: la ficha va antes de la zona TIENDA «estilos» y no se mueve al regenerar', async () => {
+  const { conFicha } = await guion;
+  const base = paginas['turismo.html'].replace(/  <!-- GENERADO:TIENDA estilos -->[\s\S]*?<!-- \/GENERADO:TIENDA -->\n/, '');
+  const conZona = base.replace('</head>', '  <!-- GENERADO:TIENDA estilos --><!-- /GENERADO:TIENDA -->\n</head>');
+  assert.strictEqual(conFicha(conZona), conZona);
+  assert.strictEqual(conFicha(base), base);
+  assert.ok(conFicha(conZona).indexOf('GENERADO:EMPRESA') < conFicha(conZona).indexOf('GENERADO:TIENDA estilos'));
+});

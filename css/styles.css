@@ -586,6 +586,10 @@ footer.site .legal-enlaces{flex-basis:100%;margin:0}
   .nav-cta{display:none}
   /* espacio reservado siempre, para que la barra no tape el final de la página */
   body{padding-bottom:84px}
+  /* el botón del chat va redondo, 12 px arriba de la barra y a 16 px del borde
+     derecho (52 px; tienda-v2-0611:scripts/tienda.css): la fila legal, que es
+     lo último de la página, le deja ese lado libre */
+  footer.site .legal{padding-right:68px}
 }
 
 /* ---- hover ----
