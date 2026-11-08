@@ -193,7 +193,13 @@ su nota del 05/11 sobre autoplay o manual por lugar; textos en 4-textos.md §2).
   con la foto ampliada anuncia el contador del diálogo y el de atrás se calla.
 - **Control en navegador**: `node scripts/galeria-navegador.mjs` (teclado,
   diálogo, foco, anuncio, deslizar, nada que se mueva, sin scroll horizontal a 390 y 1440 en las
-  páginas tocadas; `--capturas DIR` guarda PNG). Usa Chrome sin ventana y el
+  82 páginas; `--capturas DIR` guarda PNG). Desde la ronda 10 (08/11/2026), en
+  cada página a 390 px: que el menú, el encabezado y cada bloque compartido
+  (miga, franja, datos del viaje, cierre, pie de contacto, fila legal) se vean
+  y en el orden de la página, que la barra del teléfono quede fija abajo sin
+  tapar el último renglón del pie, y que el botón del chat, si está, quede
+  12 px arriba de la barra. El orden en el HTML lo prueba `tests/bloques.test.js`.
+  Usa chrome-headless-shell sin ventana (nunca la app de Chrome de la Mac) y el
   protocolo de DevTools, sin dependencias. En la PC de pruebas va por el gate:
   `~/.lausof-fleet/remote-gate.sh --no-db --require-clean <worktree> -- node scripts/galeria-navegador.mjs`.
 - **Patentes de la fase 1**, difuminadas en `.jpg`, `.webp` y variantes:
@@ -683,8 +689,13 @@ node scripts/versiones.mjs    # después de tocar cualquier .css o .js (--compro
   `NODOS` si en las migas se dice distinto («Turismo» en vez de «Turismo en
   Salta y Jujuy») o si es una sección de un hub (`#cargas`). El
   `BreadcrumbList` del JSON-LD tiene que decir lo mismo: `--comprobar` lo
-  revisa. Las 7 páginas nuevas en migas no tienen `BreadcrumbList` (su JSON-LD
-  es un `Service` suelto); sumarlo es aparte.
+  revisa. Las páginas con miga que no lo tienen escrito en su `@graph` (las 7
+  que sumaron miga y las 3 de privacidad) lo reciben en la zona
+  `GENERADO:RASTRO` del `<head>`, antes de la ficha de la empresa (ronda 10).
+- **La miga va justo después del encabezado** en todas las páginas (en los
+  hubs de empresas, antes). Hasta la ronda 10, 8 páginas la tenían después de
+  la franja o de «Datos del viaje»; el script la mueve con la zona TIENDA
+  «bloque» de la vitrina adentro, y `--comprobar` avisa si vuelve a pasar.
 - **El encabezado no es una zona** porque su contenido ya tiene dueños:
   `prefill.mjs` escribe sus WhatsApp y correos (no entra a las zonas
   GENERADO) e `imagenes.mjs` su foto. `encabezado.mjs` sólo pone el orden y

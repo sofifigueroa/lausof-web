@@ -10,7 +10,9 @@
                 que las 12 páginas de eventos tenían dentro del encabezado y
                 se suma a las 7 páginas que no tenían ninguna. Va justo
                 después del encabezado (en el hub de empresas, antes: así lo
-                pide su diseño).
+                pide su diseño); si está en otro lado, se mueve (ronda 10).
+     RASTRO     el BreadcrumbList de la miga, en el <head>, en las páginas
+                con miga que no lo tienen escrito en su JSON-LD (ronda 10).
      encabezado el molde de section.page-head: foto, kicker, h1, bajada y
                 botones, siempre en el mismo orden y con las mismas clases
                 (y el del hub de empresas, con la foto en su columna). El
@@ -187,7 +189,21 @@ export function conEncabezado(html, pagina) {
   return html.slice(0, m.index) + nuevo + html.slice(m.index + todo.length);
 }
 
-/** La página con la miga generada en su lugar. Pura e idempotente. */
+/**
+ * ¿La miga va pegada al final del encabezado? Entre los dos sólo puede haber
+ * espacio, comentarios y zonas de la vitrina. Es su lugar en todas las páginas con
+ * encabezado salvo los hubs de empresas (hub-crumbs, antes del encabezado).
+ */
+const pegadaAlEncabezado = (html, seccion, zona) =>
+  zona.index >= seccion.index + seccion[0].length
+  && !html.slice(seccion.index + seccion[0].length, zona.index).replace(TIENDA, '').replace(/<!--(?! GENERADO:)[\s\S]*?-->/g, '').trim();
+const vaAntesDelEncabezado = (pagina) => MIGAS[pagina]?.clase === 'hub-crumbs';
+
+/**
+ * La página con la miga generada en su lugar: justo después del encabezado
+ * (ronda 10: en 8 páginas iba después de la franja o de «Datos del viaje»).
+ * Pura e idempotente.
+ */
 export function conMigas(html, pagina) {
   const lineas = migas(pagina);
   if (!lineas) return html;
@@ -196,11 +212,54 @@ export function conMigas(html, pagina) {
   const poner = (sangria, tienda = []) => [sangria + abre, sangrar(lineas, sangria), ...tienda.map((z) => sangria + z), sangria + cierra].join('\n');
   let out = html.replace(NAV_MIGAS, '');
   const zona = out.match(ZONA) || out.match(NAV_CRUMBS);
-  if (zona) return out.slice(0, zona.index) + poner(zona[1], zona[0].match(TIENDA) || []) + out.slice(zona.index + zona[0].length);
   const seccion = out.match(SECCION);
+  const tienda = zona ? zona[0].match(TIENDA) || [] : [];
+  if (zona && (!seccion || vaAntesDelEncabezado(pagina) || pegadaAlEncabezado(out, seccion, zona))) {
+    return out.slice(0, zona.index) + poner(zona[1], tienda) + out.slice(zona.index + zona[0].length);
+  }
   if (!seccion) throw new Error(`${pagina}: tiene miga en encabezado-datos.mjs y no tiene ni miga ni encabezado donde ponerla`);
+  if (zona) out = out.slice(0, zona.index).replace(/\n+$/, '') + out.slice(zona.index + zona[0].length);
   const fin = seccion.index + seccion[0].length;
-  return `${out.slice(0, fin)}\n\n${poner(seccion[1])}${out.slice(fin)}`;
+  return `${out.slice(0, fin)}\n\n${poner(seccion[1], tienda)}${out.slice(fin)}`;
+}
+
+/* ---- el BreadcrumbList de las páginas que no lo tienen escrito -------------- */
+
+const abreLd = '<!-- GENERADO:RASTRO — el BreadcrumbList de la miga; no editar a mano: editar scripts/encabezado-datos.mjs y correr `node scripts/encabezado.mjs` -->';
+const cierraLd = '<!-- /GENERADO:RASTRO -->';
+const ZONA_LD = /\n?[ \t]*<!-- GENERADO:RASTRO [\s\S]*?<!-- \/GENERADO:RASTRO -->/;
+
+/** El BreadcrumbList de una página desde su miga (la última, sin `item`, como en las demás páginas). */
+export function breadcrumbList(pagina) {
+  const niveles = rastro(pagina);
+  if (!niveles) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    '@id': `${SITIO}/${pagina}#breadcrumb`,
+    itemListElement: niveles.map((n, i) => ({
+      '@type': 'ListItem', position: i + 1, name: n.nombre, ...(n.href ? { item: SITIO + n.href } : {}),
+    })),
+  };
+}
+
+/**
+ * Las páginas con miga y sin BreadcrumbList en su JSON-LD (las 7 que sumaron
+ * miga en la ronda 2, con un Service suelto, y las 3 de privacidad) lo reciben
+ * en su propia zona del <head>, antes de la ficha de la empresa. Las que ya
+ * lo tienen escrito en su @graph no se tocan: ese lo vigila problemasDe.
+ * Pura e idempotente.
+ */
+export function conRastro(html, pagina) {
+  const sin = html.replace(ZONA_LD, '');
+  const lista = /<nav class="crumbs/.test(sin) && !migasDelJsonLd(sin) ? breadcrumbList(pagina) : null;
+  if (!lista) return sin;
+  const zona = `  ${abreLd}\n  <script type="application/ld+json">${JSON.stringify(lista)}</script>\n  ${cierraLd}`;
+  // Antes de la ficha de la empresa: empresa.mjs pone la suya justo antes de
+  // </head> (o de la zona «estilos» de la vitrina), así ninguna de las dos se mueve.
+  const empresa = sin.indexOf('<!-- GENERADO:EMPRESA');
+  const donde = sin.lastIndexOf('\n', empresa >= 0 ? empresa : sin.indexOf('</head>'));
+  return `${sin.slice(0, donde)}\n${zona}${sin.slice(donde)}`;
 }
 
 /** Lo que no cierra en una página ya generada (lo usa también tests/encabezado.test.js). */
@@ -210,7 +269,13 @@ export function problemasDe(html, pagina) {
   if (tieneEncabezado && !MIGAS[pagina]) p.push(`${pagina}: tiene encabezado y no tiene miga en scripts/encabezado-datos.mjs`);
   if (/<nav class="migas"/.test(html)) p.push(`${pagina}: quedan migas con la forma vieja (nav.migas)`);
   if (/<nav class="crumbs/.test(html) && !ZONA.test(html)) p.push(`${pagina}: miga fuera de la zona MIGAS`);
+  const seccion = html.match(SECCION);
+  const zona = html.match(ZONA);
+  if (seccion && zona && !vaAntesDelEncabezado(pagina) && !pegadaAlEncabezado(html, seccion, zona)) {
+    p.push(`${pagina}: la miga no va justo después del encabezado`);
+  }
   const ld = migasDelJsonLd(html);
+  if (/<nav class="crumbs/.test(html) && !ld) p.push(`${pagina}: tiene miga y su JSON-LD no tiene BreadcrumbList`);
   const niveles = rastro(pagina);
   if (ld && niveles) {
     const esperado = niveles.map((n, i) => ({ nombre: n.nombre, url: i === niveles.length - 1 ? null : SITIO + n.href }));
@@ -221,7 +286,7 @@ export function problemasDe(html, pagina) {
   return p;
 }
 
-export const conTodo = (html, pagina) => conMigas(conEncabezado(html, pagina), pagina);
+export const conTodo = (html, pagina) => conRastro(conMigas(conEncabezado(html, pagina), pagina), pagina);
 
 function principal() {
   const comprobar = process.argv.includes('--comprobar');

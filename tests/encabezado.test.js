@@ -137,3 +137,54 @@ test('el bloque de precios que la vitrina pone después de la miga se conserva a
   const conTienda = `${html.slice(0, fin)}\n  ${zona}${html.slice(fin)}`;
   assert.strictEqual(conMigas(conTienda, nombre), conTienda);
 });
+
+/* ---- ronda 10: la miga en un solo lugar y su BreadcrumbList en todas ---- */
+
+test('la miga va justo después del encabezado (salvo los hubs de empresas, que la llevan antes)', async () => {
+  const { problemasDe } = await guion;
+  const { MIGAS } = await datos;
+  for (const [nombre, html] of Object.entries(paginas)) {
+    const i = html.indexOf('<section class="page-head');
+    const z = html.indexOf('<!-- GENERADO:MIGAS');
+    if (i < 0 || z < 0) continue;
+    if (MIGAS[nombre].clase === 'hub-crumbs') { assert.ok(z < i, `${nombre}: la miga del hub va antes del encabezado`); continue; }
+    const entre = html.slice(html.indexOf('</section>', i) + '</section>'.length, z)
+      .replace(/<!--(?! GENERADO:)[\s\S]*?-->/g, '').replace(/<!-- GENERADO:TIENDA [\s\S]*?<!-- \/GENERADO:TIENDA -->/g, '');
+    assert.strictEqual(entre.trim(), '', `${nombre}: hay algo entre el encabezado y la miga`);
+  }
+  // Control en rojo: la miga después de la franja (como estaba en 8 páginas hasta la ronda 10).
+  const nombre = 'salinas-grandes-desde-salta.html';
+  const html = paginas[nombre];
+  const miga = html.match(/\n[ \t]*<!-- GENERADO:MIGAS [\s\S]*?<!-- \/GENERADO:MIGAS -->/)[0];
+  const sin = html.replace(miga, '');
+  const fin = sin.indexOf('<!-- /GENERADO:CONFIANZA -->') + '<!-- /GENERADO:CONFIANZA -->'.length;
+  const roto = sin.slice(0, fin) + '\n' + miga + sin.slice(fin);
+  assert.ok(problemasDe(roto, nombre).some((p) => p.includes('justo después del encabezado')));
+  const { conMigas } = await guion;
+  const arreglado = conMigas(roto, nombre);
+  assert.deepStrictEqual(problemasDe(arreglado, nombre), []);
+  const sinBlancos = (h) => h.replace(/\n[ \t]*(?=\n)/g, '');
+  assert.strictEqual(sinBlancos(arreglado), sinBlancos(html), 'conMigas no la devolvió a su lugar');
+});
+
+test('toda página con miga tiene un BreadcrumbList que dice lo mismo (escrito o en la zona RASTRO)', async () => {
+  const { migasDelJsonLd, conRastro } = await guion;
+  let zonas = 0;
+  for (const [nombre, html] of Object.entries(paginas)) {
+    if (!html.includes('<nav class="crumbs')) continue;
+    assert.ok(migasDelJsonLd(html), `${nombre}: tiene miga y no tiene BreadcrumbList`);
+    const n = (html.match(/<!-- GENERADO:RASTRO /g) || []).length;
+    zonas += n;
+    assert.ok(n <= 1, `${nombre}: más de una zona RASTRO`);
+    const escritas = html.replace(/<!-- GENERADO:RASTRO [\s\S]*?<!-- \/GENERADO:RASTRO -->/, '');
+    if (n) assert.ok(!migasDelJsonLd(escritas), `${nombre}: BreadcrumbList escrito y también generado`);
+    assert.strictEqual(conRastro(html, nombre), html, `${nombre}: la zona RASTRO no está al día`);
+  }
+  assert.strictEqual(zonas, 10, 'las 7 páginas que sumaron miga en la ronda 2 y las 3 de privacidad');
+  // Control en rojo: sin la zona, la página queda sin BreadcrumbList y el script lo repone.
+  const nombre = 'alquiler-4x4.html';
+  const sin = paginas[nombre].replace(/\n[ \t]*<!-- GENERADO:RASTRO [\s\S]*?<!-- \/GENERADO:RASTRO -->/, '');
+  const { problemasDe } = await guion;
+  assert.ok(problemasDe(sin, nombre).some((p) => p.includes('no tiene BreadcrumbList')));
+  assert.strictEqual(conRastro(sin, nombre), paginas[nombre]);
+});

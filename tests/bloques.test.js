@@ -188,3 +188,34 @@ test('las portadas: el puntaje bajo el título de las reseñas, que son las de G
   // Su línea elegida (29/08), palabra por palabra (BRIEF, L28).
   assert.ok(paginas['index.html'].includes('<h2>Su tranquilidad viaja con nosotros</h2>'));
 });
+
+// Ronda 10: los bloques compartidos van en el mismo orden en las 82 páginas.
+// Lo que se ve a 390 px (que cada uno se vea, en este orden, y que la barra no
+// tape el final) lo mira scripts/galeria-navegador.mjs; esto es lo barato: el orden
+// en el HTML. Los hubs de empresas llevan la miga antes del encabezado.
+const ORDEN = ['ENCABEZADO', 'MIGAS', 'CONFIANZA', 'VIAJE', 'CIERRE', 'CONTACTO', 'LEGAL', 'BARRA'];
+const ordenDe = (html) => {
+  const limpio = html.replace(/<!-- RONDA:VISTA -->[\s\S]*?<!-- \/RONDA:VISTA -->/g, '');
+  const re = /<!-- GENERADO:(MIGAS|CONFIANZA|VIAJE|CIERRE|CONTACTO|LEGAL|BARRA) |<section class="(?:page-head|hero)\b/g;
+  return [...limpio.matchAll(re)].map((m) => m[1] || 'ENCABEZADO');
+};
+
+test('los bloques compartidos van en un solo orden en todas las páginas', async () => {
+  const { HUBS_EMPRESAS } = await guion;
+  for (const [nombre, html] of Object.entries(paginas)) {
+    let orden = ordenDe(html);
+    assert.strictEqual(new Set(orden).size, orden.length, `${nombre}: un bloque repetido (${orden.join(' · ')})`);
+    if (HUBS_EMPRESAS.includes(nombre)) {
+      assert.deepStrictEqual(orden.slice(0, 2), ['MIGAS', 'ENCABEZADO'], `${nombre}: la miga del hub va antes del encabezado`);
+      orden = ['ENCABEZADO', 'MIGAS', ...orden.slice(2)];
+    }
+    const posiciones = orden.map((b) => ORDEN.indexOf(b));
+    assert.deepStrictEqual(posiciones, [...posiciones].sort((a, b) => a - b), `${nombre}: ${orden.join(' · ')}`);
+    for (const b of ['CONTACTO', 'LEGAL']) assert.ok(orden.includes(b), `${nombre}: sin ${b}`);
+    if (!nombre.endsWith('404.html')) assert.ok(orden.includes('BARRA'), `${nombre}: sin la barra del teléfono`);
+  }
+  // Control en rojo: la miga después de la franja, como estaba en 8 páginas hasta la ronda 10.
+  const roto = '<section class="page-head"><!-- GENERADO:CONFIANZA --><!-- GENERADO:MIGAS --><!-- GENERADO:CONTACTO --><!-- GENERADO:LEGAL --><!-- GENERADO:BARRA ';
+  const p = ordenDe(roto).map((b) => ORDEN.indexOf(b));
+  assert.notDeepStrictEqual(p, [...p].sort((a, b) => a - b));
+});

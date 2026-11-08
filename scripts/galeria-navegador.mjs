@@ -8,13 +8,19 @@
    quede con scroll horizontal a 390 px. Desde la ronda 7 (08/11/2026): el
    deslizar con el dedo (con el cuadro siguiente ya pedido, N4), el movimiento
    reducido, y que el recorte de teléfono de cada encabezado
-   (scripts/recortes.mjs) cubra la caja dibujada sin agrandarse.
+   (scripts/recortes.mjs) cubra la caja dibujada sin agrandarse. Desde la
+   ronda 10: las 82 páginas (las 80 públicas y las dos 404), y en cada una, a
+   390 px, que los bloques compartidos se vean y en el orden de la página
+   (menú, encabezado, miga, franja, datos del viaje, cierre, pie de contacto,
+   fila legal), que la barra del teléfono quede abajo sin tapar el final y que
+   el botón del chat, si está, quede 12 px arriba de ella.
    Un solo recorrido por el componente, no uno por página.
 
    Sin dependencias: levanta un servidor estático de la carpeta del sitio, abre
    Chrome sin ventana y le habla por el protocolo de DevTools con el WebSocket
-   que trae Node 22. Chrome: $CHROME, o el primero que encuentre (macOS, Linux
-   o la caché de Playwright).
+   que trae Node 22. Chrome: $CHROME, o el primer chrome-headless-shell que
+   encuentre (la caché de @puppeteer/browsers en la Mac, la de Playwright o
+   Chromium en Linux); nunca la app de Chrome de la Mac.
 
      node scripts/galeria-navegador.mjs                 # controla y sale 0/1
      node scripts/galeria-navegador.mjs --capturas DIR  # además, PNG a 1440 y 390
@@ -30,31 +36,17 @@ import { spawn } from 'node:child_process';
 import { tmpdir, homedir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { RECORTES } from './recortes-datos.mjs';
+import { paginas } from './rutas-raiz.mjs';
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const iCapturas = process.argv.indexOf('--capturas');
 const dirCapturas = iCapturas > 0 ? process.argv[iCapturas + 1] : null;
 
-// Páginas que tocaron las fotos (fase 1 y lotes 1 y 2 de la biblioteca, 06/11/2026):
-// se miran sin scroll horizontal y, con --capturas, se fotografían.
-const PAGINAS = ['galeria.html', 'cargas-refrigeradas.html', 'en/refrigerated-freight.html', 'logistica-minera.html',
-  'en/mining-logistics.html', 'producciones.html', 'en/film-production-logistics.html', 'alquiler-4x4.html',
-  'en/4x4-rental.html', 'charter-recitales.html', 'clubes-deportivos.html', 'viajes-de-estudio.html',
-  'alquiler-combi-con-chofer-salta.html', 'en/minibus-with-driver-salta.html', 'traslados-casamientos.html',
-  'en/wedding-transportation.html', 'viajes-internacionales.html', 'en/international-trips.html',
-  'traslados-empresas.html', 'salinas-grandes-desde-salta.html', 'en/salinas-grandes-from-salta.html',
-  'pt/salinas-grandes-saindo-de-salta.html', 'alquiler-autoelevadores.html', 'index.html',
-  'en/crew-transport-lithium-projects.html', 'en/index.html', 'en/jujuy-utmb-trail-race-transfers.html',
-  'en/salta-airport-transfer.html', 'en/salta-to-cachi-transfer.html',
-  'en/salta-to-purmamarca-tilcara-humahuaca.html', 'en/salta-to-san-pedro-de-atacama.html', 'en/salta-to-uyuni.html',
-  'en/san-pedro-de-atacama-to-salta.html', 'en/tours-and-transfers.html', 'en/train-to-the-clouds-transfer.html',
-  'en/uyuni-to-salta.html', 'pt/index.html', 'pt/passeios-e-traslados.html',
-  'pt/traslado-salta-purmamarca-tilcara-humahuaca.html', 'pt/traslado-salta-san-pedro-de-atacama.html',
-  'pt/traslado-salta-uyuni.html', 'transporte-de-personal-obras-de-litio.html', 'traslado-aeropuerto-salta.html',
-  'traslado-salta-cachi.html', 'traslado-salta-purmamarca-tilcara-humahuaca.html',
-  'traslado-salta-san-pedro-de-atacama.html', 'traslado-salta-uyuni.html',
-  'traslado-san-pedro-de-atacama-salta.html', 'traslado-tren-a-las-nubes.html', 'traslado-uyuni-salta.html',
-  'traslados-trail-jujuy-utmb.html', 'turismo.html'];
+// Todas las páginas del sitio (rutas-raiz.mjs, sin el archivo de Google): se
+// miran sin scroll horizontal a 390 y a 1440, con sus bloques compartidos a
+// 390 y, con --capturas, se fotografían. Hasta la ronda 10 eran las 52 que
+// tocaron las fotos (W12).
+const PAGINAS = paginas();
 
 /* ---- servidor estático ---- */
 const TIPOS = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript',
@@ -74,9 +66,15 @@ const base = `http://127.0.0.1:${servidor.address().port}/`;
 
 /* ---- Chrome ---- */
 function buscarChrome() {
-  const candidatos = [process.env.CHROME,
-    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-    '/usr/bin/google-chrome', '/usr/bin/google-chrome-stable', '/usr/bin/chromium', '/usr/bin/chromium-browser'];
+  const candidatos = [process.env.CHROME];
+  const conchas = join(homedir(), '.cache', 'chrome-headless-shell', 'chrome-headless-shell');
+  if (existsSync(conchas)) {
+    for (const d of readdirSync(conchas).sort().reverse()) {
+      candidatos.push(join(conchas, d, 'chrome-headless-shell-mac-arm64', 'chrome-headless-shell'),
+        join(conchas, d, 'chrome-headless-shell-mac-x64', 'chrome-headless-shell'),
+        join(conchas, d, 'chrome-headless-shell-linux64', 'chrome-headless-shell'));
+    }
+  }
   const cache = join(homedir(), '.cache', 'ms-playwright');
   if (existsSync(cache)) {
     for (const d of readdirSync(cache).sort().reverse()) {
@@ -84,7 +82,8 @@ function buscarChrome() {
         join(cache, d, 'chrome-linux', 'chrome'), join(cache, d, 'chrome-linux64', 'chrome'));
     }
   }
-  return candidatos.find((c) => c && existsSync(c));
+  candidatos.push('/usr/bin/chromium', '/usr/bin/chromium-browser');
+  return candidatos.find((c) => c && existsSync(c) && !c.includes('/Applications/'));
 }
 const chrome = buscarChrome();
 if (!chrome) { console.error('galeria-navegador: no encontré Chrome (definir $CHROME)'); process.exit(2); }
@@ -154,6 +153,65 @@ async function tecla(key, code, keyCode) {
   await cdp('Input.dispatchKeyEvent', { type: 'keyUp', key, code, windowsVirtualKeyCode: keyCode, nativeVirtualKeyCode: keyCode });
 }
 
+/* ---- los bloques compartidos a 390 px (ronda 10) ---- */
+// En el orden en que los escribe cada página. La zona se reconoce por su
+// comentario GENERADO; su primer elemento es lo que se ve.
+const BLOQUES = ['MIGAS', 'CONFIANZA', 'VIAJE', 'CIERRE', 'CONTACTO', 'LEGAL'];
+const MEDIR_BLOQUES = `(async () => {
+  const visible = (el) => { if (!el) return false; const r = el.getBoundingClientRect(); const cs = getComputedStyle(el);
+    return r.height > 0 && r.width > 0 && cs.visibility !== 'hidden' && cs.display !== 'none'; };
+  const primero = (c) => { for (let n = c.nextSibling; n; n = n.nextSibling) {
+    if (n.nodeType === 8 && /^\\s*\\/GENERADO:/.test(n.data)) return null; if (n.nodeType === 1) return n; } return null; };
+  const piezas = [];
+  const cabecera = document.querySelector('header.topbar');
+  piezas.push({ nombre: 'menú', el: cabecera });
+  const encabezado = document.querySelector('section.page-head, section.hero');
+  if (encabezado) piezas.push({ nombre: 'encabezado', el: encabezado });
+  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_COMMENT);
+  const vistas = new Set();
+  while (w.nextNode()) {
+    const m = w.currentNode.data.match(/^\\s*GENERADO:([A-Z]+)/);
+    if (!m || !${JSON.stringify(BLOQUES)}.includes(m[1]) || vistas.has(m[1])) continue;
+    vistas.add(m[1]); piezas.push({ nombre: m[1], el: primero(w.currentNode) });
+  }
+  for (const z of ['CONTACTO', 'LEGAL']) if (!vistas.has(z)) piezas.push({ nombre: z, el: null });
+  piezas.sort((a, b) => (!a.el || !b.el ? 0 : a.el.compareDocumentPosition(b.el) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+  scrollTo(0, 0);
+  const lista = piezas.map((p) => ({ nombre: p.nombre, ve: visible(p.el), arriba: p.el ? Math.round(p.el.getBoundingClientRect().top + scrollY) : null }));
+  const barra = [...document.querySelectorAll('.wa-bar')].find(visible) || null;
+  let chat = null;
+  for (let i = 0; i < 20 && !chat; i++) { chat = document.querySelector('.vchat-boton:not([hidden])'); if (!chat) await new Promise((r) => setTimeout(r, 50)); }
+  scrollTo(0, document.documentElement.scrollHeight); await new Promise((r) => setTimeout(r, 80));
+  const rb = barra && barra.getBoundingClientRect();
+  // Lo último que se lee: el renglón con texto que más abajo termina en el pie.
+  const textos = [...document.querySelectorAll('footer.site *')].filter((el) => visible(el)
+    && [...el.childNodes].some((n) => n.nodeType === 3 && n.data.trim()));
+  const finLegal = textos.length ? Math.round(Math.max(...textos.map((el) => el.getBoundingClientRect().bottom))) : null;
+  const rc = chat && visible(chat) ? chat.getBoundingClientRect() : null;
+  scrollTo(0, 0);
+  return { lista, alto: innerHeight,
+    barra: rb && { arriba: Math.round(rb.top), abajo: Math.round(rb.bottom), fija: getComputedStyle(barra).position === 'fixed' },
+    finLegal, chat: rc && { abajo: Math.round(rc.bottom) } };
+})()`;
+
+async function bloquesA390(pagina) {
+  const r = await evaluar(MEDIR_BLOQUES);
+  for (const b of r.lista) comprobar(b.ve, `${pagina} a 390px: el bloque ${b.nombre} no se ve`);
+  const orden = r.lista.filter((b) => b.ve);
+  for (let i = 1; i < orden.length; i++) {
+    comprobar(orden[i].arriba >= orden[i - 1].arriba,
+      `${pagina} a 390px: ${orden[i].nombre} (y=${orden[i].arriba}) queda arriba de ${orden[i - 1].nombre} (y=${orden[i - 1].arriba})`);
+  }
+  if (pagina.endsWith('404.html')) return;
+  comprobar(r.barra && r.barra.fija && Math.abs(r.barra.abajo - r.alto) <= 1,
+    `${pagina} a 390px: la barra del teléfono no está fija abajo (${JSON.stringify(r.barra)}, alto ${r.alto})`);
+  if (!r.barra) return;
+  comprobar(r.finLegal !== null && r.finLegal <= r.barra.arriba + 1,
+    `${pagina} a 390px: la barra tapa el final de la página (el último renglón del pie termina en ${r.finLegal}, la barra empieza en ${r.barra.arriba})`);
+  if (r.chat) comprobar(Math.abs(r.barra.arriba - r.chat.abajo - 12) <= 1,
+    `${pagina} a 390px: el botón del chat no queda 12 px arriba de la barra (${r.barra.arriba - r.chat.abajo} px)`);
+}
+
 const fallas = [];
 let controles = 0;
 function comprobar(condicion, mensaje) {
@@ -168,6 +226,7 @@ try {
       await abrir(pagina, ancho);
       const m = await evaluar('({ s: document.documentElement.scrollWidth, c: document.documentElement.clientWidth })');
       comprobar(m.s <= m.c, `${pagina} a ${ancho}px: scroll horizontal (${m.s} > ${m.c})`);
+      if (ancho === 390) await bloquesA390(pagina);
       if (dirCapturas) {
         mkdirSync(dirCapturas, { recursive: true });
         // La captura de página entera no dispara la carga diferida: se piden
