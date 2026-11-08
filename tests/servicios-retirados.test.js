@@ -126,15 +126,15 @@ const FOTOS_FUERA = [
   // foto puesta o cambiada desde la fase 1 hasta que lo vuelvan a rotular
   // (Lautaro, 05/11/2026, ítem 5A de las fotos). Sigue, sí, en las fotos que
   // el 4B deja hasta ~04/01/2027 (nosotros-flota-mixta-lausof en Nosotros de
-  // las tres portadas y cargas-5-flota en el encabezado del depósito ES/EN) y
-  // en og-portada.jpg; ver la lista de abajo. cargas-1-monumento lo muestra
-  // junto a la grúa vendida.
-  [/\/assets\/(?:cargas-1-monumento|cargas-3-campo|cargas-4-ciudad|galeria\/lausof-camion-carga-lacaldera-salta-turismo)\./, 'el camión rotulado «AUXILIO»'],
+  // las tres portadas y cargas-5-flota en el encabezado del depósito ES/EN);
+  // ver la lista de abajo. cargas-1-monumento lo muestra junto a la grúa
+  // vendida. og-portada.jpg (la grúa y este camión, patente legible) dejó de
+  // ser la vista previa compartida en la ronda 4 (08/11/2026, scripts/og.mjs).
+  [/\/assets\/(?:cargas-1-monumento|cargas-3-campo|cargas-4-ciudad|galeria\/lausof-camion-carga-lacaldera-salta-turismo|og-portada)\./, 'el camión rotulado «AUXILIO»'],
   // Pintan el 0387 537-7527, que ya no funciona: el único teléfono es el 526-9009.
   [/\/assets\/(?:cargas-2-furgon|flota-van)[.-]/, 'un teléfono que ya no funciona'],
 ];
-// Quedan, a propósito, hasta la revisión del logo (~04/01/2027): og-portada.jpg
-// (Lautaro, 04/11) y las cuatro fotos con la grúa vendida que siguen en uso,
+// Quedan, a propósito, hasta la revisión del logo (~04/01/2027): las cuatro fotos con la grúa vendida que siguen en uso,
 // nosotros-flota-mixta-lausof, cargas-5-flota, hero-flota-paisaje en el
 // JSON-LD de la portada y la de la galería vieja (Lautaro, 05/11/2026, ítem 4B;
 // la de la galería salió igual porque además muestra el camión del 5A y la
