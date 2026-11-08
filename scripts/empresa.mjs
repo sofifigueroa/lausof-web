@@ -333,9 +333,9 @@ export const ORDEN_HABILITACIONES = [
 /* LAS ACCIONES DE CONTACTO, una sola redacción por idioma (ronda 6 de
    lausof.com, 08/11/2026). Las usan la barra del teléfono, el cierre y el pie
    (scripts/bloques.mjs) y los botones genéricos del encabezado de cada página
-   y del menú (scripts/acciones.mjs). Hasta el 08/11 el mismo botón decía 9
+   y del menú (scripts/acciones.mjs). Hasta el 08/11 el mismo botón decía 8
    cosas distintas en español («Cotizá por WhatsApp», «Consultar
-   disponibilidad», «Escríbanos por WhatsApp»…), 8 en inglés y 4 en portugués.
+   disponibilidad», «Escríbanos por WhatsApp»…), 6 en inglés y 4 en portugués.
 
      cotizar    el pedido de cotización: casi todas las páginas
      consultar  las páginas que no cotizan un viaje (TIPOS_CONSULTA: la flota

@@ -690,7 +690,7 @@ node scripts/versiones.mjs    # después de tocar cualquier .css o .js (--compro
 
 Ronda 6 (`~/lausof/web/rondas-2026-11-07/`). Los botones de WhatsApp y de
 correo dicen lo mismo en todas las páginas de un idioma. Hasta ese día el
-mismo botón decía 9 cosas en español, 8 en inglés y 4 en portugués.
+mismo botón decía 8 cosas en español, 6 en inglés y 4 en portugués.
 
 | Pieza | Dónde | Regla |
 |---|---|---|

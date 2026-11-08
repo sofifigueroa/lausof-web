@@ -4,7 +4,7 @@
 // «correo» y nunca «mail» en español, una regla para la barra del teléfono
 // (BARRAS), la salida «coordinar con el equipo» pasado el límite de pasajeros
 // (scripts/viaje.mjs) y el tipo `privacidad` de los mensajes pre-armados.
-// Hasta esa ronda el mismo botón decía 9 cosas en español, 8 en inglés y 4
+// Hasta esa ronda el mismo botón decía 8 cosas en español, 6 en inglés y 4
 // en portugués (rondas-2026-11-07/2-estado-actual.md, W14).
 'use strict';
 
