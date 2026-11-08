@@ -761,6 +761,36 @@ node scripts/viaje.mjs --comprobar  # sale con 1 si algo no coincide
 - **La vitrina**: el bloque es una sección hermana; en 4x4 queda antes de
   `#para-quien`, y el segundo bloque de la vitrina sigue después de esa sección.
 
+## Tarjetas de destino (08/11/2026)
+
+Ronda 8 (`~/lausof/web/rondas-2026-11-07/`). Las tarjetas de los hubs
+(`<article class="card circuito">` en turismo ES/EN/PT y viajes
+internacionales ES/EN) siguen el patrón de las tarjetas de Norte Travel:
+foto, una etiqueta corta, el título, una línea y «Ver el viaje a … →» (o
+«Consultar … →» cuando el destino no tiene página, como Iruya).
+
+```bash
+node scripts/tarjetas.mjs              # escribe etiquetas y enlaces; después: node scripts/prefill.mjs
+node scripts/tarjetas.mjs --comprobar  # sale con 1 si algo no coincide
+```
+
+- **La etiqueta nunca es un dato nuevo**: en `scripts/tarjetas-datos.mjs`
+  cada una nombra su fuente, la duración de «Datos del viaje» de la página de
+  destino (`viaje-datos.mjs`) o la descripción de la misma tarjeta. Si la
+  fuente deja de decirlo, `--comprobar` y `tests/tarjetas.test.js` fallan. En
+  portugués, si el destino sólo tiene página en español, la etiqueta traduce
+  esa fuente. Sin precios ni «desde».
+- **Sólo escribe** la `<span class="tag">` antes del `<h3>` y el texto del
+  `.ruta-link` (o el enlace entero si falta). La foto, el título, la
+  descripción y las zonas TIENDA no se tocan; el href de un enlace que ya
+  existe tampoco (sus renglones los pone `prefill.mjs`).
+- **La vitrina**: la cantidad de tarjetas, el `<h2>`, la bajada y un
+  `<a class="ruta-link"` en cada tarjeta siguen como pide `ponerZonas`; la
+  zona «hub» va antes del enlace (test).
+- **Tarjeta nueva en un hub**: su renglón en `tarjetas-datos.mjs`, en el mismo
+  orden que en la página; el test exige que toda página con tarjetas de
+  destino esté en los datos.
+
 ## Vista de revisión de la reserva y el chat (rondas, 08/11/2026; NO va a producción)
 
 Ronda 3 de `~/lausof/web/rondas-2026-11-07/`. Lautaro, 07/11: la reserva en

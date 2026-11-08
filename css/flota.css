@@ -63,9 +63,9 @@
    así estas tarjetas no ocupan el mismo lugar que una unidad publicada. */
 .unidad.is-proxima .card-photo{aspect-ratio:5/2}
 .unidad.is-proxima .unidad-precio{color:var(--ink-soft);font-size:.95rem;font-weight:600}
-/* El dorado de .tag está reservado para lo que se puede comprar hoy
-   ("Urgencias en ruta" en la home). Lo que todavía no está publicado va en gris. */
-.card .tag.tag-proxima{background:var(--ink-soft)}
+/* Lo que todavía no está publicado va en gris oscuro, con letra blanca
+   (la .tag común es celeste con letra azul: styles.css). */
+.card .tag.tag-proxima{background:var(--ink-soft);color:#fff}
 
 /* ---- bloque "se publican en los próximos días" ---- */
 .proximas{margin-top:52px;padding-top:34px;border-top:1px solid var(--border)}

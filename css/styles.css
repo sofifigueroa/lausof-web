@@ -375,10 +375,13 @@ footer.site .pie-secciones ul{gap:2px}
   content:"";position:absolute;left:0;top:.6em;
   width:5px;height:5px;background:var(--gold);
 }
+/* etiqueta corta de una tarjeta de destino (scripts/tarjetas.mjs, ronda 8):
+   un dato para leer de un vistazo, en letra normal (en mayúsculas «2 H 30»
+   se lee mal) y sobre el celeste de la marca, sin competir con el título */
 .card .tag{
-  align-self:flex-start;background:var(--gold-ink);color:#fff;
-  font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-  border-radius:3px;padding:3px 8px;
+  align-self:flex-start;background:var(--ice);color:var(--ink);
+  font-size:.8rem;font-weight:700;line-height:1.3;
+  border-radius:3px;padding:3px 9px;margin-bottom:-2px;
 }
 .card a.walink{font-size:.93rem;font-weight:700;color:var(--wa-ink);text-decoration:none}
 /* en táctil el enlace de texto queda chico para el pulgar: pasa a bloque
