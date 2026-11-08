@@ -1,6 +1,6 @@
 /* Recortes de teléfono del encabezado. GENERADO por scripts/recortes-medir.mjs
    (2026-11-08, chrome-headless-shell, 320/340/360/375/384/390/393/412/414/432/440 px, letra del sitio y Arial):
-   no editar a mano salvo MEDIA, MARGEN, FIJOS y VERSIONES. Lo lee scripts/recortes.mjs. */
+   no editar a mano salvo MEDIA, MARGEN y FIJOS. Lo lee scripts/recortes.mjs. */
 
 // Pantallas que reciben el recorte. 440 cubre los anchos de teléfono más usados
 // en Argentina (StatCounter, octubre de 2026: 384, 412, 385, 414, 360 y 432 px).
@@ -9,12 +9,8 @@ export const MEDIA = "(max-width: 440px)";
 // las líneas distinto y el encabezado puede quedar un poco más bajo. [J]
 export const MARGEN = 1.03;
 // Recortes que ya existían y no se vuelven a cortar (ancho en px).
-export const FIJOS = {};
-// Recortes ya publicados que cambiaron de medida: cambian de nombre
-// (foto-movil-v2.webp…), porque /assets/* se sirve un año como immutable
-// (README, «Una foto que cambia, cambia de nombre»).
-export const VERSIONES = {
-  "/assets/turismo/ruta-68-cafayate-salta-lausof.webp": 2
+export const FIJOS = {
+  "/assets/turismo/ruta-68-cafayate-salta-lausof.webp": 900
 };
 
 export const RECORTES = [
@@ -174,7 +170,7 @@ export const RECORTES = [
     "paginas": {
       "en/train-to-the-clouds-transfer.html": {
         "proporcion": 0.688,
-        "sizes": "(max-width: 360px) 553px, (max-width: 400px) 509px, 480px"
+        "sizes": "(max-width: 360px) 553px, (max-width: 400px) 509px, 489px"
       },
       "traslado-tren-a-las-nubes.html": {
         "proporcion": 0.68,
@@ -244,27 +240,19 @@ export const RECORTES = [
       1600,
       1067
     ],
-    "ancho": 974,
+    "ancho": 900,
     "paginas": {
-      "en/holy-week-salta-jujuy.html": {
-        "proporcion": 0.885,
-        "sizes": "(max-width: 360px) 537px, (max-width: 400px) 480px, 454px"
-      },
       "en/tours-and-transfers.html": {
         "proporcion": 0.798,
-        "sizes": "(max-width: 360px) 633px, (max-width: 400px) 554px, 529px"
+        "sizes": "(max-width: 360px) 585px, (max-width: 400px) 512px, 489px"
       },
       "pt/passeios-e-traslados.html": {
         "proporcion": 0.694,
-        "sizes": "(max-width: 360px) 712px, (max-width: 400px) 662px, 611px"
-      },
-      "semana-santa-salta-jujuy.html": {
-        "proporcion": 0.838,
-        "sizes": "(max-width: 360px) 587px, (max-width: 400px) 530px, 505px"
+        "sizes": "(max-width: 360px) 658px, (max-width: 400px) 611px, 565px"
       },
       "turismo.html": {
         "proporcion": 0.726,
-        "sizes": "(max-width: 360px) 687px, (max-width: 400px) 636px, 611px"
+        "sizes": "(max-width: 360px) 635px, (max-width: 400px) 588px, 565px"
       }
     }
   }
@@ -311,5 +299,15 @@ export const FUERA = [
     "pagina": "flota-en-venta.html",
     "foto": "/assets/pasajeros-5-flota-v2.webp",
     "motivo": "el recorte (598 de 675 px) ahorra menos del 15 %"
+  },
+  {
+    "pagina": "semana-santa-salta-jujuy.html",
+    "foto": "/assets/turismo/ruta-68-cafayate-salta-lausof.webp",
+    "motivo": "pide más de los 900 px del recorte fijo"
+  },
+  {
+    "pagina": "en/holy-week-salta-jujuy.html",
+    "foto": "/assets/turismo/ruta-68-cafayate-salta-lausof.webp",
+    "motivo": "pide más de los 900 px del recorte fijo"
   }
 ];

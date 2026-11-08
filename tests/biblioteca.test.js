@@ -64,7 +64,7 @@ test('en assets/fotos/ no hay ningún archivo fuera del manifiesto', () => {
       // Variantes de una foto aprobada: sus anchos (-400w…) y el recorte de
       // teléfono del encabezado (-movil, scripts/recortes.mjs, ronda 7), que
       // sale del mismo .webp publicado.
-      const base = `${cat}/${archivo}`.replace(/(?:-movil(?:-v\d+)?)?(?:-\d+w)?\.(?:webp|avif|jpg)$/, '');
+      const base = `${cat}/${archivo}`.replace(/(?:-movil)?(?:-\d+w)?\.(?:webp|avif|jpg)$/, '');
       assert.ok(bases.has(base), `assets/fotos/${cat}/${archivo} no es una foto aprobada (falta en biblioteca.json)`);
     }
   }
@@ -73,7 +73,7 @@ test('en assets/fotos/ no hay ningún archivo fuera del manifiesto', () => {
 test('las páginas usan sólo fotos del manifiesto y el manifiesto dice dónde está cada una', () => {
   const usos = new Map(fotos.map((f) => [f.id, []]));
   for (const [nombre, html] of Object.entries(paginas)) {
-    assert.doesNotMatch(sinComentarios(html), /\/assets\/fotos\/(?![a-z0-9-]+\/[a-z0-9-]+-lausof-v\d+(?:-movil(?:-v\d+)?)?(?:-\d+w)?\.(?:webp|avif)[\s",])/,
+    assert.doesNotMatch(sinComentarios(html), /\/assets\/fotos\/(?![a-z0-9-]+\/[a-z0-9-]+-lausof-v\d+(?:-movil)?(?:-\d+w)?\.(?:webp|avif)[\s",])/,
       `${nombre}: pide de assets/fotos/ algo que no es una foto ni una variante`);
     for (const src of usosDe(html)) {
       const f = porSrc.get(src);

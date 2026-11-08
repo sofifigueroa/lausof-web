@@ -123,11 +123,6 @@ Lo que el script no decide y va escrito a mano en el `<img>`:
   el ancho y cuántos píxeles de recorte pide. Medido en la Mac con
   Lighthouse 12.8.2: `charter-recitales` 3302 → 2103 ms, `alquiler-4x4`
   2402 → 1803 ms (rondas de lausof.com, `v7/CAMBIOS.md`).
-  **Un recorte publicado que cambia de medida cambia de nombre** (ronda 8):
-  se sube su número en `VERSIONES` (`recortes-datos.mjs`), `recortes.mjs`
-  corta `foto-movil-v2.webp` y el viejo sale con `git rm` con sus variantes.
-  Así pasó el de turismo, de 900 a 974 px, para cubrir también Semana Santa
-  ES/EN (`tests/recortes.test.js` vigila que ninguna página pida el viejo).
 
 Dos cosas que hay que recordar al tocar el código:
 
