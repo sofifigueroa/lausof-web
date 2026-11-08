@@ -410,7 +410,7 @@ try {
         await abrir(pagina, ancho);
         const m = await evaluar(`(() => { const c = document.querySelector('.page-head-photo'); const b = c.getBoundingClientRect();
           return { w: b.width, h: b.height, src: c.querySelector('img').currentSrc }; })()`);
-        if (!/-movil(-\d+w)?\.(avif|webp)$/.test(m.src)) malos.push(`${ancho}px eligió ${m.src.replace(base, '/')}`);
+        if (!/-movil(-v\d+)?(-\d+w)?\.(avif|webp)$/.test(m.src)) malos.push(`${ancho}px eligió ${m.src.replace(base, '/')}`);
         if (r.ancho / r.natural[1] < m.w / m.h - 0.001) malos.push(`${ancho}px caja ${Math.round(m.w)}x${Math.round(m.h)} pide ${Math.ceil((r.natural[1] * m.w) / m.h)} px de recorte (hay ${r.ancho})`);
       }
       comprobar(malos.length === 0, `${pagina}: recorte de teléfono (${malos.join('; ')})`);

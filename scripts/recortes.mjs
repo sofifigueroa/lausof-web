@@ -20,8 +20,11 @@
      node scripts/recortes.mjs --comprobar  # no escribe; sale con 1 si algo no está al día
 
    Un recorte que ya existe con otra medida no se pisa: el script corta con
-   error y dice cuál (hay que borrar ese recorte y sus variantes a mano, así
-   nunca quedan variantes viejas de otro corte).
+   error y dice cuál. Si ese recorte ya se publicó, se le sube la versión en
+   VERSIONES (recortes-datos.mjs): el nuevo se llama foto-movil-v2.webp… y el
+   viejo sale con `git rm` junto con sus variantes, porque /assets/* se sirve
+   un año como immutable. Si nunca se publicó, se borra a mano y se corta de
+   nuevo (así nunca quedan variantes viejas de otro corte).
    Ronda 7 de lausof.com (08/11/2026). README: «Fotos responsive».
    ============================================================================= */
 
@@ -31,9 +34,12 @@ import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { raiz, archivoDe, medidasWebp, atributos } from './imagenes.mjs';
 import { paginas } from './rutas-raiz.mjs';
-import { MEDIA, RECORTES } from './recortes-datos.mjs';
+import { MEDIA, RECORTES, VERSIONES } from './recortes-datos.mjs';
 
-export const movilDe = (foto) => foto.replace(/\.webp$/, '-movil.webp');
+// El nombre del recorte: foto-movil.webp, o foto-movil-v2.webp… si VERSIONES
+// dice que ese recorte ya se publicó con otra medida.
+export const movilDe = (foto, versiones = VERSIONES) =>
+  foto.replace(/\.webp$/, versiones[foto] ? `-movil-v${versiones[foto]}.webp` : '-movil.webp');
 const ATRIBUTOS = ['data-movil', 'data-movil-media', 'data-movil-sizes'];
 
 // Lo que cada página tiene que llevar: { pagina: { foto, movil, sizes } }.
@@ -104,7 +110,7 @@ function principal() {
     const nuevo = conRecorte(actual, pagina, pedido[pagina]);
     if (nuevo !== actual) { desactualizadas.push(pagina); if (!comprobar) writeFileSync(ruta, nuevo); }
   }
-  for (const d of distintos) console.log(`recorte con otra medida: ${d}`);
+  for (const d of distintos) console.log(`recorte con otra medida: ${d} (si ya se publicó, subir su versión en VERSIONES)`);
   if (comprobar) {
     for (const r of faltan) console.log(`falta ${movilDe(r.foto).slice(1)}`);
     for (const p of desactualizadas) console.log(`desactualizada ${p}`);

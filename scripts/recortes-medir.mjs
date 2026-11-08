@@ -38,7 +38,7 @@ import { spawn } from 'node:child_process';
 import { tmpdir, homedir } from 'node:os';
 import { raiz, archivoDe, medidasWebp } from './imagenes.mjs';
 import { paginas } from './rutas-raiz.mjs';
-import { MEDIA, MARGEN, FIJOS } from './recortes-datos.mjs';
+import { MEDIA, MARGEN, FIJOS, VERSIONES } from './recortes-datos.mjs';
 
 // Anchos de teléfono que se miden: los de StatCounter Argentina, octubre de
 // 2026 (384, 385, 412, 414, 360, 432 son los seis primeros), más los extremos.
@@ -168,7 +168,7 @@ async function principal() {
   const hoy = new Date().toISOString().slice(0, 10);
   const texto = `/* Recortes de teléfono del encabezado. GENERADO por scripts/recortes-medir.mjs
    (${hoy}, chrome-headless-shell, ${TELEFONOS.join('/')} px, letra del sitio y Arial):
-   no editar a mano salvo MEDIA, MARGEN y FIJOS. Lo lee scripts/recortes.mjs. */
+   no editar a mano salvo MEDIA, MARGEN, FIJOS y VERSIONES. Lo lee scripts/recortes.mjs. */
 
 // Pantallas que reciben el recorte. 440 cubre los anchos de teléfono más usados
 // en Argentina (StatCounter, octubre de 2026: 384, 412, 385, 414, 360 y 432 px).
@@ -178,6 +178,10 @@ export const MEDIA = ${JSON.stringify(MEDIA)};
 export const MARGEN = ${MARGEN};
 // Recortes que ya existían y no se vuelven a cortar (ancho en px).
 export const FIJOS = ${JSON.stringify(FIJOS, null, 2)};
+// Recortes ya publicados que cambiaron de medida: cambian de nombre
+// (foto-movil-v2.webp…), porque /assets/* se sirve un año como immutable
+// (README, «Una foto que cambia, cambia de nombre»).
+export const VERSIONES = ${JSON.stringify(VERSIONES, null, 2)};
 
 export const RECORTES = ${JSON.stringify(recortes, null, 2)};
 

@@ -103,3 +103,20 @@ test('los recortes de los datos existen en disco al lado de su foto', async () =
   const { movilDe } = await guion;
   for (const r of RECORTES) assert.ok(fs.existsSync(path.join(raiz, movilDe(r.foto))), `falta ${movilDe(r.foto)}`);
 });
+
+// Ronda 8 (08/11/2026): el recorte de turismo pasó de 900 a 974 px para
+// cubrir también Semana Santa ES/EN. El de 900 ya estaba publicado y /assets/*
+// es immutable por un año, así que el nuevo cambia de nombre (-movil-v2).
+test('un recorte con versión cambia de nombre, y ninguna página pide el nombre viejo', async () => {
+  const { movilDe } = await guion;
+  const { VERSIONES } = await datos;
+  assert.strictEqual(movilDe('/assets/x.webp', {}), '/assets/x-movil.webp');
+  assert.strictEqual(movilDe('/assets/x.webp', { '/assets/x.webp': 2 }), '/assets/x-movil-v2.webp');
+  for (const [foto, v] of Object.entries(VERSIONES)) {
+    const viejo = (v === 2 ? foto.replace(/\.webp$/, '-movil') : foto.replace(/\.webp$/, `-movil-v${v - 1}`));
+    for (const [nombre, html] of Object.entries(paginas)) {
+      assert.doesNotMatch(html, new RegExp(`${viejo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(-\\d+w)?\\.(webp|avif)`), `${nombre} todavía pide ${viejo}`);
+    }
+    assert.ok(fs.existsSync(path.join(raiz, movilDe(foto))), `falta ${movilDe(foto)}`);
+  }
+});
