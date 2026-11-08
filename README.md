@@ -685,6 +685,37 @@ node scripts/versiones.mjs    # después de tocar cualquier .css o .js (--compro
   chat (redondo, 12 px arriba de la barra).
 - Lo vigilan `tests/encabezado.test.js` y `tests/estilos.test.js`.
 
+## Vista de revisión de la reserva y el chat (rondas, 08/11/2026; NO va a producción)
+
+Ronda 3 de `~/lausof/web/rondas-2026-11-07/`. Lautaro, 07/11: la reserva en
+línea y el chat pueden verse funcionando en las copias de revisión, porque
+salen esta semana. Todo lo de esta sección vive en un solo commit («Ronda 3
+(sólo revisión)») que el merge revierte; si hiciera falta a mano,
+`node scripts/vista.mjs --quitar` deja cada página byte a byte como antes.
+
+- `vista/tienda/`: copia sin cambios de `tienda-v2-0611` (sha en
+  `vista/tienda/ORIGEN`). `scripts/vista.mjs` corre su `transformarPagina`
+  con un perfil local: las zonas GENERADO:TIENDA quedan donde las pone la
+  vitrina, y su contenido entre `<!-- RONDA:VISTA -->` y `<!-- /RONDA:VISTA -->`.
+- `js/vista.js`: apunta la vitrina al catálogo de prueba de la copia
+  (`api/publico/lausof/catalogo`, de `tienda-v2-0611:tests/tienda-catalogo-demo.json`
+  sin sus enlaces), la carga después del `load`, y dibuja el botón y el panel
+  del chat con los textos del chat real. `lausof/reservar/` y
+  `lausof/cancelar/` son la compra y el arrepentimiento de muestra.
+- Ningún precio queda escrito en un archivo: los dibuja la vitrina con el
+  catálogo de prueba («PRECIOS DE PRUEBA»).
+- Se ve con `~/lausof/web/rondas-2026-11-07/ver-rondas.command` (cualquier
+  servidor estático en la raíz sirve).
+
+```bash
+node scripts/vista.mjs              # pone o actualiza la vista
+node scripts/vista.mjs --comprobar  # sale con 1 si alguna página no coincide
+node scripts/vista.mjs --quitar     # la saca (merge)
+```
+
+Lo vigila `tests/vista.test.js`; G4 (`tests/entorno.test.js`) y O11
+(`tests/demo.test.js`) miran las páginas sin la vista.
+
 ## Cabeceras de seguridad
 
 El bloque `/*` de `_headers` manda en todas las páginas `X-Content-Type-Options:

@@ -158,6 +158,7 @@ test('G9: los enlaces de la demo no salen a www.lausof.com', async () => {
 
 test('O11: la respuesta del precio cambia sólo donde la vitrina existe', async () => {
   const { RESPUESTA_PRECIO, FAQ_PRECIO } = await importar('demo/textos.mjs');
+  const vista = await importar('scripts/vista.mjs');
   const { salida } = await armadoBase();
   const cafayate = fs.readFileSync(path.join(salida, 'sitio', 'traslado-salta-cafayate.html'), 'utf8');
   const d = await demo;
@@ -168,7 +169,8 @@ test('O11: la respuesta del precio cambia sólo donde la vitrina existe', async 
   const paginasConVitrina = ['traslado-salta-cafayate.html', 'traslado-serenata-a-cafayate.html', 'en/salta-to-cafayate-transfer.html', 'pt/traslado-salta-cafayate.html'];
   const bloque = (atributos) => `<!-- GENERADO:TIENDA bloque -->\n<section class="block tienda" id="precios" ${atributos}></section>\n<!-- /GENERADO:TIENDA -->\n</main>`;
   const conVitrina = (atributos, extra = '') => copiarArbol((dir) => {
-    for (const rel of paginasConVitrina) editar(dir, rel, (h) => h.replace('</main>', `${extra}${bloque(atributos)}`));
+    // Rondas 2026-11-07 (sólo revisión, se revierte en el merge): la vitrina simulada va sobre la página sin la vista de revisión.
+    for (const rel of paginasConVitrina) editar(dir, rel, (h) => vista.quitar(h).replace('</main>', `${extra}${bloque(atributos)}`));
   });
   const { salida: s2, problemas } = await armarDesde(conVitrina('data-servicios="x" data-tienda-con-precio'));
   assert.deepStrictEqual(problemas, []);

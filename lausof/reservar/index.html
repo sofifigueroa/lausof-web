@@ -1,0 +1,57 @@
+<!doctype html>
+<!-- RONDA:VISTA -->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Reservar · Lausof (vista de revisión)</title>
+<link rel="stylesheet" href="/vista/compra.css">
+</head>
+<body>
+<!-- Vista de revisión (rondas 2026-11-07, v3): un reemplazo estático de la
+     compra alojada de la app de reservas, para que «Reservar» lleve a algún
+     lado en la copia local. Pantallas y textos según
+     web/demo-reservas-2026-11-06/3c-wireframes/03-compra-390.html; la compra
+     real es de la app y la trae la rama de la vitrina. El merge borra lausof/. -->
+<div class="banda"><b>DEMO</b> <span data-t="banda"></span> · <i>vista de revisión</i></div>
+<header class="cab">
+  <span class="logo" aria-hidden="true">L</span><b>Lausof</b>
+  <a class="volver" id="volver" href="/" data-t="volver"></a>
+</header>
+<main class="compra">
+  <p class="paso" id="paso"></p>
+  <section id="viaje">
+    <h1 data-t="tu_viaje"></h1>
+    <h2 id="servicio"></h2>
+    <label><span data-t="fecha"></span><input type="date" id="fecha"></label>
+    <label><span data-t="hora"></span><select id="hora"></select></label>
+    <div class="personas"><span data-t="personas"></span>
+      <span class="ctl"><button type="button" id="menos" aria-label="−">−</button><input id="n" inputmode="numeric" value="2"><button type="button" id="mas" aria-label="+">+</button></span></div>
+    <p class="info" id="info"></p>
+    <label><span data-t="buscamos"></span><input id="lugar" autocomplete="street-address"></label>
+    <div class="total" id="total"></div>
+    <p class="error" id="error-viaje" hidden></p>
+    <button type="button" class="btn" id="seguir1" data-t="seguir"></button>
+  </section>
+  <section id="datos" hidden>
+    <h1 data-t="tus_datos"></h1>
+    <label><span data-t="nombre"></span><input id="nombre" autocomplete="name"></label>
+    <label><span data-t="correo"></span><input id="correo" type="email" autocomplete="email"></label>
+    <label><span>WhatsApp</span><input id="wa" type="tel" autocomplete="tel"></label>
+    <p class="error" id="error-datos" hidden></p>
+    <button type="button" class="btn" id="seguir2" data-t="seguir"></button>
+  </section>
+  <section id="pago" hidden>
+    <h1 data-t="pago"></h1>
+    <p class="hoy" id="hoy"></p>
+    <p class="mp" data-t="mp"></p>
+    <button type="button" class="btn" id="pagar"></button>
+    <p class="acepta" data-t="acepta"></p>
+    <p class="aviso" id="aviso" hidden data-t="aviso"></p>
+  </section>
+</main>
+<script src="/vista/compra.js" defer></script>
+</body>
+</html>
+<!-- /RONDA:VISTA -->

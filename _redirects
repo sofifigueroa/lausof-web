@@ -94,6 +94,11 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 /claude.md                     /404.html                      404!
 /demo/*                        /404.html                      404!
 /e2e/*                         /404.html                      404!
+# Vista de revisión de las rondas (README «Vista de revisión», 08/11/2026):
+# sólo para la copia local; el merge revierte este commit.
+/vista/*                       /404.html                      404!
+/api/*                         /404.html                      404!
+/lausof/*                      /404.html                      404!
 
 # Variantes sin .html de cada página (auditoría técnica 03/11/2026, M3).
 # Netlify sirve /turismo y /turismo/ con 200 como copia de /turismo.html; con
