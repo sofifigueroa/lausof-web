@@ -38,15 +38,15 @@ export const RECORTES = [
       1600,
       1200
     ],
-    "ancho": 934,
+    "ancho": 1098,
     "paginas": {
       "alquiler-4x4.html": {
-        "proporcion": 0.754,
-        "sizes": "(max-width: 360px) 564px, (max-width: 400px) 503px, 503px"
+        "proporcion": 0.887,
+        "sizes": "(max-width: 360px) 664px, (max-width: 400px) 591px, 591px"
       },
       "en/4x4-rental.html": {
-        "proporcion": 0.682,
-        "sizes": "(max-width: 360px) 577px, (max-width: 400px) 556px, 524px"
+        "proporcion": 0.789,
+        "sizes": "(max-width: 360px) 679px, (max-width: 400px) 653px, 616px"
       }
     }
   },
@@ -92,15 +92,15 @@ export const RECORTES = [
       1600,
       1067
     ],
-    "ancho": 764,
+    "ancho": 886,
     "paginas": {
       "alquiler-combi-con-chofer-salta.html": {
-        "proporcion": 0.694,
-        "sizes": "(max-width: 360px) 564px, (max-width: 400px) 500px, 480px"
+        "proporcion": 0.804,
+        "sizes": "(max-width: 360px) 654px, (max-width: 400px) 579px, 556px"
       },
       "en/minibus-with-driver-salta.html": {
-        "proporcion": 0.657,
-        "sizes": "(max-width: 360px) 590px, (max-width: 400px) 509px, 500px"
+        "proporcion": 0.756,
+        "sizes": "(max-width: 360px) 685px, (max-width: 400px) 590px, 579px"
       }
     }
   },
@@ -166,15 +166,15 @@ export const RECORTES = [
       1200,
       675
     ],
-    "ancho": 480,
+    "ancho": 554,
     "paginas": {
       "en/train-to-the-clouds-transfer.html": {
-        "proporcion": 0.688,
-        "sizes": "(max-width: 360px) 553px, (max-width: 400px) 509px, 489px"
+        "proporcion": 0.796,
+        "sizes": "(max-width: 360px) 638px, (max-width: 400px) 588px, 564px"
       },
       "traslado-tren-a-las-nubes.html": {
-        "proporcion": 0.68,
-        "sizes": "(max-width: 360px) 569px, (max-width: 400px) 525px, 480px"
+        "proporcion": 0.786,
+        "sizes": "(max-width: 360px) 657px, (max-width: 400px) 606px, 554px"
       }
     }
   },
@@ -213,11 +213,11 @@ export const RECORTES = [
         "sizes": "(max-width: 360px) 635px, (max-width: 400px) 557px, 532px"
       },
       "en/salta-airport-transfer.html": {
-        "proporcion": 0.653,
+        "proporcion": 0.751,
         "sizes": "(max-width: 360px) 747px, (max-width: 400px) 654px, 630px"
       },
       "en/salta-to-jujuy-transfer.html": {
-        "proporcion": 0.725,
+        "proporcion": 0.847,
         "sizes": "(max-width: 360px) 697px, (max-width: 400px) 630px, 573px"
       },
       "peregrinaciones-eventos.html": {
@@ -225,11 +225,11 @@ export const RECORTES = [
         "sizes": "(max-width: 360px) 526px, (max-width: 400px) 479px, 455px"
       },
       "traslado-aeropuerto-salta.html": {
-        "proporcion": 0.631,
+        "proporcion": 0.722,
         "sizes": "(max-width: 360px) 736px, (max-width: 400px) 686px, 630px"
       },
       "traslado-salta-jujuy.html": {
-        "proporcion": 0.694,
+        "proporcion": 0.804,
         "sizes": "(max-width: 360px) 701px, (max-width: 400px) 654px, 605px"
       }
     }

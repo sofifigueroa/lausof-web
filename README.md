@@ -108,7 +108,10 @@ Lo que el script no decide y va escrito a mano en el `<img>`:
   el mismo recorte, ahora generado, en los 28 encabezados donde ahorra al
   menos 15 % (13 fotos). Pasos:
   1. `CHROME=<chrome-headless-shell> node scripts/recortes-medir.mjs` mide la
-     caja del encabezado a 320–440 px con la letra del sitio y con Arial y
+     caja del encabezado a 320–440 px con la letra del sitio y con Arial,
+     con y sin lo que la vitrina pone en el encabezado (la línea de precio y
+     «Ver precios y reservar»; sin ellos el encabezado es más bajo y pide un
+     recorte más ancho: ronda 10, 4x4, combi y Tren a las Nubes), y
      reescribe `scripts/recortes-datos.mjs` (ancho de cada recorte = alto ×
      la caja más ancha × 1,03; `sizes` del recorte en tres tramos; las
      páginas que quedan afuera, con su motivo en `FUERA`: las que repiten la

@@ -20,7 +20,8 @@
        con todo el alto y centrada (object-position x = 50 % en todas).
      · Ancho del recorte = alto × (la caja más ancha en proporción entre todas
        las páginas que usan la foto, a todos los anchos, con la letra del sitio
-       y con Arial, que es más ancha y parte otras líneas) × MARGEN.
+       y con Arial, que es más ancha y parte otras líneas, con y sin lo que la
+       vitrina pone en el encabezado) × MARGEN.
      · Si el recorte no baja al 85 % del ancho de la foto, no se recorta (la
        misma regla que los anchos de scripts/imagenes.mjs): queda en FUERA.
      · Tampoco si la página repite la foto más abajo (una tarjeta, una
@@ -45,6 +46,11 @@ import { MEDIA, MARGEN, FIJOS } from './recortes-datos.mjs';
 export const TELEFONOS = [320, 340, 360, 375, 384, 390, 393, 412, 414, 432, 440];
 const TRAMOS = [360, 400, 440];
 const LETRAS = [null, 'Arial,sans-serif'];
+// Con y sin lo que la vitrina pone en el encabezado (la línea de precio y
+// «Ver precios y reservar»): sin precio, sin JS o sin la vitrina (después del
+// merge, hasta el rebase) el encabezado es más bajo y pide un recorte más
+// ancho. Ronda 10: medido sólo con la vitrina, 6 páginas quedaban cortas sin ella.
+const VITRINA = [true, false];
 
 function buscarChrome() {
   const c = [process.env.CHROME];
@@ -132,19 +138,24 @@ async function medir(chrome) {
       let foto = null;
       for (const ancho of TELEFONOS) {
         await cdp('Emulation.setDeviceMetricsOverride', { width: ancho, height: 844, deviceScaleFactor: 2, mobile: true });
+        // Cada variante de la vitrina, con la página recién cargada: la letra se
+        // agrega encima (sitio, después Arial) y sacar la vitrina no se deshace.
+        for (const vitrina of VITRINA) {
         eventos.length = 0;
         await cdp('Page.navigate', { url: base + pagina });
         for (let i = 0; i < 200; i++) { if (eventos.some((e) => e.method === 'Page.loadEventFired')) break; await new Promise((r) => setTimeout(r, 25)); }
         for (const letra of LETRAS) {
           const r = await cdp('Runtime.evaluate', { returnByValue: true, awaitPromise: true, expression: `(async () => {
             ${letra ? `const st = document.createElement('style'); st.textContent = ':root{--font:${letra}}'; document.head.appendChild(st);` : ''}
+            ${vitrina ? '' : "document.querySelectorAll('.page-head [data-tienda-cabeza], .page-head [data-tienda-ir]').forEach((n) => n.remove());"}
             if (document.fonts) await document.fonts.ready;
             const c = document.querySelector('.page-head-photo'); const img = c.querySelector('img'); const b = c.getBoundingClientRect();
             return { w: b.width, h: b.height, x: getComputedStyle(img).objectPosition.split(' ')[0], src: img.getAttribute('src') }; })()` });
           const v = r.result.value;
           if (v.x !== '50%') throw new Error(`${pagina}: la foto del encabezado no está centrada (object-position ${v.x}); el recorte sería otro`);
           foto = v.src;
-          cajas.push({ ancho, letra: letra || 'sitio', w: v.w, h: v.h });
+          cajas.push({ ancho, letra: letra || 'sitio', vitrina, w: v.w, h: v.h });
+        }
         }
       }
       medidas[pagina] = { foto, cajas, repite: repiteFoto(readFileSync(join(raiz, pagina), 'utf8'), foto) };

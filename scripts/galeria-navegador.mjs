@@ -471,6 +471,11 @@ try {
           return { w: b.width, h: b.height, src: c.querySelector('img').currentSrc }; })()`);
         if (!/-movil(-\d+w)?\.(avif|webp)$/.test(m.src)) malos.push(`${ancho}px eligió ${m.src.replace(base, '/')}`);
         if (r.ancho / r.natural[1] < m.w / m.h - 0.001) malos.push(`${ancho}px caja ${Math.round(m.w)}x${Math.round(m.h)} pide ${Math.ceil((r.natural[1] * m.w) / m.h)} px de recorte (hay ${r.ancho})`);
+        // Ronda 10: también sin lo que la vitrina pone en el encabezado (sin
+        // precio, sin JS o sin la vitrina): el encabezado es más bajo.
+        const s = await evaluar(`(() => { document.querySelectorAll('.page-head [data-tienda-cabeza], .page-head [data-tienda-ir]').forEach((n) => n.remove());
+          const b = document.querySelector('.page-head-photo').getBoundingClientRect(); return { w: b.width, h: b.height }; })()`);
+        if (r.ancho / r.natural[1] < s.w / s.h - 0.001) malos.push(`${ancho}px sin la vitrina, caja ${Math.round(s.w)}x${Math.round(s.h)} pide ${Math.ceil((r.natural[1] * s.w) / s.h)} px de recorte (hay ${r.ancho})`);
       }
       comprobar(malos.length === 0, `${pagina}: recorte de teléfono (${malos.join('; ')})`);
     }
