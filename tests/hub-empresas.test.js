@@ -100,8 +100,10 @@ const DISENO = {
     h1: 'Transporte de personal y cargas para minería y empresas',
     grupos: [['personal', 'Personal para minería'], ['cargas', 'Cargas']],
     secciones: ['servicios', 'seguridad', 'equipamiento', 'como-trabajamos', 'documentacion', 'contacto'],
-    pruebas: ['CNRT 60284', 'AMT', 'Todas las zonas mineras', 'A toda hora',
-      'Factura A o B', 'Flota y taller propios', 'Desde 2010', 'Viajes internacionales'],
+    // Ronda 4 (08/11/2026): el seguro después de las habilitaciones y el
+    // puntaje de Google al final (scripts/empresa.mjs, PRUEBAS_HUB).
+    pruebas: ['CNRT 60284', 'AMT', 'Seguro vigente', 'Todas las zonas mineras', 'A toda hora',
+      'Factura A o B', 'Flota y taller propios', 'Desde 2010', 'Viajes internacionales', 'Reseñas en Google'],
     enlacesPrueba: { 'Todas las zonas mineras': '/logistica-minera.html#zonas', 'Flota y taller propios': '#equipamiento' },
     practicas: ['Unidades equipadas para ingreso a mina', 'Libro de a bordo por unidad',
       'Reporte de incidentes firmado por el chofer', 'Tolerancia cero', 'Mantenimiento preventivo documentado',
@@ -121,8 +123,8 @@ const DISENO = {
     h1: 'Crew transport and freight for mining and business',
     grupos: [['crew', 'Mining crew transport'], ['freight', 'Freight']],
     secciones: ['services', 'safety', 'equipment', 'how-we-work', 'documents', 'contact'],
-    pruebas: ['CNRT 60284 · interprovincial', 'AMT', 'Every mining area', 'Any hour',
-      'Factura A or B', 'Own fleet and workshop', 'Since 2010', 'International trips'],
+    pruebas: ['CNRT 60284 · interprovincial', 'AMT', 'Insurance in force', 'Every mining area', 'Any hour',
+      'Factura A or B', 'Own fleet and workshop', 'Since 2010', 'International trips', 'Google reviews'],
     enlacesPrueba: { 'Every mining area': '/en/mining-logistics.html#areas', 'Own fleet and workshop': '#equipment' },
     practicas: ['Units fitted out for mine-site entry', 'On-board trip log per unit', 'Incident reports signed by the driver',
       'Zero tolerance', 'Documented preventive maintenance', 'Drivers with a professional license', 'Insurance in force'],
@@ -185,7 +187,7 @@ for (const nombre of HUBS) {
     }
   });
 
-  test(`${nombre}: las ocho pruebas en el orden de compras, «Viajes internacionales» al final`, () => {
+  test(`${nombre}: las pruebas en el orden de compras, «Viajes internacionales» y el puntaje de Google al final`, () => {
     const items = [...cuerpo.match(/<ul class="prueba-grid">([\s\S]*?)<\/ul>/)[1].matchAll(/<li><b>([\s\S]*?)<\/b>/g)]
       .map((m) => m[1]);
     assert.deepStrictEqual(items.map((b) => b.replace(/<[^>]+>/g, '')), d.pruebas);

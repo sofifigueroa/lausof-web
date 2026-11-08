@@ -169,7 +169,9 @@ const rutaDe = (archivo) => urlDe(archivo).slice(DOMINIO.length);
 // `sinEnlaceResenas` saca ese renglón exacto para que las guardias que vedan
 // hablar de reseñas sigan cortando cualquier otro texto.
 const RESENAS = 'https://www.google.com/maps?cid=13700114490953273065';
-const RENGLON_RESENAS = /<span><a href="https:\/\/www\.google\.com\/maps\?cid=13700114490953273065" target="_blank" rel="noopener"><b>(?:Reseñas en Google|Google reviews|Avaliações no Google)<\/b><\/a>: (?:4,9 de 5, con 9 reseñas \(03\/11\/2026\)|4\.9 out of 5 from 9 reviews \(November 3, 2026\)|4,9 de 5, com 9 avaliações \(03\/11\/2026\))<\/span>/g;
+// Dos formas, las dos de scripts/bloques.mjs: el renglón de la franja (y del
+// cierre) y el de la lista de pruebas del hub de empresas (ronda 4, 08/11/2026).
+const RENGLON_RESENAS = /<span><a href="https:\/\/www\.google\.com\/maps\?cid=13700114490953273065" target="_blank" rel="noopener"><b>(?:Reseñas en Google|Google reviews|Avaliações no Google)<\/b><\/a>: (?:4,9 de 5, con 9 reseñas \(03\/11\/2026\)|4\.9 out of 5 from 9 reviews \(November 3, 2026\)|4,9 de 5, com 9 avaliações \(03\/11\/2026\))<\/span>|<li><b><a href="https:\/\/www\.google\.com\/maps\?cid=13700114490953273065" target="_blank" rel="noopener">(?:Reseñas en Google|Google reviews)<\/a><\/b>(?:4,9 de 5, con 9 reseñas \(03\/11\/2026\)|4\.9 out of 5 from 9 reviews \(November 3, 2026\))<\/li>/g;
 const sinEnlaceResenas = (html) => html.replace(RENGLON_RESENAS, '');
 
 // Plazo de respuesta (decisión 1A de Lautaro, 05/11/2026,

@@ -22,7 +22,7 @@ const PORTADAS = {
       ['Personal para minería', '/empresas-y-mineria.html#personal', 'personal'],
       ['Cargas', '/empresas-y-mineria.html#cargas', 'carga'],
     ],
-    prueba: ['Salidas de madrugada', 'CNRT 60284', 'AMT', 'Agencia de turismo habilitada', 'Viajes internacionales', 'Factura A', 'Flota y taller propios'],
+    prueba: ['Salidas de madrugada', 'CNRT 60284', 'AMT', 'Agencia de turismo habilitada', 'Seguro vigente', 'Factura A', 'Viajes internacionales', 'Flota y taller propios'],
   },
   'en/index.html': {
     h1: 'Passenger transport in Salta and northwest Argentina',
@@ -31,7 +31,7 @@ const PORTADAS = {
       ['Mining crew transport', '/en/business-and-mining.html#crew', 'personal'],
       ['Freight', '/en/business-and-mining.html#freight', 'carga'],
     ],
-    prueba: ['Dawn departures', 'CNRT 60284', 'AMT', 'Licensed tourism agency', 'International trips', 'Factura A (tax invoice)', 'Own fleet and workshop'],
+    prueba: ['Dawn departures', 'CNRT 60284', 'AMT', 'Licensed tourism agency', 'Insurance in force', 'Factura A (tax invoice)', 'International trips', 'Own fleet and workshop'],
   },
   'pt/index.html': {
     h1: 'Transporte de passageiros em Salta e no norte da Argentina',
@@ -40,7 +40,7 @@ const PORTADAS = {
       ['Pessoal para mineração', '/empresas-y-mineria.html#personal', 'personal'],
       ['Cargas', '/empresas-y-mineria.html#cargas', 'carga'],
     ],
-    prueba: ['Saídas de madrugada', 'CNRT 60284', 'AMT (Salta)', 'Agência de turismo habilitada', 'Viagens internacionais', 'Frota e oficina próprias'],
+    prueba: ['Saídas de madrugada', 'CNRT 60284', 'AMT (Salta)', 'Agência de turismo habilitada', 'Seguro em dia', 'Viagens internacionais', 'Frota e oficina próprias'],
   },
 };
 

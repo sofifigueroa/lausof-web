@@ -494,6 +494,11 @@ footer.site .pie-secciones ul{gap:2px}
 .quote p{margin:0;font-size:.97rem;color:var(--ink);flex:1}
 .quote footer{font-size:.85rem;color:var(--ink-soft)}
 .quote .stars{color:var(--gold-ink);letter-spacing:.12em;font-size:.9rem}
+/* El puntaje de Google con el enlace al perfil (ronda 4, 08/11/2026): bajo
+   el título de las reseñas de las portadas y, en las páginas sin franja, en
+   el cierre. Lo escribe scripts/bloques.mjs. */
+.resenas-google{margin:12px 0 0;font-size:.95rem;color:var(--ink-soft)}
+.resenas-google a{color:var(--ink);font-weight:600}
 
 /* En pantalla angosta las fotos de las tarjetas (flota en venta y páginas
    internas) van más altas. Hasta el 05/11/2026 esto vivía con el carrusel de
@@ -520,6 +525,8 @@ footer.site .pie-secciones ul{gap:2px}
 }
 .cta-final .routing b{color:var(--on-navy)}
 .cta-final .routing a{color:var(--gold-bright)}
+.cta-final .resenas-google{margin:-14px auto 22px;font-size:.92rem}
+.cta-final .resenas-google a{color:var(--gold-bright)}
 
 /* ---- footer ---- */
 footer.site{background:var(--navy-deep);color:#c3cee4;padding:56px 0 36px;font-size:.94rem}

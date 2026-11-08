@@ -61,7 +61,7 @@ test('el puntaje y la cantidad son los mismos en todas las páginas', () => {
   const valores = new Set();
   for (const html of Object.values(paginas)) {
     for (const r of html.match(RENGLON_RESENAS) || []) {
-      valores.add(r.replace(/.*<\/a>: /, '').replace(/<\/span>$/, '').replace('4.9 out of 5 from 9 reviews (November 3, 2026)', '4,9 de 5, con 9 reseñas (03/11/2026)').replace('4,9 de 5, com 9 avaliações (03/11/2026)', '4,9 de 5, con 9 reseñas (03/11/2026)'));
+      valores.add(r.replace(/.*<\/a>(?:: |<\/b>)/, '').replace(/<\/(?:span|li)>$/, '').replace('4.9 out of 5 from 9 reviews (November 3, 2026)', '4,9 de 5, con 9 reseñas (03/11/2026)').replace('4,9 de 5, com 9 avaliações (03/11/2026)', '4,9 de 5, con 9 reseñas (03/11/2026)'));
     }
   }
   assert.deepStrictEqual([...valores], ['4,9 de 5, con 9 reseñas (03/11/2026)']);

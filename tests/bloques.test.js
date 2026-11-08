@@ -131,3 +131,60 @@ test('las anclas de la vitrina: una vez por página y .ctas dentro del encabezad
     }
   }
 });
+
+// Ronda 4 (08/11/2026, «confianza y pruebas»; rondas-2026-11-07/3-diseno.md v4).
+test('el puntaje de Google, enlazado al perfil, en toda página que vende (M14 a)', async () => {
+  const { RESENAS_GOOGLE } = await datos;
+  const { AVISOS } = await import('../scripts/privacidad.mjs');
+  const sinPuntaje = (n) => Object.values(AVISOS).includes(n) || n.endsWith('404.html');
+  let n = 0;
+  for (const [nombre, html] of Object.entries(paginas)) {
+    const enlaces = (sinComentarios(html).match(new RegExp(`<a href="${RESENAS_GOOGLE.url.replace(/[.?]/g, '\\$&')}" target="_blank" rel="noopener">`, 'g')) || []).length;
+    if (sinPuntaje(nombre)) { assert.strictEqual(enlaces, 0, `${nombre}: no vende y muestra el puntaje`); continue; }
+    assert.strictEqual(enlaces, 1, `${nombre}: el puntaje con su enlace, una vez (hay ${enlaces})`);
+    n++;
+  }
+  assert.ok(n >= 77, `se esperaban al menos 77 páginas con puntaje, hay ${n}`);
+});
+
+test('las habilitaciones van en un solo orden en cada franja y en las pruebas del hub', async () => {
+  const { ORDEN_HABILITACIONES } = await datos;
+  for (const [nombre, html] of Object.entries(paginas)) {
+    for (const bloque of [...zona(html, 'CONFIANZA'), ...zona(html, 'PRUEBA')]) {
+      const items = [...bloque.matchAll(/<(span|li)>([\s\S]*?)<\/\1>/g)].map((m) => m[2].replace(/<[^>]+>/g, ''));
+      const orden = items.map((t) => ORDEN_HABILITACIONES.findIndex(([, re]) => re.test(t))).filter((i) => i >= 0);
+      assert.deepStrictEqual(orden, [...orden].sort((a, b) => a - b), `${nombre}: habilitaciones fuera de orden: ${items.join(' | ')}`);
+    }
+  }
+});
+
+test('las páginas de empresas llevan la franja de su familia; los hubs, sus pruebas generadas', async () => {
+  const { debeLlevarFranja, HUBS_EMPRESAS } = await guion;
+  const conFranja = Object.entries(paginas).filter(([n, h]) => debeLlevarFranja(h, n));
+  assert.ok(conFranja.length >= 14, `sólo ${conFranja.length} páginas de empresas`);
+  for (const [nombre, html] of conFranja) {
+    assert.strictEqual(zona(html, 'CONFIANZA').length, 1, `${nombre}: sin franja`);
+    // Después de la miga, como en el resto de las páginas de empresas.
+    assert.ok(html.indexOf('<!-- /GENERADO:MIGAS -->') < html.indexOf('<!-- GENERADO:CONFIANZA'), `${nombre}: la franja va después de la miga`);
+  }
+  for (const hub of HUBS_EMPRESAS) {
+    const p = zona(paginas[hub], 'PRUEBA');
+    assert.strictEqual(p.length, 1, `${hub}: sin la zona PRUEBA`);
+    assert.match(paginas[hub], /<section class="prueba"[^>]*>\s*<div class="wrap">\s*<!-- GENERADO:PRUEBA/, `${hub}: la zona PRUEBA va dentro de section.prueba`);
+  }
+});
+
+test('las portadas: el puntaje bajo el título de las reseñas, que son las de Google', () => {
+  const titulos = { 'index.html': 'Reseñas de nuestros clientes', 'en/index.html': 'Reviews from our customers', 'pt/index.html': 'Avaliações dos nossos clientes' };
+  for (const [nombre, h2] of Object.entries(titulos)) {
+    const html = paginas[nombre];
+    const seccion = html.match(/<section class="block" id="(?:clientes|reviews)">[\s\S]*?<\/section>/);
+    assert.ok(seccion, `${nombre}: sin sección de reseñas`);
+    assert.ok(seccion[0].includes(`<h2>${h2}</h2>`), `${nombre}: el título de la sección no es «${h2}»`);
+    assert.strictEqual(zona(seccion[0], 'RESENA').length, 1, `${nombre}: el puntaje no está en la sección de reseñas`);
+    assert.strictEqual(zona(html, 'RESENA').length, 1, `${nombre}: el puntaje, una sola vez`);
+    for (const [, pie] of seccion[0].matchAll(/<footer>([^<]*)<\/footer>/g)) assert.match(pie, / · Google$/, `${nombre}: una reseña sin su origen`);
+  }
+  // Su línea elegida (29/08), palabra por palabra (BRIEF, L28).
+  assert.ok(paginas['index.html'].includes('<h2>Su tranquilidad viaja con nosotros</h2>'));
+});

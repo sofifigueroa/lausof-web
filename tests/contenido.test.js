@@ -335,7 +335,10 @@ const RENGLONES_EMPRESAS_0511 = [
   ['«Facturamos A» (se dice «Factura A»)', /Facturamos A\b/],
   ['IVA fijo del 21 % (pasajeros va al 10,5 %)', /IVA 21/],
   ['eslogan de la seguridad', /no es un adicional/i],
-  ['eslogan «Su tranquilidad»', /Su tranquilidad viaja/i],
+  // «Su tranquilidad viaja con nosotros» salió con esta auditoría (FIX-9) y
+  // volvió en la ronda 4 (08/11/2026): Lautaro la eligió el 29/08 («Keep
+  // this», seo-audit/feedback-lautaro-copy-2026-08-29.txt:9) y sus líneas
+  // elegidas se mantienen palabra por palabra (rondas-2026-11-07 BRIEF, L28).
   ['jerga de depósito', /staging|posiciones fr[ií]as/i],
   ['letra de contrato', /M[ií]nimos y plazos a convenir/i],
   ['«la más pedida» sin datos', /opci[oó]n m[aá]s pedida/i],

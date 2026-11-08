@@ -250,9 +250,11 @@ export const FRANJAS = {
   },
   // Las portadas: renglones cortos, sin negrita (portadas.test.js).
   portada: {
-    es: { clase: 'certs prueba', rotulo: 'Habilitaciones', items: ['Salidas de madrugada', `CNRT ${CNRT}`, 'AMT', 'Agencia de turismo habilitada', 'Viajes internacionales', 'Factura A', 'Flota y taller propios'] },
-    en: { clase: 'certs prueba', rotulo: 'Licenses and credentials', items: ['Dawn departures', `CNRT ${CNRT}`, 'AMT', 'Licensed tourism agency', 'International trips', 'Factura A (tax invoice)', 'Own fleet and workshop'] },
-    pt: { clase: 'certs prueba', rotulo: 'Habilitações', items: ['Saídas de madrugada', `CNRT ${CNRT}`, 'AMT (Salta)', 'Agência de turismo habilitada', 'Viagens internacionais', 'Frota e oficina próprias'] },
+    // Ronda 4 (08/11/2026): suma el seguro, el único reclamo de 1b A7 que
+    // faltaba, y las habilitaciones quedan juntas en el orden de ORDEN_HABILITACIONES.
+    es: { clase: 'certs prueba', rotulo: 'Habilitaciones', items: ['Salidas de madrugada', `CNRT ${CNRT}`, 'AMT', 'Agencia de turismo habilitada', 'Seguro vigente', 'Factura A', 'Viajes internacionales', 'Flota y taller propios'] },
+    en: { clase: 'certs prueba', rotulo: 'Licenses and credentials', items: ['Dawn departures', `CNRT ${CNRT}`, 'AMT', 'Licensed tourism agency', 'Insurance in force', 'Factura A (tax invoice)', 'International trips', 'Own fleet and workshop'] },
+    pt: { clase: 'certs prueba', rotulo: 'Habilitações', items: ['Saídas de madrugada', `CNRT ${CNRT}`, 'AMT (Salta)', 'Agência de turismo habilitada', 'Seguro em dia', 'Viagens internacionais', 'Frota e oficina próprias'] },
   },
   // La 4x4 y los autoelevadores muestran datos del servicio en la franja.
   camioneta: {
@@ -262,23 +264,71 @@ export const FRANJAS = {
       ['Mantenimiento', ' en taller propio'],
       ['GPS', ' en las unidades en servicio'],
       ['Más de una década', ' operando en la Puna'],
-      ['Facturamos A', ` — CUIT ${CUIT}`]] },
+      ['Factura A', ` — CUIT ${CUIT}`],
+      RESENA] },
     en: { rotulo: 'Credentials', items: [
       ['With a driver', ' for travelers, monthly for companies'],
       ['4x4 pickups', ' prepared for gravel and altitude'],
       ['Maintenance', ' included in the rental'],
       ['GPS', ' on the units in service'],
       ['More than a decade', ' working in the Puna'],
-      ['Factura A', ` (Argentine tax invoice) — CUIT ${CUIT}`]] },
+      ['Factura A', ` (Argentine tax invoice) — CUIT ${CUIT}`],
+      RESENA] },
   },
   autoelevador: {
     es: { rotulo: 'Datos del servicio', items: [
       ['3 y 4 toneladas', ' de capacidad de carga'],
       ['Mástil de 4,5 metros', ' con torres desplazables'],
       ['Con o sin operador', ', por jornada o por período'],
-      ['Factura A', ` — CUIT ${CUIT}`]] },
+      ['Factura A', ` — CUIT ${CUIT}`],
+      RESENA] },
   },
 };
+
+/* Las pruebas del hub de empresas (section.prueba, ES y EN): un dato por
+   renglón, [rótulo, texto, enlace del rótulo]. El orden es el de un formulario
+   de alta de proveedor (3a §3.6.1 del rediseño de empresas), con el seguro
+   después de las habilitaciones (ronda 4, 08/11/2026: 1b A7) y el puntaje de
+   Google al final, con su enlace al perfil (3-diseno v4, M14 a). Las escribe
+   scripts/bloques.mjs, zona PRUEBA. */
+export const PRUEBAS_HUB = {
+  es: [
+    [`CNRT ${CNRT}`, 'Habilitación nacional para viajes entre provincias.'],
+    ['AMT', 'Habilitación para el transporte de pasajeros dentro de Salta.'],
+    ['Seguro vigente', 'Responsabilidad civil y cobertura de carga o de pasajeros según el servicio.'],
+    ['Todas las zonas mineras', 'Salta, Jujuy y Catamarca, en toda la Puna.', '/logistica-minera.html#zonas'],
+    ['A toda hora', 'Salidas de madrugada, de noche y fines de semana.'],
+    ['Factura A o B', 'Con remito.'],
+    ['Flota y taller propios', 'Mantenimiento en taller propio, no tercerizado.', '#equipamiento'],
+    ['Desde 2010', 'Empresa familiar de transporte de Salta.'],
+    ['Viajes internacionales', 'Chile y Bolivia por tierra; el permiso internacional de cada unidad lo tramitamos nosotros.'],
+    RESENA,
+  ],
+  en: [
+    [`CNRT ${CNRT} · interprovincial`, 'National license for interprovincial transport.'],
+    ['AMT', 'Licensed for passenger transport within Salta.'],
+    ['Insurance in force', 'Third-party liability and cargo or passenger cover, depending on the service.'],
+    ['Every mining area', 'All the mining areas and routes of the Puna: Salta, Jujuy and Catamarca.', '/en/mining-logistics.html#areas'],
+    ['Any hour', 'Pre-dawn, night and weekend departures.'],
+    ['Factura A or B', 'With a delivery note (remito).'],
+    ['Own fleet and workshop', 'Maintenance in our own workshop, not subcontracted.', '#equipment'],
+    ['Since 2010', 'A family-run transport company from Salta.'],
+    ['International trips', "Chile and Bolivia by road; we file each vehicle's international trip permit."],
+    RESENA,
+  ],
+};
+
+/* Las habilitaciones, en UN orden en toda franja y prueba donde aparezcan
+   (3-diseno v4: «CNRT N° 60284, AMT, agencia habilitada, seguro, Factura A
+   in one order»). Cada familia lleva las que le corresponden; las que lleva
+   van en este orden. tests/bloques.test.js lo comprueba en las páginas. */
+export const ORDEN_HABILITACIONES = [
+  ['CNRT', /CNRT/],
+  ['AMT', /\bAMT\b/],
+  ['agencia', /[Aa]gencia de turismo|[Aa]gência de turismo|[Tt]ourism agency/],
+  ['seguro', /\b[Ss]eguro\b|\b[Ii]nsurance\b/],
+  ['factura', /\bFactura [AB]|Nota fiscal/],
+];
 
 /* Textos del pie de contacto, del cierre y de la barra, por idioma. Los
    rótulos de la barra de empresas (Llamar · Mail · WhatsApp) los fija

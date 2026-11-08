@@ -184,3 +184,10 @@ a.ficha-linea::after{
 
 /* ---- cierre ---- */
 
+
+/* ---- foto del equipamiento (ronda 4, 08/11/2026) ----
+   Una foto real bajo la tabla «Con qué trabajamos»: la camioneta con el
+   equipamiento de ingreso a mina que nombra la primera fila. */
+.equipo-foto{margin:24px 0 0;max-width:640px}
+.equipo-foto img{display:block;width:100%;height:auto;border:1px solid var(--border);border-radius:var(--radius)}
+.equipo-foto figcaption{font-size:.85rem;color:var(--ink-soft);margin-top:8px}

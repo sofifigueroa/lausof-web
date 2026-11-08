@@ -17,7 +17,17 @@
                 sigue saliendo de scripts/menu.mjs y queda adentro, igual.
      BARRA      la barra del teléfono (div.wa-bar): Llamar · WhatsApp, o
                 Llamar · Mail · WhatsApp en empresas (tests/menu.test.js)
-     RESENA     el renglón del puntaje de Google en las tres portadas
+     RESENA     el renglón del puntaje de Google en las tres portadas, debajo
+                del título de la sección de reseñas (ronda 4, 08/11/2026)
+     PRUEBA     la lista de pruebas del hub de empresas (ul.prueba-grid, ES y
+                EN), desde PRUEBAS_HUB en scripts/empresa.mjs (ronda 4)
+
+   Ronda 4 (08/11/2026, «confianza y pruebas»): toda página que vende muestra
+   el puntaje de Google con su enlace al perfil (3-diseno v4, M14 a). Va en la
+   franja; las páginas de empresas sin franja reciben la de su familia justo
+   después de la miga; el hub, en su lista de pruebas; y las pocas sin franja
+   (flota, flota en venta, golf), en el cierre. Quedan sin puntaje sólo las de
+   privacidad y las 404, que no venden.
 
    De dónde sale cada cosa:
      · Datos de la empresa, puntaje de Google, franjas y rótulos:
@@ -45,12 +55,16 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { raiz, paginas } from './rutas-raiz.mjs';
-import { FRANJAS, TEXTOS_BLOQUES, REDES, TEL_HREF, WA_VENTAS, RESENAS_GOOGLE, datoResenas } from './empresa.mjs';
+import { FRANJAS, PRUEBAS_HUB, TEXTOS_BLOQUES, REDES, TEL_HREF, WA_VENTAS, RESENAS_GOOGLE, datoResenas } from './empresa.mjs';
 import { PAGINAS as TIPO_DE, idiomaDe, armarWa, armarMailto, waDePagina } from './prefill.mjs';
 import { zonaCruce, seccionDe, PORTADAS } from './menu.mjs';
 import { PAGINAS as DATOS, PIE_PORTADAS } from './bloques-datos.mjs';
+import { AVISOS } from './privacidad.mjs';
 
-export const ZONAS = ['CONFIANZA', 'CIERRE', 'CONTACTO', 'BARRA', 'RESENA'];
+export const ZONAS = ['CONFIANZA', 'CIERRE', 'CONTACTO', 'BARRA', 'RESENA', 'PRUEBA'];
+
+// Los hubs de empresas: llevan la lista de pruebas en vez de franja.
+export const HUBS_EMPRESAS = ['empresas-y-mineria.html', 'en/business-and-mining.html'];
 
 const abre = (n) => `<!-- GENERADO:${n} — no editar a mano: editar scripts/bloques.mjs (o empresa.mjs, bloques-datos.mjs) y correr \`node scripts/bloques.mjs\` -->`;
 const cierra = (n) => `<!-- /GENERADO:${n} -->`;
@@ -64,6 +78,7 @@ const VIEJO = {
   CONTACTO: /([ \t]*)<div class="wrap foot-grid">[\s\S]*?\n {2}<\/div>(?=\n)/,
   BARRA: /([ \t]*)<div class="wa-bar[^"]*"[^>]*>[\s\S]*?<\/div>/,
   RESENA: /([ \t]*)<p>(?:Opiniones de clientes|What customers say|Opiniões de clientes):[\s\S]*?<\/p>/,
+  PRUEBA: /([ \t]*)<ul class="prueba-grid">[\s\S]*?<\/ul>/,
 };
 
 export const SVG_WA = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
@@ -86,10 +101,14 @@ export function familiaDe(pagina) {
 
 /* ---- cada bloque, puro ----------------------------------------------------- */
 
-const renglonResenas = (idioma) => {
-  const rotulo = { es: 'Reseñas en Google', en: 'Google reviews', pt: 'Avaliações no Google' }[idioma];
-  return `<span><a href="${RESENAS_GOOGLE.url}" target="_blank" rel="noopener"><b>${rotulo}</b></a>: ${datoResenas(idioma)}</span>`;
-};
+const ROTULO_RESENAS = { es: 'Reseñas en Google', en: 'Google reviews', pt: 'Avaliações no Google' };
+const enlaceResenas = (texto) => `<a href="${RESENAS_GOOGLE.url}" target="_blank" rel="noopener">${texto}</a>`;
+const renglonResenas = (idioma) => `<span>${enlaceResenas(`<b>${ROTULO_RESENAS[idioma]}</b>`)}: ${datoResenas(idioma)}</span>`;
+
+/** ¿La página ya muestra el puntaje fuera del cierre? */
+const resenaFueraDelCierre = (html) => html.replace(zonaRe('CIERRE'), '').includes(RESENAS_GOOGLE.url);
+/** Páginas que no venden: sin puntaje (las de privacidad y las 404). */
+const sinPuntaje = (pagina) => Object.values(AVISOS).includes(pagina) || pagina.endsWith('404.html');
 
 export function franja(pagina) {
   const idioma = idiomaDe(pagina);
@@ -115,6 +134,8 @@ function enlaces(html, pagina) {
 export function cierre(html, pagina) {
   const c = DATOS[pagina]?.cierre;
   if (!c) return null;
+  // El puntaje va en el cierre sólo si la página no lo muestra en otro lado.
+  const conResena = !PORTADAS.includes(pagina) && !sinPuntaje(pagina) && !resenaFueraDelCierre(html);
   const { idioma, wa, mail } = enlaces(html, pagina);
   const t = TEXTOS_BLOQUES[idioma];
   const botonWa = `<a class="btn btn-wa" href="${wa}" target="_blank" rel="noopener">${SVG_WA}${t.cierreWa}</a>`;
@@ -129,6 +150,7 @@ export function cierre(html, pagina) {
     ...(c.sinLogo ? [] : [`    ${LOGO}`]),
     `    <h2>${c.titulo}</h2>`,
     ...c.textos.map((p) => `    <p>${p}</p>`),
+    ...(conResena ? [`    <p class="resenas-google">${renglonResenas(idioma)}</p>`] : []),
     '    <div class="cta-botones">',
     ...botones.map((b) => `      ${b}`),
     '    </div>',
@@ -204,10 +226,33 @@ export function barra(html, pagina) {
   return [`<div class="wa-bar${empresas ? ' tres' : ''}" aria-label="${t.barra}">`, ...botones.map((b) => `  ${b}`), '</div>'];
 }
 
+/** El puntaje en la sección de reseñas de las portadas, con el mismo rótulo que la franja. */
 export function resena(pagina) {
   const idioma = idiomaDe(pagina);
-  const [antes, enlace] = { es: ['Opiniones de clientes', 'reseñas de Lausof en Google'], en: ['What customers say', 'Lausof reviews on Google'], pt: ['Opiniões de clientes', 'avaliações da Lausof no Google'] }[idioma];
-  return [`<p>${antes}: <a href="${RESENAS_GOOGLE.url}" target="_blank" rel="noopener">${enlace}</a>, <span class="resenas-dato">${datoResenas(idioma)}</span>.</p>`];
+  return [`<p class="resenas-google">${enlaceResenas(ROTULO_RESENAS[idioma])}: <span class="resenas-dato">${datoResenas(idioma)}</span></p>`];
+}
+
+/** La lista de pruebas del hub de empresas. */
+export function prueba(pagina) {
+  const idioma = idiomaDe(pagina);
+  const items = PRUEBAS_HUB[idioma];
+  if (!items) throw new Error(`${pagina}: no hay pruebas del hub en ${idioma} (scripts/empresa.mjs, PRUEBAS_HUB)`);
+  return ['<ul class="prueba-grid">',
+    ...items.map((i) => (i.resena ? `  <li><b>${enlaceResenas(ROTULO_RESENAS[idioma])}</b>${datoResenas(idioma)}</li>`
+      : `  <li><b>${i[2] ? `<a href="${i[2]}">${i[0]}</a>` : i[0]}</b>${i[1]}</li>`)),
+    '</ul>'];
+}
+
+/** Las páginas de empresas con encabezado llevan la franja de su familia (menos los hubs, que llevan pruebas). */
+export const debeLlevarFranja = (html, pagina) =>
+  seccionDe(pagina) === 'empresas' && !HUBS_EMPRESAS.includes(pagina) && /<section class="page-head"/.test(html);
+
+/** La primera vez: abre la zona CONFIANZA después de la miga (y de la zona TIENDA que la sigue, si hay). */
+function abrirFranja(html) {
+  const m = html.match(/\n([ \t]*)<!-- \/GENERADO:MIGAS -->\n(?:[ \t]*<!-- GENERADO:TIENDA bloque -->[\s\S]*?<!-- \/GENERADO:TIENDA -->\n)?/);
+  if (!m) return html;
+  const i = m.index + m[0].length;
+  return `${html.slice(0, i)}\n${m[1]}${abre('CONFIANZA')}\n${m[1]}${cierra('CONFIANZA')}\n${html.slice(i)}`;
 }
 
 /* ---- escribir las zonas ---------------------------------------------------- */
@@ -239,7 +284,9 @@ export function conBloques(html, pagina) {
   // los enlaces que quedan fuera de ellas (igual la primera vez que después).
   let out = html;
   for (const n of ['CIERRE', 'CONTACTO', 'BARRA']) out = marcar(out, n);
+  if (debeLlevarFranja(out, pagina) && !zonaRe('CONFIANZA').test(out)) out = abrirFranja(out);
   out = poner(out, 'CONFIANZA', () => franja(pagina));
+  if (HUBS_EMPRESAS.includes(pagina)) out = poner(out, 'PRUEBA', () => prueba(pagina));
   out = poner(out, 'CIERRE', () => cierre(out, pagina));
   out = poner(out, 'CONTACTO', () => contacto(out, pagina));
   out = poner(out, 'BARRA', () => barra(out, pagina));
@@ -255,6 +302,9 @@ export function problemasDe(html, pagina) {
   if (/<div class="wa-bar/.test(html) && !zonaRe('BARRA').test(html)) p.push(`${pagina}: barra del teléfono fuera de la zona BARRA`);
   if (/<div class="certs/.test(html) && !zonaRe('CONFIANZA').test(html)) p.push(`${pagina}: franja fuera de la zona CONFIANZA`);
   if (/<footer class="site"/.test(html) && !zonaRe('CONTACTO').test(html)) p.push(`${pagina}: pie sin la zona CONTACTO`);
+  if (debeLlevarFranja(html, pagina) && !zonaRe('CONFIANZA').test(html)) p.push(`${pagina}: página de empresas sin franja (zona CONFIANZA)`);
+  if (HUBS_EMPRESAS.includes(pagina) && !zonaRe('PRUEBA').test(html)) p.push(`${pagina}: hub sin la zona PRUEBA`);
+  if (!sinPuntaje(pagina) && /<body[\s>]/.test(html) && !html.includes(RESENAS_GOOGLE.url)) p.push(`${pagina}: página que vende sin el puntaje de Google`);
   return p;
 }
 

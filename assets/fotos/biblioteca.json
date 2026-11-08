@@ -604,7 +604,9 @@
    "sha256": "bc28d22d7cb2f4984079a1f264a450e8743ad25e18dc3cd0dc99900b1466ce01",
    "usos": [
     "alquiler-4x4.html",
+    "empresas-y-mineria.html",
     "en/4x4-rental.html",
+    "en/business-and-mining.html",
     "en/international-trips.html",
     "galeria.html",
     "viajes-internacionales.html"
