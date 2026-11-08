@@ -77,4 +77,3 @@
 @media (hover:hover){.faq summary:hover{color:var(--gold-ink)}}
 
 /* ---- cierre ---- */
-.cta-final .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}

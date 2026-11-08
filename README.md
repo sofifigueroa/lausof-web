@@ -603,6 +603,43 @@ y `3a-wireframes/`, textos `4-textos.md`, decisiones `DECISION-2026-11-05.md`).
   afirmaciones debajo. El texto nuevo va en registro impersonal (las páginas
   viejas siguen en voseo, decisión d). Lo vigila `tests/portadas.test.js`.
 
+## Bloques compartidos: franja, cierre, pie de contacto y barra (08/11/2026)
+
+Cinco bloques que estaban copiados a mano en cada página se generan desde una
+sola fuente con `scripts/bloques.mjs` (ronda 1, `~/lausof/web/rondas-2026-11-07/`):
+
+| Zona | Qué es | De dónde sale |
+|---|---|---|
+| `GENERADO:CONFIANZA` | la franja de habilitaciones (`div.certs`) | `FRANJAS` de `scripts/empresa.mjs`, una por familia (pasajeros, empresas, portada, 4x4, autoelevadores) e idioma |
+| `GENERADO:CIERRE` | el cierre azul (`section.cta-final`) | título y textos de cada página en `scripts/bloques-datos.mjs`; botones (WhatsApp y correo) y nota iguales por idioma (`TEXTOS_BLOQUES`) |
+| `GENERADO:CONTACTO` | el pie de contacto (`div.foot-grid`) | `TEXTOS_BLOQUES` y `REDES`; los idiomas, del selector `.lang-switch` de la página; adentro sigue `GENERADO:CRUCE` de `menu.mjs` |
+| `GENERADO:BARRA` | la barra del teléfono (`div.wa-bar`) | Llamar · WhatsApp; Llamar · Mail · WhatsApp en empresas |
+| `GENERADO:RESENA` | el renglón del puntaje en las portadas | `RESENAS_GOOGLE` de `empresa.mjs` |
+
+```bash
+node scripts/bloques.mjs              # reescribe lo que falte o haya cambiado
+node scripts/bloques.mjs --comprobar  # no escribe nada; sale con 1 si algo no coincide
+```
+
+- **El puntaje de Google es un dato** (`RESENAS_GOOGLE`): se cambia ahí y se
+  corre el script; las 57 páginas y las portadas lo toman en su idioma.
+- **Los enlaces** de WhatsApp y correo de estos bloques los arma `bloques.mjs`
+  con las funciones de `prefill.mjs` (`armarWa`, `armarMailto`, `waDePagina`):
+  número y primera línea de los enlaces de la página que quedan fuera de las
+  zonas (el botón del encabezado), renglones del tipo de la página, asunto de
+  `bloques-datos.mjs`. `prefill.mjs` no entra a las zonas GENERADO.
+- **Página nueva**: además de `menu.mjs` y `prefill.mjs`, su renglón en
+  `scripts/bloques-datos.mjs` (asunto y, si tiene encabezado, el cierre).
+- **Orden al regenerar**: `bloques.mjs` antes que `menu.mjs` no importa (el
+  cruce sale de la misma función), pero los dos `--comprobar` tienen que dar 0.
+- **La vitrina** (`tienda-v2-0611`): `<div class="wa-bar` y su botón
+  `<a class="btn btn-wa">` con `<svg>` quedan como los lee `barraNueva`; una
+  zona `GENERADO:TIENDA` que quede dentro de un bloque se conserva al
+  regenerar. `<div class="ctas">` queda sólo en el encabezado (el cierre usa
+  `.cta-botones`).
+- Lo vigila `tests/bloques.test.js` (al día, una versión por familia e idioma,
+  el puntaje sin grafías a mano, el contrato de la barra, las anclas de la vitrina).
+
 ## Cabeceras de seguridad
 
 El bloque `/*` de `_headers` manda en todas las páginas `X-Content-Type-Options:

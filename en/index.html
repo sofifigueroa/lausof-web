@@ -31,7 +31,7 @@
        relative path would resolve to /en/assets/… and break. -->
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="/css/styles.css?v=29">
+  <link rel="stylesheet" href="/css/styles.css?v=30">
 
   <!-- Link preview. Same 1200×630 JPEG crop as the Spanish home (the WhatsApp
        and Facebook scrapers handle WebP badly), with English title, text and
@@ -197,6 +197,7 @@
     </div>
   </section>
 
+  <!-- GENERADO:CONFIANZA — no editar a mano: editar scripts/bloques.mjs (o empresa.mjs, bloques-datos.mjs) y correr `node scripts/bloques.mjs` -->
   <div class="certs prueba" aria-label="Licenses and credentials">
     <div class="wrap certs-row">
       <span>Dawn departures</span>
@@ -208,6 +209,7 @@
       <span>Own fleet and workshop</span>
     </div>
   </div>
+  <!-- /GENERADO:CONFIANZA -->
 
   <section class="block why" id="why">
     <div class="wrap">
@@ -277,7 +279,9 @@
           <p>Lausof is a family-owned company based in Salta. We started in 2010 with passenger transport and in 2017 added general freight. Since then we have done all of it: school transport, day trips, distribution, cold chain and mining work in the Puna.</p>
           <p>Today our core is passenger transport (tours, mining and corporate crews, airport transfers and charters) and refrigerated freight to the mines, alongside the workshop. They are run by the same people as always, drivers and mechanics who know the units and the roads by heart.</p>
           <!-- Enlace simple a las reseñas reales del perfil de Google (sin marcado de reseñas, sin citarlas). Puntaje y cantidad leídos con la Places API el 03/11/2026 (sweep-2026-11-03/06-listings.md): actualizar cuando cambien. -->
-          <p>What customers say: <a href="https://www.google.com/maps?cid=13700114490953273065" target="_blank" rel="noopener">Lausof reviews on Google</a>, 4.9 out of 5 from 9 reviews (November 3, 2026).</p>
+          <!-- GENERADO:RESENA — no editar a mano: editar scripts/bloques.mjs (o empresa.mjs, bloques-datos.mjs) y correr `node scripts/bloques.mjs` -->
+          <p>What customers say: <a href="https://www.google.com/maps?cid=13700114490953273065" target="_blank" rel="noopener">Lausof reviews on Google</a>, <span class="resenas-dato">4.9 out of 5 from 9 reviews (November 3, 2026)</span>.</p>
+          <!-- /GENERADO:RESENA -->
         </div>
         <figure>
           <picture><source type="image/avif" srcset="/assets/nosotros-flota-mixta-lausof-400w.avif 400w, /assets/nosotros-flota-mixta-lausof-560w.avif 560w, /assets/nosotros-flota-mixta-lausof-640w.avif 640w, /assets/nosotros-flota-mixta-lausof.avif 1094w" sizes="(max-width: 960px) 94vw, 464px"><img src="/assets/nosotros-flota-mixta-lausof.webp" srcset="/assets/nosotros-flota-mixta-lausof-400w.webp 400w, /assets/nosotros-flota-mixta-lausof-560w.webp 560w, /assets/nosotros-flota-mixta-lausof-640w.webp 640w, /assets/nosotros-flota-mixta-lausof.webp 1094w" alt="Lausof trucks and a passenger minibus lined up in front of the hills of Salta" width="1094" height="500" sizes="(max-width: 960px) 94vw, 464px" loading="lazy" decoding="async"></picture>
@@ -346,36 +350,34 @@
     </div>
   </section>
 
+  <!-- GENERADO:CIERRE — no editar a mano: editar scripts/bloques.mjs (o empresa.mjs, bloques-datos.mjs) y correr `node scripts/bloques.mjs` -->
   <section class="block cta-final">
     <div class="wrap">
-      <picture><source type="image/avif" srcset="/assets/logo-insignia-web.avif 340w" sizes="132px"><img src="/assets/logo-insignia-web.webp" srcset="/assets/logo-insignia-web.webp 340w" alt="" width="340" height="340" sizes="132px" loading="lazy" decoding="async"></picture>
+      <picture><source type="image/avif" srcset="/assets/logo-insignia-web.avif 340w" sizes="132px"><img src="/assets/logo-insignia-web.webp" srcset="/assets/logo-insignia-web.webp 340w" alt="" width="340" height="340" loading="lazy" sizes="132px" decoding="async"></picture>
       <h2>A trip, a group or a crew to move?</h2>
       <p>Tell us what, from where and to where. We reply with a written quote.</p>
-      <div class="ctas">
-        <a class="btn btn-outline" href="mailto:transporte@lausof.com?subject=Quote%20request&amp;body=Service%3A%0D%0ADate%3A%0D%0AFrom%20and%20to%3A%0D%0APassengers%20or%20cargo%3A%0D%0A"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4.24l-8 4.76-8-4.76V6l8 4.75L20 6v2.24z"/></svg>Request a quote by email</a>
+      <div class="cta-botones">
         <a class="btn btn-wa" href="https://wa.me/5493875269009?text=Hello%20Lausof%2C%20I%20would%20like%20a%20quote.%0AService%3A%20%0ADate%3A%20%0AFrom%20and%20to%3A%20%0APassengers%20or%20cargo%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Message us on WhatsApp</a>
+        <a class="btn btn-ghost" href="mailto:transporte@lausof.com?subject=Quote%20request&amp;body=Service%3A%0D%0ADate%3A%0D%0AFrom%20and%20to%3A%0D%0APassengers%20or%20cargo%3A%0D%0A"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4.24l-8 4.76-8-4.76V6l8 4.75L20 6v2.24z"/></svg>Request a quote by email</a>
       </div>
+      <p class="routing">We reply in English by email or WhatsApp. Phone calls are answered in Spanish.</p>
     </div>
   </section>
+  <!-- /GENERADO:CIERRE -->
 </main>
 
 <footer class="site" id="contact">
+  <!-- GENERADO:CONTACTO — no editar a mano: editar scripts/bloques.mjs (o empresa.mjs, bloques-datos.mjs) y correr `node scripts/bloques.mjs` -->
   <div class="wrap foot-grid">
     <div>
       <p>Transport and logistics in Salta and northwest Argentina.<br>Junín 1334 / Siria 1333 — Salta (A4400), Argentina</p>
       <p>Instagram <a href="https://www.instagram.com/lausofsrl" target="_blank" rel="noopener">@lausofsrl</a> · Facebook <a href="https://www.facebook.com/lausoftransportes" target="_blank" rel="noopener">@lausoftransportes</a></p>
-      <p>English pages: <a href="/en/personnel-transport.html">Personnel transport</a> · <a href="/en/mining-logistics.html">Mining logistics</a> · <a href="/en/crew-transport-lithium-projects.html">Crew transport for lithium projects</a> · <a href="/en/tours-and-transfers.html">Tours and transfers</a> · <a href="/en/ground-transport-for-tour-operators.html">For tour operators and hotels</a> · <a href="/en/salta-to-purmamarca-tilcara-humahuaca.html">Salta to Purmamarca and Humahuaca</a> · <a href="/en/salinas-grandes-from-salta.html">Salinas Grandes from Salta</a> · <a href="/en/international-trips.html">International trips</a> · <a href="/en/4x4-rental.html">4x4 rental</a> · <a href="/en/salta-airport-transfer.html">Salta airport transfer</a> · <a href="/en/minibus-with-driver-salta.html">Minibus with driver by the day</a> · <a href="/en/refrigerated-freight.html">Refrigerated freight</a> · <a href="/en/warehouse.html">Warehouse</a> · <a href="/en/film-production-logistics.html">Film and TV productions</a></p>
-      <!-- Text link to the other language, for phones: below 880 px the main
-           menu is hidden. It does NOT carry the .lang-switch class, which
-           belongs to the one selector in the top bar. -->
       <p><a href="/" hreflang="es" lang="es">Español</a> · <a href="/pt/" hreflang="pt" lang="pt-BR">Português</a></p>
+      <p>English pages: <a href="/en/personnel-transport.html">Personnel transport</a> · <a href="/en/mining-logistics.html">Mining logistics</a> · <a href="/en/crew-transport-lithium-projects.html">Crew transport for lithium projects</a> · <a href="/en/tours-and-transfers.html">Tours and transfers</a> · <a href="/en/ground-transport-for-tour-operators.html">For tour operators and hotels</a> · <a href="/en/salta-to-purmamarca-tilcara-humahuaca.html">Salta to Purmamarca and Humahuaca</a> · <a href="/en/salinas-grandes-from-salta.html">Salinas Grandes from Salta</a> · <a href="/en/international-trips.html">International trips</a> · <a href="/en/4x4-rental.html">4x4 rental</a> · <a href="/en/salta-airport-transfer.html">Salta airport transfer</a> · <a href="/en/minibus-with-driver-salta.html">Minibus with driver by the day</a> · <a href="/en/refrigerated-freight.html">Refrigerated freight</a> · <a href="/en/warehouse.html">Warehouse</a> · <a href="/en/film-production-logistics.html">Film and TV productions</a></p>
     </div>
     <div>
       <b>Phone</b>
       <ul>
-        <!-- Phone canon: 526-9009 is the only public line on the site and it
-             takes both calls and WhatsApp. Do not add other lines: the
-             previous ones are out of service. -->
         <li><a href="tel:+5493875269009">+54 9 387 526-9009</a> — calls and <a href="https://wa.me/5493875269009?text=Hello%20Lausof%2C%20I%20would%20like%20a%20quote.%0AService%3A%20%0ADate%3A%20%0AFrom%20and%20to%3A%20%0APassengers%20or%20cargo%3A%20" target="_blank" rel="noopener">WhatsApp</a></li>
         <li>Argentine mobile numbers include a 9 after the country code when dialed from abroad.</li>
       </ul>
@@ -387,6 +389,7 @@
       </ul>
     </div>
   </div>
+  <!-- /GENERADO:CONTACTO -->
 
   <!-- GENERADO:PIE — no editar a mano: editar scripts/menu.mjs y correr `node scripts/menu.mjs` -->
   <div class="wrap pie-secciones"><div><b>Tours &amp; transfers</b><ul><li><a href="/en/tours-and-transfers.html#routes">Day trips &amp; transfers</a></li><li><a href="/en/international-trips.html">Chile &amp; Bolivia</a></li><li><a href="/feriados-fines-de-semana-largos.html" hreflang="es">Dates &amp; events (in Spanish)</a></li><li><a href="/turismo.html#eventos" hreflang="es">Groups &amp; occasions (in Spanish)</a></li><li><a href="/en/ground-transport-for-tour-operators.html">Agencies &amp; hotels</a></li><li><a href="/en/4x4-rental.html#travelers">4x4 with driver</a></li><li><a href="/en/salta-airport-transfer.html">Airport</a></li><li><a href="/en/tours-and-transfers.html">See all</a></li></ul></div><div><b>Business &amp; mining</b><div><p class="pie-sub">Mining crew transport</p><ul><li><a href="/en/personnel-transport.html">Crew transport</a></li><li><a href="/en/crew-transport-lithium-projects.html">Lithium projects</a></li><li><a href="/en/mining-logistics.html">Mining logistics</a></li><li><a href="/en/business-and-mining.html#corporate-transfers">Corporate transfers</a></li><li><a href="/en/4x4-rental.html#companies">Monthly 4x4</a></li><li><a href="/en/business-and-mining.html#fleet-documents">Mine entry documents</a></li><li><a href="/en/film-production-logistics.html">Film productions</a></li></ul></div><div><p class="pie-sub">Freight</p><ul><li><a href="/en/refrigerated-freight.html">Refrigerated freight</a></li><li><a href="/en/warehouse.html">Warehouse &amp; cold room</a></li><li><a href="/en/business-and-mining.html#forklifts">Forklifts</a></li><li><a href="/en/business-and-mining.html#vehicle-transfers">Vehicle transfers</a></li><li><a href="/en/business-and-mining.html#workshop">Workshop</a></li></ul></div><ul><li><a href="/en/business-and-mining.html">See all</a></li></ul></div></div>
@@ -413,12 +416,12 @@
   </div>
 </footer>
 
+<!-- GENERADO:BARRA — no editar a mano: editar scripts/bloques.mjs (o empresa.mjs, bloques-datos.mjs) y correr `node scripts/bloques.mjs` -->
 <div class="wa-bar" aria-label="Quick actions">
-  <!-- On a phone there is no menu, so this bar is the whole navigation that
-       is left. Email leads on the English page, so it takes the wide half. -->
   <a class="btn btn-ghost" href="mailto:transporte@lausof.com?subject=Quote%20request&amp;body=Service%3A%0D%0ADate%3A%0D%0AFrom%20and%20to%3A%0D%0APassengers%20or%20cargo%3A%0D%0A"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4.24l-8 4.76-8-4.76V6l8 4.75L20 6v2.24z"/></svg>Email</a>
   <a class="btn btn-wa" href="https://wa.me/5493875269009?text=Hello%20Lausof%2C%20I%20would%20like%20a%20quote.%0AService%3A%20%0ADate%3A%20%0AFrom%20and%20to%3A%20%0APassengers%20or%20cargo%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp</a>
 </div>
+<!-- /GENERADO:BARRA -->
 
 <script>
 (function () {

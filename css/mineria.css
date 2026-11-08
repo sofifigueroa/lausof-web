@@ -67,4 +67,3 @@
 .faq-item p{margin:0;color:var(--ink-mid);font-size:.94rem}
 
 /* ---- cta final: dos botones centrados (la home tiene uno solo) ---- */
-.cta-final .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}

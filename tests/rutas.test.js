@@ -206,13 +206,16 @@ for (const nombre of [...conMarcado, 'en/tours-and-transfers.html']) {
 // página sin estilos de FAQ o de miga.
 test('turismo.css trae las piezas compartidas y todas sus páginas piden la misma versión', () => {
   const css = fs.readFileSync(path.join(raiz, 'css/turismo.css'), 'utf8');
-  for (const sel of ['.faq', '.jump', '.cta-final .routing', '.fotos-ruta', '.ph-quebrada', '.ph-salinas']) {
+  for (const sel of ['.faq', '.jump', '.fotos-ruta', '.ph-quebrada', '.ph-salinas']) {
     assert.ok(css.includes(sel), `turismo.css no define ${sel}`);
   }
   // La miga pasó a styles.css (05/11/2026): la usan también las páginas de
   // empresas, que no cargan turismo.css.
   const comun = fs.readFileSync(path.join(raiz, 'css/styles.css'), 'utf8');
   assert.ok(comun.includes('.crumbs{'), 'styles.css no define .crumbs');
+  // La nota del cierre pasó a styles.css (08/11/2026): el cierre es uno solo
+  // (scripts/bloques.mjs) y lo usan páginas que no cargan turismo.css.
+  assert.ok(comun.includes('.cta-final .routing{'), 'styles.css no define .cta-final .routing');
   assert.ok(!css.includes('.crumbs{'), 'turismo.css repite las reglas de .crumbs de styles.css');
   const versiones = new Set();
   for (const [nombre, html] of Object.entries(paginas)) {

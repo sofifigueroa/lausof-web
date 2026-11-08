@@ -144,3 +144,166 @@ function principal() {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   principal();
 }
+
+/* =============================================================================
+   DATOS DE LOS BLOQUES COMPARTIDOS (ronda 1 de lausof.com, 08/11/2026)
+   -----------------------------------------------------------------------------
+   La franja de habilitaciones, el bloque de cierre, el pie de contacto y la
+   barra del teléfono se generan con scripts/bloques.mjs a partir de estos
+   datos (y de scripts/bloques-datos.mjs, lo propio de cada página). Hasta el
+   07/11/2026 estaban copiados a mano en cada página: 39 versiones de la franja
+   y 28 del pie (rondas-2026-11-07/2-estado-actual.md, W2 y W11). Cambiar un
+   dato acá y correr `node scripts/bloques.mjs` lo cambia en todas.
+
+   Mismas reglas que FICHA: sin número de AMT, sin aseguradora, sin cantidad
+   de unidades, un solo teléfono (526-9009; el de ventas sólo en la flota en
+   venta) y un solo correo (CORREO, sin copia).
+   ============================================================================= */
+
+const tel = FICHA.telephone.replace(/-/g, '');          // +5493875269009
+export const WA_EMPRESA = tel.slice(1);                  // 5493875269009
+// La línea de ventas de unidades (decisión del 28/08/2026): sólo en flota-en-venta.
+export const WA_VENTAS = { numero: '5493875092489', texto: '387 509-2489' };
+
+// Puntaje público del perfil de Google, leído con la Places API el 03/11/2026
+// (sweep-2026-11-03/06-listings.md). Se muestra como texto con enlace al
+// perfil; nunca como marcado de reseñas (tests/resenas.test.js).
+export const RESENAS_GOOGLE = {
+  url: 'https://www.google.com/maps?cid=13700114490953273065',
+  puntaje: 4.9,
+  cantidad: 9,
+  fecha: '2026-11-03',
+};
+const MESES_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+/** «4,9 de 5, con 9 reseñas (03/11/2026)» en el idioma pedido: un solo dato, tres idiomas. */
+export function datoResenas(idioma) {
+  const { puntaje, cantidad, fecha } = RESENAS_GOOGLE;
+  const [a, m, d] = fecha.split('-');
+  if (idioma === 'en') return `${puntaje.toFixed(1)} out of 5 from ${cantidad} reviews (${MESES_EN[Number(m) - 1]} ${Number(d)}, ${a})`;
+  const coma = puntaje.toFixed(1).replace('.', ',');
+  return idioma === 'pt' ? `${coma} de 5, com ${cantidad} avaliações (${d}/${m}/${a})` : `${coma} de 5, con ${cantidad} reseñas (${d}/${m}/${a})`;
+}
+
+const CUIT = FICHA.taxID;
+const CNRT = FICHA.identifier.value;
+const RESENA = { resena: true };
+
+/* La franja de habilitaciones, por familia de página y por idioma. Cada
+   renglón es [negrita, resto], un texto llano (las portadas) o RESENA. Ningún
+   reclamo que el cliente busca se cae al unificar (1b A7): CNRT, AMT, agencia
+   de turismo, seguro, ART y RTO están en las familias que los llevaban. */
+export const FRANJAS = {
+  pasajeros: {
+    es: { rotulo: 'Habilitaciones', items: [
+      ['Habilitación CNRT', ` N.º ${CNRT}`],
+      ['Habilitación AMT', ' para el transporte dentro de Salta'],
+      ['Agencia de turismo', ' habilitada'],
+      ['Seguro de pasajeros', ' vigente'],
+      ['Choferes profesionales', ' con psicofísico y ART al día'],
+      ['Factura A o B', ` — CUIT ${CUIT}`],
+      ['Empresa familiar', ' desde 2010'],
+      RESENA] },
+    en: { rotulo: 'Licenses and credentials', items: [
+      [`CNRT license No. ${CNRT}`, ', the national road-transport regulator'],
+      ['AMT permit', ', passenger transport within Salta province'],
+      ['Licensed tourism agency', ' (agencia de turismo)'],
+      ['Passenger insurance', ' in force'],
+      ['Professional drivers', " with current medical fitness and workers' compensation (ART)"],
+      ['Factura A or B', `, the Argentine tax invoice. CUIT ${CUIT}`],
+      ['Family-owned', ', passenger transport since 2010'],
+      RESENA] },
+    pt: { rotulo: 'Habilitações', items: [
+      ['Habilitação CNRT', ` nº ${CNRT}`],
+      ['Habilitação AMT', ' para o transporte dentro de Salta'],
+      ['Agência de turismo', ' habilitada'],
+      ['Seguro de passageiros', ' em dia'],
+      ['Motoristas profissionais', ' com exame psicofísico e seguro de acidentes de trabalho (ART) em dia'],
+      ['Nota fiscal argentina', ` — CUIT ${CUIT}`],
+      ['Empresa familiar', ' desde 2010'],
+      RESENA] },
+  },
+  empresas: {
+    es: { rotulo: 'Habilitaciones', items: [
+      ['Habilitación CNRT', ` N.º ${CNRT} — viajes entre provincias`],
+      ['Habilitación AMT', ' para el transporte dentro de Salta'],
+      ['Seguro de carga y pasajeros', ' vigente'],
+      ['Choferes profesionales', ' con psicofísico y ART al día'],
+      ['Unidades en servicio', ' con revisión técnica (RTO) y seguro vigentes'],
+      ['GPS', ' en las unidades en servicio'],
+      ['Factura A', ` — CUIT ${CUIT}`],
+      RESENA] },
+    en: { rotulo: 'Licenses and compliance', items: [
+      [`CNRT license No. ${CNRT}`, " — Argentina's national road-transport regulator, interprovincial"],
+      ['AMT permit', ' — passenger transport within Salta province'],
+      ['Cargo and passenger insurance', ' in force'],
+      ['Professional drivers', " with current medical fitness and workers' compensation (ART)"],
+      ['Units in service', ' with the mandatory technical inspection (RTO) and insurance in force'],
+      ['GPS', ' on the units in service'],
+      ['Factura A', ` (Argentine tax invoice) — CUIT ${CUIT}`],
+      RESENA] },
+  },
+  // Las portadas: renglones cortos, sin negrita (portadas.test.js).
+  portada: {
+    es: { clase: 'certs prueba', rotulo: 'Habilitaciones', items: ['Salidas de madrugada', `CNRT ${CNRT}`, 'AMT', 'Agencia de turismo habilitada', 'Viajes internacionales', 'Factura A', 'Flota y taller propios'] },
+    en: { clase: 'certs prueba', rotulo: 'Licenses and credentials', items: ['Dawn departures', `CNRT ${CNRT}`, 'AMT', 'Licensed tourism agency', 'International trips', 'Factura A (tax invoice)', 'Own fleet and workshop'] },
+    pt: { clase: 'certs prueba', rotulo: 'Habilitações', items: ['Saídas de madrugada', `CNRT ${CNRT}`, 'AMT (Salta)', 'Agência de turismo habilitada', 'Viagens internacionais', 'Frota e oficina próprias'] },
+  },
+  // La 4x4 y los autoelevadores muestran datos del servicio en la franja.
+  camioneta: {
+    es: { rotulo: 'Respaldo', items: [
+      ['Con chofer', ' para viajeros, por mes para empresas'],
+      ['Camionetas 4x4', ' preparadas para ripio y altura'],
+      ['Mantenimiento', ' en taller propio'],
+      ['GPS', ' en las unidades en servicio'],
+      ['Más de una década', ' operando en la Puna'],
+      ['Facturamos A', ` — CUIT ${CUIT}`]] },
+    en: { rotulo: 'Credentials', items: [
+      ['With a driver', ' for travelers, monthly for companies'],
+      ['4x4 pickups', ' prepared for gravel and altitude'],
+      ['Maintenance', ' included in the rental'],
+      ['GPS', ' on the units in service'],
+      ['More than a decade', ' working in the Puna'],
+      ['Factura A', ` (Argentine tax invoice) — CUIT ${CUIT}`]] },
+  },
+  autoelevador: {
+    es: { rotulo: 'Datos del servicio', items: [
+      ['3 y 4 toneladas', ' de capacidad de carga'],
+      ['Mástil de 4,5 metros', ' con torres desplazables'],
+      ['Con o sin operador', ', por jornada o por período'],
+      ['Factura A', ` — CUIT ${CUIT}`]] },
+  },
+};
+
+/* Textos del pie de contacto, del cierre y de la barra, por idioma. Los
+   rótulos de la barra de empresas (Llamar · Mail · WhatsApp) los fija
+   tests/menu.test.js. */
+export const TEXTOS_BLOQUES = {
+  es: {
+    pie: 'Transporte y logística en Salta y el norte argentino.<br>Junín 1334 / Siria 1333 — Salta Capital (4400)',
+    telefonos: 'Teléfonos', telefono: '387 526-9009', llamadasY: 'llamadas y', correo: 'Correo', notasTelefono: [],
+    flotaEnVenta: '<a href="/flota-en-venta.html">Flota en venta →</a>',
+    barra: 'Acciones rápidas', llamar: 'Llamar', mail: 'Mail', barraWa: 'Cotizar por WhatsApp',
+    cierreWa: 'Consultar por WhatsApp', cierreCorreo: 'Escribir por correo', cierreNota: null,
+  },
+  en: {
+    pie: 'Transport and logistics in Salta and northwest Argentina.<br>Junín 1334 / Siria 1333 — Salta (A4400), Argentina',
+    telefonos: 'Phone', telefono: '+54 9 387 526-9009', llamadasY: 'calls and', correo: 'Email',
+    notasTelefono: ['Argentine mobile numbers include a 9 after the country code when dialed from abroad.'],
+    flotaEnVenta: null,
+    barra: 'Quick actions', llamar: 'Call', mail: 'Email', barraWa: 'WhatsApp',
+    cierreWa: 'Message us on WhatsApp', cierreCorreo: 'Request a quote by email',
+    // Ya estaba en 22 cierres y pies en inglés (plan C.7): promete lo que se
+    // cumple (correo y WhatsApp en inglés) y no repite el teléfono ni el correo,
+    // que están en los botones de al lado.
+    cierreNota: 'We reply in English by email or WhatsApp. Phone calls are answered in Spanish.',
+  },
+  pt: {
+    pie: 'Transporte e logística em Salta e no norte da Argentina.<br>Junín 1334 / Siria 1333 — Salta Capital (4400), Argentina',
+    telefonos: 'Telefone', telefono: '387 526-9009', llamadasY: 'ligações e', correo: 'E-mail', notasTelefono: [],
+    flotaEnVenta: null,
+    barra: 'Ações rápidas', llamar: 'Ligar', mail: 'E-mail', barraWa: 'Consultar disponibilidade',
+    cierreWa: 'Consultar pelo WhatsApp', cierreCorreo: 'Escrever por e-mail', cierreNota: null,
+  },
+};
+export const REDES = 'Instagram <a href="https://www.instagram.com/lausofsrl" target="_blank" rel="noopener">@lausofsrl</a> · Facebook <a href="https://www.facebook.com/lausoftransportes" target="_blank" rel="noopener">@lausoftransportes</a>';
+export const TEL_HREF = `tel:${tel}`;

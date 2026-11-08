@@ -126,17 +126,6 @@ html.js [data-fotos-cerca]:not(.fotos-cerca) img{display:none}
 .faq details p{margin:0 0 16px;color:var(--ink-mid);font-size:.94rem;max-width:60ch}
 @media (hover:hover){.faq summary:hover{color:var(--gold-ink)}}
 
-/* ---- párrafo de atención dentro del cierre azul ----
-   Panel en la misma paleta del bloque, no una tarjeta blanca: el selector
-   tiene que ganarle a .cta-final p (color claro y medida de 46ch). */
-.cta-final .routing{
-  max-width:56ch;margin:0 auto 28px;padding:16px 18px;text-align:left;
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);
-  border-radius:var(--radius);
-  font-size:.93rem;color:var(--on-navy-soft);
-}
-.cta-final .routing b{color:var(--on-navy)}
-.cta-final .routing a{color:var(--gold-bright)}
 
 /* ---- texto corrido de las páginas de ruta ---- */
 .prosa{max-width:66ch;color:var(--ink-mid)}

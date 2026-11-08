@@ -381,7 +381,8 @@ const ZONA = /[ \t]*<!-- GENERADO:MENU[\s\S]*?<!-- \/GENERADO:MENU -->/;
 const ZONA_PIE = /[ \t]*<!-- GENERADO:PIE[\s\S]*?<!-- \/GENERADO:PIE -->/;
 const ZONA_CRUCE = /\n[ \t]*<!-- GENERADO:CRUCE[\s\S]*?<!-- \/GENERADO:CRUCE -->/;
 // Fin de la primera columna del pie: ahí va el enlace de cruce.
-const PRIMERA_COLUMNA_PIE = /(<footer class="site"[^>]*>\s*<div class="wrap foot-grid">\s*<div>[\s\S]*?)(\n[ \t]*<\/div>\s*<div>\s*<b>)/;
+// El pie de contacto puede venir dentro de la zona GENERADO:CONTACTO (scripts/bloques.mjs).
+const PRIMERA_COLUMNA_PIE = /(<footer class="site"[^>]*>\s*(?:<!-- GENERADO:CONTACTO [^\n]*-->\s*)?<div class="wrap foot-grid">\s*<div>[\s\S]*?)(\n[ \t]*<\/div>\s*<div>\s*<b>)/;
 const NAV_VIEJO = /[ \t]*<nav class="main"[\s\S]*?<\/nav>/;
 // El título y la lista del bloque de facturación: la zona generada o, la
 // primera vez, el <b> y el <ul> escritos a mano.

@@ -364,6 +364,32 @@ export const renglones = (tipo, idioma, canal) => {
 
 export const primeraLinea = (texto) => texto.split('\n')[0].trim();
 
+/* ---- armado, compartido con scripts/bloques.mjs ----------------------------
+   Los bloques generados (cierre, pie, barra del teléfono) son zonas GENERADO,
+   que este script no toca: scripts/bloques.mjs arma sus enlaces con estas
+   mismas funciones, así que salen idénticos a los que este script escribiría. */
+
+/** El enlace de WhatsApp pre-armado: primera línea y renglones del tipo. */
+export const armarWa = (numero, apertura, tipo, idioma) =>
+  `https://wa.me/${numero}?text=${encodeURIComponent([apertura, ...renglones(tipo, idioma, 'wa').map((r) => `${r}: `)].join('\n'))}`;
+
+const cuerpoCorreo = (tipo, idioma) =>
+  encodeURIComponent(renglones(tipo, idioma, 'correo').map((r) => `${r}:`).join('\r\n') + '\r\n');
+
+/** El mailto pre-armado a CORREO, sin copia: asunto (texto plano) y renglones del tipo. */
+export const armarMailto = (asunto, tipo, idioma) =>
+  escribirMailto({ destino: CORREO, params: [['subject', asunto ? encodeURIComponent(asunto) : ASUNTO[idioma]], ['body', cuerpoCorreo(tipo, idioma)]] });
+
+/** El número y la primera línea del WhatsApp de la página, leídos de sus enlaces
+    editables (fuera de las zonas generadas), con la misma regla que prefillHtml. */
+export function waDePagina(html, pagina) {
+  const was = enlacesDe(html, pagina).filter((e) => e.url.startsWith('https://wa.me/'));
+  const propios = was.filter((e) => e.tipo === PAGINAS[pagina]);
+  const apertura = masUsado(propios.map((e) => primeraLinea(leerWa(e.url).texto))) || masUsado(was.map((e) => primeraLinea(leerWa(e.url).texto)));
+  const numero = masUsado((propios.length ? propios : was).map((e) => leerWa(e.url).numero));
+  return apertura && numero ? { numero, apertura } : null;
+}
+
 /** Problemas que impiden armar la página (sin tipo, tipo desconocido, sin texto base). */
 export function problemasDe(html, pagina) {
   const enlaces = enlacesDe(html, pagina);
@@ -395,14 +421,12 @@ export function prefillHtml(html, pagina) {
   const armar = (url, tipo) => {
     if (url.startsWith('https://wa.me/')) {
       const { numero, texto } = leerWa(url);
-      const apertura = primeraLinea(texto) || aperturaPagina;
-      const cuerpo = [apertura, ...renglones(tipo, idioma, 'wa').map((r) => `${r}: `)].join('\n');
-      return `https://wa.me/${numero}?text=${encodeURIComponent(cuerpo)}`;
+      return armarWa(numero, primeraLinea(texto) || aperturaPagina, tipo, idioma);
     }
     const correo = leerMailto(url);
     const params = correo.params.filter(([k]) => k !== 'body' && k.toLowerCase() !== 'cc');
     if (!params.some(([k]) => k === 'subject')) params.push(['subject', asuntoPagina || ASUNTO[idioma]]);
-    params.push(['body', encodeURIComponent(renglones(tipo, idioma, 'correo').map((r) => `${r}:`).join('\r\n') + '\r\n')]);
+    params.push(['body', cuerpoCorreo(tipo, idioma)]);
     return escribirMailto({ destino: CORREO, params });
   };
 

@@ -180,5 +180,4 @@ a.ficha-linea::after{
 @media(max-width:880px){.docs-par{grid-template-columns:1fr;gap:20px}}
 
 /* ---- cierre ---- */
-.cta-final .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 

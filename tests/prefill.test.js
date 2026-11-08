@@ -71,11 +71,18 @@ test('toda página con WhatsApp o correo tiene tipo y está al día (correr node
   }
 });
 
+// Los enlaces de los bloques que escribe scripts/bloques.mjs (cierre, pie,
+// barra) son zonas GENERADO que prefill no toca; bloques.mjs los arma con las
+// funciones de prefill. Se revisan igual que el resto, con el tipo de la página.
+const deBloques = (html, nombre, PAGINAS) => [...html.matchAll(/<!-- GENERADO:(CIERRE|CONTACTO|BARRA) [\s\S]*?<!-- \/GENERADO:\1 -->/g)]
+  .flatMap((z) => [...z[0].matchAll(/href="((?:https:\/\/wa\.me\/|mailto:)[^"]*)"/g)])
+  .map((m) => ({ tipo: PAGINAS[nombre], url: m[1].replace(/&quot;/g, '"').replace(/&amp;/g, '&') }));
+
 test('cada wa.me lleva texto: primera línea con el servicio y los renglones de su tipo', async () => {
-  const { enlacesDe, leerWa } = await guion;
+  const { enlacesDe, leerWa, PAGINAS } = await guion;
   let total = 0;
   for (const [nombre, html] of Object.entries(paginas)) {
-    for (const { tipo, url } of enlacesDe(html, nombre).filter((e) => e.url.startsWith('https://wa.me/'))) {
+    for (const { tipo, url } of [...enlacesDe(html, nombre), ...deBloques(html, nombre, PAGINAS)].filter((e) => e.url.startsWith('https://wa.me/'))) {
       total++;
       const wa = leerWa(url);
       assert.ok(wa, `${nombre}: wa.me con otro formato: ${url}`);
@@ -101,9 +108,9 @@ test('el wa.me del pie de cada página lleva texto', () => {
 });
 
 test('cada mailto va a transporte@, sin copia, con asunto y con los renglones de su tipo', async () => {
-  const { enlacesDe, leerMailto } = await guion;
+  const { enlacesDe, leerMailto, PAGINAS } = await guion;
   for (const [nombre, html] of Object.entries(paginas)) {
-    for (const { tipo, url } of enlacesDe(html, nombre).filter((e) => e.url.startsWith('mailto:'))) {
+    for (const { tipo, url } of [...enlacesDe(html, nombre), ...deBloques(html, nombre, PAGINAS)].filter((e) => e.url.startsWith('mailto:'))) {
       const { destino, params } = leerMailto(url);
       const p = Object.fromEntries(params);
       assert.strictEqual(destino, 'transporte@lausof.com', `${nombre}: ${url}`);

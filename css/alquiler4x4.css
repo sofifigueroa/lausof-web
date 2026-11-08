@@ -54,10 +54,6 @@
 .faq-item p{margin:0;color:var(--ink-mid);font-size:.94rem}
 
 /* ---- cierre ---- */
-.cta-4x4{background:var(--navy);color:var(--on-navy);text-align:center}
-.cta-4x4 h2{font-size:clamp(1.6rem,3.4vw,2.15rem)}
-.cta-4x4 p{color:var(--on-navy-soft);max-width:52ch;margin:14px auto 26px}
-.cta-4x4 .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 
 /* ---- botón de correo de la reserva ----
    .btn-outline es el botón claro sobre fotos oscuras (blanco sobre velo
