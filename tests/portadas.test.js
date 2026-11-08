@@ -151,3 +151,25 @@ test('index.html: el texto nuevo va en registro impersonal', () => {
   const m = texto.match(/\b(vos|tú|tu|tus|te|usted|cotizá|escribinos|llamanos|consultá|contanos|tenés|querés|podés|mirá|deslizá|cotiza|escribe|llama|consulta)\b/i);
   assert.ok(!m, `segunda persona en el texto nuevo: "${m && m[0]}"`);
 });
+
+// «Ver las unidades →» (ronda 8, 08/11/2026; nota N8 de la auditoría de
+// fotos, textos de imagenes-2026-11-05/4-textos.md §2.4): debajo de la tabla
+// de la flota en las tres portadas y en el hub de empresas ES/EN, a la página
+// de la flota (sólo en español, por eso el aviso en EN y PT).
+test('las portadas y el hub de empresas enlazan las fotos de la flota debajo de la tabla', () => {
+  const ENLACES = {
+    'index.html': '<a class="ver-mas" href="/galeria.html">Ver las unidades →</a>',
+    'en/index.html': '<a class="ver-mas" href="/galeria.html" hreflang="es">Fleet photos (in Spanish) →</a>',
+    'pt/index.html': '<a class="ver-mas" href="/galeria.html" hreflang="es">Fotos da frota (em espanhol) →</a>',
+    'empresas-y-mineria.html': '<a class="ver-mas" href="/galeria.html">Ver las unidades →</a>',
+    'en/business-and-mining.html': '<a class="ver-mas" href="/galeria.html" hreflang="es">Fleet photos (in Spanish) →</a>',
+  };
+  for (const [pagina, enlace] of Object.entries(ENLACES)) {
+    const html = paginas[pagina];
+    const i = html.indexOf(enlace);
+    assert.ok(i > 0, `${pagina}: falta «${enlace}»`);
+    assert.ok(html.lastIndexOf('</table>', i) > html.lastIndexOf('<table class="tabla-flota">', i), `${pagina}: el enlace no va después de la tabla de la flota`);
+  }
+  assert.ok(!paginas['pt/index.html'].includes('Galeria (em espanhol)'), 'pt: el enlace del pie sigue diciendo «Galeria»');
+  assert.ok(paginas['pt/index.html'].includes('<a href="/galeria.html">Fotos da frota (em espanhol) →</a>'), 'pt: el pie perdió el enlace a la flota');
+});
