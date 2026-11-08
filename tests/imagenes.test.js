@@ -177,13 +177,18 @@ test('los encabezados con foto no la vuelven a pedir como fondo de la CSS', () =
   }
 });
 
-// Recorte de teléfono del encabezado de turismo (13/10/2026). En un teléfono
-// la foto va con object-fit:cover y queda limitada por el ALTO del
-// encabezado: se ve sólo la franja central. El recorte conserva el alto
-// completo y el centro horizontal del original, así que en pantalla se ven
-// los mismos píxeles a la misma escala, con la mitad de bytes. Si el recorte
-// perdiera alto, el navegador lo agrandaría y la foto cambiaría de encuadre.
-test('el recorte de teléfono de una foto conserva su alto y se sirve sólo en teléfonos angostos', () => {
+// Recorte de teléfono del encabezado (turismo desde el 13/10/2026; todas las
+// páginas internas que ahorran con él desde la ronda 7, 08/11/2026,
+// scripts/recortes.mjs). En un teléfono la foto va con object-fit:cover y
+// queda limitada por el ALTO del encabezado: se ve sólo la franja central. El
+// recorte conserva el alto completo y el centro horizontal del original, así
+// que en pantalla se ven los mismos píxeles a la misma escala, con menos
+// bytes. Si el recorte perdiera alto, el navegador lo agrandaría y la foto
+// cambiaría de encuadre.
+test('el recorte de teléfono de una foto conserva su alto y se sirve sólo en teléfonos angostos', async () => {
+  const { RECORTES, MARGEN } = await import('../scripts/recortes-datos.mjs');
+  const proporcionDe = {};
+  for (const r of RECORTES) for (const [p, { proporcion }] of Object.entries(r.paginas)) proporcionDe[p] = proporcion;
   let vistos = 0;
   for (const [nombre, html] of Object.entries(paginas)) {
     for (const [img] of sinComentarios(html).matchAll(/<img\s[^>]*data-movil-media="[^"]*"[^>]*>/g)) {
@@ -195,10 +200,12 @@ test('el recorte de teléfono de una foto conserva su alto y se sirve sólo en t
       const recorte = medidas(archivoDe(attr(img, 'data-movil'), nombre));
       assert.strictEqual(recorte.alto, original.alto, `${nombre}: el recorte de teléfono perdió alto`);
       assert.ok(recorte.ancho < original.ancho, `${nombre}: el recorte de teléfono no es más angosto que el original`);
-      // El recorte tiene que cubrir el encabezado más ancho en proporción
-      // (480 px de ancho por 600 de alto, medido en Chrome) sin agrandarse.
-      assert.ok(recorte.ancho / recorte.alto >= 480 / 600, `${nombre}: el recorte es demasiado angosto para ${media}`);
+      // El recorte tiene que cubrir el encabezado más ancho en proporción que
+      // se midió para esa página (scripts/recortes-medir.mjs, con holgura) sin
+      // agrandarse; el control en navegador lo mira en la página dibujada.
+      assert.ok(proporcionDe[nombre], `${nombre}: tiene recorte de teléfono pero no figura en scripts/recortes-datos.mjs`);
+      assert.ok(recorte.ancho / recorte.alto >= proporcionDe[nombre] * MARGEN - 0.002, `${nombre}: el recorte es demasiado angosto para ${media}`);
     }
   }
-  assert.ok(vistos >= 2, 'turismo.html y en/tours-and-transfers.html sirven el recorte de teléfono');
+  assert.ok(vistos >= 28, `se esperaban al menos 28 páginas con recorte de teléfono y hay ${vistos}`);
 });

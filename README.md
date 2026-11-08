@@ -104,6 +104,25 @@ Lo que el script no decide y va escrito a mano en el `<img>`:
   `/turismo.html` y `/en/tours-and-transfers.html` con
   `--form-factor=mobile --throttling-method=simulate`. Un recorte nuevo
   tiene que conservar el alto del original (`tests/imagenes.test.js`).
+- **Recortes de teléfono en todas las páginas internas** (ronda 7, 08/11/2026):
+  el mismo recorte, ahora generado, en los 28 encabezados donde ahorra al
+  menos 15 % (13 fotos). Pasos:
+  1. `CHROME=<chrome-headless-shell> node scripts/recortes-medir.mjs` mide la
+     caja del encabezado a 320–440 px con la letra del sitio y con Arial y
+     reescribe `scripts/recortes-datos.mjs` (ancho de cada recorte = alto ×
+     la caja más ancha × 1,03; `sizes` del recorte en tres tramos; las
+     páginas que quedan afuera, con su motivo en `FUERA`: las que repiten la
+     foto más abajo, porque ahí el recorte sumaría bytes).
+  2. `node scripts/recortes.mjs` corta `foto-movil.webp` y escribe
+     `data-movil`, `data-movil-media="(max-width: 440px)"` y
+     `data-movil-sizes` en el `<img>` del encabezado.
+  3. `node scripts/imagenes.mjs` arma las variantes; con `data-movil-sizes`
+     el recorte usa la escalera `ANCHOS_RECORTE` (suma 800 px).
+  Se vuelve a medir cuando cambia el alto de un encabezado: el control en
+  navegador (`scripts/galeria-navegador.mjs`, en la PC) avisa con la página,
+  el ancho y cuántos píxeles de recorte pide. Medido en la Mac con
+  Lighthouse 12.8.2: `charter-recitales` 3302 → 2103 ms, `alquiler-4x4`
+  2402 → 1803 ms (rondas de lausof.com, `v7/CAMBIOS.md`).
 
 Dos cosas que hay que recordar al tocar el código:
 

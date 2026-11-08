@@ -5,7 +5,10 @@
    (3b-diseno-sitio.md §2.3): teclado, el <dialog>, a dónde vuelve el foco, que
    nada se mueva solo, que el cambio de foto se anuncie al lector de pantalla
    (WCAG 4.1.3: región aria-live, callada al cargar) y que ninguna página
-   quede con scroll horizontal a 390 px.
+   quede con scroll horizontal a 390 px. Desde la ronda 7 (08/11/2026): el
+   deslizar con el dedo (con el cuadro siguiente ya pedido, N4), el movimiento
+   reducido, y que el recorte de teléfono de cada encabezado
+   (scripts/recortes.mjs) cubra la caja dibujada sin agrandarse.
    Un solo recorrido por el componente, no uno por página.
 
    Sin dependencias: levanta un servidor estático de la carpeta del sitio, abre
@@ -26,6 +29,7 @@ import { join, extname, dirname } from 'node:path';
 import { spawn } from 'node:child_process';
 import { tmpdir, homedir } from 'node:os';
 import { fileURLToPath } from 'node:url';
+import { RECORTES } from './recortes-datos.mjs';
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const iCapturas = process.argv.indexOf('--capturas');
@@ -345,6 +349,67 @@ try {
   };
   await esperaYCarga('galeria.html', '.galeria-pista > figure:first-child img');
   await esperaYCarga('turismo.html', '.circuito .card-photo img');
+
+  /* 2c. Con el dedo y con movimiento reducido (ronda 7, N4 y N7 de la
+     auditoría de fotos). Con la galería cerca, el cuadro que se ve y sus
+     vecinos ya pidieron su foto; un deslizamiento rápido de dos cuadros deja
+     marcado y alineado el cuadro de destino, con su foto. Con movimiento
+     reducido, «Foto siguiente» llega sin animar. */
+  await abrir('galeria.html', 390);
+  await cdp('Page.bringToFront');
+  await cdp('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
+  await evaluar(AYUDA);
+  const antes = await evaluar(`(async () => { const g = document.querySelector('.galeria');
+    g.scrollIntoView({ block: 'center' }); await new Promise((r) => setTimeout(r, 600));
+    const fotos = [...g.querySelectorAll('.galeria-pista > figure img')];
+    const p = g.querySelector('.galeria-pista').getBoundingClientRect();
+    // Pedidas, y en carga inmediata: Chrome 157 ya las pide por su margen de
+    // carga diferida, pero otro navegador con menos margen dentro de la pista
+    // dejaba el cuadro 3 vacío (N4); loading="eager" no depende del margen.
+    return { pedidas: [0, 1, 2, fotos.length - 1].map((k) => !!fotos[k].currentSrc && fotos[k].loading === 'eager'), x: p.left + p.width / 2, y: p.top + p.height / 2, ancho: p.width, total: fotos.length }; })()`);
+  comprobar(antes.pedidas.every(Boolean), `390px: con la galería cerca, los cuadros 1, 2, 3 y el último (la vuelta) no pidieron su foto antes de deslizar (${JSON.stringify(antes.pedidas)})`);
+  await cdp('Input.synthesizeScrollGesture', { x: Math.round(antes.x), y: Math.round(antes.y), xDistance: -Math.round(antes.ancho * 2), yDistance: 0,
+    speed: 6000, gestureSourceType: 'touch' });
+  await esperar(700);
+  const tras = await evaluar(`(async () => { const g = document.querySelector('.galeria'); const p = g.querySelector('.galeria-pista');
+    const k = Math.round(p.scrollLeft / p.clientWidth); const f = g.querySelectorAll('.galeria-pista > figure')[k];
+    const img = f.querySelector('img');
+    await Promise.race([img.complete && img.naturalWidth ? 0 : new Promise((r) => { img.onload = img.onerror = r; }), new Promise((r) => setTimeout(r, 3000))]);
+    const b = [...g.querySelectorAll('.galeria-miniaturas button')].findIndex((x) => x.getAttribute('aria-current') === 'true');
+    return { k, marcada: b, alineado: Math.abs((f.offsetLeft - p.offsetLeft) - p.scrollLeft) < 2, foto: img.complete && img.naturalWidth > 0,
+             vivo: __vivo(g.querySelector('.galeria-control')).texto }; })()`);
+  comprobar(tras.k >= 1 && tras.marcada === tras.k && tras.alineado,
+    `390px: deslizar con el dedo no dejó marcado y alineado el cuadro de destino (${JSON.stringify(tras)})`);
+  comprobar(tras.foto, `390px: después de deslizar con el dedo, el cuadro ${tras.k + 1} quedó sin foto (${JSON.stringify(tras)})`);
+  comprobar(new RegExp(`^Foto ${tras.k + 1} de ${antes.total}: \\S`).test(tras.vivo), `390px: deslizar con el dedo no anunció la foto (${JSON.stringify(tras)})`);
+  await cdp('Emulation.setTouchEmulationEnabled', { enabled: false });
+  await abrir('galeria.html', 390, { quieto: true });
+  await cdp('Page.bringToFront');
+  const quieta = await evaluar(`(async () => { const g = document.querySelector('.galeria'); g.scrollIntoView({ block: 'center' });
+    await new Promise((r) => setTimeout(r, 300));
+    const p = g.querySelector('.galeria-pista'); g.querySelector('.galeria-sig').click();
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    const f = g.querySelectorAll('.galeria-pista > figure')[1];
+    return { izquierda: p.scrollLeft, destino: f.offsetLeft - p.offsetLeft }; })()`);
+  comprobar(Math.abs(quieta.izquierda - quieta.destino) < 2, `390px con movimiento reducido: «Foto siguiente» animó el paso (${JSON.stringify(quieta)})`);
+
+  /* 2d. Recorte de teléfono del encabezado (ronda 7): en cada página con
+     recorte y a cada ancho de teléfono, el navegador eligió el recorte y el
+     recorte cubre la caja sin agrandarse (si no, la foto se ve con otro
+     encuadre). Si falla, volver a medir: node scripts/recortes-medir.mjs. */
+  for (const r of RECORTES) {
+    for (const pagina of Object.keys(r.paginas)) {
+      const malos = [];
+      for (const ancho of [320, 360, 384, 412, 440]) {
+        await abrir(pagina, ancho);
+        const m = await evaluar(`(() => { const c = document.querySelector('.page-head-photo'); const b = c.getBoundingClientRect();
+          return { w: b.width, h: b.height, src: c.querySelector('img').currentSrc }; })()`);
+        if (!/-movil(-\d+w)?\.(avif|webp)$/.test(m.src)) malos.push(`${ancho}px eligió ${m.src.replace(base, '/')}`);
+        if (r.ancho / r.natural[1] < m.w / m.h - 0.001) malos.push(`${ancho}px caja ${Math.round(m.w)}x${Math.round(m.h)} pide ${Math.ceil((r.natural[1] * m.w) / m.h)} px de recorte (hay ${r.ancho})`);
+      }
+      comprobar(malos.length === 0, `${pagina}: recorte de teléfono (${malos.join('; ')})`);
+    }
+  }
 
   /* 3. Sin JavaScript no queda ningún control muerto. */
   await cdp('Emulation.setScriptExecutionDisabled', { value: true });

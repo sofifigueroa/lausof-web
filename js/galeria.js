@@ -127,10 +127,27 @@
     });
     return picture;
   }
+  // Las fotos de la pista llevan loading="lazy": con un deslizamiento rápido
+  // el cuadro 3 aparecía vacío, porque Chrome recién lo pedía al entrar en la
+  // pista (auditoría de fotos, N4). Con la galería cerca se piden ya el cuadro
+  // que se ve y sus vecinos (el anterior y los dos siguientes, con la vuelta),
+  // y cada cambio de cuadro adelanta los suyos. Nada de esto corre antes de
+  // .galeria-cerca, así no le compite a la foto del encabezado.
+  function adelantar(seccion, n) {
+    if (!seccion.classList.contains('galeria-cerca')) return;
+    var fotos = seccion.querySelectorAll('.galeria-pista > figure img');
+    var total = fotos.length;
+    [-1, 0, 1, 2].forEach(function (d) {
+      var img = fotos[((n + d) % total + total) % total];
+      if (img && img.loading !== 'eager') img.loading = 'eager';
+    });
+  }
+
   // `pedir` suelta también las fotos de la pista: css/galeria-componente.css
   // las tiene en espera (display:none) hasta que la sección lleve .galeria-cerca.
   function pedir(seccion) {
     seccion.classList.add('galeria-cerca');
+    adelantar(seccion, seccion.galeriaIndice ? seccion.galeriaIndice() : 0);
     [].forEach.call(seccion.querySelectorAll('.galeria-miniaturas [data-srcset], .galeria-miniaturas [data-src]'), function (n) {
       ['srcset', 'src'].forEach(function (a) {
         if (n.hasAttribute('data-' + a)) { n.setAttribute(a, n.getAttribute('data-' + a)); n.removeAttribute('data-' + a); }
@@ -238,6 +255,7 @@
     // abierto sobre esta galería (ahí anuncia el diálogo).
     function marcar(n, anunciar) {
       i = n;
+      adelantar(seccion, i);
       miniaturas.forEach(function (b, k) {
         if (k === i) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
       });
@@ -246,6 +264,7 @@
       ampliar.setAttribute('aria-label', T.ampliarFoto + ' ' + (i + 1) + ' ' + T.de + ' ' + total);
     }
 
+    seccion.galeriaIndice = function () { return i; };
     var g = {
       cuadros: cuadros,
       origen: null,

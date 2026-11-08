@@ -28,6 +28,11 @@
        teléfonos se ve sólo la franja central de la foto, así que se sirve
        ese recorte (ruta-68-…-movil.webp) a la misma escala, con los mismos
        píxeles en pantalla y menos bytes. Ver README, "Fotos responsive".
+     · `data-movil-sizes="…"`: cuánto mide en pantalla ESE recorte (no la
+       foto entera). Lo escribe scripts/recortes.mjs desde lo medido en
+       scripts/recortes-datos.mjs. Con él, el recorte lleva la escalera
+       ANCHOS_RECORTE (suma 800), así un teléfono de densidad 1,75–2 baja el
+       ancho que necesita y no el recorte entero (ronda 7, 08/11/2026).
 
    Necesita ImageMagick 7 con AVIF (`brew install imagemagick`). Es
    idempotente: lo que ya existe no se vuelve a codificar y correrlo dos
@@ -94,16 +99,22 @@ export function archivoDe(src, pagina) {
 // ¿Este src es una foto que el pipeline maneja?
 export const esFotoWebp = (src) => /^(\/|\.\.\/)?assets\/[^"?#]+\.webp$/.test(src || '');
 
-export const anchosDe = (natural) => ANCHOS.filter((a) => a <= natural * 0.85);
+export const anchosDe = (natural, escalera = ANCHOS) => escalera.filter((a) => a <= natural * 0.85);
+// Escalera de los recortes de teléfono con su propio `sizes` (data-movil-sizes):
+// la misma más 800. En un teléfono de 412 px el recorte del encabezado mide
+// unos 450–630 px; a densidad 1,75 (el teléfono de Lighthouse) pide 790–1100
+// px y, sin el 800, bajaba el recorte entero (charter-recitales: 1030 px,
+// 257 KB, contra 173 KB del de 800; medido el 08/11/2026).
+export const ANCHOS_RECORTE = [400, 560, 640, 800, 960, 1280];
 
 const variante = (src, ancho, ext) =>
   src.replace(/\.webp$/, ancho ? `-${ancho}w.${ext}` : `.${ext}`);
 
 // Todas las variantes de una foto: [{src, ancho, formato}] (src con el mismo
 // prefijo que el original). El original .webp no está: ya existe.
-export function variantesDe(src, natural) {
+export function variantesDe(src, natural, escalera = ANCHOS) {
   const lista = [];
-  for (const ancho of anchosDe(natural)) {
+  for (const ancho of anchosDe(natural, escalera)) {
     lista.push({ src: variante(src, ancho, 'webp'), ancho, formato: 'webp' });
     lista.push({ src: variante(src, ancho, 'avif'), ancho, formato: 'avif' });
   }
@@ -111,8 +122,8 @@ export function variantesDe(src, natural) {
   return lista;
 }
 
-function srcsetDe(src, natural, formato) {
-  const partes = anchosDe(natural).map((a) => `${variante(src, a, formato)} ${a}w`);
+function srcsetDe(src, natural, formato, escalera = ANCHOS) {
+  const partes = anchosDe(natural, escalera).map((a) => `${variante(src, a, formato)} ${a}w`);
   partes.push(`${formato === 'webp' ? src : variante(src, null, 'avif')} ${natural}w`);
   return partes.join(', ');
 }
@@ -151,8 +162,11 @@ export function pictureDe(etiqueta, pagina) {
     const m = medidasWebp(archivoDe(movil, pagina));
     const dim = `width="${m.ancho}" height="${m.alto}"`;
     const media = valorDe(attrs, 'data-movil-media') || MEDIA_MOVIL;
-    fuentes.push(`<source media="${media}" type="image/avif" srcset="${srcsetDe(movil, m.ancho, 'avif')}" sizes="${sizes}" ${dim}>`);
-    fuentes.push(`<source media="${media}" type="image/webp" srcset="${srcsetDe(movil, m.ancho, 'webp')}" sizes="${sizes}" ${dim}>`);
+    const sizesMovil = valorDe(attrs, 'data-movil-sizes');
+    const escalera = sizesMovil ? ANCHOS_RECORTE : ANCHOS;
+    const s = sizesMovil || sizes;
+    fuentes.push(`<source media="${media}" type="image/avif" srcset="${srcsetDe(movil, m.ancho, 'avif', escalera)}" sizes="${s}" ${dim}>`);
+    fuentes.push(`<source media="${media}" type="image/webp" srcset="${srcsetDe(movil, m.ancho, 'webp', escalera)}" sizes="${s}" ${dim}>`);
   }
   fuentes.push(`<source type="image/avif" srcset="${srcsetDe(src, ancho, 'avif')}" sizes="${sizes}">`);
   return `<picture>${fuentes.join('')}<img ${serializar(attrs)}></picture>`;
@@ -193,10 +207,12 @@ export function variantesPedidas() {
   for (const pagina of paginas()) {
     for (const img of fotosDe(readFileSync(join(raiz, pagina), 'utf8'))) {
       const attrs = atributos(img);
-      for (const src of [valorDe(attrs, 'src'), valorDe(attrs, 'data-movil')].filter(Boolean)) {
+      const movil = valorDe(attrs, 'data-movil');
+      const escaleraMovil = valorDe(attrs, 'data-movil-sizes') ? ANCHOS_RECORTE : ANCHOS;
+      for (const src of [valorDe(attrs, 'src'), movil].filter(Boolean)) {
         const origen = archivoDe(src, pagina);
         const { ancho } = medidasWebp(origen);
-        for (const v of variantesDe(src, ancho)) {
+        for (const v of variantesDe(src, ancho, src === movil ? escaleraMovil : ANCHOS)) {
           const archivo = archivoDe(v.src, pagina);
           pedidas.set(archivo, { archivo, origen, ...v });
         }
