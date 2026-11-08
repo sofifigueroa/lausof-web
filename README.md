@@ -791,6 +791,29 @@ node scripts/tarjetas.mjs --comprobar  # sale con 1 si algo no coincide
   orden que en la página; el test exige que toda página con tarjetas de
   destino esté en los datos.
 
+## Títulos y descripciones (08/11/2026)
+
+Ronda 9 (`~/lausof/web/rondas-2026-11-07/`). El `<title>` y la meta
+description de las 82 páginas salen de `scripts/metadatos-datos.mjs`, y
+`scripts/metadatos.mjs` escribe también sus copias: `og:title`,
+`og:description` y el `name`/`description` del nodo `WebPage` del JSON-LD.
+
+```bash
+node scripts/metadatos.mjs              # escribe las páginas
+node scripts/metadatos.mjs --comprobar  # sale con 1 si algo no coincide o pasa del límite
+```
+
+- **Límites**: título hasta 65 caracteres y descripción hasta 160 (contados
+  como quedan escritos en la página). Sólo las 3 portadas pasan de 65, en
+  `LARGOS`, porque llevan los cinco servicios de la decisión del 03/11.
+- **Forma**: la frase ganada primero y « | Lausof» al final; en español y
+  portugués, mayúscula sólo al empezar y en los nombres propios. La
+  descripción no repite «Cotizá por WhatsApp» (están los botones).
+- **Cambiar un título**: en los datos, correr el script y, si la página está
+  en el mapa de `tests/paginas.test.js`, actualizarlo ahí a conciencia.
+- Tests: `tests/metadatos.test.js` (al día, límites, títulos únicos y un
+  control en rojo).
+
 ## Vista de revisión de la reserva y el chat (rondas, 08/11/2026; NO va a producción)
 
 Ronda 3 de `~/lausof/web/rondas-2026-11-07/`. Lautaro, 07/11: la reserva en

@@ -190,7 +190,7 @@ for (const [es, pt] of Object.entries(paresPt)) {
     assert.ok(!m, `${pt} le pasa la reserva a otro: "${cerca(m)}"`);
     m = visible.match(/\bfactura [AB]\b/i);
     assert.ok(!m, `${pt} dice «factura A/B» fuera del pie: "${cerca(m)}"`);
-    const cuerpo = textoVisible(sinPie.split('\n').filter((l) => !l.includes('| Lausof SRL')).join('\n'));
+    const cuerpo = textoVisible(sinPie.split('\n').filter((l) => !l.includes('| Lausof')).join('\n'));
     m = cuerpo.match(/\bprivad[oa]s?\b/i);
     assert.ok(!m, `${pt} dice «privado» en vez de «privativo»: "${m && cuerpo.slice(Math.max(0, m.index - 40), m.index + 40)}"`);
     m = visible.match(/\bdesde (?!\d|então)/i);

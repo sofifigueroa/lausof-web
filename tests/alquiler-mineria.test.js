@@ -80,8 +80,11 @@ test('alquiler 4x4: el título, la descripción y la ficha Service no venden sin
     const titulo = html.match(/<title>([^<]+)<\/title>/)[1];
     const desc = html.match(/<meta name="description" content="([^"]+)">/)[1];
     const h1 = html.match(/<h1>([^<]+)<\/h1>/)[1];
-    assert.match(titulo, /Con Chofer para Viajeros|With a Driver for Travelers/, `${nombre}: título ${titulo}`);
-    assert.match(titulo, /Empresas|Companies/, `${nombre}: el título no nombra a las empresas`);
+    // Ronda 9 (08/11/2026): título de hasta 65 caracteres (scripts/metadatos-datos.mjs); sigue
+    // diciendo que va con chofer, para viajeros, y que también es para empresas.
+    assert.match(titulo, /con chofer|with a Driver/i, `${nombre}: título ${titulo}`);
+    assert.match(titulo, /viajeros|Travelers/i, `${nombre}: el título no nombra a los viajeros`);
+    assert.match(titulo, /empresas|Companies/i, `${nombre}: el título no nombra a las empresas`);
     for (const texto of [titulo, desc, h1, servicio(html).description]) {
       assert.doesNotMatch(texto, /self-drive|sin chofer para viajeros|o sin chofer, para viajeros/i, `${nombre}: ${texto}`);
     }
