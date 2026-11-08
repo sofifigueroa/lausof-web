@@ -53,7 +53,7 @@ test('las zonas de la vitrina no se tocan', async () => {
 
 test('el encabezado de página y las preguntas frecuentes viven sólo en styles.css', () => {
   const comun = sinComentariosCss(leerHoja('styles.css'));
-  for (const sel of ['.page-head{', '.page-head-inner{', '.page-head h1{', '.page-head .ctas{', '.faq{', '.faq details{', '.faq-item{']) {
+  for (const sel of ['.page-head{', '.page-head-inner{', '.page-head h1{', '.page-head .ctas{', '.faq{', '.faq details{']) {
     assert.ok(comun.includes(sel), `styles.css no define ${sel}`);
   }
   for (const hoja of hojas.filter((n) => n !== 'styles.css')) {

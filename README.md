@@ -685,6 +685,38 @@ node scripts/versiones.mjs    # después de tocar cualquier .css o .js (--compro
   chat (redondo, 12 px arriba de la barra).
 - Lo vigilan `tests/encabezado.test.js` y `tests/estilos.test.js`.
 
+## Datos del viaje y preguntas frecuentes (08/11/2026)
+
+Ronda 5 (`~/lausof/web/rondas-2026-11-07/`). Arriba en cada página de ruta,
+evento o segmento, un bloque corto con lo que el viajero busca antes de
+escribir: duración, distancia, salida (con el recorrido en Google Maps), qué
+incluye y en qué unidades viaja. Baymard: al 83 % de los sitios de excursiones
+les falta esa información a la vista, y el 57 % no muestra el punto de
+encuentro en un mapa.
+
+| Pieza | Cómo es | Script |
+|---|---|---|
+| Zona `GENERADO:VIAJE` | `section.block.datos-viaje` (`#datos-del-viaje`, `#trip-details`, `#dados-da-viagem`), después de la franja (o de la miga) y antes de «En esta página»; nunca dentro de otra sección | `scripts/viaje.mjs`, datos en `scripts/viaje-datos.mjs` |
+| Mapa | un enlace de Google Maps (recorrido `dir/?api=1` o lugar `search/?api=1`), nunca un mapa incrustado: no pide nada al cargar | `urlMapa()` |
+| Preguntas frecuentes | una sola forma en todo el sitio: el acordeón (`.faq` > `details` > `summary`); la ficha fija `.faq-item` ya no existe | `tests/viaje.test.js` |
+
+```bash
+node scripts/viaje.mjs              # escribe o actualiza el bloque
+node scripts/viaje.mjs --comprobar  # sale con 1 si algo no coincide
+```
+
+- **Cada dato tiene su fuente**: en `viaje-datos.mjs` cada fila lleva las
+  frases exactas de la misma página que la sostienen (`fuente`). Si la página
+  deja de decirlas, `--comprobar` falla: se corrige el dato o la frase, nunca
+  se inventa. El bloque no puede apoyarse en sí mismo (su zona no cuenta).
+- **Sin precios ni «desde»**, sin cantidades de flota y sin plazos de
+  respuesta; cada página en su idioma y su registro (usted o vos).
+- **Página de ruta nueva** (las que cargan `turismo.css`, menos los hubs y las
+  de personal): su renglón en `viaje-datos.mjs` con duración, salida e
+  incluye; el test lo exige.
+- **La vitrina**: el bloque es una sección hermana; en 4x4 queda antes de
+  `#para-quien`, y el segundo bloque de la vitrina sigue después de esa sección.
+
 ## Vista de revisión de la reserva y el chat (rondas, 08/11/2026; NO va a producción)
 
 Ronda 3 de `~/lausof/web/rondas-2026-11-07/`. Lautaro, 07/11: la reserva en

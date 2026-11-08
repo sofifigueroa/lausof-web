@@ -30,7 +30,7 @@
        relative path would look for /en/assets/... , which does not exist. -->
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="/css/styles.css?v=41ddf83009">
+  <link rel="stylesheet" href="/css/styles.css?v=1d48a06e9f">
   <link rel="stylesheet" href="/css/alquiler4x4.css?v=25b10464e5">
 
   <meta property="og:type" content="website">
@@ -195,6 +195,19 @@
   </div>
   <!-- /GENERADO:CONFIANZA -->
 
+  <!-- GENERADO:VIAJE — no editar a mano: editar scripts/viaje-datos.mjs y correr `node scripts/viaje.mjs` -->
+  <section class="block datos-viaje" id="trip-details" aria-labelledby="trip-details-h2">
+    <div class="wrap">
+      <h2 id="trip-details-h2">Trip details</h2>
+      <dl class="datos-viaje-lista">
+        <div><dt>Pickup</dt><dd>In Salta, from the place we agree</dd></div>
+        <div><dt>Included</dt><dd>One of our drivers, who knows gravel roads, altitude and border passes; maintenance and GPS</dd></div>
+        <div><dt>Vehicles</dt><dd>4x4 pickups prepared for gravel roads and altitude</dd></div>
+      </dl>
+    </div>
+  </section>
+  <!-- /GENERADO:VIAJE -->
+
   <section class="block" id="who-its-for">
     <div class="wrap">
       <p class="kicker">The service</p>
@@ -329,34 +342,38 @@
       <p class="kicker">Frequently asked questions</p>
       <h2>What people ask before renting</h2>
       <div class="faq">
-        <div class="faq-item">
-          <h3>Is the rental with or without a driver?</h3>
+        <details>
+          <summary>Is the rental with or without a driver?</summary>
           <p>For travelers, always with a driver: one of our drivers, who knows the gravel and high-altitude roads, comes with it. For companies and mining contractors, the monthly rental can be with or without a driver; without one, the pickup is driven by the company's drivers named in the contract.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Do you rent self-drive pickups to tourists?</h3>
+        </details>
+        <details>
+          <summary>Do you rent self-drive pickups to tourists?</summary>
           <p>No. We do not rent self-drive pickups to tourists, from abroad or from Argentina, and we do not do one-way self-drive rentals. We can recommend licensed rental companies in Salta, or do the same trip with one of our drivers.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Can we travel into Chile or Bolivia in the pickup?</h3>
+        </details>
+        <details>
+          <summary>Can we travel into Chile or Bolivia in the pickup?</summary>
           <p>Yes, with one of our drivers. Tell us when you book, with the border pass and the dates, because we arrange the authorization for the pickup to leave the country, as its owner.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Who does the maintenance?</h3>
+        </details>
+        <details>
+          <summary>Who does the maintenance?</summary>
           <p>We do, in our own workshop in Salta and with our own mechanics. Maintenance is included in the rental: the pickup is inspected before every handover and, on long rentals, on the agreed plan.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Where does the trip start?</h3>
+        </details>
+        <details>
+          <summary>Where does the trip start?</summary>
           <p>Trips with a driver start in Salta, from the place we agree. On a monthly company rental, delivery and return are coordinated in Salta, at the place and on the dates agreed in the contract.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Do you issue Factura A?</h3>
+        </details>
+        <details>
+          <summary>Do you issue Factura A?</summary>
           <p>Yes. Our legal name is Lausof S.R.L., CUIT 30-71146774-9, and we issue Factura A, the Argentine tax invoice.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Can we deal with you in English?</h3>
+        </details>
+        <details>
+          <summary>Can we deal with you in English?</summary>
           <p>Yes, by email and by WhatsApp: we reply in English. Telephone calls are answered in Spanish.</p>
-        </div>
+        </details>
+        <details>
+          <summary>Do I need a driver's license?</summary>
+          <p>Our driver is at the wheel, so a passport or ID for each passenger is enough.</p>
+        </details>
       </div>
     </div>
   </section>

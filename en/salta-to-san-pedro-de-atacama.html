@@ -20,7 +20,7 @@
   <!-- Every path is root-absolute: this page lives in /en/. -->
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="/css/styles.css?v=41ddf83009">
+  <link rel="stylesheet" href="/css/styles.css?v=1d48a06e9f">
   <link rel="stylesheet" href="/css/turismo.css?v=c78717cde6">
 
   <meta property="og:type" content="website">
@@ -175,6 +175,21 @@
     </div>
   </div>
   <!-- /GENERADO:CONFIANZA -->
+
+  <!-- GENERADO:VIAJE — no editar a mano: editar scripts/viaje-datos.mjs y correr `node scripts/viaje.mjs` -->
+  <section class="block datos-viaje" id="trip-details" aria-labelledby="trip-details-h2">
+    <div class="wrap">
+      <h2 id="trip-details-h2">Trip details</h2>
+      <dl class="datos-viaje-lista">
+        <div><dt>Duration</dt><dd>Close to 8 hours of driving without stops; a full day with the border and stops</dd></div>
+        <div><dt>Distance</dt><dd>About 590 km (365 miles), paved all the way, over the Jama Pass</dd></div>
+        <div><dt>Pickup</dt><dd>Your hotel in Salta or the airport, to your lodging in San Pedro de Atacama <a class="datos-viaje-mapa" href="https://www.google.com/maps/dir/?api=1&amp;origin=Salta%2C+Argentina&amp;destination=San+Pedro+de+Atacama%2C+Chile&amp;waypoints=Purmamarca%2C+Jujuy%2C+Argentina%7CSalinas+Grandes%2C+Jujuy%2C+Argentina%7CPaso+de+Jama%2C+Jujuy%2C+Argentina&amp;travelmode=driving" target="_blank" rel="noopener">See the route on the map</a></dd></div>
+        <div><dt>Included</dt><dd>Professional driver, the vehicle's international trip permit, insurance extended to Chile and your stops</dd></div>
+        <div><dt>Vehicles</dt><dd>19-seat minibuses and 4x4 pickups; several minibuses for larger groups</dd></div>
+      </dl>
+    </div>
+  </section>
+  <!-- /GENERADO:VIAJE -->
 
   <nav class="jump wrap" aria-label="On this page">
     <span>On this page</span>
@@ -340,6 +355,14 @@
         <details>
           <summary>Do I need a visa for Chile?</summary>
           <p>It depends on your nationality. Argentines and citizens of Mercosur and associated countries enter with their ID card. Everyone else enters with a passport, and some nationalities need a prior authorization from a Chilean consulate. Check the Chilean Foreign Ministry's visa page before you travel.</p>
+        </details>
+        <details>
+          <summary>How far ahead should we book?</summary>
+          <p>Book at least a week ahead: the CNRT permit for the trip is filed at least 72 hours before departure and includes the passenger list.</p>
+        </details>
+        <details>
+          <summary>Is Chile on the same time as Argentina?</summary>
+          <p>From September to April, yes; the rest of the year Chile is one hour behind. We account for it when setting the crossing and pickup times.</p>
         </details>
         <details>
           <summary>How much does it cost?</summary>
