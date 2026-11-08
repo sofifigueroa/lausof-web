@@ -14,9 +14,7 @@ const visible = (html) => sinComentarios(html)
 
 // 1b L1 (05/11, «why close to business»): ninguna respuesta de las preguntas
 // frecuentes empieza con un «No.» seco. Lo que se puede, se dice primero.
-// La 4x4 sigue la decisión de Lautaro del 04/11 (sin alquiler sin chofer a
-// turistas); su respuesta va en un commit aparte de la ronda 9 que la quita de acá.
-const NO_PERMITIDO = new Set(['alquiler-4x4.html', 'en/4x4-rental.html']);
+const NO_PERMITIDO = new Set();
 test('ninguna respuesta frecuente empieza con «No.», «No:» o «Não.»', () => {
   for (const [nombre, html] of Object.entries(paginas)) {
     if (NO_PERMITIDO.has(nombre)) continue;

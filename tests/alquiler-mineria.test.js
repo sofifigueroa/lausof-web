@@ -42,7 +42,9 @@ test('alquiler 4x4: a viajeros con chofer, a empresas por mes con o sin chofer (
   assert.match(t, /Alquiler mensual de camionetas 4x4, con o sin chofer/);
   assert.match(t, /servicio por contrato para empresas/);
   assert.match(t, /No alquilamos camionetas sin chofer a turistas/);
-  assert.match(t, /¿Alquilan camionetas sin chofer a turistas\? No\./);
+  // Ronda 9 (08/11/2026, 1b L1): la respuesta dice primero lo que sí se hace;
+  // la regla del 04/11 sigue: a turistas, siempre con chofer.
+  assert.match(t, /¿Alquilan camionetas sin chofer a turistas\? A turistas, del exterior o del país, la camioneta va siempre con uno de nuestros choferes/);
   assert.match(t, /empresas de alquiler habilitadas en Salta/);
 });
 
@@ -52,7 +54,7 @@ test('alquiler 4x4: a viajeros con chofer, a empresas por mes con o sin chofer (
   assert.match(t, /Monthly 4x4 pickup rental, with or without a driver/);
   assert.match(t, /contract service for companies/);
   assert.match(t, /We do not rent self-drive pickups to tourists/);
-  assert.match(t, /Do you rent self-drive pickups to tourists\? No\./);
+  assert.match(t, /Do you rent self-drive pickups to tourists\? For tourists, from abroad or from Argentina, the pickup always comes with one of our drivers/);
   assert.match(t, /licensed rental companies in Salta/);
 });
 
