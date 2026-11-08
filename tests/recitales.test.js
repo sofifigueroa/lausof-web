@@ -21,7 +21,7 @@ const filasHtml = [...lista.matchAll(/<li data-hasta="([^"]*)">([\s\S]*?)<\/li>/
 // La página
 // ---------------------------------------------------------------------------
 test('charter-recitales.html carga vigencia.js una vez, con ruta absoluta, defer y versión', () => {
-  const usos = html.match(/<script defer src="\/js\/vigencia\.js\?v=\d+"><\/script>/g) || [];
+  const usos = html.match(/<script defer src="\/js\/vigencia\.js\?v=[0-9a-f]+"><\/script>/g) || [];
   assert.strictEqual(usos.length, 1);
   assert.strictEqual((visible.match(/vigencia\.js/g) || []).length, 1, 'vigencia.js se carga de otra forma');
 });
@@ -130,7 +130,7 @@ test('dateModified = "Actualizado" visible = lastmod del sitemap', () => {
 
 test('las migas visibles coinciden con el BreadcrumbList', () => {
   const migas = nodos.find((n) => n['@type'] === 'BreadcrumbList').itemListElement;
-  const nav = visible.match(/<nav class="migas"[^>]*>([\s\S]*?)<\/nav>/);
+  const nav = visible.match(/<nav class="crumbs[^"]*"[^>]*>([\s\S]*?)<\/nav>/);
   assert.ok(nav, 'falta la ruta de navegación visible');
   for (const { name } of migas) assert.ok(nav[1].includes(name), `las migas visibles no muestran "${name}"`);
 });

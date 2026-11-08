@@ -115,9 +115,10 @@ Dos cosas que hay que recordar al tocar el código:
   solo; `tests/rutas-raiz.test.js` corta si vuelve una ruta relativa. Cada
   página lleva además en `_redirects` su 301 desde la variante sin `.html`
   (`/turismo` → `/turismo.html`); una página nueva necesita su renglón (hay test).
-- **La hoja de estilos tiene cache-busting a mano** (`/css/styles.css?v=28`). Cada
-  vez que se cambia el CSS hay que subir ese número en los dos HTML, o quien ya
-  entró sigue viendo la hoja vieja.
+- **El `?v=` de cada hoja y script es el hash del archivo** (desde el
+  08/11/2026, `scripts/versiones.mjs`). Después de tocar un `.css` o un `.js`
+  se corre `node scripts/versiones.mjs`; sin eso, quien ya entró sigue viendo
+  la hoja vieja (`/css/*` y `/js/*` se cachean un año) y el test lo corta.
 - **Ninguna imagen se mueve sola.** La rotación de fotos de las tarjetas
   (`rotarFotos`, 3,4 s por foto, sin pausa) se borró el 05/11/2026: ninguna
   tarjeta la usaba y habría fallado WCAG 2.2.2. `tests/galeria.test.js` corta
@@ -436,7 +437,7 @@ Cada página lo carga en el `<head>` con
 (las páginas de `/en/` y las 404 se sirven desde otras rutas). Un enlace de
 contacto nuevo queda medido solo; una página nueva tiene que llevar esa línea
 (hay un test). `/js/*` se cachea un año: **si se cambia el archivo hay que
-subir el `?v=` en todas las páginas**, igual que con la hoja de estilos.
+correr `node scripts/versiones.mjs`**, que pone el hash nuevo en todas las páginas.
 
 **Lo que no hace, a propósito:** no frena ni modifica la navegación (el enlace
 se abre igual si Analytics está bloqueado o falla) y no manda ningún dato
@@ -639,6 +640,44 @@ node scripts/bloques.mjs --comprobar  # no escribe nada; sale con 1 si algo no c
   `.cta-botones`).
 - Lo vigila `tests/bloques.test.js` (al día, una versión por familia e idioma,
   el puntaje sin grafías a mano, el contrato de la barra, las anclas de la vitrina).
+
+## Encabezado, migas, hojas y versiones (08/11/2026)
+
+Ronda 2 (`~/lausof/web/rondas-2026-11-07/`). Cuatro piezas que se copiaban a mano:
+
+| Pieza | Cómo es ahora | Script |
+|---|---|---|
+| Miga de pan | una sola forma (`nav.crumbs`, zona `GENERADO:MIGAS`) en las 75 páginas con encabezado o miga; las 12 de eventos dejaron su `nav.migas` dentro del encabezado y 7 páginas que no tenían la suman | `scripts/encabezado.mjs`, datos en `scripts/encabezado-datos.mjs` |
+| Encabezado (`section.page-head`) | un molde: foto, kicker, título, bajada, botones (y el del hub de empresas, con la foto en su columna). Lo que dice cada encabezado sigue en la página | `scripts/encabezado.mjs` |
+| CSS del encabezado y de las preguntas frecuentes | sólo en `styles.css` (antes en 14 y 13 hojas); cada hoja cambia sus variables `--ph-h1`, `--ph-lead`, `--ph-foco`, `--ph-velo`. Cortes de pantalla: 480 · 560 · 720 · 880 · 960 (más 1080/1239 del menú), lista al principio de `styles.css` | `tests/estilos.test.js` |
+| `?v=` de hojas y scripts | el hash del archivo, igual en todas las páginas | `scripts/versiones.mjs` |
+| Botón de la barra de arriba al pasar el encabezado (`past-hero`) | `js/encabezado.js`, antes en línea en 82 páginas (para poder cerrar la CSP) | `scripts/menu.mjs` pone la etiqueta |
+
+```bash
+node scripts/encabezado.mjs   # miga y molde del encabezado (--comprobar para revisar)
+node scripts/versiones.mjs    # después de tocar cualquier .css o .js (--comprobar)
+```
+
+- **La miga sale de un solo lugar.** `MIGAS[página]` tiene su nombre y su
+  padre; el nombre de un nivel intermedio es el de esa página, o el de
+  `NODOS` si en las migas se dice distinto («Turismo» en vez de «Turismo en
+  Salta y Jujuy») o si es una sección de un hub (`#cargas`). El
+  `BreadcrumbList` del JSON-LD tiene que decir lo mismo: `--comprobar` lo
+  revisa. Las 7 páginas nuevas en migas no tienen `BreadcrumbList` (su JSON-LD
+  es un `Service` suelto); sumarlo es aparte.
+- **El encabezado no es una zona** porque su contenido ya tiene dueños:
+  `prefill.mjs` escribe sus WhatsApp y correos (no entra a las zonas
+  GENERADO) e `imagenes.mjs` su foto. `encabezado.mjs` sólo pone el orden y
+  las clases; si un encabezado trae algo fuera del molde, corta y dice qué.
+  Los comentarios que había adentro quedan arriba de la sección.
+- **Página nueva**: su renglón en `MIGAS` y correr los dos scripts.
+- **La vitrina** (`tienda-v2-0611`): `<section class="page-head"` y
+  `<div class="ctas">` quedan exactos y una vez; las zonas TIENDA «cabeza» e
+  «ir» se conservan donde están; la página actual de la miga es
+  `<li aria-current="page">` (en eventos era `<span aria-current>`, que
+  `tituloDe` también lee). `versiones.mjs` no entra a las zonas TIENDA; la
+  vitrina puede usar `version('css/tienda.css')`.
+- Lo vigilan `tests/encabezado.test.js` y `tests/estilos.test.js`.
 
 ## Cabeceras de seguridad
 

@@ -204,6 +204,6 @@ test('los enlaces pre-armados reales mandan contact_whatsapp y contact_email sin
 test('todas las páginas con WhatsApp o correo cargan js/contacto.js', () => {
   for (const [nombre, html] of Object.entries(paginas)) {
     if (!/href="(https:\/\/wa\.me\/|mailto:)/.test(html)) continue;
-    assert.match(html, /<script defer src="\/js\/contacto\.js\?v=\d+"><\/script>/, `${nombre} no mide los contactos`);
+    assert.match(html, /<script defer src="\/js\/contacto\.js\?v=[0-9a-f]+"><\/script>/, `${nombre} no mide los contactos`);
   }
 });

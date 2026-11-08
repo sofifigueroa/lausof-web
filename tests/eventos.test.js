@@ -60,7 +60,7 @@ for (const nombre of nuevas) {
 
   test(`${nombre}: existe y carga vigencia.js una vez, con ruta absoluta y versión`, () => {
     assert.ok(html, `falta ${nombre}`);
-    const usos = html.match(/<script defer src="\/js\/vigencia\.js\?v=\d+"><\/script>/g) || [];
+    const usos = html.match(/<script defer src="\/js\/vigencia\.js\?v=[0-9a-f]+"><\/script>/g) || [];
     assert.strictEqual(usos.length, 1);
   });
 
@@ -80,7 +80,7 @@ for (const nombre of nuevas) {
 
   test(`${nombre}: las migas visibles coinciden con el BreadcrumbList y cierran en la propia página`, () => {
     const migas = nodosDe(html).find((n) => n['@type'] === 'BreadcrumbList').itemListElement;
-    const nav = visible().match(/<nav class="migas"[^>]*>([\s\S]*?)<\/nav>/);
+    const nav = visible().match(/<nav class="crumbs[^"]*"[^>]*>([\s\S]*?)<\/nav>/);
     assert.ok(nav, 'falta la ruta de navegación visible');
     for (const { name } of migas) assert.ok(nav[1].includes(name), `las migas visibles no muestran "${name}"`);
     assert.strictEqual(migas[migas.length - 1].item, urlDe(nombre));

@@ -99,7 +99,7 @@ for (const { archivo, idioma, madre, wa, sinFechas } of eventos) {
   test(`${archivo}: las migas visibles coinciden con el BreadcrumbList`, () => {
     const migas = grafo(html).find((n) => n['@type'] === 'BreadcrumbList').itemListElement;
     assert.strictEqual(migas.length, 3, 'se esperan tres niveles: inicio, página madre y esta');
-    const nav = sinComentarios(html).match(/<nav class="migas"[^>]*>([\s\S]*?)<\/nav>/);
+    const nav = sinComentarios(html).match(/<nav class="crumbs[^"]*"[^>]*>([\s\S]*?)<\/nav>/);
     assert.ok(nav, 'falta la ruta de navegación visible');
     for (const { name } of migas) assert.ok(nav[1].includes(name), `las migas visibles no muestran "${name}"`);
     assert.strictEqual(migas[1].item, urlDe(madre), 'el segundo nivel no es la página madre');

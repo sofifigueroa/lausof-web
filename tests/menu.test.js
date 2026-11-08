@@ -40,7 +40,7 @@ test('cada página con barra superior tiene el menú generado y ningún menú vi
     const barra = sinComentarios(html).match(/<header class="topbar">[\s\S]*?<\/header>/)[0];
     assert.doesNotMatch(barra, /href="\/(?:en\/|pt\/)?#(?:servicios|services|servicos|seguridad|safety|seguranca|flota|fleet|frota)"/,
       `${nombre}: quedó en la barra un enlace del menú viejo de anclas`);
-    assert.match(html, /<script defer src="\/js\/menu\.js\?v=\d+"><\/script>/, `${nombre}: no carga /js/menu.js`);
+    assert.match(html, /<script defer src="\/js\/menu\.js\?v=[0-9a-f]+"><\/script>/, `${nombre}: no carga /js/menu.js`);
   }
 });
 

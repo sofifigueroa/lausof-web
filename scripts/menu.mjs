@@ -50,6 +50,7 @@ import { pathToFileURL } from 'node:url';
 import { raiz, paginas } from './rutas-raiz.mjs';
 import { PAGINAS, idiomaDe } from './prefill.mjs';
 import { FICHA } from './empresa.mjs';
+import { version } from './versiones.mjs';
 
 /* ---- sección de cada página (3a §3.3) ------------------------------------
    Las 14 páginas de empresas y su línea, más los dos hubs de empresas, que
@@ -388,8 +389,13 @@ const NAV_VIEJO = /[ \t]*<nav class="main"[\s\S]*?<\/nav>/;
 // primera vez, el <b> y el <ul> escritos a mano.
 const FACTURACION = /(<div class="wrap proveedores">)\s*(?:<!-- GENERADO:FACTURACION[\s\S]*?<!-- \/GENERADO:FACTURACION -->|<b>[^<]*<\/b>\s*<ul>[\s\S]*?<\/ul>)/;
 const LEGAL = /(<div class="wrap legal">)[\s\S]*?(\n[ \t]*<\/div>)/;
-const SCRIPT_MENU = '<script defer src="/js/menu.js?v=1"></script>';
-const SCRIPT_CONTACTO = /^([ \t]*)<script defer src="\/js\/contacto\.js\?v=\d+"><\/script>$/m;
+// Los ?v= los escribe scripts/versiones.mjs (hash del archivo); acá se buscan con cualquier valor.
+const etiquetaScript = (archivo) => `<script defer src="/js/${archivo}?v=${version(`js/${archivo}`)}"></script>`;
+const lineaScript = (archivo) => new RegExp(`^([ \\t]*)<script defer src="/js/${archivo.replace('.', '\\.')}\\?v=[^"]*"></script>$`, 'm');
+const SCRIPT_MENU = lineaScript('menu.js');
+const SCRIPT_CONTACTO = lineaScript('contacto.js');
+// El botón de la barra de arriba que aparece al pasar el encabezado (js/encabezado.js, antes en línea).
+const SCRIPT_ENCABEZADO = lineaScript('encabezado.js');
 
 /** La página con el menú, los atributos de <body> y el script al día. Pura e idempotente. */
 export function conMenu(html, pagina) {
@@ -406,9 +412,12 @@ export function conMenu(html, pagina) {
   const tieneMenu = ZONA.test(nuevo) || NAV_VIEJO.test(nuevo);
   if (!tieneMenu) return nuevo;
   nuevo = ZONA.test(nuevo) ? nuevo.replace(ZONA, () => zonaMenu(pagina)) : nuevo.replace(NAV_VIEJO, () => zonaMenu(pagina));
-  if (!nuevo.includes(SCRIPT_MENU)) {
+  if (!SCRIPT_MENU.test(nuevo)) {
     if (!SCRIPT_CONTACTO.test(nuevo)) throw new Error(`${pagina}: no carga /js/contacto.js, no sé dónde poner /js/menu.js`);
-    nuevo = nuevo.replace(SCRIPT_CONTACTO, (linea, sangria) => `${linea}\n${sangria}${SCRIPT_MENU}`);
+    nuevo = nuevo.replace(SCRIPT_CONTACTO, (linea, sangria) => `${linea}\n${sangria}${etiquetaScript('menu.js')}`);
+  }
+  if (!SCRIPT_ENCABEZADO.test(nuevo)) {
+    nuevo = nuevo.replace(SCRIPT_MENU, (linea, sangria) => `${linea}\n${sangria}${etiquetaScript('encabezado.js')}`);
   }
   return nuevo;
 }

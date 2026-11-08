@@ -79,9 +79,9 @@ for (const [nombre, titulo] of Object.entries(dedicadas)) {
 // versión ?v= que la portada: una página con la versión vieja se ve rota
 // hasta que al visitante se le vence la caché.
 test('todas las páginas cargan styles.css en la misma versión que la portada', () => {
-  const version = index.match(/href="\/?css\/styles\.css\?v=(\d+)"/)[1];
+  const version = index.match(/href="\/?css\/styles\.css\?v=([0-9a-f]+)"/)[1];
   for (const [nombre, html] of Object.entries(paginas)) {
-    const m = html.match(/href="\/?css\/styles\.css\?v=(\d+)"/);
+    const m = html.match(/href="\/?css\/styles\.css\?v=([0-9a-f]+)"/);
     assert.ok(m, `${nombre} no versiona styles.css con ?v=`);
     assert.strictEqual(m[1], version,
       `${nombre} carga styles.css?v=${m[1]} y la portada usa ?v=${version}`);

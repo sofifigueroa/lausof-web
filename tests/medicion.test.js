@@ -246,7 +246,7 @@ test('el listener es uno, delegado, en captura, y no toca la navegación', () =>
 test('todas las páginas cargan el script una vez, con ruta absoluta, defer y versión', () => {
   const versiones = new Set();
   for (const [nombre, html] of Object.entries(paginas)) {
-    const usos = [...html.matchAll(/<script defer src="\/js\/contacto\.js\?v=(\d+)"><\/script>/g)];
+    const usos = [...html.matchAll(/<script defer src="\/js\/contacto\.js\?v=([0-9a-f]+)"><\/script>/g)];
     assert.strictEqual(usos.length, 1, `${nombre} no carga /js/contacto.js exactamente una vez`);
     assert.strictEqual((html.match(/contacto\.js/g) || []).length, 1, `${nombre} carga contacto.js de otra forma`);
     versiones.add(usos[0][1]);

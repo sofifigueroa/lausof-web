@@ -32,6 +32,17 @@
   --shadow:0 1px 2px rgba(29,41,71,.07);
 }
 
+/* Cortes de pantalla: los mismos en todas las hojas (CSS no deja usar
+   variables dentro de @media, así que la lista vive acá y la vigila
+   tests/estilos.test.js). Hasta el 08/11/2026 había 13 anchos distintos.
+     480   teléfono chico
+     560   teléfono (grillas de dos a una columna)
+     720   teléfono grande / tableta vertical (ajustes de mobile, barra fija)
+     880   tableta (menú de escritorio desde 881)
+     960   escritorio angosto
+     1080, 1239   sólo el menú de escritorio, entre 881 y esos anchos
+   Con min-width se usa el ancho siguiente (721, 881). */
+
 /* Una sola paleta, la clara: el sitio se ve igual en todos los dispositivos,
    tengan el sistema en modo claro u oscuro. */
 
@@ -74,10 +85,10 @@ section.block{padding:72px 0}
 .block .sub{color:var(--ink-soft);max-width:56ch;margin:14px 0 0}
 
 /* ---- migas de pan ----
-   Las llevan las páginas de turismo y, desde el 05/11/2026, el hub
-   «Empresas y minería» y sus 14 páginas (Inicio › Empresas y minería ›
-   Personal para minería | Cargas › página). Viven acá y no en turismo.css
-   porque las páginas de empresas no cargan esa hoja. */
+   Desde el 08/11/2026 las llevan todas las páginas con encabezado, en una
+   sola forma (scripts/encabezado.mjs, zona GENERADO:MIGAS): las de eventos
+   dejaron sus «migas» doradas dentro del encabezado y siete páginas que no
+   tenían ninguna la suman. */
 .crumbs{padding-top:18px;font-size:.86rem;color:var(--ink-soft)}
 .crumbs ol{display:flex;flex-wrap:wrap;gap:4px 0;margin:0;padding:0;list-style:none}
 .crumbs li+li::before{content:"/";margin:0 8px;color:var(--border)}
@@ -236,8 +247,9 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 /* La foto del hero y de los encabezados de cada página es un <img> del HTML
    (antes era un fondo de la CSS): el navegador la descubre al leer el HTML,
    elige ancho y formato, y la pide con fetchpriority="high" porque es la
-   LCP. object-fit/object-position encuadran; el encuadre propio de cada
-   página interna vive en su hoja (.page-head-photo img{object-position:…}). */
+   LCP. object-fit/object-position encuadran; el encuadre de cada página
+   interna es la variable --ph-foco (abajo, «encabezado de las páginas
+   internas»). */
 .hero-photo img,.page-head-photo img{
   position:absolute;inset:0;
   width:100%;height:100%;object-fit:cover;
@@ -247,6 +259,65 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 .hero .lead{max-width:48ch;font-size:1.08rem;color:var(--on-navy-soft);margin:14px 0 22px}
 .hero .ctas{display:flex;flex-wrap:wrap;gap:12px}
 @media(max-width:960px){.hero-grid{grid-template-columns:1fr minmax(0,340px);gap:32px}}
+
+/* ---- encabezado de las páginas internas ----
+   El mismo molde en las 70 páginas con section.page-head (lo escribe
+   scripts/encabezado.mjs): foto de fondo con velo, kicker, título, bajada y
+   botones. Mismo lenguaje que el hero de la portada pero más bajo: es una
+   página de servicio y no compite con ella. Hasta el 08/11/2026 estaba
+   copiado en 14 hojas; cada hoja ahora sólo cambia sus variables:
+     --ph-h1    ancho máximo del título
+     --ph-lead  ancho máximo de la bajada
+     --ph-foco  encuadre de la foto (lo que antes daba background-position)
+     --ph-velo  el degradado sobre la foto
+   Una foto con encuadre propio (.page-head-photo.ph-cafayate img…) sigue
+   en la hoja de su familia. El hub de empresas (.hub-head) tiene su propio
+   encabezado en empresas-y-mineria.css. */
+.page-head{
+  --ph-h1:20ch;--ph-lead:54ch;--ph-foco:center 55%;
+  --ph-velo:linear-gradient(180deg,rgba(16,23,42,.82),rgba(16,23,42,.66));
+  position:relative;color:var(--on-navy);overflow:hidden;background:var(--navy-deep);
+}
+.page-head-photo{position:absolute;inset:0;background:#151e36}
+.page-head-photo img{object-position:var(--ph-foco)}
+.page-head-photo::after{content:"";position:absolute;inset:0;background:var(--ph-velo)}
+.page-head-inner{position:relative;padding:56px 24px 60px;max-width:1120px}
+.page-head h1{font-size:clamp(1.9rem,4.4vw,2.9rem);letter-spacing:-.015em;max-width:var(--ph-h1)}
+.page-head .lead{max-width:var(--ph-lead);font-size:1.08rem;color:var(--on-navy-soft);margin:16px 0 26px}
+.page-head .ctas{display:flex;flex-wrap:wrap;gap:12px}
+@media(max-width:720px){
+  .page-head-inner{padding:48px 20px 52px}
+  .page-head .ctas .btn{flex:1 0 100%;padding:11px 16px;font-size:.94rem}
+}
+
+/* ---- preguntas frecuentes ----
+   Dos formas, las dos acá (antes en 13 hojas): el acordeón (.faq details,
+   se abre de a una) y la ficha fija (.faq-item, pregunta y respuesta a la
+   vista, con el filete dorado de «Por qué elegirnos»). */
+.faq{margin-top:32px;display:flex;flex-direction:column;gap:10px;max-width:760px}
+.faq:has(> .faq-item){margin-top:36px;gap:14px}
+.faq details{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:0 18px;
+}
+.faq summary{
+  cursor:pointer;font-weight:700;font-size:.98rem;
+  padding:15px 0;list-style:none;position:relative;padding-right:28px;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"+";position:absolute;right:2px;top:50%;transform:translateY(-50%);
+  color:var(--gold-ink);font-size:1.25rem;font-weight:700;line-height:1;
+}
+.faq details[open] summary::after{content:"–"}
+.faq details p{margin:0 0 16px;color:var(--ink-mid);font-size:.94rem;max-width:60ch}
+@media (hover:hover){.faq summary:hover{color:var(--gold-ink)}}
+.faq-item{
+  background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);
+  border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);
+}
+.faq-item h3{font-size:1.02rem;margin-bottom:8px}
+.faq-item p{margin:0;color:var(--ink-mid);font-size:.94rem}
 
 /* ---- portada: las tres puertas ----
    Turismo y traslados · Personal para minería · Cargas, en ese orden
@@ -323,7 +394,7 @@ html.js body.past-hero .nav-cta{opacity:1;visibility:visible}
 .pie-secciones>div:last-child>b,.pie-secciones>div:last-child>ul{grid-column:1/-1}
 .pie-secciones .pie-sub{margin:10px 0 6px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-bright)}
 footer.site .pie-secciones ul{gap:2px}
-@media(max-width:780px){
+@media(max-width:880px){
   .pie-secciones{grid-template-columns:1fr;gap:20px}
 }
 
@@ -520,7 +591,7 @@ footer.site .pie-secciones ul{gap:2px}
 /* ---- footer ---- */
 footer.site{background:var(--navy-deep);color:#c3cee4;padding:56px 0 36px;font-size:.94rem}
 .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:36px}
-@media(max-width:780px){.foot-grid{grid-template-columns:1fr;gap:26px}}
+@media(max-width:880px){.foot-grid{grid-template-columns:1fr;gap:26px}}
 footer.site p{margin:0 0 8px}
 footer.site b{color:#fff;display:block;margin-bottom:10px}
 footer.site a{color:#c3cee4}

@@ -89,8 +89,8 @@ test('sólo el primer cuadro de una galería marcada data-lcp carga sin demora',
 test('las páginas con galería cargan js/galeria.js y su hoja una sola vez; las demás no', () => {
   for (const [nombre, html] of Object.entries(paginas)) {
     const tiene = galeriasDe(html).length > 0;
-    const js = (html.match(/<script defer src="\/js\/galeria\.js\?v=\d+"><\/script>/g) || []).length;
-    const hoja = (html.match(/<link rel="stylesheet" href="\/css\/galeria-componente\.css\?v=\d+">/g) || []).length;
+    const js = (html.match(/<script defer src="\/js\/galeria\.js\?v=[0-9a-f]+"><\/script>/g) || []).length;
+    const hoja = (html.match(/<link rel="stylesheet" href="\/css\/galeria-componente\.css\?v=[0-9a-f]+">/g) || []).length;
     assert.strictEqual(js, tiene ? 1 : 0, `${nombre}: js/galeria.js cargado ${js} veces`);
     assert.strictEqual(hoja, tiene ? 1 : 0, `${nombre}: css/galeria-componente.css cargada ${hoja} veces`);
   }
@@ -105,7 +105,7 @@ test('las fotos de abajo esperan a acercarse: tarjetas de turismo y galerías, n
   for (const [nombre, html] of Object.entries(paginas)) {
     const limpio = sinComentarios(html);
     const marcadas = (limpio.match(/\sdata-fotos-cerca[\s>]/g) || []).length;
-    const js = (limpio.match(/<script defer src="\/js\/fotos-cerca\.js\?v=\d+"><\/script>/g) || []).length;
+    const js = (limpio.match(/<script defer src="\/js\/fotos-cerca\.js\?v=[0-9a-f]+"><\/script>/g) || []).length;
     // Una caja marcada sin el script no mostraría nunca su foto.
     assert.strictEqual(js, marcadas ? 1 : 0, `${nombre}: ${marcadas} cajas data-fotos-cerca y js/fotos-cerca.js ${js} veces`);
     if (HUBS.includes(nombre)) {

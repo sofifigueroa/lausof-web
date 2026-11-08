@@ -6,32 +6,17 @@
    Los colores, la tipografía, los bordes y las fichas se heredan tal cual.
    ========================================================================== */
 
-/* ---- encabezado de página ----
-   Mismo lenguaje que el hero de la home pero más bajo: esta no es la portada,
-   es una página de servicio y no debe competir con ella. */
-.page-head{position:relative;color:var(--on-navy);overflow:hidden;background:var(--navy-deep)}
-.page-head-photo{
-  position:absolute;inset:0;
-  background:#151e36;
-}
-/* la foto es un <img> del HTML (ver README, "Fotos responsive"); este es
-   el encuadre que antes daba background-position */
-.page-head-photo img{object-position:center 60%}
-.page-head-photo::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(16,23,42,.82),rgba(16,23,42,.68));
-}
-.page-head-inner{position:relative;padding:56px 24px 60px;max-width:1120px}
-.page-head h1{font-size:clamp(1.9rem,4.4vw,2.9rem);letter-spacing:-.015em;max-width:20ch}
-.page-head .lead{max-width:54ch;font-size:1.08rem;color:var(--on-navy-soft);margin:16px 0 26px}
-.page-head .ctas{display:flex;flex-wrap:wrap;gap:12px}
+/* ---- encabezado: lo propio de esta hoja ----
+   El molde vive en styles.css («encabezado de las páginas internas»); acá,
+   sólo lo propio de esta hoja. */
+.page-head{--ph-foco:center 60%;--ph-velo:linear-gradient(180deg,rgba(16,23,42,.82),rgba(16,23,42,.68))}
 
 /* ---- franja de datos clave ----
    Mismo registro que la franja de habilitaciones de la home: cuatro datos
    cortos que responden lo primero que pregunta el que cotiza una carga. */
 .claves{background:var(--ice);border-block:1px solid var(--border);padding:26px 0}
 .claves-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-@media(max-width:900px){.claves-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:880px){.claves-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.claves-grid{grid-template-columns:1fr}}
 .clave{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);
   border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow)}
@@ -66,22 +51,3 @@
 .texto a.walink{display:inline-block;margin-top:4px;font-size:.95rem;font-weight:700;color:var(--wa-ink);text-decoration:none}
 @media (hover:hover){.texto a.walink:hover{text-decoration:underline}}
 
-/* ---- preguntas frecuentes ----
-   details/summary nativo: se abre y cierra sin JavaScript. */
-.faq{margin-top:32px;display:flex;flex-direction:column;gap:10px;max-width:760px}
-.faq details{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-  box-shadow:var(--shadow);padding:0 18px;
-}
-.faq summary{
-  cursor:pointer;font-weight:700;font-size:.98rem;
-  padding:15px 0;list-style:none;position:relative;padding-right:28px;
-}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{
-  content:"+";position:absolute;right:2px;top:50%;transform:translateY(-50%);
-  color:var(--gold-ink);font-size:1.25rem;font-weight:700;line-height:1;
-}
-.faq details[open] summary::after{content:"–"}
-.faq details p{margin:0 0 16px;color:var(--ink-mid);font-size:.94rem;max-width:60ch}
-@media (hover:hover){.faq summary:hover{color:var(--gold-ink)}}

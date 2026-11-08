@@ -22,7 +22,7 @@
   display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:center;
   padding-top:24px;padding-bottom:26px;
 }
-.hub-head h1{font-size:clamp(1.7rem,2.9vw,2.2rem);letter-spacing:-.015em}
+.hub-head h1{font-size:clamp(1.7rem,2.9vw,2.2rem);letter-spacing:-.015em;max-width:none}
 .hub-head .lead{max-width:60ch;font-size:1.04rem;color:var(--on-navy-soft);margin:10px 0 18px}
 .hub-head .ctas{display:flex;flex-wrap:wrap;gap:8px}
 .hub-head .ctas .btn{padding:9px 13px;font-size:.88rem;gap:7px}
@@ -35,6 +35,9 @@
   border-radius:var(--radius);border:1px solid #2a3557;background:#151e36;
 }
 .hub-foto img{object-position:center 60%}
+/* El velo del molde de styles.css es para la foto de fondo; esta foto va en
+   su columna, sin velo. */
+.hub-foto::after{content:none}
 @media(max-width:880px){
   .hub-head-grid{grid-template-columns:1fr;padding-top:22px;padding-bottom:22px}
   /* Teléfono (wireframe 390): sin foto y sin botones en la primera

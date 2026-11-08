@@ -6,26 +6,10 @@
    tipografía y las tarjetas se heredan tal cual de la hoja principal.
    ========================================================================== */
 
-/* ---- encabezado de página ----
-   Mismo lenguaje que el hero de la home pero más bajo: esta es una sección
-   interna y no debe competir con la portada. La foto es la Ruta 68 camino a
-   Cafayate: el paisaje es el producto de esta página. */
-.page-head{position:relative;color:var(--on-navy);overflow:hidden;background:var(--navy-deep)}
-.page-head-photo{
-  position:absolute;inset:0;
-  background:#151e36;
-}
-/* la foto es un <img> del HTML (ver README, "Fotos responsive"); este es
-   el encuadre que antes daba background-position */
-.page-head-photo img{object-position:center 62%}
-.page-head-photo::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(16,23,42,.78),rgba(16,23,42,.6));
-}
-.page-head-inner{position:relative;padding:56px 24px 60px;max-width:1120px}
-.page-head h1{font-size:clamp(1.9rem,4.4vw,2.9rem);letter-spacing:-.015em;max-width:20ch}
-.page-head .lead{max-width:56ch;font-size:1.08rem;color:var(--on-navy-soft);margin:16px 0 26px}
-.page-head .ctas{display:flex;flex-wrap:wrap;gap:12px}
+/* ---- encabezado: lo propio de esta hoja ----
+   El molde vive en styles.css («encabezado de las páginas internas»); acá,
+   sólo lo propio de esta hoja. */
+.page-head{--ph-foco:center 62%;--ph-velo:linear-gradient(180deg,rgba(16,23,42,.78),rgba(16,23,42,.6));--ph-lead:56ch}
 
 /* ---- tarjetas de circuito ----
    Una foto fija por destino, sin rotación: acá cada tarjeta ES un lugar y la
@@ -33,7 +17,7 @@
    mobile, a diferencia de la home: el visitante compara circuitos y necesita
    verlos todos de corrido. */
 .circuitos{margin-top:36px}
-@media(max-width:640px){.circuitos{grid-template-columns:1fr}}
+@media(max-width:720px){.circuitos{grid-template-columns:1fr}}
 .circuito .card-photo img{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
 }
@@ -55,7 +39,7 @@ html.js [data-fotos-cerca]:not(.fotos-cerca) img{display:none}
   content:"";position:absolute;left:0;top:.55em;
   width:6px;height:6px;background:var(--gold);
 }
-@media(max-width:640px){.como-viajamos{grid-template-columns:1fr}}
+@media(max-width:720px){.como-viajamos{grid-template-columns:1fr}}
 
 /* ---- para agencias y empresas ---- */
 .agencias p{max-width:62ch;color:var(--ink-mid);margin:18px 0 0}
@@ -73,7 +57,7 @@ html.js [data-fotos-cerca]:not(.fotos-cerca) img{display:none}
   width:100%;height:100%;aspect-ratio:3/2;object-fit:cover;display:block;
   border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
 }
-@media(max-width:640px){.postales-grid{grid-template-columns:1fr}}
+@media(max-width:720px){.postales-grid{grid-template-columns:1fr}}
 
 /* ==========================================================================
    v2 (10/10/2026): piezas compartidas por turismo.html, su gemela inglesa y
@@ -104,28 +88,6 @@ html.js [data-fotos-cerca]:not(.fotos-cerca) img{display:none}
   border-bottom:1px solid var(--border);padding-bottom:2px;
 }
 @media (hover:hover){.jump a:hover{color:var(--gold-ink);border-bottom-color:var(--gold)}}
-
-/* ---- preguntas frecuentes ----
-   details/summary nativos: abren sin JavaScript. Texto visible, sin marcado
-   FAQPage (Google retiró ese resultado enriquecido en 2026). */
-.faq{margin-top:32px;display:flex;flex-direction:column;gap:10px;max-width:760px}
-.faq details{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-  box-shadow:var(--shadow);padding:0 18px;
-}
-.faq summary{
-  cursor:pointer;font-weight:700;font-size:.98rem;
-  padding:15px 0;list-style:none;position:relative;padding-right:28px;
-}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{
-  content:"+";position:absolute;right:2px;top:50%;transform:translateY(-50%);
-  color:var(--gold-ink);font-size:1.25rem;font-weight:700;line-height:1;
-}
-.faq details[open] summary::after{content:"-"}
-.faq details p{margin:0 0 16px;color:var(--ink-mid);font-size:.94rem;max-width:60ch}
-@media (hover:hover){.faq summary:hover{color:var(--gold-ink)}}
-
 
 /* ---- texto corrido de las páginas de ruta ---- */
 .prosa{max-width:66ch;color:var(--ink-mid)}

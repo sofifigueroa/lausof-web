@@ -38,17 +38,20 @@ test('el JSON-LD de las páginas en inglés es JSON válido', () => {
   }
 });
 
-test('la hoja de estilos está en la versión 23 o posterior', () => {
-  const m = index.match(/href="\/css\/styles\.css\?v=(\d+)"/);
+// Desde el 08/11/2026 el ?v= es el hash del archivo (scripts/versiones.mjs):
+// si la hoja cambia y la portada sigue con el valor viejo, este test lo ve.
+test('la portada pide styles.css con el hash de la hoja de hoy', async () => {
+  const { version } = await import('../scripts/versiones.mjs');
+  const m = index.match(/href="\/css\/styles\.css\?v=([0-9a-f]+)"/);
   assert.ok(m, 'index.html no versiona styles.css con ?v=');
-  assert.ok(Number(m[1]) >= 23, `?v=${m[1]} — quedó una versión vieja de la hoja`);
+  assert.strictEqual(m[1], version('css/styles.css'), `?v=${m[1]} — quedó una versión vieja de la hoja`);
 });
 
 // Con /css/* cacheado como inmutable, si las dos páginas no piden la MISMA
 // versión de styles.css, una de ellas puede quedarse un año con la hoja vieja.
 test('las dos páginas piden la misma versión de styles.css', () => {
-  const enIndex = index.match(/href="\/css\/styles\.css\?v=(\d+)"/);
-  const enFlota = flota.match(/href="\/css\/styles\.css\?v=(\d+)"/);
+  const enIndex = index.match(/href="\/css\/styles\.css\?v=([0-9a-f]+)"/);
+  const enFlota = flota.match(/href="\/css\/styles\.css\?v=([0-9a-f]+)"/);
   assert.ok(enFlota, 'flota-en-venta.html no versiona styles.css con ?v=');
   assert.strictEqual(enFlota[1], enIndex[1],
     `versiones desincronizadas: index ?v=${enIndex[1]}, flota ?v=${enFlota[1]}`);
