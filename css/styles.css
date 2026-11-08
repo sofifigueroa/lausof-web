@@ -32,16 +32,8 @@
   --shadow:0 1px 2px rgba(29,41,71,.07);
 }
 
-/* Cortes de pantalla: los mismos en todas las hojas (CSS no deja usar
-   variables dentro de @media, así que la lista vive acá y la vigila
-   tests/estilos.test.js). Hasta el 08/11/2026 había 13 anchos distintos.
-     480   teléfono chico
-     560   teléfono (grillas de dos a una columna)
-     720   teléfono grande / tableta vertical (ajustes de mobile, barra fija)
-     880   tableta (menú de escritorio desde 881)
-     960   escritorio angosto
-     1080, 1239   sólo el menú de escritorio, entre 881 y esos anchos
-   Con min-width se usa el ancho siguiente (721, 881). */
+/* Cortes de pantalla (todas las hojas; README, tests/estilos.test.js):
+   480 · 560 · 720 · 880 · 960; 1080 y 1239 sólo el menú; min-width 721/881. */
 
 /* Una sola paleta, la clara: el sitio se ve igual en todos los dispositivos,
    tengan el sistema en modo claro u oscuro. */
@@ -622,25 +614,12 @@ footer.site .legal-enlaces{flex-basis:100%;margin:0}
   }
 }
 
-/* Las dos piezas de abajo van al final de la hoja a propósito: hasta el
-   08/11/2026 vivían en las hojas de cada familia, que se cargan después de
-   ésta, y así siguen ganándoles a las reglas de arriba con el mismo peso
-   (por ejemplo, el .wrap de los ajustes de mobile no le saca el relleno
-   al encabezado). */
+/* Al final a propósito: antes estaban en las hojas de familia, que se cargan
+   después; así siguen ganando con el mismo peso (README, ronda 2). */
 
 /* ---- encabezado de las páginas internas ----
-   El mismo molde en las 70 páginas con section.page-head (lo escribe
-   scripts/encabezado.mjs): foto de fondo con velo, kicker, título, bajada y
-   botones. Mismo lenguaje que el hero de la portada pero más bajo: es una
-   página de servicio y no compite con ella. Hasta el 08/11/2026 estaba
-   copiado en 14 hojas; cada hoja ahora sólo cambia sus variables:
-     --ph-h1    ancho máximo del título
-     --ph-lead  ancho máximo de la bajada
-     --ph-foco  encuadre de la foto (lo que antes daba background-position)
-     --ph-velo  el degradado sobre la foto
-   Una foto con encuadre propio (.page-head-photo.ph-cafayate img…) sigue
-   en la hoja de su familia. El hub de empresas (.hub-head) tiene su propio
-   encabezado en empresas-y-mineria.css. */
+   Un molde (scripts/encabezado.mjs); cada hoja de familia cambia sólo
+   --ph-h1, --ph-lead, --ph-foco (encuadre) y --ph-velo. */
 .page-head{
   --ph-h1:20ch;--ph-lead:54ch;--ph-foco:center 55%;
   --ph-velo:linear-gradient(180deg,rgba(16,23,42,.82),rgba(16,23,42,.66));
@@ -658,10 +637,7 @@ footer.site .legal-enlaces{flex-basis:100%;margin:0}
   .page-head .ctas .btn{flex:1 0 100%;padding:11px 16px;font-size:.94rem}
 }
 
-/* ---- preguntas frecuentes ----
-   Dos formas, las dos acá (antes en 13 hojas): el acordeón (.faq details,
-   se abre de a una) y la ficha fija (.faq-item, pregunta y respuesta a la
-   vista, con el filete dorado de «Por qué elegirnos»). */
+/* ---- preguntas frecuentes: acordeón (details) o ficha fija (.faq-item) ---- */
 .faq{margin-top:32px;display:flex;flex-direction:column;gap:10px;max-width:760px}
 .faq:has(> .faq-item){margin-top:36px;gap:14px}
 .faq details{
