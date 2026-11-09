@@ -8,7 +8,6 @@ const assert = require('node:assert');
 const { paginas, sinComentarios } = require('./util.js');
 
 const visible = (html) => sinComentarios(html)
-  .replace(/<!-- RONDA:VISTA -->[\s\S]*?<!-- \/RONDA:VISTA -->/g, '')
   .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, ' ')
   .replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ');
 
@@ -18,8 +17,7 @@ const NO_PERMITIDO = new Set();
 test('ninguna respuesta frecuente empieza con «No.», «No:» o «Não.»', () => {
   for (const [nombre, html] of Object.entries(paginas)) {
     if (NO_PERMITIDO.has(nombre)) continue;
-    const sin = html.replace(/<!-- RONDA:VISTA -->[\s\S]*?<!-- \/RONDA:VISTA -->/g, '');
-    for (const m of sin.matchAll(/<details[^>]*>\s*<summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>/g)) {
+    for (const m of html.matchAll(/<details[^>]*>\s*<summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>/g)) {
       assert.doesNotMatch(m[2], /^\s*(No|Não)[.:,]/, `${nombre}: «${m[1]}» empieza con un no`);
     }
   }

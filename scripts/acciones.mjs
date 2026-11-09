@@ -18,8 +18,7 @@
    La acción (cotizar o consultar) sale del tipo del enlace: su
    `data-prefill` o, si no tiene, el tipo de la página (scripts/prefill.mjs).
    Sólo cambia el texto del botón: el enlace, las clases y el ícono quedan.
-   No entra a las zonas <!-- GENERADO:… --> (son de otros scripts) ni a las
-   de la vista de revisión (<!-- RONDA:VISTA -->).
+   No entra a las zonas <!-- GENERADO:… --> (son de otros scripts).
 
      node scripts/acciones.mjs              reescribe lo que haga falta
      node scripts/acciones.mjs --comprobar  no escribe nada; sale con 1 si algo no coincide
@@ -55,7 +54,7 @@ export const GENERICOS = {
   },
 };
 
-const ZONA = /<!-- GENERADO:([A-Z]+)\b[\s\S]*?<!-- \/GENERADO:\1 -->|<!-- RONDA:VISTA -->[\s\S]*?<!-- \/RONDA:VISTA -->/g;
+const ZONA = /<!-- GENERADO:([A-Z]+)\b[\s\S]*?<!-- \/GENERADO:\1 -->/g;
 // Un botón de contacto: <a … class="btn …" … href="wa.me|mailto"…>[ícono]texto</a>
 const BOTON = /<a\b([^>]*\bclass="btn\b[^"]*"[^>]*)>((?:<svg[\s\S]*?<\/svg>)?)([^<]*)<\/a>/g;
 

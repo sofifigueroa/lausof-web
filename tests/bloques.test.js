@@ -24,6 +24,13 @@ const zona = (html, n) => {
   return m;
 };
 
+// La vista de revisión de la ronda 3 salió con el merge de v10 (8f6afd2,
+// FUSION §2) y ningún guion ni prueba la filtra más: si una zona suya vuelve
+// a una página, iría a producción.
+test('ninguna página lleva zonas de la vista de revisión (RONDA:)', () => {
+  for (const [nombre, html] of Object.entries(paginas)) assert.ok(!html.includes('<!-- RONDA:'), nombre);
+});
+
 test('cada página está al día con scripts/bloques.mjs (correr node scripts/bloques.mjs)', async () => {
   const { conBloques, problemasDe } = await guion;
   for (const [nombre, html] of Object.entries(paginas)) {
@@ -195,9 +202,8 @@ test('las portadas: el puntaje bajo el título de las reseñas, que son las de G
 // en el HTML. Los hubs de empresas llevan la miga antes del encabezado.
 const ORDEN = ['ENCABEZADO', 'MIGAS', 'CONFIANZA', 'VIAJE', 'CIERRE', 'CONTACTO', 'LEGAL', 'BARRA'];
 const ordenDe = (html) => {
-  const limpio = html.replace(/<!-- RONDA:VISTA -->[\s\S]*?<!-- \/RONDA:VISTA -->/g, '');
   const re = /<!-- GENERADO:(MIGAS|CONFIANZA|VIAJE|CIERRE|CONTACTO|LEGAL|BARRA) |<section class="(?:page-head|hero)\b/g;
-  return [...limpio.matchAll(re)].map((m) => m[1] || 'ENCABEZADO');
+  return [...html.matchAll(re)].map((m) => m[1] || 'ENCABEZADO');
 };
 
 test('los bloques compartidos van en un solo orden en todas las páginas', async () => {

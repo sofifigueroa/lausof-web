@@ -24,7 +24,7 @@ lausof-web/
     ├── *.webp                    # fotos del sitio (calidad 80; el JPEG original queda al lado)
     ├── *-400w.webp, *.avif, …    # variantes generadas por scripts/imagenes.mjs (no se editan a mano)
     ├── *.jpg                     # originales, fuente de futuros recortes; el HTML no los usa
-    ├── og-portada.jpg / og-flota.jpg  # 1200×630 para las previews de WhatsApp/Facebook (og:image va SIEMPRE en JPEG: los scrapers no toman bien WebP)
+    ├── og-combi-dique.jpg / og-flota.jpg  # 1200×630 para las previews de WhatsApp/Facebook (og:image va SIEMPRE en JPEG: los scrapers no toman bien WebP)
     ├── favicon-96.png            # favicon liviano
     ├── apple-touch-icon.png      # 180×180 sobre fondo blanco
     ├── logo-horizontal.png       # original
@@ -547,8 +547,9 @@ y la parte 4x4 de `tests/alquiler-mineria.test.js`.
   alquiler habilitadas (sin nombrarlas) o hacer el viaje con chofer.
 - **Pendiente fuera del código:** el logo (`logo-horizontal*`) todavía dice
   "Pasajeros | Cargas | Remolques" en la imagen (el `alt` ya es "Transportes
-  Lausof"), y `og-portada.jpg` muestra camiones pintados con "Auxilio
-  mecánico". Hacen falta versiones nuevas de esas dos imágenes.
+  Lausof"). Hace falta una versión nueva. (`og-portada.jpg`, con los camiones
+  pintados con "Auxilio mecánico", se reemplazó por `og-combi-dique.jpg` en v10
+  y se borró del repo el 09/11/2026.)
 
 ## Mensajes pre-armados de WhatsApp y correo
 

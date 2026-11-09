@@ -19,7 +19,6 @@ const viaje = import('../scripts/viaje.mjs');
 const bloques = import('../scripts/bloques.mjs');
 
 const idiomaDe = (n) => (n.startsWith('en/') ? 'en' : n.startsWith('pt/') ? 'pt' : 'es');
-const sinVista = (html) => html.replace(/<!-- RONDA:VISTA -->[\s\S]*?<!-- \/RONDA:VISTA -->/g, '');
 const zona = (html, n) => (html.match(new RegExp(`<!-- GENERADO:${n} [\\s\\S]*?<!-- \\/GENERADO:${n} -->`)) || [''])[0];
 const deUrl = (href) => decodeURIComponent(href.replace(/&amp;/g, '&').split('text=')[1] || '');
 
@@ -36,7 +35,7 @@ test('ningún botón de contacto dice un rótulo genérico viejo: sólo los de A
   for (const [nombre, html] of Object.entries(paginas)) {
     const idioma = idiomaDe(nombre);
     const vigentes = new Set(Object.values(ACCIONES[idioma]).flatMap((a) => Object.values(a)));
-    for (const b of botonesDe(sinVista(html))) {
+    for (const b of botonesDe(html)) {
       if (GENERICOS[idioma][b.canal].includes(b.rotulo)) assert.ok(vigentes.has(b.rotulo), `${nombre}: «${b.rotulo}» no es de ACCIONES`);
     }
   }
@@ -46,7 +45,7 @@ test('en español ningún botón ni rótulo de la barra dice «mail»', async ()
   const { botonesDe } = await guion;
   for (const [nombre, html] of Object.entries(paginas)) {
     if (idiomaDe(nombre) !== 'es') continue;
-    for (const b of botonesDe(sinVista(html))) assert.ok(!/\bmail\b/i.test(b.rotulo), `${nombre}: «${b.rotulo}»`);
+    for (const b of botonesDe(html)) assert.ok(!/\bmail\b/i.test(b.rotulo), `${nombre}: «${b.rotulo}»`);
   }
 });
 
@@ -55,7 +54,7 @@ test('el cierre usa el mismo verbo para WhatsApp y correo, y «consultar» sólo
   const { PAGINAS } = await prefill;
   let cierres = 0;
   for (const [nombre, html] of Object.entries(paginas)) {
-    const z = zona(sinVista(html), 'CIERRE');
+    const z = zona(html, 'CIERRE');
     if (!z) continue;
     cierres += 1;
     const a = ACCIONES[idiomaDe(nombre)][accionDe(PAGINAS[nombre])];

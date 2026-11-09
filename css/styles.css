@@ -603,8 +603,10 @@ footer.site .legal-enlaces{flex-basis:100%;margin:0}
   body{padding-bottom:84px}
   /* el botón del chat va redondo, 12 px arriba de la barra y a 16 px del borde
      derecho (52 px; tienda-v2-0611:scripts/tienda.css): la fila legal, que es
-     lo último de la página, le deja ese lado libre */
-  footer.site .legal{padding-right:68px}
+     lo último de la página, le deja ese lado libre. Sólo si la página trae el
+     botón: la línea de Apacheta (<script src=".../asistente/<clave>/boton.js">,
+     zona TIENDA «scripts»); sin chat, la fila usa todo el ancho */
+  :root:has(script[src*="/asistente/"][src$="/boton.js"]) footer.site .legal{padding-right:68px}
 }
 
 /* ---- hover ----

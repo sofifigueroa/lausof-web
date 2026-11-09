@@ -43,7 +43,7 @@ export const LARGOS = {
 export const METADATOS = {
   "404.html": {
     "titulo": "Página no encontrada | Lausof",
-    "descripcion": "La página que buscás no existe o cambió de dirección. Desde acá llegás a turismo, transporte de personal, cargas y logística minera en Salta."
+    "descripcion": "Esta página no existe o cambió de dirección. Desde aquí se llega a turismo, transporte de personal, cargas y logística minera en Salta."
   },
   "agencias-y-hoteles.html": {
     "titulo": "Transporte para agencias y hoteles en Salta y Jujuy | Lausof",

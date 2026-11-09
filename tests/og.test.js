@@ -57,3 +57,12 @@ test('conOg reemplaza la imagen retirada, en la meta y en el JSON-LD, y no toca 
   const propia = '<meta property="og:image" content="https://www.lausof.com/assets/og-mineria.jpg">\n<meta property="og:image:alt" content="Minería">';
   assert.strictEqual(conOg(propia, 'x.html'), propia);
 });
+
+// Una imagen retirada no queda en assets/: si quedara, la exportación de
+// producción la subiría y se podría abrir por URL (auditoría de v10, N4).
+test('las imágenes retiradas no están en el repo, así que no se publican', async () => {
+  const { OG_RETIRADAS } = await guion;
+  for (const archivo of OG_RETIRADAS) {
+    assert.ok(!fs.existsSync(path.join(__dirname, '..', 'assets', archivo)), `assets/${archivo} sigue en el repo`);
+  }
+});

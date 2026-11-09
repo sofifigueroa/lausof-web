@@ -157,6 +157,14 @@ async function tecla(key, code, keyCode) {
 // En el orden en que los escribe cada página. La zona se reconoce por su
 // comentario GENERADO; su primer elemento es lo que se ve.
 const BLOQUES = ['MIGAS', 'CONFIANZA', 'VIAJE', 'CIERRE', 'CONTACTO', 'LEGAL'];
+// El chat de Apacheta: la página lo trae con una línea (zona TIENDA «scripts»)
+// y boton.js agrega al <body> un <button aria-haspopup="dialog"> fijo, sin clase
+// (Apacheta src/lib/asistente/pagina.ts, scriptDelBoton). La fila legal le
+// reserva 68 px sólo cuando esa línea está (css/styles.css, mismo selector).
+const CHAT_SCRIPT = 'script[src*="/asistente/"][src$="/boton.js"]';
+const CHAT_BOTON = 'body > button[aria-haspopup="dialog"]';
+const RESERVA_CHAT = 68;
+
 const MEDIR_BLOQUES = `(async () => {
   const visible = (el) => { if (!el) return false; const r = el.getBoundingClientRect(); const cs = getComputedStyle(el);
     return r.height > 0 && r.width > 0 && cs.visibility !== 'hidden' && cs.display !== 'none'; };
@@ -179,8 +187,11 @@ const MEDIR_BLOQUES = `(async () => {
   scrollTo(0, 0);
   const lista = piezas.map((p) => ({ nombre: p.nombre, ve: visible(p.el), arriba: p.el ? Math.round(p.el.getBoundingClientRect().top + scrollY) : null }));
   const barra = [...document.querySelectorAll('.wa-bar')].find(visible) || null;
+  const conChat = Boolean(document.querySelector(${JSON.stringify(CHAT_SCRIPT)}));
   let chat = null;
-  for (let i = 0; i < 20 && !chat; i++) { chat = document.querySelector('.vchat-boton:not([hidden])'); if (!chat) await new Promise((r) => setTimeout(r, 50)); }
+  for (let i = 0; conChat && i < 20 && !chat; i++) { chat = document.querySelector(${JSON.stringify(CHAT_BOTON)}); if (!chat) await new Promise((r) => setTimeout(r, 50)); }
+  const legal = document.querySelector('footer.site .legal');
+  const reserva = legal ? parseFloat(getComputedStyle(legal).paddingRight) : null;
   scrollTo(0, document.documentElement.scrollHeight); await new Promise((r) => setTimeout(r, 80));
   const rb = barra && barra.getBoundingClientRect();
   // Lo último que se lee: el renglón con texto que más abajo termina en el pie.
@@ -191,7 +202,7 @@ const MEDIR_BLOQUES = `(async () => {
   scrollTo(0, 0);
   return { lista, alto: innerHeight,
     barra: rb && { arriba: Math.round(rb.top), abajo: Math.round(rb.bottom), fija: getComputedStyle(barra).position === 'fixed' },
-    finLegal, chat: rc && { abajo: Math.round(rc.bottom) } };
+    finLegal, chat: rc && { abajo: Math.round(rc.bottom) }, conChat, reserva };
 })()`;
 
 async function bloquesA390(pagina) {
@@ -202,6 +213,8 @@ async function bloquesA390(pagina) {
     comprobar(orden[i].arriba >= orden[i - 1].arriba,
       `${pagina} a 390px: ${orden[i].nombre} (y=${orden[i].arriba}) queda arriba de ${orden[i - 1].nombre} (y=${orden[i - 1].arriba})`);
   }
+  if (r.reserva !== null) comprobar(r.conChat ? r.reserva === RESERVA_CHAT : r.reserva < RESERVA_CHAT,
+    `${pagina} a 390px: la fila legal reserva ${r.reserva} px a la derecha ${r.conChat ? `con el chat (van ${RESERVA_CHAT})` : 'sin el chat en la página'}`);
   if (pagina.endsWith('404.html')) return;
   comprobar(r.barra && r.barra.fija && Math.abs(r.barra.abajo - r.alto) <= 1,
     `${pagina} a 390px: la barra del teléfono no está fija abajo (${JSON.stringify(r.barra)}, alto ${r.alto})`);

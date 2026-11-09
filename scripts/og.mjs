@@ -19,7 +19,8 @@
    difuminada, aprobada el 06/11/2026), recortada a 1200×630 en JPEG: los
    scrapers de WhatsApp y Facebook manejan mal el WebP (tests/seo.test.js).
    Una foto que cambia, cambia de nombre (README, «Fotos responsive»): el
-   archivo nuevo no pisa og-portada.jpg.
+   archivo nuevo no pisó og-portada.jpg, que se borró del repo el 09/11/2026
+   para que la exportación no la siga publicando (tests/og.test.js).
 
    Las páginas con imagen propia (eventos, 4x4, minería, flota…) no se tocan.
    ============================================================================= */
@@ -39,7 +40,7 @@ export const OG_COMPARTIDA = {
     pt: 'Van da Lausof junto à represa, entre morros verdes',
   },
 };
-// Imágenes compartidas que ya no van en ninguna página.
+// Imágenes compartidas que ya no van en ninguna página (ni están en assets/).
 export const OG_RETIRADAS = ['og-portada.jpg'];
 
 const URL_ACTUAL = BASE + OG_COMPARTIDA.archivo;
