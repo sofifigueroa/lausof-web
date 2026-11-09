@@ -128,13 +128,9 @@ const vitrinaEn = (nombre, html) => {
 test('G4: con tienda.activa = false ninguna página tiene la vitrina ni el chat', async () => {
   const { PERFILES } = await entorno;
   if (PERFILES.produccion.tienda.activa) return; // go-live: G4 pasa a su gemela «la vitrina existe y lee producción» (3b §7)
-  // Rondas 2026-11-07 (sólo revisión, se revierte en el merge): cada página
-  // lleva la vista de revisión de la reserva y el chat (scripts/vista.mjs);
-  // se mira sin ella, y tests/vista.test.js mira la vista.
-  const { quitar } = await importar('scripts/vista.mjs');
-  assert.deepStrictEqual(Object.entries(paginas).flatMap(([n, h]) => vitrinaEn(n, quitar(h))), []);
+  assert.deepStrictEqual(Object.entries(paginas).flatMap(([n, h]) => vitrinaEn(n, h)), []);
   // Control en rojo: una zona de la vitrina llena en una copia de una página.
-  const lleno = quitar(paginas['traslado-salta-cafayate.html']).replace('</main>',
+  const lleno = paginas['traslado-salta-cafayate.html'].replace('</main>',
     '<!-- GENERADO:TIENDA -->\n<section id="precios" data-servicios="cafayate"></section>\n<!-- /GENERADO:TIENDA --></main>');
   assert.deepStrictEqual(vitrinaEn('x.html', lleno), ['x.html: data-servicios', 'x.html: zona GENERADO:TIENDA con contenido']);
 });
