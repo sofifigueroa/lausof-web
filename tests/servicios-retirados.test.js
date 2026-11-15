@@ -119,7 +119,7 @@ test('las portadas ya no ofrecen auxilio ni remolque en su catálogo de servicio
 // (7-auditoria-build.md, nota 8); ahora lleva el minibús de personal.
 const FOTOS_FUERA = [
   // La grúa rotulada «AUXILIO»: la unidad se vendió y el servicio ya no se ofrece.
-  [/\/assets\/(?:mineria-tractor|auxilio-\d)/, 'la grúa'],
+  [/\/assets\/(?:mineria-tractor|auxilio-\d|hero-flota-paisaje)/, 'la grúa'],
   [/\/assets\/galeria\/(?:auxiliomecanico-grua-remolque-lausof-salta|camion-lausof-cargas-remolque-grua|lausof-grua-remolque-autos|lausof-grua-remolque-tractor|lausof-remolque-grua-auxiliomecanico-salta)\./, 'la grúa (galería vieja)'],
   // El camión de carga general de lona azul sigue en la flota pero lleva
   // pintado «AUXILIO» / «Auxilio mecánico y cargas gral»: no va en ninguna
@@ -134,17 +134,27 @@ const FOTOS_FUERA = [
   // Pintan el 0387 537-7527, que ya no funciona: el único teléfono es el 526-9009.
   [/\/assets\/(?:cargas-2-furgon|flota-van)[.-]/, 'un teléfono que ya no funciona'],
 ];
-// Quedan, a propósito, hasta la revisión del logo (~04/01/2027): las cuatro fotos con la grúa vendida que siguen en uso,
-// nosotros-flota-mixta-lausof, cargas-5-flota, hero-flota-paisaje en el
-// JSON-LD de la portada y la de la galería vieja (Lautaro, 05/11/2026, ítem 4B;
-// la de la galería salió igual porque además muestra el camión del 5A y la
-// página pasó a ser la de flota, ítem 6). En la revisión de enero se suman acá.
+// Quedan, a propósito, hasta la revisión del logo (~04/01/2027): las fotos con la grúa vendida que siguen en uso,
+// nosotros-flota-mixta-lausof y cargas-5-flota (Lautaro, 05/11/2026, ítem 4B;
+// la de la galería vieja salió igual porque además muestra el camión del 5A y
+// la página pasó a ser la de flota, ítem 6). En la revisión de enero se suman acá.
+// hero-flota-paisaje (la grúa, el camión «AUXILIO» y la patente AA… legible)
+// salió del JSON-LD de la portada y del repo el 14/11/2026: no la mostraba
+// ninguna página, pero la exportación la subía y la ficha de la empresa la
+// ofrecía a los buscadores (rediseno-2026-11-14/1c-material-y-demanda.md).
 test('ninguna página muestra las fotos retiradas', () => {
   for (const [nombre, html] of Object.entries(paginas)) {
     for (const [patron, que] of FOTOS_FUERA) {
       assert.doesNotMatch(sinComentarios(html), patron, `${nombre}: muestra ${que}`);
     }
   }
+});
+
+// Una foto con patente legible que ya no usa nadie no queda en assets/: si
+// quedara, la exportación de producción la subiría y se abriría por URL.
+test('hero-flota-paisaje no vuelve al repo en ninguna variante', () => {
+  const variantes = fs.readdirSync(path.join(raiz, 'assets')).filter((a) => a.startsWith('hero-flota-paisaje'));
+  assert.deepStrictEqual(variantes, []);
 });
 
 // El cierre de las portadas habla de pasajeros (5d85b85) y no ofrece llevar

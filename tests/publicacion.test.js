@@ -130,6 +130,44 @@ test('lo que este árbol publicaría: sólo permitidos, las 77 páginas del site
   assert.ok(sinHoja.length > 0 && sinHoja.every((p) => p.includes(`${hoja} no está en lo exportado`)), sinHoja.slice(0, 3).join('\n'));
 });
 
+// Hasta el 14/11/2026 el JSON-LD de la portada nombraba hero-flota-paisaje.jpg
+// (la grúa vendida, el camión «AUXILIO» y una patente legible), que ninguna
+// página mostraba: la guardia miraba sólo href/src/content. Ahora cada URL del
+// sitio en el JSON-LD tiene que ser un archivo que la exportación sube.
+test('cada imagen y URL del sitio en el JSON-LD es un archivo que la exportación sube', async () => {
+  const { esPublico, problemasDeLosArchivos, referenciasDe, rutaInterna } = await publicacion;
+  const rastreados = execFileSync('git', ['ls-files'], { cwd: raiz, encoding: 'utf8' }).split('\n').filter(Boolean);
+  const publicos = rastreados.filter((rel) => esPublico(rel, { clave: CLAVE }));
+  const leer = (rel) => fs.readFileSync(path.join(raiz, rel), 'utf8');
+
+  // Las imágenes del JSON-LD (logo, image, cualquier anidación) están en lo exportado.
+  const imagenes = [];
+  const recorrer = (nodo, clave) => {
+    if (typeof nodo === 'string') { if (/^(?:logo|image|thumbnailUrl|contentUrl)$/.test(clave)) imagenes.push(nodo); return; }
+    if (Array.isArray(nodo)) { for (const n of nodo) recorrer(n, clave); return; }
+    if (nodo && typeof nodo === 'object') for (const [k, v] of Object.entries(nodo)) recorrer(v, k);
+  };
+  for (const rel of publicos.filter((r) => r.endsWith('.html'))) {
+    for (const b of leer(rel).matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      const antes = imagenes.length;
+      recorrer(JSON.parse(b[1]), '');
+      for (const url of imagenes.slice(antes)) {
+        const ruta = rutaInterna(url, rel);
+        assert.ok(ruta && publicos.includes(ruta), `${rel}: el JSON-LD nombra ${url}, que la exportación no sube`);
+        assert.ok(referenciasDe(b[0], rel).includes(url), `${rel}: la guardia de la exportación no ve ${url}`);
+      }
+    }
+  }
+  assert.ok(imagenes.includes('https://www.lausof.com/assets/og-combi-dique.jpg'), 'la ficha de la portada perdió su foto');
+
+  // Control en rojo: la ficha de la portada vuelve a nombrar la foto retirada.
+  const conRetirada = (rel) => (rel === 'index.html'
+    ? leer(rel).replace(/("image":\s*\[)/, '$1"https://www.lausof.com/assets/hero-flota-paisaje.jpg", ')
+    : leer(rel));
+  assert.deepStrictEqual(problemasDeLosArchivos(publicos, conRetirada, { clave: CLAVE }),
+    ['index.html: enlaza https://www.lausof.com/assets/hero-flota-paisaje.jpg y assets/hero-flota-paisaje.jpg no está en lo exportado']);
+});
+
 test('la lista de archivos en vivo (API de Netlify, en minúsculas) sólo tiene rutas permitidas', async () => {
   const { problemasDeLaListaEnVivo } = await publicacion;
   const limpia = ['/index.html', '/en/index.html', '/css/a.css', '/assets/f/x.webp', '/robots.txt', '/sitemap.xml', `/${CLAVE}.txt`, '/netlify.toml'];

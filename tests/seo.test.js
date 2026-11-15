@@ -143,7 +143,9 @@ test('la ficha lleva antigüedad, CUIT y la descripción de la empresa', () => {
 test('el logo y las fotos de la ficha son absolutos y existen en assets', () => {
   const datos = empresa();
   const fotos = [].concat(datos.logo, datos.image);
-  assert.ok(fotos.length >= 3, 'la ficha tiene menos de un logo y dos fotos');
+  // Desde el 14/11/2026 una sola foto: la segunda (hero-flota-paisaje.jpg)
+  // mostraba una patente legible y la grúa vendida, y salió del sitio.
+  assert.ok(datos.logo && [].concat(datos.image).length >= 1, 'la ficha no tiene logo y al menos una foto');
   for (const url of fotos) {
     assert.match(url, /^https:\/\/www\.lausof\.com\/assets\/\S+$/,
       `la imagen de la ficha no es absoluta al dominio canónico: ${url}`);

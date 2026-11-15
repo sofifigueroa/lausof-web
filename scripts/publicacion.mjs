@@ -144,6 +144,12 @@ export function referenciasDe(texto, rel) {
     // <meta content> sólo cuando es una URL (og:image, og:url, twitter:image).
     for (const m of texto.matchAll(/\bcontent="((?:https?:\/\/|\/)[^"]+)"/g)) refs.push(m[1]);
     for (const m of texto.matchAll(/\bsrcset="([^"]+)"/g)) for (const parte of m[1].split(',')) refs.push(parte.trim().split(/\s+/)[0]);
+    // Las URL del sitio en el JSON-LD (logo, image, url): un buscador las lee
+    // igual que un src. Hasta el 14/11/2026 la portada nombraba ahí una foto
+    // que ninguna página mostraba (hero-flota-paisaje.jpg, patente legible).
+    for (const b of texto.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      for (const m of b[1].matchAll(/"(https?:\/\/(?:www\.)?lausof\.com\/[^"]*)"/g)) refs.push(m[1]);
+    }
   }
   for (const m of texto.matchAll(/url\(\s*['"]?([^'")]+)['"]?\s*\)/g)) refs.push(m[1]);
   return refs;
