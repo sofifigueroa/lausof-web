@@ -89,12 +89,15 @@
    la Amarok #4084892066 venció cerca del 14/11 y todavía no se republicó: su
    tarjeta queda sin enlace a Mercado Libre, con su último precio, hasta que
    tenga id nuevo. Lectura pública de las fichas y vitrinas del 15/11.
+   Actualizado el 16 de noviembre de 2026: la Amarok se republicó gratis y
+   cambió de id y de URL (#4204181048), mismo precio US$ 26.000. Su tarjeta
+   vuelve a enlazar a Mercado Libre. Ningún otro cambio.
    ============================================================================= */
 
 export const UNIDADES = [
 
   {
-    id: '4084892066',
+    id: '4204181048',
     titulo: 'Volkswagen Amarok V6 Highline — 3.0 258 cv 4x4 AT',
     precio: 26000,
     moneda: 'USD',
@@ -108,12 +111,12 @@ export const UNIDADES = [
        ficha pública el 14/10.
        Republicada entre el 15/10 y el 17/10/2026 (id nuevo; el viejo
        #3956228786 quedó finalizado y su enlace está muerto). Mismo precio,
-       US$ 26.000, verificado en la ficha pública el 17/10. */
-    /* TODO 15/11/2026: relinkear al republicar. La publicación #4084892066
-       venció cerca del 14/11 y su enlace abre "Publicación finalizada" (último
-       precio US$ 26.000). La unidad sigue en venta. Cuando se republique,
-       poner acá el id nuevo y el enlace largo nuevo en el campo url. */
-    url: null,
+       US$ 26.000, verificado en la ficha pública el 17/10.
+       Venció cerca del 14/11 (#4084892066 finalizada; el 15/11 la tarjeta
+       quedó sin enlace) y se republicó gratis el 16/11/2026 (id nuevo; el
+       viejo #4084892066 quedó finalizado y su enlace está muerto). Mismo
+       precio, US$ 26.000, verificado en la ficha pública el 16/11. */
+    url: 'https://auto.mercadolibre.com.ar/MLA-4204181048-volkswagen-amarok-30-cd-tdi-258cv-v6-highline-4x4-at-_JM',
     estado: 'publicada',
     foto: 'amarok-v6-2023.webp',
     ficha: ['2023', '185.000 km', 'Diésel', 'Automática', 'Único dueño'],
