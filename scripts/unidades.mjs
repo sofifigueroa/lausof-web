@@ -82,6 +82,13 @@
    id y de URL (#4084892066), mismo precio US$ 26.000. Ningún otro cambio.
    Actualizado el 29 de octubre de 2026: se sacó el Mercedes-Benz Accelo 1016
    (#4031197440), vendido cerca del 24/10. Quedan cuatro unidades publicadas.
+   Actualizado el 15 de noviembre de 2026: las tres unidades de la cuenta de
+   Raúl se republicaron y cambiaron de id y de URL: Sprinter 2019 #2279223455
+   (mismo precio, $ 52.000.000), Sprinter 2016 #4162730646 (bajó a
+   $ 37.000.000) y ML350 #4162770210 (bajó a $ 21.500.000). La publicación de
+   la Amarok #4084892066 venció cerca del 14/11 y todavía no se republicó: su
+   tarjeta queda sin enlace a Mercado Libre, con su último precio, hasta que
+   tenga id nuevo. Lectura pública de las fichas y vitrinas del 15/11.
    ============================================================================= */
 
 export const UNIDADES = [
@@ -102,7 +109,11 @@ export const UNIDADES = [
        Republicada entre el 15/10 y el 17/10/2026 (id nuevo; el viejo
        #3956228786 quedó finalizado y su enlace está muerto). Mismo precio,
        US$ 26.000, verificado en la ficha pública el 17/10. */
-    url: 'https://auto.mercadolibre.com.ar/MLA-4084892066-volkswagen-amarok-30-cd-tdi-258cv-v6-highline-4x4-at-_JM',
+    /* TODO 15/11/2026: relinkear al republicar. La publicación #4084892066
+       venció cerca del 14/11 y su enlace abre "Publicación finalizada" (último
+       precio US$ 26.000). La unidad sigue en venta. Cuando se republique,
+       poner acá el id nuevo y el enlace largo nuevo en el campo url. */
+    url: null,
     estado: 'publicada',
     foto: 'amarok-v6-2023.webp',
     ficha: ['2023', '185.000 km', 'Diésel', 'Automática', 'Único dueño'],
@@ -110,7 +121,7 @@ export const UNIDADES = [
   },
 
   {
-    id: '4055363136',
+    id: '2279223455',
     titulo: 'Mercedes-Benz Sprinter 515 — combi 19+1',
     precio: 52000000,
     moneda: 'ARS',
@@ -123,8 +134,11 @@ export const UNIDADES = [
        muerto). Mismo precio, $ 54.000.000, verificado en la ficha pública el
        10/10 (activa, Oro Premium).
        Precio bajado a $ 52.000.000 sin republicar (mismo id), verificado en la
-       ficha pública el 14/10. */
-    url: 'https://auto.mercadolibre.com.ar/MLA-4055363136-mercedes-benz-sprinter-21-515-combi-4325-150cv-191-_JM',
+       ficha pública el 14/10.
+       Republicada antes del 15/11/2026 (id nuevo; el viejo #4055363136 quedó
+       finalizado y su enlace está muerto). Mismo precio, $ 52.000.000,
+       verificado en la ficha pública el 15/11. */
+    url: 'https://auto.mercadolibre.com.ar/MLA-2279223455-mercedes-benz-sprinter-21-515-combi-4325-150cv-191-_JM',
     estado: 'publicada',
     foto: 'sprinter-2019.webp',
     ficha: ['2019', '480.000 km', '19+1 pasajeros', 'Diésel', 'Único dueño'],
@@ -132,17 +146,20 @@ export const UNIDADES = [
   },
 
   {
-    id: '4031198338',
+    id: '4162730646',
     titulo: 'Mercedes-Benz Sprinter 515 — combi 19+1',
-    precio: 38000000,
+    precio: 37000000,
     moneda: 'ARS',
     /* Republicada entre el 04/10 y el 06/10/2026 (id nuevo; el viejo
        #2064023927 quedó finalizado y su enlace está muerto). Precio subido a
        $ 39.000.000, verificado en la ficha pública el 10/10. Antes estaba en
        $ 38.000.000.
        Precio bajado a $ 38.000.000 sin republicar (mismo id), verificado en la
-       ficha pública el 14/10. */
-    url: 'https://auto.mercadolibre.com.ar/MLA-4031198338-mercedes-benz-sprinter-21-515-combi-4325-150cv-191-_JM',
+       ficha pública el 14/10.
+       Republicada antes del 15/11/2026 (id nuevo; el viejo #4031198338 quedó
+       finalizado y su enlace está muerto). Precio bajado a $ 37.000.000,
+       verificado en la ficha pública el 15/11. */
+    url: 'https://auto.mercadolibre.com.ar/MLA-4162730646-mercedes-benz-sprinter-21-515-combi-4325-150cv-191-_JM',
     estado: 'publicada',
     foto: 'sprinter-2016.webp',
     ficha: ['2016', '684.000 km', '19+1 pasajeros', 'Diésel', 'Único dueño'],
@@ -150,16 +167,19 @@ export const UNIDADES = [
   },
 
   {
-    id: '2154314473',
+    id: '4162770210',
     titulo: 'Mercedes-Benz ML350 3.5 nafta — 4x4',
-    precio: 22000000,
+    precio: 21500000,
     moneda: 'ARS',
     /* Republicada entre el 04/10 y el 06/10/2026 (id nuevo; el viejo
        #2064024005 quedó finalizado y su enlace está muerto). El precio no
        cambió: $ 23.000.000, verificado en la ficha pública el 10/10.
        Precio bajado a $ 22.000.000 sin republicar (mismo id), verificado en la
-       ficha pública el 14/10. */
-    url: 'https://auto.mercadolibre.com.ar/MLA-2154314473-mercedes-benz-clase-ml-35-ml350-nafta-_JM',
+       ficha pública el 14/10.
+       Republicada antes del 15/11/2026 (id nuevo; el viejo #2154314473 quedó
+       finalizado y su enlace está muerto). Precio bajado a $ 21.500.000,
+       verificado en la ficha pública el 15/11. */
+    url: 'https://auto.mercadolibre.com.ar/MLA-4162770210-mercedes-benz-clase-ml-35-ml350-nafta-_JM',
     estado: 'publicada',
     foto: 'ml350-2007.webp',
     /* La ficha de Mercado Libre y la descripción no coincidían en los kilómetros.
