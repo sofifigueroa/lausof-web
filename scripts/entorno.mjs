@@ -70,9 +70,10 @@ export const PERFILES = {
       ...APACHETA.demo,
       empresa: 'lausof',
       // Clave pública del chat de la demo (asistente_sitios.clave_publica de la
-      // base demo de Apacheta), recibida el 18/11/2026. Pública por diseño: va
+      // base demo de Apacheta), recibida el 18/11/2026 y renovada el 24/11/2026
+      // tras el redeploy de la demo de Apacheta. Pública por diseño: va
       // en el <script> del chat de cada página de la demo (3b §1.2).
-      clave: 'ODoQtVyaWfP6V0UWTtf-jU4mMRAo0CHe',
+      clave: 'HLJSubejtGcL-e-RntiPONFh9N7KiRgv',
     },
     // Lo que falta de Apacheta (main lo pasa en una línea). Al llegar, se
     // completa el valor de arriba y se borra su renglón. Hosts confirmados en
