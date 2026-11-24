@@ -6,8 +6,10 @@
    404!); sólo `node scripts/demo.mjs armar` lee estos textos.
 
    - FRANJA (copy 4, 4-textos §7.1): la marca de la demo arriba de cada página.
-     El texto en español es el de Apacheta, palabra por palabra, para que el
-     que pasa de lausof.com al pago lea un solo mensaje (R12 a).
+     El texto es el borrador de Apacheta sin «Demostración», que repetía la
+     etiqueta DEMO de al lado (auditoría N7); main se lo pasa a Apacheta con
+     R12 a para que su franja diga lo mismo y el que pasa de lausof.com al
+     pago lea un solo mensaje.
    - PREFIJO_TITULO (§7.3): «[Demo] » antes del <title>, igual en los tres
      idiomas.
    - FAQ_PRECIO (§5, O11 del manifiesto): la respuesta de «¿Cuánto cuesta?»
@@ -16,27 +18,29 @@
    ============================================================================= */
 
 export const FRANJA = {
-  es: { etiqueta: 'DEMO', texto: 'Demostración · precios de prueba · no se cobra', aria: 'Sitio de demostración' },
-  en: { etiqueta: 'DEMO', texto: 'Demo · test prices · nothing is charged', aria: 'Demo site' },
-  pt: { etiqueta: 'DEMO', texto: 'Demonstração · preços de teste · nada é cobrado', aria: 'Site de demonstração' },
+  es: { etiqueta: 'DEMO', texto: 'precios de prueba · no se cobra', aria: 'Sitio de demostración' },
+  en: { etiqueta: 'DEMO', texto: 'test prices · nothing is charged', aria: 'Demo site' },
+  pt: { etiqueta: 'DEMO', texto: 'preços de teste · nada é cobrado', aria: 'Site de demonstração' },
 };
 
 export const PREFIJO_TITULO = '[Demo] ';
 
-// Respuestas de 4-textos §5 (tienda.faq.precio y tienda.faq.precio_evento).
+// Respuestas de 4-textos §5 (tienda.faq.precio y tienda.faq.precio_evento), revisión 4b:
+// el precio es el total del grupo según cuántas personas viajan (3c), sin el
+// momento del pago (auditoría B2: seña o total se elige en la compra).
 // «Precios y reserva» enlaza a #precios, la sección de la vitrina (#reservar ya es
 // «Cómo reservar» en 22 páginas de producción; 7-contrato-overlay.md, pedido 1).
 export const RESPUESTA_PRECIO = {
   es: {
-    precio: 'El precio de cada forma de viajar está en «<a href="#precios">Precios y reserva</a>», más arriba en esta página: es por vehículo, con chofer, y se paga al reservar. Para otro recorrido o un grupo más grande, el presupuesto se arma en el chat o por WhatsApp.',
-    evento: 'La combi por día tiene su precio en «<a href="#precios">Precios y reserva</a>», más arriba. El viaje completo del evento se presupuesta según el programa, desde esa misma sección, el chat o WhatsApp.',
+    precio: 'El precio de cada viaje está en «<a href="#precios">Precios y reserva</a>», más arriba en esta página: es el total para todo el grupo, con chofer, según cuántas personas viajan, y ahí mismo se reserva. Para otro recorrido o un grupo más grande, el presupuesto se arma en el chat o por WhatsApp.',
+    evento: 'El vehículo con chofer por día tiene su precio en «<a href="#precios">Precios y reserva</a>», más arriba, según cuántas personas viajan. El viaje completo del evento se presupuesta según el programa, desde esa misma sección, el chat o WhatsApp.',
   },
   en: {
-    precio: 'The price of each way to travel is in «<a href="#precios">Prices and booking</a>», further up this page: it is per vehicle, with driver, and paid when booking. For a different route or a larger group, the quote is put together in the chat or on WhatsApp.',
-    evento: 'The minibus by the day is priced in «<a href="#precios">Prices and booking</a>», further up. The full event trip is quoted to its plan, from that same section, the chat or WhatsApp.',
+    precio: 'The price of each trip is in «<a href="#precios">Prices and booking</a>», further up this page: it is the total for the whole group, with a driver, by how many people travel, and booking is right there. For a different route or a larger group, the quote is put together in the chat or on WhatsApp.',
+    evento: 'The vehicle with a driver by the day is priced in «<a href="#precios">Prices and booking</a>», further up, by how many people travel. The full event trip is quoted to its plan, from that same section, the chat or WhatsApp.',
   },
   pt: {
-    precio: 'O preço de cada forma de viajar está em «<a href="#precios">Preços e reserva</a>», mais acima nesta página: é por veículo, com motorista, e se paga ao reservar. Para outro roteiro ou um grupo maior, o orçamento é montado no chat ou pelo WhatsApp.',
+    precio: 'O preço de cada viagem está em «<a href="#precios">Preços e reserva</a>», mais acima nesta página: é o total para todo o grupo, com motorista, conforme quantas pessoas viajam, e ali mesmo se reserva. Para outro roteiro ou um grupo maior, o orçamento é montado no chat ou pelo WhatsApp.',
   },
 };
 

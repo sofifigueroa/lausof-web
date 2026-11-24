@@ -77,9 +77,11 @@ https://lausof.netlify.app/*   https://www.lausof.com/:splat  301!
 # `--dir .`). Devuelven la 404 propia con estado 404 de verdad. Llevan ! porque los archivos existen, y sin ! Netlify los sirve
 # igual (shadowing, docs de Netlify "Rewrites and proxies"). El
 # package-lock.json hoy no existe; la regla queda por si npm lo crea.
+# pnpm-lock.yaml: jsdom, la única dependencia (de desarrollo, tests/tienda-dom.test.js).
 /README.md                     /404.html                      404!
 /package.json                  /404.html                      404!
 /package-lock.json             /404.html                      404!
+/pnpm-lock.yaml                /404.html                      404!
 /tests/*                       /404.html                      404!
 /scripts/*                     /404.html                      404!
 # La demo de la vitrina (CLAUDE.md, 3b-diseno-entorno.md §1.3): su código vive

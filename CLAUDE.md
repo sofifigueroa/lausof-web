@@ -13,7 +13,7 @@ La regla global es que no hay staging, previews ni entornos de desarrollo: Lauta
 **Alcance, y nada más:**
 - Un solo sitio de Netlify, `lausof-demo-uvhgjf` (id `6050134e-9ca4-4c37-b621-ae3536fb8e29`), en el equipo Free, sin git y sin dominio propio. Sólo para la vitrina (catálogo, elegir, comprar) y el asistente.
 - Lleva el mismo sha que producción más el manifiesto cerrado de `scripts/demo.mjs` (O1–O13): marca de demo, noindex, sin sitemap, sin IndexNow, sin Search Console, sin GA4 de producción, hosts de la demo de Apacheta, el aviso de privacidad con la vitrina (O13). El manifiesto cambia valores, nunca comportamiento.
-- Datos de demo solamente: precios de prueba del catálogo de la demo de Apacheta, Mercado Pago en modo prueba del lado de Apacheta. Este repo no guarda ningún precio.
+- Datos de demo solamente: precios de prueba del catálogo de la demo de Apacheta, Mercado Pago en modo prueba del lado de Apacheta. Este repo no guarda ningún precio real: los fixtures de los tests (`tests/tienda-catalogo-demo.json` y los montos escritos en `tests/`) llevan montos sintéticos solamente (servicio k: k·100.000 + 1.000 / + 2.000), nunca un tarifario de la familia ni una copia escalada; ningún archivo servido lleva un monto.
 - Se entra con un enlace con llave (edge function `demo/llave.mjs`); sin llave, 401. La llave vive en el Llavero (`lausof-demo-llave` / `lausof-web`) y en la variable `DEMO_LLAVE` del sitio; nunca se imprime ni se escribe en un archivo.
 - Ningún otro preview, staging o deploy de rama. Una segunda demo o una demo permanente es otra excepción que sólo Lautaro da.
 

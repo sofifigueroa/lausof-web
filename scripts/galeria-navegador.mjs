@@ -157,17 +157,28 @@ async function tecla(key, code, keyCode) {
 // En el orden en que los escribe cada página. La zona se reconoce por su
 // comentario GENERADO; su primer elemento es lo que se ve.
 const BLOQUES = ['MIGAS', 'CONFIANZA', 'VIAJE', 'CIERRE', 'CONTACTO', 'LEGAL'];
-// El chat de Apacheta: la página lo trae con una línea (zona TIENDA «scripts»)
-// y boton.js agrega al <body> un <button aria-haspopup="dialog"> fijo, sin clase
+// El chat de Apacheta: la zona TIENDA «scripts» agrega su <script> con el
+// `load` (se mide después del `load`), y boton.js agrega al <body> un <button aria-haspopup="dialog"> fijo, sin clase
 // (Apacheta src/lib/asistente/pagina.ts, scriptDelBoton). La fila legal le
 // reserva 68 px sólo cuando esa línea está (css/styles.css, mismo selector).
 const CHAT_SCRIPT = 'script[src*="/asistente/"][src$="/boton.js"]';
 const CHAT_BOTON = 'body > button[aria-haspopup="dialog"]';
 const RESERVA_CHAT = 68;
+// La vitrina (zona TIENDA, sólo en la demo) pide el catálogo después del `load`
+// y, si no llega, saca su barra «WhatsApp · Reservar» y vuelve la de hoy
+// (js/tienda.js, restaurarBarra). Se mide lo que queda: se espera a que ningún
+// bloque siga con aria-busy (js/tienda.js corta el catálogo a los 8 s) y la
+// barra se busca de nuevo al medirla, nunca una referencia de antes.
+const ESPERA_VITRINA_MS = 10000;
 
 const MEDIR_BLOQUES = `(async () => {
   const visible = (el) => { if (!el) return false; const r = el.getBoundingClientRect(); const cs = getComputedStyle(el);
     return r.height > 0 && r.width > 0 && cs.visibility !== 'hidden' && cs.display !== 'none'; };
+  const conVitrina = Boolean(document.getElementById('tienda-config'));
+  const ocupada = () => Boolean(document.querySelector('[data-tienda-bloque][aria-busy]'));
+  for (let i = 0; conVitrina && ocupada() && i < ${ESPERA_VITRINA_MS / 50}; i++) await new Promise((r) => setTimeout(r, 50));
+  const vitrinaQuieta = !conVitrina || !ocupada();
+  const barraVisible = () => [...document.querySelectorAll('.wa-bar')].find(visible) || null;
   const primero = (c) => { for (let n = c.nextSibling; n; n = n.nextSibling) {
     if (n.nodeType === 8 && /^\\s*\\/GENERADO:/.test(n.data)) return null; if (n.nodeType === 1) return n; } return null; };
   const piezas = [];
@@ -186,13 +197,13 @@ const MEDIR_BLOQUES = `(async () => {
   piezas.sort((a, b) => (!a.el || !b.el ? 0 : a.el.compareDocumentPosition(b.el) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
   scrollTo(0, 0);
   const lista = piezas.map((p) => ({ nombre: p.nombre, ve: visible(p.el), arriba: p.el ? Math.round(p.el.getBoundingClientRect().top + scrollY) : null }));
-  const barra = [...document.querySelectorAll('.wa-bar')].find(visible) || null;
   const conChat = Boolean(document.querySelector(${JSON.stringify(CHAT_SCRIPT)}));
   let chat = null;
   for (let i = 0; conChat && i < 20 && !chat; i++) { chat = document.querySelector(${JSON.stringify(CHAT_BOTON)}); if (!chat) await new Promise((r) => setTimeout(r, 50)); }
   const legal = document.querySelector('footer.site .legal');
   const reserva = legal ? parseFloat(getComputedStyle(legal).paddingRight) : null;
   scrollTo(0, document.documentElement.scrollHeight); await new Promise((r) => setTimeout(r, 80));
+  const barra = barraVisible();
   const rb = barra && barra.getBoundingClientRect();
   // Lo último que se lee: el renglón con texto que más abajo termina en el pie.
   const textos = [...document.querySelectorAll('footer.site *')].filter((el) => visible(el)
@@ -202,11 +213,12 @@ const MEDIR_BLOQUES = `(async () => {
   scrollTo(0, 0);
   return { lista, alto: innerHeight,
     barra: rb && { arriba: Math.round(rb.top), abajo: Math.round(rb.bottom), fija: getComputedStyle(barra).position === 'fixed' },
-    finLegal, chat: rc && { abajo: Math.round(rc.bottom) }, conChat, reserva };
+    finLegal, chat: rc && { abajo: Math.round(rc.bottom) }, conChat, reserva, conVitrina, vitrinaQuieta };
 })()`;
 
 async function bloquesA390(pagina) {
   const r = await evaluar(MEDIR_BLOQUES);
+  if (r.conVitrina) comprobar(r.vitrinaQuieta, `${pagina} a 390px: la vitrina sigue cargando después de ${ESPERA_VITRINA_MS / 1000} s (aria-busy)`);
   for (const b of r.lista) comprobar(b.ve, `${pagina} a 390px: el bloque ${b.nombre} no se ve`);
   const orden = r.lista.filter((b) => b.ve);
   for (let i = 1; i < orden.length; i++) {

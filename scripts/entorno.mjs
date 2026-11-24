@@ -69,14 +69,16 @@ export const PERFILES = {
       activa: true,
       ...APACHETA.demo,
       empresa: 'lausof',
-      clave: null,
+      // Clave pública del chat de la demo (asistente_sitios.clave_publica de la
+      // base demo de Apacheta), recibida el 18/11/2026. Pública por diseño: va
+      // en el <script> del chat de cada página de la demo (3b §1.2).
+      clave: 'ODoQtVyaWfP6V0UWTtf-jU4mMRAo0CHe',
     },
     // Lo que falta de Apacheta (main lo pasa en una línea). Al llegar, se
-    // completa el valor de arriba y se borra su renglón.
-    pendientes: [
-      'hosts de la demo de Apacheta sin confirmar (APP y SITIO son los del plan de Apacheta §3; main confirma que están en línea)',
-      'clave pública del chat de la demo sin recibir (tienda.clave = null: el chat no se incrusta)',
-    ],
+    // completa el valor de arriba y se borra su renglón. Hosts confirmados en
+    // línea y clave recibida el 18/11/2026 (catálogo 200 con "demo": true y
+    // CORS para el host de la demo).
+    pendientes: [],
   },
 };
 

@@ -47,12 +47,13 @@ const copiarArbol = (cambiar) => {
 };
 
 // armar sin git: copia el origen a <salida>/sitio y aplica el manifiesto.
-const armarDesde = async (origen, { perfil, manifiesto, despues } = {}) => {
+// `enlaces`: los del catálogo, que armar lee de la red (acá, sin red: null salvo que el test los dé).
+const armarDesde = async (origen, { perfil, manifiesto, despues, enlaces = null } = {}) => {
   const d = await demo;
   const salida = path.join(temporal, `salida-${contador += 1}`);
   fs.cpSync(origen, path.join(salida, 'sitio'), { recursive: true });
   const p = perfil || (await entorno).PERFILES.demo;
-  await d.aplicarManifiesto({ salida, perfil: p, sha: SHA, ahora: new Date('2026-11-06T12:00:00Z'), manifiesto });
+  await d.aplicarManifiesto({ salida, perfil: p, sha: SHA, ahora: new Date('2026-11-06T12:00:00Z'), manifiesto, enlaces });
   if (despues) despues(path.join(salida, 'sitio'));
   return { salida, problemas: d.verificarSalida({ salida, origen, perfil: p, manifiesto }) };
 };
@@ -74,6 +75,36 @@ test('G6–G9: el armado real pasa todas las guardias de la salida', async () =>
   const version = JSON.parse(fs.readFileSync(path.join(salida, 'sitio', 'version-demo.json'), 'utf8'));
   assert.strictEqual(version.sha, SHA);
   assert.deepStrictEqual(version.manifiesto.map((r) => r.id), ['O4', 'O12', 'O6', 'O1', 'O2', 'O3', 'O11', 'O13', 'O5', 'O7', 'O10']);
+});
+
+test('O4: el «Botón de arrepentimiento» del pie va a enlaces.cancelar del catálogo, que lee armar; sin él, sin enlace y un pendiente', async () => {
+  const { salida, origen } = await armadoBase();
+  const leerSalida = (s, rel) => fs.readFileSync(path.join(s, 'sitio', rel), 'utf8');
+  assert.doesNotMatch(leerSalida(salida, 'index.html'), /pie-arrepentimiento/, 'sin enlaces del catálogo: ningún enlace armado por Web');
+  const version = JSON.parse(leerSalida(salida, 'version-demo.json'));
+  assert.ok(version.pendientes.some((x) => /^O4: sin los enlaces del catálogo/.test(x)), version.pendientes.join(' | '));
+  const sitio = (await entorno).PERFILES.demo.tienda.sitio;
+  const con = await armarDesde(origen, { enlaces: { cancelar: `${sitio}/lausof/cancelar`, condiciones: null } });
+  assert.deepStrictEqual(con.problemas, []);
+  for (const rel of ['index.html', 'en/index.html', 'traslado-salta-cafayate.html']) {
+    assert.match(leerSalida(con.salida, rel), new RegExp(`<a class="pie-arrepentimiento" href="${sitio.replace(/[.]/g, '\\.')}/lausof/cancelar">Botón de arrepentimiento`), rel);
+  }
+  assert.ok(!JSON.parse(leerSalida(con.salida, 'version-demo.json')).pendientes.some((x) => x.startsWith('O4:')));
+});
+
+test('enlacesDelCatalogo: los `enlaces` del catálogo de la demo (?idioma=es); null si no responde', async () => {
+  const { enlacesDelCatalogo } = await demo;
+  const { PERFILES } = await entorno;
+  const pedidos = [];
+  const responde = (status, cuerpo) => async (url) => { pedidos.push(url); return { status, json: async () => cuerpo }; };
+  const enlaces = { cancelar: null, condiciones: `${PERFILES.demo.tienda.sitio}/lausof/condiciones` };
+  assert.deepStrictEqual(await enlacesDelCatalogo(PERFILES.demo, responde(200, { ok: true, servicios: [], enlaces })), enlaces);
+  assert.deepStrictEqual(pedidos, [`${PERFILES.demo.tienda.sitio}/api/publico/${PERFILES.demo.tienda.empresa}/catalogo?idioma=es`]);
+  assert.deepStrictEqual(await enlacesDelCatalogo(PERFILES.demo, responde(200, { ok: true, servicios: [] })), {}, 'sin `enlaces`: ninguno');
+  assert.strictEqual(await enlacesDelCatalogo(PERFILES.demo, responde(307, null)), null, 'una redirección no es el catálogo');
+  assert.strictEqual(await enlacesDelCatalogo(PERFILES.demo, responde(200, { ok: false })), null);
+  assert.strictEqual(await enlacesDelCatalogo(PERFILES.demo, async () => { throw new Error('sin red'); }), null);
+  assert.strictEqual(await enlacesDelCatalogo(PERFILES.produccion, responde(200, { ok: true, enlaces })), null, 'con la vitrina apagada no se pide nada');
 });
 
 test('O13 y G14: el aviso de privacidad de la demo nombra lo que la demo tiene; producción, no', async () => {
@@ -167,7 +198,10 @@ test('O11: la respuesta del precio cambia sólo donde la vitrina existe', async 
   // (#reservar sigue siendo «Cómo reservar» en producción).
   const paginasConVitrina = ['traslado-salta-cafayate.html', 'traslado-serenata-a-cafayate.html', 'en/salta-to-cafayate-transfer.html', 'pt/traslado-salta-cafayate.html'];
   const bloque = (atributos) => `<!-- GENERADO:TIENDA bloque -->\n<section class="block tienda" id="precios" ${atributos}></section>\n<!-- /GENERADO:TIENDA -->\n</main>`;
+  // Sin el generador en la copia: O4 queda pendiente y la vitrina simulada no se
+  // vuelve a llenar con la de scripts/tienda.mjs (que lleva data-tienda-con-precio).
   const conVitrina = (atributos, extra = '') => copiarArbol((dir) => {
+    fs.rmSync(path.join(dir, 'scripts', 'tienda.mjs'));
     for (const rel of paginasConVitrina) editar(dir, rel, (h) => h.replace('</main>', `${extra}${bloque(atributos)}`));
   });
   const { salida: s2, problemas } = await armarDesde(conVitrina('data-servicios="x" data-tienda-con-precio'));

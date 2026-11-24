@@ -130,7 +130,10 @@ export const MANIFIESTO = [
       const { generarTienda } = await import(pathToFileURL(path.join(c.sitio, 'scripts/tienda.mjs')).href);
       if (typeof generarTienda !== 'function') throw new Error('O4: scripts/tienda.mjs no exporta generarTienda');
       const antes = new Map(archivosDe(c.sitio).map((rel) => [rel, huellaArchivo(c.sitio, rel)]));
-      await generarTienda({ raiz: c.sitio, perfil: c.perfil });
+      // `enlaces` del catálogo (el «Botón de arrepentimiento» del pie): los lee armar, el generador no usa la red.
+      if (c.enlaces === null) c.pendiente('O4: sin los enlaces del catálogo de Apacheta: el pie sale sin «Botón de arrepentimiento»');
+      else if (!c.enlaces.cancelar) c.pendiente('O4: el catálogo de Apacheta no manda enlaces.cancelar: el pie sale sin «Botón de arrepentimiento»');
+      await generarTienda({ raiz: c.sitio, perfil: c.perfil, enlaces: c.enlaces });
       for (const rel of archivosDe(c.sitio)) {
         if (!antes.has(rel)) c.agregado(rel);
         else if (antes.get(rel) !== huellaArchivo(c.sitio, rel)) c.cambiado(rel);
@@ -274,7 +277,7 @@ const huellaArchivo = (raiz, rel) => crypto.createHash('sha1').update(fs.readFil
 // mecanismo (demo/textos.mjs, demo/marca.css, demo/llave.mjs). Publicar exige
 // HEAD = sha, así que son las del mismo sha; el contenido (páginas, vitrina,
 // demo/sitio/**) sale siempre del árbol del sha.
-export async function aplicarManifiesto({ salida, perfil, sha, ahora = new Date(), manifiesto = MANIFIESTO, fuentes = RAIZ }) {
+export async function aplicarManifiesto({ salida, perfil, sha, ahora = new Date(), manifiesto = MANIFIESTO, fuentes = RAIZ, enlaces = null }) {
   const sitio = path.join(salida, 'sitio');
   const clave = claveIndexNow(sitio);
   const textos = await import(pathToFileURL(path.join(fuentes, 'demo', 'textos.mjs')).href);
@@ -283,7 +286,7 @@ export async function aplicarManifiesto({ salida, perfil, sha, ahora = new Date(
   for (const entrada of manifiesto) {
     const r = { id: entrada.id, cambiados: [], agregados: [], quitados: [] };
     const c = {
-      sitio, perfil, textos, fuentes,
+      sitio, perfil, textos, fuentes, enlaces,
       cambiado: (rel) => { if (!r.cambiados.includes(rel) && !r.agregados.includes(rel)) r.cambiados.push(rel); },
       agregado: (rel) => { if (!r.agregados.includes(rel)) r.agregados.push(rel); },
       quitado: (rel) => r.quitados.push(rel),
@@ -495,7 +498,25 @@ export async function armar({ sha, salida, permitirAnterior = false, perfil = pe
   const rama = shaEnRama(sha, { permitirAnterior });
   if (!rama.ok) throw new Error(rama.motivo);
   await extraer(sha, path.join(salida, 'sitio'));
-  return aplicarManifiesto({ salida, perfil, sha });
+  return aplicarManifiesto({ salida, perfil, sha, enlaces: await enlacesDelCatalogo(perfil) });
+}
+
+/**
+ * `enlaces` del catálogo de la demo de Apacheta, para O4 (el «Botón de
+ * arrepentimiento» va a `enlaces.cancelar` y sólo si lo trae; 18/11: null
+ * mientras su página no exista). null si el catálogo no responde: el pie sale
+ * sin el enlace y version-demo.json lo anota como pendiente.
+ */
+export async function enlacesDelCatalogo(perfil, pedir = fetch) {
+  const t = perfil && perfil.tienda;
+  if (!t || !t.activa || !t.sitio) return null;
+  try {
+    const r = await pedir(`${t.sitio}/api/publico/${encodeURIComponent(t.empresa)}/catalogo?idioma=es`, { redirect: 'manual', signal: AbortSignal.timeout(10000) });
+    const json = r.status === 200 ? await r.json() : null;
+    return json && json.ok === true ? (json.enlaces && typeof json.enlaces === 'object' ? json.enlaces : {}) : null;
+  } catch {
+    return null;
+  }
 }
 
 // El árbol de referencia (producción) para G8: la misma exportación permitida

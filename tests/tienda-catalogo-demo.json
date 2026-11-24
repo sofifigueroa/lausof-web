@@ -1,0 +1,2166 @@
+{
+ "ok": true,
+ "demo": true,
+ "empresa": {
+  "slug": "lausof",
+  "nombre": "Lausof",
+  "color": "#1d2947",
+  "logo": null
+ },
+ "tarifario": {
+  "version": "Tarifario de prueba · montos sintéticos",
+  "vigente_desde": "2026-11-04",
+  "huella": "prueba"
+ },
+ "servicios": [
+  {
+   "id": "00000000-0000-4000-8000-000000000000",
+   "nombre": "Cafayate (Quebrada de las Conchas)",
+   "descripcion": null,
+   "precio": {
+    "desde": "101000.00",
+    "neto_sin_impuestos_nacionales": "91402.71",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "101000.00",
+      "total_texto": "ARS 101.000",
+      "neto_sin_impuestos_nacionales": "91402.71",
+      "neto_texto": "ARS 91.403",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 101.000",
+       "2": "ARS 50.500",
+       "3": "ARS 33.667",
+       "4": "ARS 25.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 101,
+        "texto": "USD 101"
+       },
+       "EUR": {
+        "importe": 81,
+        "texto": "EUR 81"
+       },
+       "BRL": {
+        "importe": 505,
+        "texto": "BRL 505"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "102000.00",
+      "total_texto": "ARS 102.000",
+      "neto_sin_impuestos_nacionales": "92307.69",
+      "neto_texto": "ARS 92.308",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 20.400",
+       "6": "ARS 17.000",
+       "7": "ARS 14.571",
+       "8": "ARS 12.750",
+       "9": "ARS 11.333",
+       "10": "ARS 10.200",
+       "11": "ARS 9.273",
+       "12": "ARS 8.500",
+       "13": "ARS 7.846",
+       "14": "ARS 7.286",
+       "15": "ARS 6.800",
+       "16": "ARS 6.375",
+       "17": "ARS 6.000",
+       "18": "ARS 5.667",
+       "19": "ARS 5.368"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 102,
+        "texto": "USD 102"
+       },
+       "EUR": {
+        "importe": 82,
+        "texto": "EUR 82"
+       },
+       "BRL": {
+        "importe": 510,
+        "texto": "BRL 510"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "cafayate"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000001",
+   "nombre": "Salta – Cafayate (un tramo)",
+   "descripcion": null,
+   "precio": {
+    "desde": "201000.00",
+    "neto_sin_impuestos_nacionales": "181900.45",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "201000.00",
+      "total_texto": "ARS 201.000",
+      "neto_sin_impuestos_nacionales": "181900.45",
+      "neto_texto": "ARS 181.900",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 201.000",
+       "2": "ARS 100.500",
+       "3": "ARS 67.000",
+       "4": "ARS 50.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 201,
+        "texto": "USD 201"
+       },
+       "EUR": {
+        "importe": 161,
+        "texto": "EUR 161"
+       },
+       "BRL": {
+        "importe": 1005,
+        "texto": "BRL 1.005"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "202000.00",
+      "total_texto": "ARS 202.000",
+      "neto_sin_impuestos_nacionales": "182805.43",
+      "neto_texto": "ARS 182.805",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 40.400",
+       "6": "ARS 33.667",
+       "7": "ARS 28.857",
+       "8": "ARS 25.250",
+       "9": "ARS 22.444",
+       "10": "ARS 20.200",
+       "11": "ARS 18.364",
+       "12": "ARS 16.833",
+       "13": "ARS 15.538",
+       "14": "ARS 14.429",
+       "15": "ARS 13.467",
+       "16": "ARS 12.625",
+       "17": "ARS 11.882",
+       "18": "ARS 11.222",
+       "19": "ARS 10.632"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 202,
+        "texto": "USD 202"
+       },
+       "EUR": {
+        "importe": 162,
+        "texto": "EUR 162"
+       },
+       "BRL": {
+        "importe": 1010,
+        "texto": "BRL 1.010"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "tr_cafayate"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000002",
+   "nombre": "Vuelta a los Valles en 1 día (Cachi – Ruta 40 – Cafayate)",
+   "descripcion": null,
+   "precio": {
+    "desde": "301000.00",
+    "neto_sin_impuestos_nacionales": "272398.19",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "301000.00",
+      "total_texto": "ARS 301.000",
+      "neto_sin_impuestos_nacionales": "272398.19",
+      "neto_texto": "ARS 272.398",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 301.000",
+       "2": "ARS 150.500",
+       "3": "ARS 100.333",
+       "4": "ARS 75.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 301,
+        "texto": "USD 301"
+       },
+       "EUR": {
+        "importe": 241,
+        "texto": "EUR 241"
+       },
+       "BRL": {
+        "importe": 1505,
+        "texto": "BRL 1.505"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "302000.00",
+      "total_texto": "ARS 302.000",
+      "neto_sin_impuestos_nacionales": "273303.17",
+      "neto_texto": "ARS 273.303",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 60.400",
+       "6": "ARS 50.333",
+       "7": "ARS 43.143",
+       "8": "ARS 37.750",
+       "9": "ARS 33.556",
+       "10": "ARS 30.200",
+       "11": "ARS 27.455",
+       "12": "ARS 25.167",
+       "13": "ARS 23.231",
+       "14": "ARS 21.571",
+       "15": "ARS 20.133",
+       "16": "ARS 18.875",
+       "17": "ARS 17.765",
+       "18": "ARS 16.778",
+       "19": "ARS 15.895"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 302,
+        "texto": "USD 302"
+       },
+       "EUR": {
+        "importe": 242,
+        "texto": "EUR 242"
+       },
+       "BRL": {
+        "importe": 1510,
+        "texto": "BRL 1.510"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "valles_1d"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000003",
+   "nombre": "Vuelta a los Valles Calchaquíes (noche en Cafayate o Cachi)",
+   "descripcion": null,
+   "precio": {
+    "desde": "401000.00",
+    "neto_sin_impuestos_nacionales": "362895.93",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "401000.00",
+      "total_texto": "ARS 401.000",
+      "neto_sin_impuestos_nacionales": "362895.93",
+      "neto_texto": "ARS 362.896",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 401.000",
+       "2": "ARS 200.500",
+       "3": "ARS 133.667",
+       "4": "ARS 100.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 401,
+        "texto": "USD 401"
+       },
+       "EUR": {
+        "importe": 321,
+        "texto": "EUR 321"
+       },
+       "BRL": {
+        "importe": 2005,
+        "texto": "BRL 2.005"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "402000.00",
+      "total_texto": "ARS 402.000",
+      "neto_sin_impuestos_nacionales": "363800.90",
+      "neto_texto": "ARS 363.801",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 80.400",
+       "6": "ARS 67.000",
+       "7": "ARS 57.429",
+       "8": "ARS 50.250",
+       "9": "ARS 44.667",
+       "10": "ARS 40.200",
+       "11": "ARS 36.545",
+       "12": "ARS 33.500",
+       "13": "ARS 30.923",
+       "14": "ARS 28.714",
+       "15": "ARS 26.800",
+       "16": "ARS 25.125",
+       "17": "ARS 23.647",
+       "18": "ARS 22.333",
+       "19": "ARS 21.158"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 402,
+        "texto": "USD 402"
+       },
+       "EUR": {
+        "importe": 322,
+        "texto": "EUR 322"
+       },
+       "BRL": {
+        "importe": 2010,
+        "texto": "BRL 2.010"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "valles_2d"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000004",
+   "nombre": "Valles en 3 días (Cachi – Molinos – Angastaco – Cafayate)",
+   "descripcion": null,
+   "precio": {
+    "desde": "501000.00",
+    "neto_sin_impuestos_nacionales": "453393.67",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "501000.00",
+      "total_texto": "ARS 501.000",
+      "neto_sin_impuestos_nacionales": "453393.67",
+      "neto_texto": "ARS 453.394",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 501.000",
+       "2": "ARS 250.500",
+       "3": "ARS 167.000",
+       "4": "ARS 125.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 501,
+        "texto": "USD 501"
+       },
+       "EUR": {
+        "importe": 401,
+        "texto": "EUR 401"
+       },
+       "BRL": {
+        "importe": 2505,
+        "texto": "BRL 2.505"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "502000.00",
+      "total_texto": "ARS 502.000",
+      "neto_sin_impuestos_nacionales": "454298.64",
+      "neto_texto": "ARS 454.299",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 100.400",
+       "6": "ARS 83.667",
+       "7": "ARS 71.714",
+       "8": "ARS 62.750",
+       "9": "ARS 55.778",
+       "10": "ARS 50.200",
+       "11": "ARS 45.636",
+       "12": "ARS 41.833",
+       "13": "ARS 38.615",
+       "14": "ARS 35.857",
+       "15": "ARS 33.467",
+       "16": "ARS 31.375",
+       "17": "ARS 29.529",
+       "18": "ARS 27.889",
+       "19": "ARS 26.421"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 502,
+        "texto": "USD 502"
+       },
+       "EUR": {
+        "importe": 402,
+        "texto": "EUR 402"
+       },
+       "BRL": {
+        "importe": 2510,
+        "texto": "BRL 2.510"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "valles_3d"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000005",
+   "nombre": "Cachi (Cuesta del Obispo y Los Cardones)",
+   "descripcion": null,
+   "precio": {
+    "desde": "601000.00",
+    "neto_sin_impuestos_nacionales": "543891.40",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "601000.00",
+      "total_texto": "ARS 601.000",
+      "neto_sin_impuestos_nacionales": "543891.40",
+      "neto_texto": "ARS 543.891",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 601.000",
+       "2": "ARS 300.500",
+       "3": "ARS 200.333",
+       "4": "ARS 150.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 601,
+        "texto": "USD 601"
+       },
+       "EUR": {
+        "importe": 481,
+        "texto": "EUR 481"
+       },
+       "BRL": {
+        "importe": 3005,
+        "texto": "BRL 3.005"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "602000.00",
+      "total_texto": "ARS 602.000",
+      "neto_sin_impuestos_nacionales": "544796.38",
+      "neto_texto": "ARS 544.796",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 120.400",
+       "6": "ARS 100.333",
+       "7": "ARS 86.000",
+       "8": "ARS 75.250",
+       "9": "ARS 66.889",
+       "10": "ARS 60.200",
+       "11": "ARS 54.727",
+       "12": "ARS 50.167",
+       "13": "ARS 46.308",
+       "14": "ARS 43.000",
+       "15": "ARS 40.133",
+       "16": "ARS 37.625",
+       "17": "ARS 35.412",
+       "18": "ARS 33.444",
+       "19": "ARS 31.684"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 602,
+        "texto": "USD 602"
+       },
+       "EUR": {
+        "importe": 482,
+        "texto": "EUR 482"
+       },
+       "BRL": {
+        "importe": 3010,
+        "texto": "BRL 3.010"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "cachi"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000006",
+   "nombre": "Salta – Cachi (un tramo)",
+   "descripcion": null,
+   "precio": {
+    "desde": "701000.00",
+    "neto_sin_impuestos_nacionales": "634389.14",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "701000.00",
+      "total_texto": "ARS 701.000",
+      "neto_sin_impuestos_nacionales": "634389.14",
+      "neto_texto": "ARS 634.389",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 701.000",
+       "2": "ARS 350.500",
+       "3": "ARS 233.667",
+       "4": "ARS 175.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 701,
+        "texto": "USD 701"
+       },
+       "EUR": {
+        "importe": 561,
+        "texto": "EUR 561"
+       },
+       "BRL": {
+        "importe": 3505,
+        "texto": "BRL 3.505"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "702000.00",
+      "total_texto": "ARS 702.000",
+      "neto_sin_impuestos_nacionales": "635294.12",
+      "neto_texto": "ARS 635.294",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 140.400",
+       "6": "ARS 117.000",
+       "7": "ARS 100.286",
+       "8": "ARS 87.750",
+       "9": "ARS 78.000",
+       "10": "ARS 70.200",
+       "11": "ARS 63.818",
+       "12": "ARS 58.500",
+       "13": "ARS 54.000",
+       "14": "ARS 50.143",
+       "15": "ARS 46.800",
+       "16": "ARS 43.875",
+       "17": "ARS 41.294",
+       "18": "ARS 39.000",
+       "19": "ARS 36.947"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 702,
+        "texto": "USD 702"
+       },
+       "EUR": {
+        "importe": 562,
+        "texto": "EUR 562"
+       },
+       "BRL": {
+        "importe": 3510,
+        "texto": "BRL 3.510"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "tr_cachi"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000007",
+   "nombre": "Quebrada de Humahuaca (Purmamarca, Tilcara, Humahuaca)",
+   "descripcion": null,
+   "precio": {
+    "desde": "801000.00",
+    "neto_sin_impuestos_nacionales": "724886.88",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "801000.00",
+      "total_texto": "ARS 801.000",
+      "neto_sin_impuestos_nacionales": "724886.88",
+      "neto_texto": "ARS 724.887",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 801.000",
+       "2": "ARS 400.500",
+       "3": "ARS 267.000",
+       "4": "ARS 200.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 801,
+        "texto": "USD 801"
+       },
+       "EUR": {
+        "importe": 641,
+        "texto": "EUR 641"
+       },
+       "BRL": {
+        "importe": 4005,
+        "texto": "BRL 4.005"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "802000.00",
+      "total_texto": "ARS 802.000",
+      "neto_sin_impuestos_nacionales": "725791.86",
+      "neto_texto": "ARS 725.792",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 160.400",
+       "6": "ARS 133.667",
+       "7": "ARS 114.571",
+       "8": "ARS 100.250",
+       "9": "ARS 89.111",
+       "10": "ARS 80.200",
+       "11": "ARS 72.909",
+       "12": "ARS 66.833",
+       "13": "ARS 61.692",
+       "14": "ARS 57.286",
+       "15": "ARS 53.467",
+       "16": "ARS 50.125",
+       "17": "ARS 47.176",
+       "18": "ARS 44.556",
+       "19": "ARS 42.211"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 802,
+        "texto": "USD 802"
+       },
+       "EUR": {
+        "importe": 642,
+        "texto": "EUR 642"
+       },
+       "BRL": {
+        "importe": 4010,
+        "texto": "BRL 4.010"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "quebrada"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000008",
+   "nombre": "Quebrada de Humahuaca + Serranías del Hornocal",
+   "descripcion": null,
+   "precio": {
+    "desde": "901000.00",
+    "neto_sin_impuestos_nacionales": "815384.62",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "901000.00",
+      "total_texto": "ARS 901.000",
+      "neto_sin_impuestos_nacionales": "815384.62",
+      "neto_texto": "ARS 815.385",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 901.000",
+       "2": "ARS 450.500",
+       "3": "ARS 300.333",
+       "4": "ARS 225.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 901,
+        "texto": "USD 901"
+       },
+       "EUR": {
+        "importe": 721,
+        "texto": "EUR 721"
+       },
+       "BRL": {
+        "importe": 4505,
+        "texto": "BRL 4.505"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "902000.00",
+      "total_texto": "ARS 902.000",
+      "neto_sin_impuestos_nacionales": "816289.59",
+      "neto_texto": "ARS 816.290",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 180.400",
+       "6": "ARS 150.333",
+       "7": "ARS 128.857",
+       "8": "ARS 112.750",
+       "9": "ARS 100.222",
+       "10": "ARS 90.200",
+       "11": "ARS 82.000",
+       "12": "ARS 75.167",
+       "13": "ARS 69.385",
+       "14": "ARS 64.429",
+       "15": "ARS 60.133",
+       "16": "ARS 56.375",
+       "17": "ARS 53.059",
+       "18": "ARS 50.111",
+       "19": "ARS 47.474"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 902,
+        "texto": "USD 902"
+       },
+       "EUR": {
+        "importe": 722,
+        "texto": "EUR 722"
+       },
+       "BRL": {
+        "importe": 4510,
+        "texto": "BRL 4.510"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "hornocal"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000009",
+   "nombre": "Salta – Purmamarca (un tramo)",
+   "descripcion": null,
+   "precio": {
+    "desde": "1001000.00",
+    "neto_sin_impuestos_nacionales": "905882.35",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "1001000.00",
+      "total_texto": "ARS 1.001.000",
+      "neto_sin_impuestos_nacionales": "905882.35",
+      "neto_texto": "ARS 905.882",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 1.001.000",
+       "2": "ARS 500.500",
+       "3": "ARS 333.667",
+       "4": "ARS 250.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1001,
+        "texto": "USD 1.001"
+       },
+       "EUR": {
+        "importe": 801,
+        "texto": "EUR 801"
+       },
+       "BRL": {
+        "importe": 5005,
+        "texto": "BRL 5.005"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "1002000.00",
+      "total_texto": "ARS 1.002.000",
+      "neto_sin_impuestos_nacionales": "906787.33",
+      "neto_texto": "ARS 906.787",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 200.400",
+       "6": "ARS 167.000",
+       "7": "ARS 143.143",
+       "8": "ARS 125.250",
+       "9": "ARS 111.333",
+       "10": "ARS 100.200",
+       "11": "ARS 91.091",
+       "12": "ARS 83.500",
+       "13": "ARS 77.077",
+       "14": "ARS 71.571",
+       "15": "ARS 66.800",
+       "16": "ARS 62.625",
+       "17": "ARS 58.941",
+       "18": "ARS 55.667",
+       "19": "ARS 52.737"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1002,
+        "texto": "USD 1.002"
+       },
+       "EUR": {
+        "importe": 802,
+        "texto": "EUR 802"
+       },
+       "BRL": {
+        "importe": 5010,
+        "texto": "BRL 5.010"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "tr_purmamarca"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000010",
+   "nombre": "Salta – Tilcara (un tramo)",
+   "descripcion": null,
+   "precio": {
+    "desde": "1101000.00",
+    "neto_sin_impuestos_nacionales": "996380.09",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "1101000.00",
+      "total_texto": "ARS 1.101.000",
+      "neto_sin_impuestos_nacionales": "996380.09",
+      "neto_texto": "ARS 996.380",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 1.101.000",
+       "2": "ARS 550.500",
+       "3": "ARS 367.000",
+       "4": "ARS 275.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1101,
+        "texto": "USD 1.101"
+       },
+       "EUR": {
+        "importe": 881,
+        "texto": "EUR 881"
+       },
+       "BRL": {
+        "importe": 5505,
+        "texto": "BRL 5.505"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "1102000.00",
+      "total_texto": "ARS 1.102.000",
+      "neto_sin_impuestos_nacionales": "997285.07",
+      "neto_texto": "ARS 997.285",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 220.400",
+       "6": "ARS 183.667",
+       "7": "ARS 157.429",
+       "8": "ARS 137.750",
+       "9": "ARS 122.444",
+       "10": "ARS 110.200",
+       "11": "ARS 100.182",
+       "12": "ARS 91.833",
+       "13": "ARS 84.769",
+       "14": "ARS 78.714",
+       "15": "ARS 73.467",
+       "16": "ARS 68.875",
+       "17": "ARS 64.824",
+       "18": "ARS 61.222",
+       "19": "ARS 58.000"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1102,
+        "texto": "USD 1.102"
+       },
+       "EUR": {
+        "importe": 882,
+        "texto": "EUR 882"
+       },
+       "BRL": {
+        "importe": 5510,
+        "texto": "BRL 5.510"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "tr_tilcara"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000011",
+   "nombre": "Salta – Humahuaca (un tramo)",
+   "descripcion": null,
+   "precio": {
+    "desde": "1201000.00",
+    "neto_sin_impuestos_nacionales": "1086877.83",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "1201000.00",
+      "total_texto": "ARS 1.201.000",
+      "neto_sin_impuestos_nacionales": "1086877.83",
+      "neto_texto": "ARS 1.086.878",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 1.201.000",
+       "2": "ARS 600.500",
+       "3": "ARS 400.333",
+       "4": "ARS 300.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1201,
+        "texto": "USD 1.201"
+       },
+       "EUR": {
+        "importe": 961,
+        "texto": "EUR 961"
+       },
+       "BRL": {
+        "importe": 6005,
+        "texto": "BRL 6.005"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "1202000.00",
+      "total_texto": "ARS 1.202.000",
+      "neto_sin_impuestos_nacionales": "1087782.81",
+      "neto_texto": "ARS 1.087.783",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 240.400",
+       "6": "ARS 200.333",
+       "7": "ARS 171.714",
+       "8": "ARS 150.250",
+       "9": "ARS 133.556",
+       "10": "ARS 120.200",
+       "11": "ARS 109.273",
+       "12": "ARS 100.167",
+       "13": "ARS 92.462",
+       "14": "ARS 85.857",
+       "15": "ARS 80.133",
+       "16": "ARS 75.125",
+       "17": "ARS 70.706",
+       "18": "ARS 66.778",
+       "19": "ARS 63.263"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1202,
+        "texto": "USD 1.202"
+       },
+       "EUR": {
+        "importe": 962,
+        "texto": "EUR 962"
+       },
+       "BRL": {
+        "importe": 6010,
+        "texto": "BRL 6.010"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "tr_humahuaca"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000012",
+   "nombre": "Salinas Grandes por Purmamarca y Cuesta de Lipán",
+   "descripcion": null,
+   "precio": {
+    "desde": "1301000.00",
+    "neto_sin_impuestos_nacionales": "1177375.57",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "1301000.00",
+      "total_texto": "ARS 1.301.000",
+      "neto_sin_impuestos_nacionales": "1177375.57",
+      "neto_texto": "ARS 1.177.376",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 1.301.000",
+       "2": "ARS 650.500",
+       "3": "ARS 433.667",
+       "4": "ARS 325.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1301,
+        "texto": "USD 1.301"
+       },
+       "EUR": {
+        "importe": 1041,
+        "texto": "EUR 1.041"
+       },
+       "BRL": {
+        "importe": 6505,
+        "texto": "BRL 6.505"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "1302000.00",
+      "total_texto": "ARS 1.302.000",
+      "neto_sin_impuestos_nacionales": "1178280.54",
+      "neto_texto": "ARS 1.178.281",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 260.400",
+       "6": "ARS 217.000",
+       "7": "ARS 186.000",
+       "8": "ARS 162.750",
+       "9": "ARS 144.667",
+       "10": "ARS 130.200",
+       "11": "ARS 118.364",
+       "12": "ARS 108.500",
+       "13": "ARS 100.154",
+       "14": "ARS 93.000",
+       "15": "ARS 86.800",
+       "16": "ARS 81.375",
+       "17": "ARS 76.588",
+       "18": "ARS 72.333",
+       "19": "ARS 68.526"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1302,
+        "texto": "USD 1.302"
+       },
+       "EUR": {
+        "importe": 1042,
+        "texto": "EUR 1.042"
+       },
+       "BRL": {
+        "importe": 6510,
+        "texto": "BRL 6.510"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "salinas_purma"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000013",
+   "nombre": "Vuelta a las Nubes (S. A. de los Cobres – Salinas Grandes – Purmamarca)",
+   "descripcion": null,
+   "precio": {
+    "desde": "1401000.00",
+    "neto_sin_impuestos_nacionales": "1267873.30",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "1401000.00",
+      "total_texto": "ARS 1.401.000",
+      "neto_sin_impuestos_nacionales": "1267873.30",
+      "neto_texto": "ARS 1.267.873",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 1.401.000",
+       "2": "ARS 700.500",
+       "3": "ARS 467.000",
+       "4": "ARS 350.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1401,
+        "texto": "USD 1.401"
+       },
+       "EUR": {
+        "importe": 1121,
+        "texto": "EUR 1.121"
+       },
+       "BRL": {
+        "importe": 7005,
+        "texto": "BRL 7.005"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "1402000.00",
+      "total_texto": "ARS 1.402.000",
+      "neto_sin_impuestos_nacionales": "1268778.28",
+      "neto_texto": "ARS 1.268.778",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 280.400",
+       "6": "ARS 233.667",
+       "7": "ARS 200.286",
+       "8": "ARS 175.250",
+       "9": "ARS 155.778",
+       "10": "ARS 140.200",
+       "11": "ARS 127.455",
+       "12": "ARS 116.833",
+       "13": "ARS 107.846",
+       "14": "ARS 100.143",
+       "15": "ARS 93.467",
+       "16": "ARS 87.625",
+       "17": "ARS 82.471",
+       "18": "ARS 77.889",
+       "19": "ARS 73.789"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1402,
+        "texto": "USD 1.402"
+       },
+       "EUR": {
+        "importe": 1122,
+        "texto": "EUR 1.122"
+       },
+       "BRL": {
+        "importe": 7010,
+        "texto": "BRL 7.010"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "salinas_sac"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000014",
+   "nombre": "San Antonio de los Cobres y Viaducto La Polvorilla",
+   "descripcion": null,
+   "precio": {
+    "desde": "1501000.00",
+    "neto_sin_impuestos_nacionales": "1358371.04",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "1501000.00",
+      "total_texto": "ARS 1.501.000",
+      "neto_sin_impuestos_nacionales": "1358371.04",
+      "neto_texto": "ARS 1.358.371",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 1.501.000",
+       "2": "ARS 750.500",
+       "3": "ARS 500.333",
+       "4": "ARS 375.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1501,
+        "texto": "USD 1.501"
+       },
+       "EUR": {
+        "importe": 1201,
+        "texto": "EUR 1.201"
+       },
+       "BRL": {
+        "importe": 7505,
+        "texto": "BRL 7.505"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "1502000.00",
+      "total_texto": "ARS 1.502.000",
+      "neto_sin_impuestos_nacionales": "1359276.02",
+      "neto_texto": "ARS 1.359.276",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 300.400",
+       "6": "ARS 250.333",
+       "7": "ARS 214.571",
+       "8": "ARS 187.750",
+       "9": "ARS 166.889",
+       "10": "ARS 150.200",
+       "11": "ARS 136.545",
+       "12": "ARS 125.167",
+       "13": "ARS 115.538",
+       "14": "ARS 107.286",
+       "15": "ARS 100.133",
+       "16": "ARS 93.875",
+       "17": "ARS 88.353",
+       "18": "ARS 83.444",
+       "19": "ARS 79.053"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1502,
+        "texto": "USD 1.502"
+       },
+       "EUR": {
+        "importe": 1202,
+        "texto": "EUR 1.202"
+       },
+       "BRL": {
+        "importe": 7510,
+        "texto": "BRL 7.510"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "sac_viaducto"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000015",
+   "nombre": "Iruya en el día",
+   "descripcion": null,
+   "precio": {
+    "desde": "1601000.00",
+    "neto_sin_impuestos_nacionales": "1448868.78",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "1601000.00",
+      "total_texto": "ARS 1.601.000",
+      "neto_sin_impuestos_nacionales": "1448868.78",
+      "neto_texto": "ARS 1.448.869",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 1.601.000",
+       "2": "ARS 800.500",
+       "3": "ARS 533.667",
+       "4": "ARS 400.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1601,
+        "texto": "USD 1.601"
+       },
+       "EUR": {
+        "importe": 1281,
+        "texto": "EUR 1.281"
+       },
+       "BRL": {
+        "importe": 8005,
+        "texto": "BRL 8.005"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "1602000.00",
+      "total_texto": "ARS 1.602.000",
+      "neto_sin_impuestos_nacionales": "1449773.76",
+      "neto_texto": "ARS 1.449.774",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 320.400",
+       "6": "ARS 267.000",
+       "7": "ARS 228.857",
+       "8": "ARS 200.250",
+       "9": "ARS 178.000",
+       "10": "ARS 160.200",
+       "11": "ARS 145.636",
+       "12": "ARS 133.500",
+       "13": "ARS 123.231",
+       "14": "ARS 114.429",
+       "15": "ARS 106.800",
+       "16": "ARS 100.125",
+       "17": "ARS 94.235",
+       "18": "ARS 89.000",
+       "19": "ARS 84.316"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1602,
+        "texto": "USD 1.602"
+       },
+       "EUR": {
+        "importe": 1282,
+        "texto": "EUR 1.282"
+       },
+       "BRL": {
+        "importe": 8010,
+        "texto": "BRL 8.010"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "iruya_1d"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000016",
+   "nombre": "Tren a las Nubes «Solo Tren» + traslado privado (pasaje aparte)",
+   "descripcion": null,
+   "precio": {
+    "desde": "1701000.00",
+    "neto_sin_impuestos_nacionales": "1539366.52",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "1701000.00",
+      "total_texto": "ARS 1.701.000",
+      "neto_sin_impuestos_nacionales": "1539366.52",
+      "neto_texto": "ARS 1.539.367",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 1.701.000",
+       "2": "ARS 850.500",
+       "3": "ARS 567.000",
+       "4": "ARS 425.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1701,
+        "texto": "USD 1.701"
+       },
+       "EUR": {
+        "importe": 1361,
+        "texto": "EUR 1.361"
+       },
+       "BRL": {
+        "importe": 8505,
+        "texto": "BRL 8.505"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "1702000.00",
+      "total_texto": "ARS 1.702.000",
+      "neto_sin_impuestos_nacionales": "1540271.49",
+      "neto_texto": "ARS 1.540.271",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 340.400",
+       "6": "ARS 283.667",
+       "7": "ARS 243.143",
+       "8": "ARS 212.750",
+       "9": "ARS 189.111",
+       "10": "ARS 170.200",
+       "11": "ARS 154.727",
+       "12": "ARS 141.833",
+       "13": "ARS 130.923",
+       "14": "ARS 121.571",
+       "15": "ARS 113.467",
+       "16": "ARS 106.375",
+       "17": "ARS 100.118",
+       "18": "ARS 94.556",
+       "19": "ARS 89.579"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1702,
+        "texto": "USD 1.702"
+       },
+       "EUR": {
+        "importe": 1362,
+        "texto": "EUR 1.362"
+       },
+       "BRL": {
+        "importe": 8510,
+        "texto": "BRL 8.510"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "tren_combo"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000017",
+   "nombre": "Salta – San Salvador de Jujuy (un tramo)",
+   "descripcion": null,
+   "precio": {
+    "desde": "1801000.00",
+    "neto_sin_impuestos_nacionales": "1629864.25",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "1801000.00",
+      "total_texto": "ARS 1.801.000",
+      "neto_sin_impuestos_nacionales": "1629864.25",
+      "neto_texto": "ARS 1.629.864",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 1.801.000",
+       "2": "ARS 900.500",
+       "3": "ARS 600.333",
+       "4": "ARS 450.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1801,
+        "texto": "USD 1.801"
+       },
+       "EUR": {
+        "importe": 1441,
+        "texto": "EUR 1.441"
+       },
+       "BRL": {
+        "importe": 9005,
+        "texto": "BRL 9.005"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "1802000.00",
+      "total_texto": "ARS 1.802.000",
+      "neto_sin_impuestos_nacionales": "1630769.23",
+      "neto_texto": "ARS 1.630.769",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 360.400",
+       "6": "ARS 300.333",
+       "7": "ARS 257.429",
+       "8": "ARS 225.250",
+       "9": "ARS 200.222",
+       "10": "ARS 180.200",
+       "11": "ARS 163.818",
+       "12": "ARS 150.167",
+       "13": "ARS 138.615",
+       "14": "ARS 128.714",
+       "15": "ARS 120.133",
+       "16": "ARS 112.625",
+       "17": "ARS 106.000",
+       "18": "ARS 100.111",
+       "19": "ARS 94.842"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1802,
+        "texto": "USD 1.802"
+       },
+       "EUR": {
+        "importe": 1442,
+        "texto": "EUR 1.442"
+       },
+       "BRL": {
+        "importe": 9010,
+        "texto": "BRL 9.010"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "salta_jujuy"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000018",
+   "nombre": "Aeropuerto – centro de Salta (un tramo)",
+   "descripcion": null,
+   "precio": {
+    "desde": "1901000.00",
+    "neto_sin_impuestos_nacionales": "1720361.99",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "1901000.00",
+      "total_texto": "ARS 1.901.000",
+      "neto_sin_impuestos_nacionales": "1720361.99",
+      "neto_texto": "ARS 1.720.362",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 1.901.000",
+       "2": "ARS 950.500",
+       "3": "ARS 633.667",
+       "4": "ARS 475.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1901,
+        "texto": "USD 1.901"
+       },
+       "EUR": {
+        "importe": 1521,
+        "texto": "EUR 1.521"
+       },
+       "BRL": {
+        "importe": 9505,
+        "texto": "BRL 9.505"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "1902000.00",
+      "total_texto": "ARS 1.902.000",
+      "neto_sin_impuestos_nacionales": "1721266.97",
+      "neto_texto": "ARS 1.721.267",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 380.400",
+       "6": "ARS 317.000",
+       "7": "ARS 271.714",
+       "8": "ARS 237.750",
+       "9": "ARS 211.333",
+       "10": "ARS 190.200",
+       "11": "ARS 172.909",
+       "12": "ARS 158.500",
+       "13": "ARS 146.308",
+       "14": "ARS 135.857",
+       "15": "ARS 126.800",
+       "16": "ARS 118.875",
+       "17": "ARS 111.882",
+       "18": "ARS 105.667",
+       "19": "ARS 100.105"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 1902,
+        "texto": "USD 1.902"
+       },
+       "EUR": {
+        "importe": 1522,
+        "texto": "EUR 1.522"
+       },
+       "BRL": {
+        "importe": 9510,
+        "texto": "BRL 9.510"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "aeropuerto"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000019",
+   "nombre": "Salta – San Pedro de Atacama, solo ida",
+   "descripcion": null,
+   "precio": {
+    "desde": "2001000.00",
+    "neto_sin_impuestos_nacionales": "1810859.73",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "2001000.00",
+      "total_texto": "ARS 2.001.000",
+      "neto_sin_impuestos_nacionales": "1810859.73",
+      "neto_texto": "ARS 1.810.860",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 2.001.000",
+       "2": "ARS 1.000.500",
+       "3": "ARS 667.000",
+       "4": "ARS 500.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 2001,
+        "texto": "USD 2.001"
+       },
+       "EUR": {
+        "importe": 1601,
+        "texto": "EUR 1.601"
+       },
+       "BRL": {
+        "importe": 10005,
+        "texto": "BRL 10.005"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "2002000.00",
+      "total_texto": "ARS 2.002.000",
+      "neto_sin_impuestos_nacionales": "1811764.71",
+      "neto_texto": "ARS 1.811.765",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 400.400",
+       "6": "ARS 333.667",
+       "7": "ARS 286.000",
+       "8": "ARS 250.250",
+       "9": "ARS 222.444",
+       "10": "ARS 200.200",
+       "11": "ARS 182.000",
+       "12": "ARS 166.833",
+       "13": "ARS 154.000",
+       "14": "ARS 143.000",
+       "15": "ARS 133.467",
+       "16": "ARS 125.125",
+       "17": "ARS 117.765",
+       "18": "ARS 111.222",
+       "19": "ARS 105.368"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 2002,
+        "texto": "USD 2.002"
+       },
+       "EUR": {
+        "importe": 1602,
+        "texto": "EUR 1.602"
+       },
+       "BRL": {
+        "importe": 10010,
+        "texto": "BRL 10.010"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "spa_ida"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000020",
+   "nombre": "Salta – San Pedro de Atacama, ida y vuelta con un día libre",
+   "descripcion": null,
+   "precio": {
+    "desde": "2101000.00",
+    "neto_sin_impuestos_nacionales": "1901357.47",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "2101000.00",
+      "total_texto": "ARS 2.101.000",
+      "neto_sin_impuestos_nacionales": "1901357.47",
+      "neto_texto": "ARS 1.901.357",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 2.101.000",
+       "2": "ARS 1.050.500",
+       "3": "ARS 700.333",
+       "4": "ARS 525.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 2101,
+        "texto": "USD 2.101"
+       },
+       "EUR": {
+        "importe": 1681,
+        "texto": "EUR 1.681"
+       },
+       "BRL": {
+        "importe": 10505,
+        "texto": "BRL 10.505"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "2102000.00",
+      "total_texto": "ARS 2.102.000",
+      "neto_sin_impuestos_nacionales": "1902262.44",
+      "neto_texto": "ARS 1.902.262",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 420.400",
+       "6": "ARS 350.333",
+       "7": "ARS 300.286",
+       "8": "ARS 262.750",
+       "9": "ARS 233.556",
+       "10": "ARS 210.200",
+       "11": "ARS 191.091",
+       "12": "ARS 175.167",
+       "13": "ARS 161.692",
+       "14": "ARS 150.143",
+       "15": "ARS 140.133",
+       "16": "ARS 131.375",
+       "17": "ARS 123.647",
+       "18": "ARS 116.778",
+       "19": "ARS 110.632"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 2102,
+        "texto": "USD 2.102"
+       },
+       "EUR": {
+        "importe": 1682,
+        "texto": "EUR 1.682"
+       },
+       "BRL": {
+        "importe": 10510,
+        "texto": "BRL 10.510"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "spa_ida_vuelta"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000021",
+   "nombre": "Salta – Uyuni (pueblo), solo ida; el salar con operador boliviano, aparte",
+   "descripcion": null,
+   "precio": {
+    "desde": "2201000.00",
+    "neto_sin_impuestos_nacionales": "1991855.20",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "2201000.00",
+      "total_texto": "ARS 2.201.000",
+      "neto_sin_impuestos_nacionales": "1991855.20",
+      "neto_texto": "ARS 1.991.855",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 2.201.000",
+       "2": "ARS 1.100.500",
+       "3": "ARS 733.667",
+       "4": "ARS 550.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 2201,
+        "texto": "USD 2.201"
+       },
+       "EUR": {
+        "importe": 1761,
+        "texto": "EUR 1.761"
+       },
+       "BRL": {
+        "importe": 11005,
+        "texto": "BRL 11.005"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "2202000.00",
+      "total_texto": "ARS 2.202.000",
+      "neto_sin_impuestos_nacionales": "1992760.18",
+      "neto_texto": "ARS 1.992.760",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 440.400",
+       "6": "ARS 367.000",
+       "7": "ARS 314.571",
+       "8": "ARS 275.250",
+       "9": "ARS 244.667",
+       "10": "ARS 220.200",
+       "11": "ARS 200.182",
+       "12": "ARS 183.500",
+       "13": "ARS 169.385",
+       "14": "ARS 157.286",
+       "15": "ARS 146.800",
+       "16": "ARS 137.625",
+       "17": "ARS 129.529",
+       "18": "ARS 122.333",
+       "19": "ARS 115.895"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 2202,
+        "texto": "USD 2.202"
+       },
+       "EUR": {
+        "importe": 1762,
+        "texto": "EUR 1.762"
+       },
+       "BRL": {
+        "importe": 11010,
+        "texto": "BRL 11.010"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "uyuni_ida"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000022",
+   "nombre": "Vehículo con chofer a disposición (día, hasta 250 km)",
+   "descripcion": null,
+   "precio": {
+    "desde": "2301000.00",
+    "neto_sin_impuestos_nacionales": "2082352.94",
+    "moneda": "ARS",
+    "unidad": "dia",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "2301000.00",
+      "total_texto": "ARS 2.301.000",
+      "neto_sin_impuestos_nacionales": "2082352.94",
+      "neto_texto": "ARS 2.082.353",
+      "vehiculo": "4x4",
+      "km_incluidos": 250,
+      "aprox": {
+       "USD": {
+        "importe": 2301,
+        "texto": "USD 2.301"
+       },
+       "EUR": {
+        "importe": 1841,
+        "texto": "EUR 1.841"
+       },
+       "BRL": {
+        "importe": 11505,
+        "texto": "BRL 11.505"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "2302000.00",
+      "total_texto": "ARS 2.302.000",
+      "neto_sin_impuestos_nacionales": "2083257.92",
+      "neto_texto": "ARS 2.083.258",
+      "vehiculo": "combi",
+      "km_incluidos": 250,
+      "aprox": {
+       "USD": {
+        "importe": 2302,
+        "texto": "USD 2.302"
+       },
+       "EUR": {
+        "importe": 1842,
+        "texto": "EUR 1.842"
+       },
+       "BRL": {
+        "importe": 11510,
+        "texto": "BRL 11.510"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "charter_dia"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000023",
+   "nombre": "Vehículo con chofer a disposición (4 h, hasta 40 km)",
+   "descripcion": null,
+   "precio": {
+    "desde": "2401000.00",
+    "neto_sin_impuestos_nacionales": "2172850.68",
+    "moneda": "ARS",
+    "unidad": "viaje",
+    "tramos": [
+     {
+      "pasajeros_min": 1,
+      "pasajeros_max": 4,
+      "total": "2401000.00",
+      "total_texto": "ARS 2.401.000",
+      "neto_sin_impuestos_nacionales": "2172850.68",
+      "neto_texto": "ARS 2.172.851",
+      "vehiculo": "4x4",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "1": "ARS 2.401.000",
+       "2": "ARS 1.200.500",
+       "3": "ARS 800.333",
+       "4": "ARS 600.250"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 2401,
+        "texto": "USD 2.401"
+       },
+       "EUR": {
+        "importe": 1921,
+        "texto": "EUR 1.921"
+       },
+       "BRL": {
+        "importe": 12005,
+        "texto": "BRL 12.005"
+       }
+      }
+     },
+     {
+      "pasajeros_min": 5,
+      "pasajeros_max": 19,
+      "total": "2402000.00",
+      "total_texto": "ARS 2.402.000",
+      "neto_sin_impuestos_nacionales": "2173755.66",
+      "neto_texto": "ARS 2.173.756",
+      "vehiculo": "combi",
+      "km_incluidos": null,
+      "por_persona_texto": {
+       "5": "ARS 480.400",
+       "6": "ARS 400.333",
+       "7": "ARS 343.143",
+       "8": "ARS 300.250",
+       "9": "ARS 266.889",
+       "10": "ARS 240.200",
+       "11": "ARS 218.364",
+       "12": "ARS 200.167",
+       "13": "ARS 184.769",
+       "14": "ARS 171.571",
+       "15": "ARS 160.133",
+       "16": "ARS 150.125",
+       "17": "ARS 141.294",
+       "18": "ARS 133.444",
+       "19": "ARS 126.421"
+      },
+      "aprox": {
+       "USD": {
+        "importe": 2402,
+        "texto": "USD 2.402"
+       },
+       "EUR": {
+        "importe": 1922,
+        "texto": "EUR 1.922"
+       },
+       "BRL": {
+        "importe": 12010,
+        "texto": "BRL 12.010"
+       }
+      }
+     }
+    ],
+    "pasajeros_max_reservable": 19,
+    "pasajeros_defecto": 2
+   },
+   "reservar": null,
+   "clave": "charter_medio"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000024",
+   "nombre": "San Pedro de Atacama → Salta",
+   "descripcion": null,
+   "precio": null,
+   "reservar": null,
+   "clave": "spa_vuelta"
+  },
+  {
+   "id": "00000000-0000-4000-8000-000000000025",
+   "nombre": "Uyuni → Salta",
+   "descripcion": null,
+   "precio": null,
+   "reservar": null,
+   "clave": "uyuni_vuelta"
+  },
+  {
+   "id": "00000000-0000-4000-9000-000000000000",
+   "clave": "ev_serenata",
+   "nombre": "El viaje de la Serenata, a medida",
+   "descripcion": "Ida, espera y vuelta, según el programa",
+   "precio": null,
+   "reservar": null
+  },
+  {
+   "id": "00000000-0000-4000-9000-000000000001",
+   "clave": "ev_casamiento",
+   "nombre": "El viaje del casamiento, a medida",
+   "descripcion": "Ida, espera y vuelta, según el programa",
+   "precio": null,
+   "reservar": null
+  }
+ ],
+ "textos": {
+  "neto": "Precio sin impuestos nacionales"
+ },
+ "enlaces": {
+  "cancelar": null,
+  "condiciones": "https://apacheta-demo-sitio.vercel.app/lausof/condiciones",
+  "privacidad": "https://apacheta-demo-sitio.vercel.app/lausof/privacidad"
+ },
+ "monedas": [
+  {
+   "codigo": "USD",
+   "cotizacion_texto": "USD 1 = ARS 1.000,00",
+   "fecha_texto": "05/11",
+   "fuente": "BCRA"
+  },
+  {
+   "codigo": "EUR",
+   "cotizacion_texto": "EUR 1 = ARS 1.250,00",
+   "fecha_texto": "05/11",
+   "fuente": "BCRA"
+  },
+  {
+   "codigo": "BRL",
+   "cotizacion_texto": "BRL 1 = ARS 200,00",
+   "fecha_texto": "05/11",
+   "fuente": "BCRA"
+  }
+ ]
+}
