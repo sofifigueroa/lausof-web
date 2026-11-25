@@ -374,3 +374,87 @@ test('en inglés: los mismos controles con sus palabras', async () => {
   p.r.avanzar(500);
   assert.match(p.vivo(), /^1 person\. /);
 });
+
+/* ---- lo que el chat sabe de la tarjeta (contrato vitrina → chat v1 de Apacheta) ---- */
+
+/**
+ * Lo que el boton.js de Apacheta lee al hacer clic (rama lane/demo-contexto-contrato,
+ * src/lib/asistente/pagina.ts, `deElemento`): en `document`, el `closest('[data-asistente-abrir]')`
+ * del clic y sus cinco `data-asistente-<campo>`, en ese momento. Acá se escucha igual.
+ */
+const CAMPOS = ['v', 'servicio', 'pasajeros', 'fecha', 'idioma'];
+function escucharComoElChat(p) {
+  const leidos = [];
+  p.doc.addEventListener('click', (ev) => {
+    const el = ev.target && ev.target.closest ? ev.target.closest('[data-asistente-abrir]') : null;
+    if (!el) return;
+    ev.preventDefault();
+    const c = {};
+    for (const k of CAMPOS) { const x = el.getAttribute(`data-asistente-${k}`); if (x !== null) c[k] = x; }
+    leidos.push(c);
+  });
+  return leidos;
+}
+const contextoDe = (a) => Object.fromEntries(CAMPOS.filter((k) => a.hasAttribute(`data-asistente-${k}`)).map((k) => [k, a.getAttribute(`data-asistente-${k}`)]));
+
+test('chat con contexto: al hacer clic, el chat lee la clave, las personas del contador (también después de cambiarlas) y el idioma de la página; en es/en/pt', async () => {
+  for (const [archivo, idioma] of [['traslado-salta-cafayate.html', 'es'], ['en/salta-to-cafayate-transfer.html', 'en'], ['pt/traslado-salta-cafayate.html', 'pt']]) {
+    const p = await abrir(archivo);
+    // El <html lang> que el chat usa si falta el atributo (boton.js toma las dos primeras letras: «es-AR» → es).
+    assert.strictEqual(p.doc.documentElement.lang.slice(0, 2).toLowerCase(), idioma, archivo);
+    const leidos = escucharComoElChat(p);
+    const botones = () => p.$$('[data-tienda-accion]');
+    const claves = ['cafayate', 'tr_cafayate', 'valles_2d'];
+    assert.deepStrictEqual(botones().map(contextoDe), claves.map((servicio) => ({ v: '1', servicio, pasajeros: '2', idioma })), archivo);
+    p.clic(p.mas()); p.clic(p.mas()); p.clic(p.mas());
+    p.clic(botones()[1]);
+    assert.deepStrictEqual(leidos.pop(), { v: '1', servicio: 'tr_cafayate', pasajeros: '5', idioma }, `${archivo}: el clic lee las 5 personas nuevas`);
+    // Tipeado, y pasado el máximo («coordinar»): «Pedir presupuesto» con las personas que eligió.
+    p.tipear('20'); p.salir();
+    assert.ok(botones().every((a) => a.className === 'btn btn-presupuesto'));
+    p.clic(botones()[0]);
+    assert.deepStrictEqual(leidos.pop(), { v: '1', servicio: 'cafayate', pasajeros: '20', idioma });
+    p.clic(p.$('[data-tienda-cabeza] a'));
+    assert.deepStrictEqual(leidos.pop(), { v: '1', servicio: 'cafayate', pasajeros: '20', idioma }, 'el presupuesto del encabezado');
+    // Mientras se tipea (antes de los 700 ms) el botón ya sigue al número.
+    p.tipear('7');
+    assert.ok(botones().every((a) => a.getAttribute('data-asistente-pasajeros') === '7'));
+    assert.strictEqual(p.$$('[data-asistente-fecha]').length, 0, 'la vitrina no elige día: ninguna fecha');
+    assert.strictEqual(p.pedidos.length, 1, 'ningún pedido nuevo');
+  }
+});
+
+test('chat con contexto: con compra, el botón no lleva nada del chat y «o armarlo en el chat» lleva el contexto y sigue al contador', async () => {
+  const p = await abrir('traslado-salta-cafayate.html', { cat: conCompra() });
+  const leidos = escucharComoElChat(p);
+  assert.ok(p.$$('[data-tienda-accion]').every((a) => CAMPOS.every((k) => !a.hasAttribute(`data-asistente-${k}`)) && !a.hasAttribute('data-asistente-abrir')));
+  p.tipear('25'); p.salir();
+  const aparte = p.$$('[data-tienda-tarjeta] .tienda-chat');
+  assert.deepStrictEqual(aparte.map((a) => a.hidden), [false, false, false]);
+  assert.deepStrictEqual(aparte.map(contextoDe), ['cafayate', 'tr_cafayate', 'valles_2d'].map((servicio) => ({ v: '1', servicio, pasajeros: '25', idioma: 'es' })));
+  p.clic(aparte[2]);
+  assert.deepStrictEqual(leidos.pop(), { v: '1', servicio: 'valles_2d', pasajeros: '25', idioma: 'es' });
+  // El renglón «¿Otro recorrido?» no es de una tarjeta: sólo el idioma.
+  assert.deepStrictEqual(contextoDe(p.$('[data-tienda-mas] .tienda-chat')), { v: '1', idioma: 'es' });
+});
+
+test('chat con contexto: el hub lleva cada destino y sus personas; sin contador visible, sin personas; sin chat, ningún atributo', async () => {
+  const hub = await abrir('turismo.html');
+  const botones = () => hub.$$('[data-tienda-hub]:not([hidden]) [data-tienda-accion]');
+  assert.deepStrictEqual(botones().map((a) => a.getAttribute('data-asistente-servicio')), ['cafayate', 'cachi', 'quebrada', 'salinas_purma', 'iruya_1d', 'sac_viaducto']);
+  hub.clic(hub.mas());
+  assert.ok(botones().every((a) => a.getAttribute('data-asistente-pasajeros') === '3' && a.getAttribute('data-asistente-idioma') === 'es'));
+  // Un catálogo de producción en la demo: sin montos ni contador, así que sin personas elegidas.
+  const cat = catalogo();
+  cat.demo = false;
+  const sinPrecios = await abrir('traslado-salta-cafayate.html', { cat });
+  assert.strictEqual(sinPrecios.$('[data-tienda-controles]').hidden, true);
+  assert.deepStrictEqual(sinPrecios.$$('[data-tienda-accion]').map(contextoDe), ['cafayate', 'tr_cafayate', 'valles_2d'].map((servicio) => ({ v: '1', servicio, idioma: 'es' })));
+  // Sólo «Precio a medida» (Uyuni → Salta): el contador se oculta; el botón lleva el servicio.
+  const uyuni = await abrir('traslado-uyuni-salta.html');
+  assert.deepStrictEqual(uyuni.$$('[data-tienda-accion]').map(contextoDe), [{ v: '1', servicio: 'uyuni_vuelta', idioma: 'es' }]);
+  // Sin chat en la página: WhatsApp de siempre, ningún data-asistente-*.
+  const sin = await abrir('traslado-salta-cafayate.html', { perfil: perfilDemo({ clave: null }) });
+  sin.tipear('25'); sin.salir();
+  assert.strictEqual(sin.doc.body.innerHTML.match(/data-asistente-(?!servicios=)/g), null);
+});

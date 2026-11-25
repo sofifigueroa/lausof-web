@@ -31,6 +31,10 @@
      nombres y vehículos llegan en ese idioma y se muestran tal cual.
    - «Reservar» va a la dirección que manda el catálogo; nunca a una que arme
      Web. Sin dirección (`reservar: null`), abre el chat, o WhatsApp.
+   - El enlace que abre el chat le dice qué tocó el visitante (contrato
+     vitrina → chat v1 de Apacheta, ver contextoChat): la clave del servicio
+     copiada del catálogo, las personas del contador visible y el idioma de
+     la página; nunca un precio, un nombre ni un dato de la persona.
 
    Los tests lo cargan con require() (tests/tienda.test.js, el núcleo puro) y
    en jsdom (tests/tienda-dom.test.js, el contador y el anuncio). */
@@ -183,20 +187,67 @@
     return compra ? { texto, clase, href: compra, chat: false } : { texto, clase, href: ctx.wa, chat: true };
   }
 
-  /** Los atributos de un botón que abre el chat: pestaña nueva para WhatsApp y el enganche del chat (R6). */
-  const atributosChat = (ctx, accion) => (accion.chat ? ` target="_blank" rel="noopener"${ctx.chat ? ' data-asistente-abrir' : ''}` : '');
+  /* ---- lo que el chat sabe de la tarjeta --------------------------------- */
+
+  // Contrato vitrina → chat v1 de Apacheta (~/lausof/software/requirements/fleet/
+  // handoffs/contrato-vitrina-chat-2411.md §1; auditorias/demo-contexto-contrato-2511.md §7):
+  // en el mismo elemento que lleva data-asistente-abrir, data-asistente-<campo>.
+  // Su boton.js los lee al hacer clic (no al cargar), por eso basta con
+  // actualizarlos cuando cambian las personas. Nunca un precio, un nombre ni un
+  // dato de la persona; la página (`desde`) la pone su boton.js.
+  const CAMPOS_DEL_CHAT = ['v', 'servicio', 'pasajeros', 'fecha', 'idioma'].map((c) => `data-asistente-${c}`);
+  const CLAVE_PUBLICA = /^[a-z0-9_]{1,40}$/; // la forma de servicios[].clave (contrato v1 §7)
+  const ID_SERVICIO = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i; // servicios[].id, que el contrato también acepta
+
+  /**
+   * Los atributos de contexto de un enlace al chat, en orden: [[nombre, valor], …].
+   * `servicio`: la `clave` del catálogo tal como llegó (o su `id` si no trae
+   * clave); null en un enlace que no es de una tarjeta. `pasajeros`: lo que
+   * marca el contador visible, o null si la tarjeta no tiene contador. Sin
+   * `data-asistente-fecha`: la vitrina no elige día, y uno inventado no va.
+   */
+  function contextoChat(servicio, ctx, pasajeros) {
+    const pares = [['data-asistente-v', '1']];
+    const clave = servicio && typeof servicio.clave === 'string' && CLAVE_PUBLICA.test(servicio.clave) ? servicio.clave
+      : servicio && typeof servicio.id === 'string' && ID_SERVICIO.test(servicio.id) ? servicio.id : null;
+    if (clave) pares.push(['data-asistente-servicio', clave]);
+    if (Number.isInteger(pasajeros) && pasajeros >= PERSONAS_MIN && pasajeros <= PERSONAS_MAX) pares.push(['data-asistente-pasajeros', String(pasajeros)]);
+    if (['es', 'en', 'pt'].includes(ctx.idioma)) pares.push(['data-asistente-idioma', ctx.idioma]);
+    return pares;
+  }
+
+  const contextoHTML = (pares) => pares.map(([k, v]) => ` ${k}="${escapar(v)}"`).join('');
+
+  /** Deja en un enlace ya dibujado sólo el contexto `pares` (los campos que no van, se sacan). */
+  function ponerContexto(a, pares) {
+    for (const n of CAMPOS_DEL_CHAT) a.removeAttribute(n);
+    for (const [k, v] of pares) a.setAttribute(k, v);
+  }
+
+  /**
+   * Los atributos de un botón que abre el chat: pestaña nueva para WhatsApp y el
+   * enganche del chat (R6) con lo que sabe la tarjeta (`servicio`, `pasajeros`).
+   */
+  const atributosChat = (ctx, accion, servicio = null, pasajeros = null) => (accion.chat
+    ? ` target="_blank" rel="noopener"${ctx.chat ? ` data-asistente-abrir${contextoHTML(contextoChat(servicio, ctx, pasajeros))}` : ''}`
+    : '');
 
   /** Pone en un botón ya dibujado lo que dice `accion` (al cambiar las personas). */
-  function ponerAccion(a, accion, ctx) {
+  function ponerAccion(a, accion, ctx, servicio = null, pasajeros = null) {
     a.className = accion.clase;
     a.textContent = accion.texto;
     a.setAttribute('href', accion.href);
-    if (accion.chat) {
+    if (accion.chat && ctx.chat) {
       a.setAttribute('target', '_blank');
       a.setAttribute('rel', 'noopener');
-      if (ctx.chat) a.setAttribute('data-asistente-abrir', ''); else a.removeAttribute('data-asistente-abrir');
+      a.setAttribute('data-asistente-abrir', '');
+      ponerContexto(a, contextoChat(servicio, ctx, pasajeros));
+    } else if (accion.chat) {
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noopener');
+      for (const n of ['data-asistente-abrir', ...CAMPOS_DEL_CHAT]) a.removeAttribute(n);
     } else {
-      for (const n of ['target', 'rel', 'data-asistente-abrir']) a.removeAttribute(n);
+      for (const n of ['target', 'rel', 'data-asistente-abrir', ...CAMPOS_DEL_CHAT]) a.removeAttribute(n);
     }
   }
 
@@ -284,28 +335,37 @@
 
   /* ---- tarjetas, bloques y líneas ---------------------------------------- */
 
-  /** El enlace que abre el chat (R6): un WhatsApp de verdad, que el script del chat intercepta si cargó. */
-  const enlaceChat = (ctx, id, extra = '') => (ctx.chat
-    ? `<a class="tienda-chat" href="${escapar(ctx.wa)}" target="_blank" rel="noopener" data-asistente-abrir${extra}>${t(ctx, id)}</a>`
+  /**
+   * El enlace que abre el chat (R6): un WhatsApp de verdad, que el script del
+   * chat intercepta si cargó, con el contexto de su tarjeta (sin tarjeta, sólo
+   * el idioma de la página).
+   */
+  const enlaceChat = (ctx, id, extra = '', servicio = null, pasajeros = null) => (ctx.chat
+    ? `<a class="tienda-chat" href="${escapar(ctx.wa)}" target="_blank" rel="noopener" data-asistente-abrir${contextoHTML(contextoChat(servicio, ctx, pasajeros))}${extra}>${t(ctx, id)}</a>`
     : '');
 
   /** ¿Va «o armarlo en el chat» bajo el botón? Con presupuesto, y sólo si el botón no abre ya el chat. */
   const conChatAparte = (z) => (z.tipo === 'presupuesto' || z.tipo === 'sin_precio') && !z.accion.chat;
 
   /** El botón de una zona, en HTML. */
-  const botonHTML = (ctx, accion) => `<a class="${accion.clase}" href="${escapar(accion.href)}"${atributosChat(ctx, accion)} data-tienda-accion>${accion.texto}</a>`;
+  const botonHTML = (ctx, accion, servicio = null, pasajeros = null) => `<a class="${accion.clase}" href="${escapar(accion.href)}"${atributosChat(ctx, accion, servicio, pasajeros)} data-tienda-accion>${accion.texto}</a>`;
 
-  /** Una tarjeta de servicio para n personas. */
-  function tarjeta(servicio, entrada, n, ctx) {
+  /**
+   * Una tarjeta de servicio para n personas. `conContador`: el bloque muestra el
+   * contador, y entonces el chat recibe esas n personas (sin contador no hay
+   * personas elegidas, y no se mandan).
+   */
+  function tarjeta(servicio, entrada, n, ctx, conContador = true) {
     const z = zonaDe(servicio, entrada, n, ctx);
     const nombre = escapar(servicio.nombre || '');
     const descripcion = servicio.descripcion ? `<p>${escapar(servicio.descripcion)}</p>` : '';
-    const chat = enlaceChat(ctx, 'tienda.card.presupuesto_chat', conChatAparte(z) ? '' : ' hidden');
+    const pasajeros = conContador ? n : null;
+    const chat = enlaceChat(ctx, 'tienda.card.presupuesto_chat', conChatAparte(z) ? '' : ' hidden', servicio, pasajeros);
     return {
       z,
       html: `<article class="card tienda-card" data-tienda-tarjeta><div class="card-body"><h3>${nombre}</h3>${descripcion}`
         + `<div class="tienda-zona" data-tienda-zona>${z.zona}</div><p class="tienda-info" data-tienda-info${z.info ? '' : ' hidden'}>${z.info}</p>`
-        + `${botonHTML(ctx, z.accion)}${chat}</div></article>`,
+        + `${botonHTML(ctx, z.accion, servicio, pasajeros)}${chat}</div></article>`,
     };
   }
 
@@ -322,14 +382,15 @@
   function bloque(catalogo, entradas, n, ctx) {
     const hechos = servicios(catalogo, entradas);
     if (!hechos) return null;
-    const tarjetas = hechos.map(({ s, e }) => tarjeta(s, e, n, ctx));
+    // ¿Algún servicio tiene tramos que el contador pueda cambiar? Sin eso el contador se oculta.
+    const conTramos = ctx.mostrarPrecios && hechos.some(({ s, e }) => tramosDe(s, e).length > 0);
+    const tarjetas = hechos.map(({ s, e }) => tarjeta(s, e, n, ctx, conTramos));
     return {
       html: tarjetas.map((x) => x.html).join(''),
       zonas: tarjetas.map((x) => x.z),
       ids: hechos.map(({ s }) => s.id).filter(Boolean),
       montos: tarjetas.reduce((a, x) => a + x.z.montos, 0),
-      // ¿Algún servicio tiene tramos que el contador pueda cambiar?
-      conTramos: ctx.mostrarPrecios && hechos.some(({ s, e }) => tramosDe(s, e).length > 0),
+      conTramos,
       soloPresupuesto: hechos.every(({ s }) => !s.precio),
     };
   }
@@ -354,7 +415,8 @@
     const z = zonaDe(s, cabeza, n, ctx);
     const nombre = escapar(s.nombre || '');
     if (z.tipo === 'presupuesto') {
-      return `<span class="tienda-cabeza-q">${t(ctx, 'tienda.cabeza.servicio.igual', { servicio: nombre, n })}</span> <a class="tienda-total" href="${escapar(z.accion.href)}"${atributosChat(ctx, z.accion)}>${t(ctx, 'tienda.card.presupuesto')}</a>`;
+      // La línea dice «para n personas»: el chat recibe esas n.
+      return `<span class="tienda-cabeza-q">${t(ctx, 'tienda.cabeza.servicio.igual', { servicio: nombre, n })}</span> <a class="tienda-total" href="${escapar(z.accion.href)}"${atributosChat(ctx, z.accion, s, n)}>${t(ctx, 'tienda.card.presupuesto')}</a>`;
     }
     if (z.tipo !== 'precio') return null;
     const x = tramoPara(tramosDe(s, cabeza), n);
@@ -530,7 +592,8 @@
         const s = catalogo && entrada ? buscar(catalogo, entrada) : null;
         if (!s || !s.precio) { zonaHub.hidden = true; continue; }
         const z = zonaDe(s, entrada, estado.n, ctx);
-        zonaHub.innerHTML = `<div class="tienda-zona" data-tienda-zona>${z.zona}</div><p class="tienda-info" data-tienda-info${z.info ? '' : ' hidden'}>${z.info}</p>${botonHTML(ctx, z.accion)}`;
+        // Las personas del chat las pone pintar(), cuando ya se sabe si el hub muestra el contador.
+        zonaHub.innerHTML = `<div class="tienda-zona" data-tienda-zona>${z.zona}</div><p class="tienda-info" data-tienda-info${z.info ? '' : ' hidden'}>${z.info}</p>${botonHTML(ctx, z.accion, s)}`;
         montos += z.montos;
         tarjetas.push({ nodo: zonaHub, s, e: entrada });
       }
@@ -550,6 +613,8 @@
     /** Vuelve a dibujar cada tarjeta, el encabezado y los controles con el estado. */
     function pintar() {
       for (const g of grupos) {
+        // El chat recibe las personas sólo donde el visitante ve el contador.
+        const pasajeros = g.controles ? estado.n : null;
         for (const { nodo, s, e } of g.tarjetas) {
           if (!nodo) continue;
           const z = zonaDe(s, e, estado.n, ctx);
@@ -557,9 +622,12 @@
           const info = nodo.querySelector('[data-tienda-info]');
           info.innerHTML = z.info;
           info.hidden = !z.info;
-          ponerAccion(nodo.querySelector('[data-tienda-accion]'), z.accion, ctx);
+          ponerAccion(nodo.querySelector('[data-tienda-accion]'), z.accion, ctx, s, pasajeros);
           const chat = nodo.querySelector('.tienda-chat');
-          if (chat) chat.hidden = !conChatAparte(z);
+          if (chat) {
+            chat.hidden = !conChatAparte(z);
+            ponerContexto(chat, contextoChat(s, ctx, pasajeros));
+          }
         }
         const c = g.controles;
         if (!c) continue;
@@ -651,7 +719,7 @@
 
   const api = {
     escapar, normalizar, catalogoValido, buscar, tramosDe, maximoDe, tramoPara, personasIniciales, personasValidas,
-    urlReservar, zonaDe, textoVivo,
+    urlReservar, zonaDe, textoVivo, contextoChat,
     tarjeta, bloque, renglonFinal, estadoError, lineaCabeza, contexto, leerGuardado, guardar, iniciar,
     PERSONAS_MAX, GUARDA_PERSONAS,
   };

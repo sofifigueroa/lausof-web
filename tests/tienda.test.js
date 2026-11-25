@@ -528,11 +528,13 @@ test('«Reservar» sin compra en el catálogo (`reservar: null`, 18/11): abre el
   const hecho = t.bloque(cat, config.bloques[0].servicios, 2, ctx);
   const botones = [...hecho.html.matchAll(/<a class="btn btn-reservar"[^>]*data-tienda-accion>/g)].map((m) => m[0]);
   assert.strictEqual(botones.length, 3);
-  for (const b of botones) assert.strictEqual(b, `<a class="btn btn-reservar" href="${wa.replace(/&/g, '&amp;')}" target="_blank" rel="noopener" data-asistente-abrir data-tienda-accion>`);
-  assert.doesNotMatch(hecho.html, /\/reservar|servicio=/, 'ninguna dirección de compra');
+  // El enganche del chat con lo que sabe la tarjeta (contrato vitrina → chat v1): la clave del catálogo, las personas y el idioma.
+  const claves = config.bloques[0].servicios.map((x) => t.buscar(cat, x).clave);
+  botones.forEach((b, i) => assert.strictEqual(b, `<a class="btn btn-reservar" href="${wa.replace(/&/g, '&amp;')}" target="_blank" rel="noopener" data-asistente-abrir data-asistente-v="1" data-asistente-servicio="${claves[i]}" data-asistente-pasajeros="2" data-asistente-idioma="es" data-tienda-accion>`));
+  assert.doesNotMatch(hecho.html, /\/reservar|[?&]servicio=/, 'ninguna dirección de compra');
   // Pasado el máximo, «o armarlo en el chat» no se repite: el botón ya abre el chat.
-  assert.match(t.tarjeta(caf, e, 25, ctx).html, /<a class="tienda-chat"[^>]*data-asistente-abrir hidden>o armarlo en el chat<\/a>/);
-  assert.match(t.lineaCabeza(cat, config.cabeza, 25, ctx), new RegExp(`<a class="tienda-total" href="${wa.replace(/&/g, '&amp;').replace(/[.?+]/g, '\\$&')}" target="_blank" rel="noopener" data-asistente-abrir>Pedir presupuesto</a>$`));
+  assert.match(t.tarjeta(caf, e, 25, ctx).html, /<a class="tienda-chat"[^>]*data-asistente-abrir data-asistente-v="1" data-asistente-servicio="cafayate" data-asistente-pasajeros="25" data-asistente-idioma="es" hidden>o armarlo en el chat<\/a>/);
+  assert.match(t.lineaCabeza(cat, config.cabeza, 25, ctx), new RegExp(`<a class="tienda-total" href="${wa.replace(/&/g, '&amp;').replace(/[.?+]/g, '\\$&')}" target="_blank" rel="noopener" data-asistente-abrir data-asistente-v="1" data-asistente-servicio="cafayate" data-asistente-pasajeros="25" data-asistente-idioma="es">Pedir presupuesto</a>$`));
   // Sin chat en la página (sin clave): WhatsApp, sin el enganche del chat.
   const sin = await ctxDe('traslado-salta-cafayate.html', catalogo(), perfilDemo({ clave: null }));
   const zs = t.zonaDe(servicioDe(sin.cat, 'cafayate'), e, 2, sin.ctx);
@@ -546,6 +548,89 @@ test('«Reservar» sin compra en el catálogo (`reservar: null`, 18/11): abre el
   }
   delete caf.reservar;
   assert.strictEqual(t.zonaDe(caf, e, 2, ctx).accion.href, wa, 'sin el campo, igual');
+});
+
+/* ---- lo que el chat sabe de la tarjeta (contrato vitrina → chat v1 de Apacheta) ---- */
+
+// Los enlaces al chat de un pedazo de HTML, cada uno con sus data-asistente-*.
+const CONTEXTO = /\sdata-asistente-(?:v|servicio|pasajeros|fecha|idioma)="[^"]*"/g;
+const enlacesAlChat = (html) => [...html.matchAll(/<a [^>]*data-asistente-abrir[^>]*>([^<]*)<\/a>/g)].map((m) => ({
+  texto: m[1],
+  clase: (m[0].match(/class="([^"]+)"/) || [])[1],
+  datos: Object.fromEntries([...m[0].matchAll(/data-asistente-([a-z]+)="([^"]*)"/g)].map((x) => [x[1], x[2]])),
+}));
+
+test('chat con contexto: «Reservar», «Pedir presupuesto» y «o armarlo en el chat» llevan la clave del catálogo, las personas y el idioma de la página, en es/en/pt; nunca fecha', async () => {
+  for (const [archivo, idioma] of [['traslado-salta-cafayate.html', 'es'], ['en/salta-to-cafayate-transfer.html', 'en'], ['pt/traslado-salta-cafayate.html', 'pt']]) {
+    const sinCompra = await ctxDe(archivo);
+    const conLa = await ctxDe(archivo, conCompra(catalogo()));
+    const entradas = sinCompra.config.bloques[0].servicios;
+    const claves = entradas.map((x) => t.buscar(sinCompra.cat, x).clave);
+    assert.deepStrictEqual(claves, ['cafayate', 'tr_cafayate', 'valles_2d'], archivo);
+    // Con precio (n=2) y pasado el máximo, «coordinar» (n=25): los dos botones, con las personas que eligió.
+    for (const n of [2, 25]) {
+      const chat = enlacesAlChat(t.bloque(sinCompra.cat, entradas, n, sinCompra.ctx).html).filter((x) => x.clase.startsWith('btn '));
+      assert.strictEqual(chat.length, 3, `${archivo} n=${n}`);
+      chat.forEach((x, i) => assert.deepStrictEqual(x.datos, { v: '1', servicio: claves[i], pasajeros: String(n), idioma }, `${archivo} n=${n} ${x.texto}`));
+      assert.deepStrictEqual(chat.map((x) => x.clase), Array(3).fill(n === 2 ? 'btn btn-reservar' : 'btn btn-presupuesto'));
+    }
+    // Con compra: el botón es la compra (sin contexto del chat) y «o armarlo en el chat» lleva el contexto.
+    const compra = t.bloque(conLa.cat, entradas, 25, conLa.ctx).html;
+    assert.doesNotMatch(compra.match(/<a class="btn btn-presupuesto"[^>]*>/)[0], /data-asistente/, 'la compra no lleva nada del chat');
+    const aparte = enlacesAlChat(compra).filter((x) => x.clase === 'tienda-chat');
+    assert.deepStrictEqual(aparte.map((x) => x.datos), claves.map((servicio) => ({ v: '1', servicio, pasajeros: '25', idioma })), archivo);
+    // El encabezado «para 25 personas · Pedir presupuesto».
+    assert.deepStrictEqual(enlacesAlChat(t.lineaCabeza(sinCompra.cat, sinCompra.config.cabeza, 25, sinCompra.ctx))[0].datos, { v: '1', servicio: 'cafayate', pasajeros: '25', idioma });
+    // La vitrina no elige día: ningún enlace inventa uno.
+    assert.doesNotMatch(t.bloque(sinCompra.cat, entradas, 2, sinCompra.ctx).html + compra, /data-asistente-fecha/, archivo);
+  }
+});
+
+test('chat con contexto: la clave sale del catálogo al dibujar (otra clave, otro servicio, el id si falta), nunca de una lista escrita', async () => {
+  const { config, ctx } = await ctxDe('traslado-salta-cafayate.html');
+  const cat = catalogo();
+  // Otras claves en el catálogo (el mapa ata por nombre): el atributo sigue al catálogo.
+  servicioDe(cat, 'cafayate').clave = 'clave_de_prueba_7';
+  servicioDe(cat, 'tr_cafayate').clave = 'otro_servicio_8';
+  const valles = servicioDe(cat, 'valles_2d');
+  delete valles.clave; // sin clave: su id, que el contrato también acepta
+  const datos = enlacesAlChat(t.bloque(cat, config.bloques[0].servicios, 2, ctx).html).filter((x) => x.clase.startsWith('btn ')).map((x) => x.datos.servicio);
+  assert.deepStrictEqual(datos, ['clave_de_prueba_7', 'otro_servicio_8', valles.id]);
+  // Una clave o un id con otra forma no viajan (ni se escriben en el HTML); el resto del contexto sí.
+  valles.clave = 'Valles"><script>';
+  valles.id = 'no-es-un-id';
+  const html = t.tarjeta(valles, config.bloques[0].servicios[2], 2, ctx).html;
+  assert.doesNotMatch(html, /<script>|Valles"/);
+  assert.deepStrictEqual(enlacesAlChat(html)[0].datos, { v: '1', pasajeros: '2', idioma: 'es' });
+  // contextoChat: sólo los cinco campos del contrato, valores ya válidos.
+  assert.deepStrictEqual(t.contextoChat({ clave: 'cafayate', nombre: 'X', precio: {} }, ctx, 7), [['data-asistente-v', '1'], ['data-asistente-servicio', 'cafayate'], ['data-asistente-pasajeros', '7'], ['data-asistente-idioma', 'es']]);
+  assert.deepStrictEqual(t.contextoChat(null, { idioma: 'fr' }, 0), [['data-asistente-v', '1']], 'sin servicio, personas inválidas, idioma que no es es/en/pt');
+});
+
+test('chat con contexto: sin contador no hay personas elegidas (bloque sólo «Precio a medida»); el evento a medida al lado de uno con precio sí las lleva', async () => {
+  const uyuni = await ctxDe('traslado-uyuni-salta.html');
+  const vuelta = t.bloque(uyuni.cat, uyuni.config.bloques[0].servicios, 7, uyuni.ctx);
+  assert.ok(vuelta.soloPresupuesto && !vuelta.conTramos, 'este bloque oculta el contador');
+  assert.deepStrictEqual(enlacesAlChat(vuelta.html).filter((x) => x.clase.startsWith('btn ')).map((x) => x.datos), [{ v: '1', servicio: 'uyuni_vuelta', idioma: 'es' }]);
+  const serenata = await ctxDe('traslado-serenata-a-cafayate.html');
+  const ev = t.bloque(serenata.cat, serenata.config.bloques[0].servicios, 3, serenata.ctx);
+  assert.ok(ev.conTramos);
+  const datos = [...serenata.config.bloques.flatMap((b) => enlacesAlChat(t.bloque(serenata.cat, b.servicios, 3, serenata.ctx).html))].filter((x) => x.clase.startsWith('btn ')).map((x) => x.datos);
+  assert.ok(datos.some((d) => d.servicio === 'ev_serenata' && d.pasajeros === '3'), JSON.stringify(datos));
+});
+
+test('chat con contexto: nada visible cambia y sin chat no hay ningún atributo del chat', async () => {
+  const { config, ctx, cat } = await ctxDe('traslado-salta-cafayate.html');
+  const entradas = config.bloques[0].servicios;
+  for (const n of [2, 25]) {
+    const html = t.bloque(cat, entradas, n, ctx).html;
+    // Sacando los atributos del contrato queda el HTML de antes (el enganche R6 sólo), y el texto es el mismo.
+    assert.doesNotMatch(html.replace(CONTEXTO, ''), /data-asistente-(?!abrir)/);
+    assert.strictEqual(sinEtiquetas(html), sinEtiquetas(html.replace(CONTEXTO, '')));
+  }
+  const sin = await ctxDe('traslado-salta-cafayate.html', catalogo(), perfilDemo({ clave: null }));
+  const todo = t.bloque(sin.cat, sin.config.bloques[0].servicios, 25, sin.ctx).html + t.renglonFinal(sin.ctx) + t.lineaCabeza(sin.cat, sin.config.cabeza, 25, sin.ctx);
+  assert.doesNotMatch(todo, /data-asistente/);
 });
 
 test('el anuncio del contador: la cantidad y hasta tres precios; presupuesto con su palabra; nada de las tarjetas a medida (3c §6)', async () => {
@@ -757,7 +842,8 @@ test('la leyenda del neto es gris y legible: al menos 4,5:1 sobre cada fondo (D1
 
 test('«Armar el viaje en el chat»: un WhatsApp de verdad que el chat abre (R6), sólo si la página tiene chat', async () => {
   const con = await ctxDe('traslado-salta-cafayate.html');
-  assert.match(t.renglonFinal(con.ctx), /^<span>¿Otro recorrido\?<\/span><a class="tienda-chat" href="https:\/\/wa\.me\/5493875269009\?text=[^"]+" target="_blank" rel="noopener" data-asistente-abrir>Armar el viaje en el chat<\/a>/);
+  assert.match(t.renglonFinal(con.ctx), /^<span>¿Otro recorrido\?<\/span><a class="tienda-chat" href="https:\/\/wa\.me\/5493875269009\?text=[^"]+" target="_blank" rel="noopener" data-asistente-abrir data-asistente-v="1" data-asistente-idioma="es">Armar el viaje en el chat<\/a>/);
+  assert.doesNotMatch(t.renglonFinal(con.ctx), /data-asistente-(servicio|pasajeros|fecha)/, 'el renglón es para otro recorrido: sin servicio ni personas');
   const sin = await ctxDe('traslado-salta-cafayate.html', catalogo(), perfilDemo({ clave: null }));
   assert.doesNotMatch(t.renglonFinal(sin.ctx), /data-asistente-abrir/);
 });
